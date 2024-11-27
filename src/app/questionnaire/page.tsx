@@ -1,15 +1,42 @@
 'use client'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function QuestionnairePage() {
   const [dataDict, setDataDict] = useState<{ [key: string]: string }>({});
   const [isModalOpen, setIsModalOpen] = useState(false); // 控制弹窗状态
+  const [error, setError] = useState<string | null>(null);
+  const [response, setResponse] = useState(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setDataDict({ ...dataDict, [name]: value })
   }
-  const submitButton = () => {
+  const submitButton = async () => {
+    const jsonData = JSON.stringify(dataDict);
+    console.log(jsonData);
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: jsonData,
+      redirect: "follow" as RequestRedirect,
+    };
+
+    try {
+      const response = await fetch(
+        "http://api.maimai.moe:8000/survey/2/report",
+        requestOptions
+      );
+      const result = await response.text();
+      console.log(result);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
+
     openModal();
   }
 
@@ -19,22 +46,28 @@ export default function QuestionnairePage() {
   return (
     <>
       <img src="/img/bg_shines.png" className="fixed" alt="" />
-      <div className="relative w-full h-full">
+      <div className="relative w-full h-[500px]">
         <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1]">
-          <div className="flex justify-center w-full h-[450px] bg-[url('/img/fotter_top.png')] mt-5 bg-no-repeat bg-cover"></div>
           <div className="flex justify-center mt-10">
+            <div className="w-[1000px] h-[600px] max-sm:h-[200px] max-sm:w-[180px] bg-[url('/img/front_left.png')] bg-no-repeat bg-contain bg-left"></div>
+            <div className="w-[1000px] h-[600px] max-sm:h-[100px] max-sm:w-[60px] bg-no-repeat bg-contain bg-left"></div>
+            <div className="w-[1000px] h-[600px] max-sm:h-[200px] max-sm:w-[180px] bg-[url('/img/front_right.png')] bg-no-repeat bg-contain bg-left"></div>
+          </div>
+          <div className="flex justify-center mt-10 max-sm:hidden">
             <div className="w-[1000px] h-[600px] bg-[url('/img/chara-left.png')] bg-no-repeat bg-contain bg-left"></div>
             <div className="w-[1200px]"></div>
             <div className="w-[1000px] h-[600px] bg-[url('/img/chara-right.png')] bg-no-repeat bg-contain bg-right"></div>
           </div>
         </div>
-        <div className="w-[400px] h-[200px] bg-[url('/img/moon.png')] bg-no-repeat bg-contain bg-center z-10 mx-auto mt-20">
-          <img src="/img/logo.png" alt="" />
+        <div className="w-[400px] h-[200px] max-sm:w-[180px] bg-[url('/img/moon.png')] bg-no-repeat bg-contain bg-center z-10 mx-auto mt-20 max-sm:mt-10 max-sm:pt-10">
+          <div>
+            <img src="/img/logo.png" alt="" />
+          </div>
         </div>
-        <div className="w-[750px] h-[1200px] mx-auto bg-[url('/img/main_bg.png')] bg-no-repeat bg-contain rounded-2xl mt-10 mb-10 p-20 z-10 text-blue-600 font-bold tracking-wider">
+        <div className="w-[750px] h-[1200px] max-sm:w-full max-sm:h-[700px] mx-auto bg-[url('/img/main_bg.png')] bg-no-repeat bg-contain rounded-2xl mt-10 max-sm:mt-0 mb-10 p-20 max-sm:p-10 z-10 text-blue-600 font-bold tracking-wider">
           <form>
-            <label>1、MaimaiDx里最喜欢的一首歌</label><br></br>
-            <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="favorite" onChange={handleChange} /><br></br>
+            <label>1、我们如何称呼您</label><br></br>
+            <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="name" onChange={handleChange} /><br></br>
             <label>2、您的邮箱</label><br></br>
             <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="email" name="email" onChange={handleChange} /><br></br>
             <label>3、您认为我们需要添加什么样的功能</label><br></br>
@@ -48,6 +81,8 @@ export default function QuestionnairePage() {
             <input className="text-black mb-5" type="radio" name="identity" value="NO" onChange={handleChange} />不愿意<br></br>
             <label >5、如果您希望加入我们的吹水群，请留下QQ号</label><br></br>
             <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="qq" onChange={handleChange} /><br></br>
+            <label >6、关于我们乌蒙大象中国站，有什么想说的</label><br></br>
+            <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="else" onChange={handleChange} /><br></br>
             <div className="flex justify-center">
               <button
                 type="button" // 修改为 type="button" 以避免表单提交
