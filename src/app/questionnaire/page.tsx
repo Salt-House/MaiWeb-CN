@@ -46,7 +46,7 @@ export default function QuestionnairePage() {
   return (
     <>
       <img src="/img/bg_shines.png" className="fixed" alt="" />
-      <div className="relative w-full h-[500px]">
+      <div className="relative w-full">
         <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1]">
           <div className="flex justify-center mt-10">
             <div className="w-[1000px] h-[600px] max-sm:h-[200px] max-sm:w-[180px] bg-[url('/img/front_left.png')] bg-no-repeat bg-contain bg-left"></div>
