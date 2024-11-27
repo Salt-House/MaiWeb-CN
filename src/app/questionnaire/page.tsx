@@ -64,8 +64,8 @@ export default function QuestionnairePage() {
             <img src="/img/logo.png" alt="" />
           </div>
         </div>
-        <div className="w-[750px] h-[1200px] max-sm:w-full max-sm:h-[700px] mx-auto bg-[url('/img/main_bg.png')] bg-no-repeat bg-contain rounded-2xl mt-10 max-sm:mt-0 mb-10 p-20 max-sm:p-10 z-10 text-blue-600 font-bold tracking-wider overflow-auto">
-          <form>
+        <div className="w-[750px] h-[1200px] max-sm:w-full max-sm:h-[700px] mx-auto bg-[url('/img/main_bg.png')] bg-no-repeat bg-contain rounded-2xl mt-10 max-sm:mt-0 mb-10 p-20 max-sm:p-10 z-10 text-blue-600 font-bold tracking-wider ">
+          <form className="max-sm:h-[500px] overflow-auto">
             <label>1、我们如何称呼您</label><br></br>
             <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="name" onChange={handleChange} /><br></br>
             <label>2、您的邮箱</label><br></br>
