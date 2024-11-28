@@ -39,7 +39,7 @@ export default function IntroductionPage() {
                             <p className="mt-4 text-gray-500 indent-4">
                                 我们设计了一套基础问卷，如果您对问卷有任何希望添加的内容请联系我们，问卷计划将在<b>12.1号</b>发布。
                                 在发布问卷期间，我们依旧会对问卷的内容有所更新。
-                                <a href="mailto:tokiy@tokya.online?subject=问卷反馈" className="text-blue-500 underline hover:text-blue-700">
+                                <a href="mailto:tokiya@tokya.online?subject=问卷反馈" className="text-blue-500 underline hover:text-blue-700">
                                     向我们发送邮件告知您的意见
                                 </a>
                             </p>
