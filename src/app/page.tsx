@@ -37,7 +37,7 @@ export default function Home() {
             <div>
               <h2 className="text-lg font-bold text-gray-800">页面开发中 🚧</h2>
               <p className="text-gray-600">
-                我们正在努力完善此页面，敬请期待！若有建议，请通过反馈功能联系我们。
+                我们正在努力完善此页面，敬请期待！若有建议，请移至<Link href={'/questionnaire'}>开发问卷</Link>填写。
               </p>
             </div>
           </div>

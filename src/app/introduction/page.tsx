@@ -34,6 +34,9 @@ export default function IntroductionPage() {
                             <p className="mt-4 text-gray-500 indent-4 mb-3">
                                 我们旨在打造一个为中国Maimai玩家服务的乌蒙大象玩家站，所有开发者都来自wmc群体。
                             </p>
+                            <p className="mt-4 text-gray-500 indent-4 mb-3">
+                                订阅我们的组织在Github<a href="https://github.com/Salt-House">Salt House</a>
+                            </p>
                             <h1 className="text-2xl font-bold text-gray-700">它具有什么功能？</h1>
                             <p className="mt-4 text-gray-500 indent-4">
                                 我们的玩家站将集成大部分的开源maimai项目相关功能，我们诚邀各位maimai第三方项目开发者加入我们的开发团队，共同打造一个更好的玩家站。
