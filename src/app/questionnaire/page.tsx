@@ -98,7 +98,7 @@ export default function QuestionnairePage() {
                   onClick={submitButton} // 点击按钮打开弹窗
                   className="w-36 h-10 bg-[url('/img/bg_button.png')] bg-no-repeat bg-cover rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 active:shadow-md transition duration-300 ease-in-out"
                 >
-                  打开弹窗
+                  提交问卷
                 </button>
               </div>
             </form>
