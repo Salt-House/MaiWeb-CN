@@ -1,5 +1,6 @@
 'use client'
 
+import Link from "next/link";
 import AnimatedComponent from "../components/AnimatedComponent";
 import { useEffect } from "react";
 
@@ -9,7 +10,7 @@ import { useEffect } from "react";
 export default function IntroductionPage() {
     useEffect(() => {
         document.title = "介绍 - maimai中国玩家站";
-      }, []);
+    }, []);
     return (
         <>
 
@@ -51,6 +52,14 @@ export default function IntroductionPage() {
                                     向我们发送邮件告知您的意见
                                 </a>
                             </p>
+                            <div>
+                                <Link
+                                    href={'/questionnaire'}
+                                    className="w-[144px] h-[40px] bg-[url('/img/bg_button.png')] bg-no-repeat bg-cover rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 active:shadow-md transition duration-300 ease-in-out"
+                                >
+                                    开发问卷
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
