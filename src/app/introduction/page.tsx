@@ -1,10 +1,18 @@
+'use client'
+
 import AnimatedComponent from "../components/AnimatedComponent";
+import { useEffect } from "react";
+
 
 
 
 export default function IntroductionPage() {
+    useEffect(() => {
+        document.title = "介绍 - maimai中国玩家站";
+      }, []);
     return (
         <>
+
             <AnimatedComponent>
                 <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1]">
                     <div className="w-[10px] h-[200px]">

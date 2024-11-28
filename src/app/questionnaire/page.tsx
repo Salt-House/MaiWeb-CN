@@ -2,11 +2,17 @@
 import { useEffect, useState } from "react"
 import AnimatedComponent from "../components/AnimatedComponent";
 
+
 export default function QuestionnairePage() {
   const [dataDict, setDataDict] = useState<{ [key: string]: string }>({});
   const [isModalOpen, setIsModalOpen] = useState(false); // 控制弹窗状态
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState(null);
+
+  useEffect(() => {
+    document.title = "问卷 - maimai中国玩家站";
+  }, []);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -46,6 +52,7 @@ export default function QuestionnairePage() {
 
   return (
     <>
+
       <AnimatedComponent>
         <img src="/img/bg_shines.png" className="fixed" alt="" />
         <div className="relative w-full">
