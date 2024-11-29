@@ -63,7 +63,7 @@ export default function IntroductionPage() {
                                     开发问卷
                                 </Link>
                             </div>
-                            <div className="w-[500px] mx-auto h-[50px] text-center font-bold text-[32px] text-red-500">
+                            <div className="w-full mx-auto mt-5 text-center font-bold text-2xl text-red-500">
                                 我们的项目将在2025.1.1 00:00:00正式启动
                             </div>
                         </div>
