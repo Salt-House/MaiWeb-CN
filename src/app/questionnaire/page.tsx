@@ -34,7 +34,7 @@ export default function QuestionnairePage() {
 
     try {
       const response = await fetch(
-        "http://api.maimai.moe:8000/survey/2/report",
+        "https://api.maimai.moe:8000/survey/2/report",
         requestOptions
       );
       const result = await response.text();
