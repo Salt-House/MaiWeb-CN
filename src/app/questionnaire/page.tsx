@@ -75,22 +75,22 @@ export default function QuestionnairePage() {
           </div>
           <div className="w-[750px] h-[1200px] max-sm:w-[375px] max-sm:h-[700px] mx-auto bg-[url('/img/main_bg.png')] bg-no-repeat bg-contain rounded-2xl mt-10 max-sm:mt-0 mb-10 p-20 max-sm:p-10 z-10 text-blue-600 font-bold tracking-wider ">
             <form className="max-sm:h-[500px] overflow-auto scrollbar-hide">
-              <label>1、我们如何称呼您</label><br></br>
+              <label>1、我们如何称呼您？🤩</label><br></br>
               <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="name" onChange={handleChange} /><br></br>
-              <label>2、您的邮箱</label><br></br>
+              <label>2、您的邮箱📮</label><br></br>
               <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="email" name="email" onChange={handleChange} /><br></br>
-              <label>3、您认为我们需要添加什么样的功能</label><br></br>
+              <label>3、您认为我们需要添加什么样的功能🤔</label><br></br>
               <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="addFunction" onChange={handleChange} /><br></br>
-              <label>4、您是否愿意参加到我们的开发中?</label><br></br>
+              <label>4、您是否愿意参加到我们的开发中?🤗</label><br></br>
               <label >(如果您选择了除不愿意之外的任何选项，您将在两天之内收到来自SaltHouse的邀请)</label><br></br>
               <input className="text-black my-2" type="radio" name="identity" value="QA" onChange={handleChange} />QA(测试)
               <input className="text-black" type="radio" name="identity" value="MainDevelop" onChange={handleChange} />主要功能开发
               <input className="text-black" type="radio" name="identity" value="derice" onChange={handleChange} />衍生功能开发<br></br>
               <input className="text-black my-2" type="radio" name="identity" value="Art" onChange={handleChange} />美工支持
               <input className="text-black mb-5" type="radio" name="identity" value="NO" onChange={handleChange} />不愿意<br></br>
-              <label >5、如果您希望加入我们的吹水群，请留下QQ号</label><br></br>
+              <label>5、如果您希望加入我们的吹水群，请留下QQ号</label><br></br>
               <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="qq" onChange={handleChange} /><br></br>
-              <label >6、关于我们乌蒙大象中国站，有什么想说的</label><br></br>
+              <label>6、关于我们乌蒙大象中国站，有什么想说的🧐</label><br></br>
               <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="else" onChange={handleChange} /><br></br>
               <div className="flex justify-center">
                 <button
