@@ -8,6 +8,7 @@ export default function QuestionnairePage() {
   const [isModalOpen, setIsModalOpen] = useState(false); // 控制弹窗状态
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState(null);
+  const [display, setDisplay] = useState("正在提交中，请稍等");
 
   useEffect(() => {
     document.title = "问卷 - maimai中国玩家站";
@@ -31,7 +32,7 @@ export default function QuestionnairePage() {
       body: jsonData,
       redirect: "follow" as RequestRedirect,
     };
-
+    openModal();
     try {
       const response = await fetch(
         "https://www.maimai.moe/apisurvey/2/report",
@@ -41,10 +42,11 @@ export default function QuestionnairePage() {
       console.log(result);
     } catch (error) {
       console.error("Error:", error);
+      setDisplay("提交失败")
     }
+    setDisplay("提交成功，感谢您")
 
 
-    openModal();
   }
 
   const openModal = () => setIsModalOpen(true); // 打开弹窗
@@ -115,9 +117,9 @@ export default function QuestionnairePage() {
               >
                 ✕
               </button>
-              <h2 className="text-xl font-bold mb-4 text-gray-800">弹窗内容</h2>
+              <h2 className="text-xl font-bold mb-4 text-gray-800">Thank you </h2>
               <img src="/img/chara.png" alt="" />
-              <p className="text-gray-600 mt-10 mb-4 text-center">感谢您的提交</p>
+              <p className="text-gray-600 mt-10 mb-4 text-center">{display}</p>
               <button
                 onClick={closeModal} // 点击关闭按钮
                 className="w-full py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition duration-300"
