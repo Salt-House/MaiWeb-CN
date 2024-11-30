@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import AnimatedComponent from "../components/AnimatedComponent";
 
 
@@ -9,6 +9,8 @@ export default function QuestionnairePage() {
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState(null);
   const [display, setDisplay] = useState("正在提交中，请稍等");
+  const [bonus, setBonus] = useState("请先选择第四项")
+  const [bonusSingle, setBonusSingle] = useState(false)
 
   useEffect(() => {
     document.title = "问卷 - maimai中国玩家站";
@@ -18,6 +20,13 @@ export default function QuestionnairePage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setDataDict({ ...dataDict, [name]: value })
+    if (name == 'identity' && value != "NO") {
+      setBonus("参与我们的开发，您可以获得由我们提供的二级域名，不过请遵循国家法律法规")
+      setBonusSingle(true)
+    } else if (name == 'identity') {
+      setBonusSingle(false)
+      setBonus("参与我们的抽奖获取其立牌")
+    }
   }
   const submitButton = async () => {
     const jsonData = JSON.stringify(dataDict);
@@ -94,6 +103,64 @@ export default function QuestionnairePage() {
               <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="qq" onChange={handleChange} /><br></br>
               <label>6、关于我们乌蒙大象中国站，有什么想说的🧐</label><br></br>
               <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="else" onChange={handleChange} /><br></br>
+              <label>7、福利<br></br>{bonus}</label>
+              {bonusSingle ? (
+                <div>
+                  <label>请输入您需要的二级域名</label>
+                  <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="domain" onChange={handleChange} /><br></br>
+                  <label>请从下列图片中选择一个作为您的立牌图案，如果您被抽中，将其作为立牌奖励邮寄给您</label>
+                  <div className=" h-48 overflow-x-auto scrollbar-hide flex space-x-10">
+                    <div className="size-40 flex mt-5 flex-col justify-center items-center">
+                      <img className="w-[160px] object-contain" src="/img/chara-left.png" alt="" />
+                      <label className="mt-2">
+                        <input className="mr-2 text-blue-600" type="radio" name="goods" value="salt" onChange={handleChange} />
+                        Salt
+                      </label>
+                    </div>
+                    <div className="size-40 flex mt-5 flex-col justify-center items-center">
+                      <img className="w-[160px] object-contain" src="/img/chara-right.png" alt="" />
+                      <label className="mt-2">
+                        <input className="mr-2 text-blue-600" type="radio" name="goods" value="milk" onChange={handleChange} />
+                        Milk
+                      </label>
+                    </div>
+                    <div className="size-40 flex mt-5 flex-col justify-center items-center">
+                      <img className="w-[160px] object-contain" src="/img/chara.png" alt="" />
+                      <label className="mt-2">
+                        <input className="mr-2 text-blue-600" type="radio" name="goods" value="SaltMilk" onChange={handleChange} />
+                        Salt&Milk
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <label>请从下列图片中选择一个作为您的立牌图案，如果您被抽中，将其作为立牌奖励邮寄给您</label>
+                  <div className=" h-48 overflow-x-auto scrollbar-hide flex space-x-10">
+                    <div className="size-40 flex mt-5 flex-col justify-center items-center">
+                      <img className="w-[160px] object-contain" src="/img/chara-left.png" alt="" />
+                      <label className="mt-2">
+                        <input className="mr-2 text-blue-600" type="radio" name="goods" value="salt" onChange={handleChange} />
+                        Salt
+                      </label>
+                    </div>
+                    <div className="size-40 flex mt-5 flex-col justify-center items-center">
+                      <img className="w-[160px] object-contain" src="/img/chara-right.png" alt="" />
+                      <label className="mt-2">
+                        <input className="mr-2 text-blue-600" type="radio" name="goods" value="milk" onChange={handleChange} />
+                        Milk
+                      </label>
+                    </div>
+                    <div className="size-40 flex mt-5 flex-col justify-center items-center">
+                      <img className="w-[160px] object-contain" src="/img/chara.png" alt="" />
+                      <label className="mt-2">
+                        <input className="mr-2 text-blue-600" type="radio" name="goods" value="SaltMilk" onChange={handleChange} />
+                        Salt&Milk
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
               <div className="flex justify-center">
                 <button
                   type="button" // 修改为 type="button" 以避免表单提交
