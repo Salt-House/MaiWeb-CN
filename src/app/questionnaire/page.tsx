@@ -57,11 +57,11 @@ export default function QuestionnairePage() {
       );
       const result = await response.text();
       console.log(result);
+      setDisplay("提交成功，感谢您")
     } catch (error) {
       console.error("Error:", error);
       setDisplay("提交失败")
     }
-    setDisplay("提交成功，感谢您")
 
 
   }
