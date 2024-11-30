@@ -35,7 +35,7 @@ export default function IntroductionPage() {
                                 我们旨在打造一个为中国Maimai玩家服务的乌蒙大象玩家站，所有开发者都来自wmc群体。
                             </p>
                             <p className="mt-4 text-gray-500 indent-4 mb-3">
-                                订阅我们的组织在Github<a href="https://github.com/Salt-House">Salt House</a>
+                                订阅我们的组织在Github <a className="underline text-blue-700" href="https://github.com/Salt-House">Salt House</a>
                             </p>
                             <h1 className="text-2xl font-bold text-gray-700">它具有什么功能？</h1>
                             <p className="mt-4 text-gray-500 indent-4">
@@ -62,6 +62,9 @@ export default function IntroductionPage() {
                                 >
                                     开发问卷
                                 </Link>
+                            </div>
+                            <div className="w-full mx-auto mt-5 text-center font-bold text-2xl text-red-500">
+                                我们的项目将在2025.1.1 00:00:00正式启动
                             </div>
                         </div>
                     </div>

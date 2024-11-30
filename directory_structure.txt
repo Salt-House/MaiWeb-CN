@@ -1,0 +1,23 @@
+.
+├── README.md
+├── directory_structure.txt
+├── next-env.d.ts
+├── next.config.mjs
+├── package.json
+├── postcss.config.mjs
+├── public
+│   ├── img
+├── src
+│   └── app
+│       ├── api
+│       ├── components
+│       ├── globals.css
+│       ├── introduction
+│       ├── layout.tsx
+│       ├── loading.tsx
+│       ├── page.tsx
+│       └── questionnaire
+├── tailwind.config.ts
+└── tsconfig.json
+
+9 directories, 35 files
