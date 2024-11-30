@@ -70,7 +70,7 @@ export default function QuestionnairePage() {
           </div>
           <div className="w-[400px] h-[200px] max-sm:w-[180px] bg-[url('/img/moon.png')] bg-no-repeat bg-contain bg-center z-10 mx-auto mt-20 max-sm:mt-10 max-sm:pt-10">
             <div>
-              <img src="/img/logo.png" alt="" />
+              <img src="/img/logo.png" alt="" onClick={() => window.location.href = '/'} style={{ cursor: 'pointer' }} />
             </div>
           </div>
           <div className="w-[750px] h-[1200px] max-sm:w-[375px] max-sm:h-[700px] mx-auto bg-[url('/img/main_bg.png')] bg-no-repeat bg-contain rounded-2xl mt-10 max-sm:mt-0 mb-10 p-20 max-sm:p-10 z-10 text-blue-600 font-bold tracking-wider ">
