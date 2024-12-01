@@ -106,8 +106,7 @@ export default function QuestionnairePage() {
               <input className="text-black" type="radio" name="identity" value="derice" onChange={handleChange} />衍生功能开发<br></br>
               <input className="text-black my-2" type="radio" name="identity" value="Art" onChange={handleChange} />美工支持
               <input className="text-black mb-5" type="radio" name="identity" value="NO" onChange={handleChange} />不愿意<br></br>
-              <label>5、如果您希望加入我们的吹水群，请留下QQ号</label><br></br>
-              <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="qq" onChange={handleChange} /><br></br>
+              <label>5、我们的吹水群群号为734304941，欢迎各位加入</label><br></br>
               <label>6、关于我们乌蒙大象中国站，有什么想说的🧐</label><br></br>
               <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="else" onChange={handleChange} /><br></br>
               <label>7、福利<br></br>{bonus}</label>
