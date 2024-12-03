@@ -8,6 +8,15 @@ import { useEffect } from "react";
 
 
 export default function IntroductionPage() {
+
+    useEffect(() => {
+        const now = new Date();
+        const hours = now.getUTCHours() + 8; // Convert to East 8th timezone
+        if (hours >= 22 && hours < 23) {
+          alert("系统正处于开发阶段，每天22:30-23:00为部署测试时间，网站不稳定，您的数据可能不会被记录\n请注意，本问卷仅限于中国大陆地区，如果您不在中国大陆地区，请不要填写");
+        }
+      }, []);
+    
     useEffect(() => {
         document.title = "介绍 - maimai中国玩家站";
     }, []);
@@ -26,16 +35,16 @@ export default function IntroductionPage() {
                 </div>
                 <div className="relative z-[50] w-full h-[1200px] max-sm:h-[1000px] ">
                     <div className="flex justify-center p-10 items-center text-center w-[1000px] mx-auto text-[50px] font-bold max-sm:w-full max-sm:p-5 max-sm:text-[32px] max-md:w-full max-lg:w-full max-xl:w-full">
-                        Welcome to maimai 大中华区玩家站
+                        Welcome to maimai 大中华区玩家站 🧤🧤
                     </div>
                     <div className="flex justify-center w-full h-screen ">
                         <div className="w-[1000px] h-[600px] max-sm:w-[300px] max-sm:h-[600px] max-md:w-[500px] max-2xl:w-[800px] bg-white/50 backdrop-blur-lg shadow-lg rounded-lg p-6 mt-10 transition-all duration-300 ease-in-out hover:bg-white/70 hover:shadow-2xl hover:backdrop-blur-xl hover:scale-105 overflow-auto scrollbar-hide">
                             <h1 className="text-2xl font-bold text-gray-700">Maimai大中华区玩家站</h1>
                             <p className="mt-4 text-gray-500 indent-4 mb-3">
-                                我们旨在打造一个为中国Maimai玩家服务的乌蒙大象玩家站，所有开发者都来自wmc群体。
+                            我们旨在打造一个为中国Maimai玩家服务的乌蒙大象玩家站🌐，所有开发者都来自wmc群体。
                             </p>
                             <p className="mt-4 text-gray-500 indent-4 mb-3">
-                                订阅我们的组织在Github <a className="underline text-blue-700" href="https://github.com/Salt-House">Salt House</a>
+                            订阅我们的组织在Github🥰🥰 <a className="underline text-blue-700" href="https://github.com/Salt-House">Salt House</a>
                             </p>
                             <h1 className="text-2xl font-bold text-gray-700">它具有什么功能？</h1>
                             <p className="mt-4 text-gray-500 indent-4">
@@ -44,7 +53,7 @@ export default function IntroductionPage() {
                             <ul className="list-decimal mt-4 pl-5 text-gray-500 mb-3">
                                 <li>将会展示大量的有关maimai的游戏信息，包括但不限于：机厅信息、更新内容、未来可能的更新计划、机厅活动等等</li>
                                 <li>将会尽可能提供maimai相关工具，包括但不限于：b50查询，随机段位，牌子完成度等等。<br></br>
-                                    <b>注意：我们的这些功能将会在官方提供之后立刻删除</b>
+                                    <b>注意：我们的这些功能将会在官方提供之后立刻删除⚠️</b>
                                 </li>
                             </ul>
                             <h1 className="text-2xl font-bold text-gray-700">帮助我们</h1>

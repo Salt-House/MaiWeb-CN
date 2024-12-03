@@ -1,9 +1,20 @@
+'use client'
+
 import Link from "next/link"
+import { useEffect } from "react"
+
 
 export default function Home() {
-  const introClick = () => {
 
-  }
+  useEffect(() => {
+    const now = new Date();
+    const hours = now.getUTCHours() + 8; // Convert to East 8th timezone
+    if (hours >= 22 && hours < 23) {
+      alert("系统正处于开发阶段，每天22:30-23:00为部署测试时间，网站不稳定，您的数据可能不会被记录\n请注意，本问卷仅限于中国大陆地区，如果您不在中国大陆地区，请不要填写");
+    }
+  }, []);
+
+
   return (
     <>
       <div className="w-full h-[1280px]">
