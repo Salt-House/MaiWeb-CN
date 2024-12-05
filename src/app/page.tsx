@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { useEffect } from "react"
 
-
 export default function Home() {
 
   useEffect(() => {
@@ -27,6 +26,8 @@ export default function Home() {
             <div className="w-[1000px] h-[600px] max-xl:h-[400px] max-xl:w-[300px] bg-[url('/img/chara-right.png')] bg-no-repeat bg-contain bg-right"></div>
           </div>
         </div>
+        <div className="fixed w-[600px] h-[400px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain z-[-1] animate-moveAurora"></div>
+        <div className="fixed w-[200px] h-[150px] bg-[url('/img/tail.png')] bg-no-repeat bg-contain z-[-1] animate-moveStar"></div>
         <div className="relative w-full">
           <div className="w-[90%] max-w-[800px] bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-6 mx-auto mt-10 flex items-center space-x-4">
             <div className="flex-shrink-0 text-blue-500">

@@ -13,6 +13,11 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      animation: {
+        "test":"test 1s infinite",
+        "moveAurora":"moveAurora 35s linear infinite",
+        "moveStar":"moveStar 35s linear infinite",
+      },
     },
   },
   plugins: [
