@@ -1,0 +1,18 @@
+name: Deploy on Push to dev
+
+on:
+  push:
+    branches:
+      - dev  # 当 dev 分支收到推送时触发
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Trigger Webhook for Deployment
+        run: |
+          curl -X POST http://154.37.213.44:88/webhook
