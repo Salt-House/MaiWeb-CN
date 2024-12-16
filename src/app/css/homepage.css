@@ -1,0 +1,36 @@
+@keyframes test {
+    0% {
+        background-color: #ff0000;
+    }
+    50% {
+        background-color: #00ff00;
+    }
+    100% {
+        background-color: #0000ff;
+    }
+}
+
+
+
+@keyframes moveStar {
+    0% { 
+        transform: translate(0, 0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+      transform: translate(-30vw, 30vh);
+      opacity: 0;
+    }
+}
+
+@keyframes moveDot {
+    0% {
+        background-position: 100% 0%;
+    }
+    100% {
+        background-position: 0% 100%;
+    }
+}
