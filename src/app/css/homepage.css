@@ -10,25 +10,27 @@
     }
 }
 
-@keyframes moveAurora {
-    0% {
-        transform: translateX(0);
-    }
-    50% {
-        transform: translateX(100vw);
-    }
-    100% {
-        transform: translateX(0);
-    }
-}
+
 
 @keyframes moveStar {
-    0% {
-        transform: translate(300px, -100px); /* 初始位置 */
+    0% { 
+        transform: translate(0, 0);
+        opacity: 0;
+    }
+    10% {
         opacity: 1;
     }
     100% {
-        transform: translate(-200px, 400px); /* 结束位置 */
-        opacity: 0.2;
+      transform: translate(-30vw, 30vh);
+      opacity: 0;
+    }
+}
+
+@keyframes moveDot {
+    0% {
+        background-position: 100% 0%;
+    }
+    100% {
+        background-position: 0% 100%;
     }
 }

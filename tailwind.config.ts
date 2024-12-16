@@ -15,8 +15,8 @@ const config: Config = {
       },
       animation: {
         "test":"test 1s infinite",
-        "moveAurora":"moveAurora 35s linear infinite",
-        "moveStar":"moveStar 35s linear infinite",
+        "moveStar":"moveStar 3s linear infinite",
+        "moveDot":"moveDot 30s linear infinite"
       },
     },
   },
