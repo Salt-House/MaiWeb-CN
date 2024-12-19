@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev  # 当 dev 分支收到推送时触发
+  workflow_dispatch:  # 允许手动触发
 
 jobs:
   deploy:
