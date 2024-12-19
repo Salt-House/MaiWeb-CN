@@ -14,6 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Print the ref value (for debugging)
+        run: |
+          echo "The ref is: $GITHUB_REF"
+
       - name: Trigger Webhook for Deployment
         run: |
-          curl -X POST http://154.37.213.44:88/webhook
+          curl -X POST http://154.37.213.44:88/webhook \
+            -H "Content-Type: application/json" \
+            -d '{"ref": "${{ github.ref }}"}'
