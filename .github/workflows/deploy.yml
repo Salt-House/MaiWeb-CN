@@ -20,6 +20,6 @@ jobs:
 
       - name: Trigger Webhook for Deployment
         run: |
-          curl -X POST http://dev.maimai.moe/dev/webhook \
+          curl -X POST http://dev.maimai.moe/dev/webhook/front \
             -H "Content-Type: application/json" \
             -d '{"ref": "${{ github.ref }}", "repository": "${{ github.repository }}"}'
