@@ -18,6 +18,9 @@ const config: Config = {
         "moveStar":"moveStar 3s linear infinite",
         "moveDot":"moveDot 30s linear infinite"
       },
+      fontFamily: {
+        'maple-mono': ['"MapleMono"', 'monospace'], // 定义字体别名
+      },
     },
   },
   plugins: [
