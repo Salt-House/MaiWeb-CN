@@ -91,7 +91,7 @@ export default function QuestionnairePage() {
               <img src="/img/logo.png" alt="" onClick={() => window.location.href = '/'} style={{ cursor: 'pointer' }} />
             </div>
           </div>
-          <div className="w-[750px] h-[1200px] max-sm:w-[375px] max-sm:h-[700px] mx-auto bg-[url('/img/main_bg.png')] bg-no-repeat bg-contain rounded-2xl mt-10 max-sm:mt-0 mb-10 p-20 max-sm:p-10 z-10 text-blue-600 font-bold tracking-wider ">
+          <div className="w-[750px] h-[1200px] max-sm:w-[375px] max-sm:h-[700px] mx-auto bg-[url('/img/main_bg.png')] bg-no-repeat bg-contain rounded-2xl mt-10 max-sm:mt-0 mb-10 p-20 max-sm:p-10 z-10 text-blue-600  tracking-wider ">
             <form className="max-sm:h-[500px] overflow-auto scrollbar-hide">
               <label>1、我们如何称呼您？🤩</label><br></br>
               <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="text" name="name" onChange={handleChange} /><br></br>
@@ -171,7 +171,7 @@ export default function QuestionnairePage() {
                 <button
                   type="button" // 修改为 type="button" 以避免表单提交
                   onClick={submitButton} // 点击按钮打开弹窗
-                  className="w-36 h-10 bg-[url('/img/bg_button.png')] bg-no-repeat bg-cover rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 active:shadow-md transition duration-300 ease-in-out"
+                  className="w-36 h-10 bg-[url('/img/bg_button.png')] bg-no-repeat bg-cover rounded-2xl flex items-center justify-center text-white  text-lg shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 active:shadow-md transition duration-300 ease-in-out"
                 >
                   提交问卷
                 </button>
@@ -190,7 +190,7 @@ export default function QuestionnairePage() {
               >
                 ✕
               </button>
-              <h2 className="text-xl font-bold mb-4 text-gray-800">Thank you </h2>
+              <h2 className="text-xl  mb-4 text-gray-800">Thank you </h2>
               <img src="/img/chara.png" alt="" />
               <p className="text-gray-600 mt-10 mb-4 text-center">{display}</p>
               <button
