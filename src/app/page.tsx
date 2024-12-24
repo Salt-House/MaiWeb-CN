@@ -59,7 +59,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="w-full h-[1280px]">
+      <div className="w-full h-[1280px] overflow-y-scroll">
         {/* BackGround Layer */}
         <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1] bg-[url('/img/bg_shines.png')]">
           <div className="fixed top-4 left-4 size-44 bg-[url('/img/moon.png')] bg-contain flex justify-center items-center">
@@ -113,9 +113,51 @@ export default function Home() {
                 <div className="w-96 h-72 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain"></div>
                 <div className="w-96 h-72 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain"></div>
               </div>
-              
             </div>
           </div>
+          {/* Search Music */}
+          <div className="relative mb-32 flex flex-col justify-center items-center">
+            <div className=" w-[800px] h-80 bg-white bg-opacity-75 rounded-2xl flex flex-col justify-center items-center text-center">
+              <div className="absolute -top-6 w-48 h-20 text-3xl font-bold text-black">
+                Music
+              </div>
+              <div className="flex flex-row justify-center items-center space-x-4 mb-4">
+                <div className="w-44 h-16 border-4 border-[#65d8cd] bg-white text-black rounded-full flex justify-center items-center shadow-lg hover:shadow-2xl hover:scale-105 transtia  transition-all duration-300 ease-in-out">
+                  Maimai
+                </div><div className="w-44 h-16 border-4 border-[#65d8cd] bg-white text-black rounded-full flex justify-center items-center shadow-lg hover:shadow-2xl hover:scale-105 transtia  transition-all duration-300 ease-in-out">
+                  Maimai
+                </div><div className="w-44 h-16 border-4 border-[#65d8cd] bg-white text-black rounded-full flex justify-center items-center shadow-lg hover:shadow-2xl hover:scale-105 transtia  transition-all duration-300 ease-in-out">
+                  Maimai
+                </div>
+              </div>
+              <div className="flex flex-row justify-center items-center space-x-4 mb-4">
+                <div className="w-44 h-16 border-4 border-[#65d8cd] bg-white text-black rounded-full flex justify-center items-center shadow-lg hover:shadow-2xl hover:scale-105 transtia  transition-all duration-300 ease-in-out">
+                  Maimai
+                </div><div className="w-44 h-16 border-4 border-[#65d8cd] bg-white text-black rounded-full flex justify-center items-center shadow-lg hover:shadow-2xl hover:scale-105 transtia  transition-all duration-300 ease-in-out">
+                  Maimai
+                </div><div className="w-44 h-16 border-4 border-[#65d8cd] bg-white text-black rounded-full flex justify-center items-center shadow-lg hover:shadow-2xl hover:scale-105 transtia  transition-all duration-300 ease-in-out">
+                  Maimai
+                </div>
+              </div>
+              <div className="w-72 h-12 bg-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500">
+                <div className="ml-2">查询</div>
+                <input type="text" name="" id="" placeholder="乐曲名/作曲家" className="w-56 h-10 ml-2 p-4 rounded-l-none rounded-r-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300" />
+              </div>
+              {/* AnimateVolume */}
+              <div className="absolute -bottom-8 flex space-x-2">
+                <div className="w-2 h-8 bg-[#5ac0b6] animate-volume"></div>
+                <div className="w-2 h-10 bg-[#7ef2e7] animate-volume [animation-delay:0.1s]"></div>
+                <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.2s]"></div>
+                <div className="w-2 h-12 bg-[#65d8cd] animate-volume [animation-delay:0.3s]"></div>
+                <div className="w-2 h-10 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.4s]"></div>
+                <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.5s]"></div>
+                <div className="w-2 h-12 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.6s]"></div>
+                <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.7s]"></div>
+                <div className="w-2 h-8 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.8s]"></div>
+              </div>
+            </div>
+          </div>
+          <div></div>
           {/* Search Game Center */}
           <div className="relative w-[800px] h-64 mx-auto flex flex-col justify-center items-center space-y-5 rounded-2xl overflow-visible">
             <div className="absolute  rounded-2xl inset-x-0 z-[-1] bg-white">
@@ -169,6 +211,26 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          {/* thanks */}
+          <div className="mt-10 w-full flex flex-col justify-center items-center h-64 bg-[url('/img/bg_pc.png')]  bg-contain text-center">
+            <div className="w-28 h-12 text-2xl text-black">
+              鸣谢
+            </div>
+            {/* First row */}
+            <div className="mb-5 flex flex-row space-x-5">
+              <div className="w-48 h-16 bg-white"></div>
+              <div className="w-48 h-16 bg-white"></div>
+              <div className="w-48 h-16 bg-white"></div>
+              <div className="w-48 h-16 bg-white"></div>
+            </div>
+            {/* Second row */}
+            <div className="mb-5 flex flex-row space-x-5">
+              <div className="w-48 h-16 bg-white"></div>
+              <div className="w-48 h-16 bg-white"></div>
+              <div className="w-48 h-16 bg-white"></div>
+              <div className="w-48 h-16 bg-white"></div>
             </div>
           </div>
           <Link href={"/user"}>
