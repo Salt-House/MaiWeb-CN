@@ -16,7 +16,11 @@ const config: Config = {
       animation: {
         "test":"test 1s infinite",
         "moveStar":"moveStar 3s linear infinite",
-        "moveDot":"moveDot 30s linear infinite"
+        "moveDot":"moveDot 30s linear infinite",
+        "volume":"volume 1s infinite"
+      },
+      fontFamily: {
+        'maple-mono': ['"MapleMono"', 'monospace'], // 定义字体别名
       },
     },
   },

@@ -10,8 +10,6 @@
     }
 }
 
-
-
 @keyframes moveStar {
     0% { 
         transform: translate(0, 0);
@@ -34,3 +32,12 @@
         background-position: 0% 100%;
     }
 }
+
+@keyframes volume {
+    0%, 100% {
+      transform: scaleY(1);
+    }
+    50% {
+      transform: scaleY(1.8);
+    }
+  }
