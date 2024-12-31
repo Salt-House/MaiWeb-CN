@@ -61,12 +61,12 @@ export default function Home() {
     <>
       <div className="w-full h-[1280px] overflow-y-scroll">
         {/* BackGround Layer */}
-        <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1] bg-[url('/img/bg_shines.png')]">
+        <div className="fixed top-0 left-0 w-full h-full overflow-auto z-[-1] bg-[url('/img/bg_shines.png')]">
           <div className="fixed top-4 left-4 size-44 bg-[url('/img/moon.png')] bg-contain flex justify-center items-center">
             <img src="/img/logo.png" alt="" />
           </div>
         </div>
-        <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-2]">
+        <div className="fixed top-0 left-0 w-full h-full overflow-auto z-[-2]">
           <div className="w-[10px] h-[200px]">
           </div>
           <div className="flex justify-center max-sm:hidden max-md:hidden max-lg:hidden max-xl:hidden">
@@ -104,7 +104,10 @@ export default function Home() {
             </div>
             <div className="w-[900px]  mt-10 mb-10">
               <div className="flex flex-row justify-center items-center space-x-4">
-                <div className="w-96 h-72 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain"></div>
+                <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
+                <div className="">2024/12/31</div>
+                <div className="w-full flex justify-center items-center h-16 text-center text-xl font-bold text-black">全国行脚</div>
+                </div>
                 <div className="w-96 h-72 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain"></div>
                 <div className="w-96 h-72 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain"></div>
               </div>
