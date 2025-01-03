@@ -22,10 +22,10 @@ export default function RootLayout({
       <Head>
         <link
           rel="stylesheet"
-          href="https://chinese-fonts-cdn.deno.dev/packages/maple-mono-cn/dist/MapleMono-CN-SemiBold/result.css"
+          href="https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css"
         />
       </Head>
-      <body>
+      <body className="font-douyin">
         <AnimatedComponent>
           {children}
 
