@@ -20,12 +20,13 @@ const config: Config = {
         "volume":"volume 1s infinite"
       },
       fontFamily: {
-        'maple-mono': ['"MapleMono"', 'monospace'], // 定义字体别名
+        douyin: ['DouyinSansBold', 'sans-serif'], // 自定义字体
       },
     },
   },
   plugins: [
     require('tailwind-scrollbar-hide'),
+    require('tailwindcss-text-stroke'),
   ],
 };
 export default config;

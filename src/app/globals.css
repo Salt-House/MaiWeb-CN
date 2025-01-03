@@ -1,9 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css');
 
 :root {
-  --foreground-rgb: 239, 246, 255;
   /* --background-start-rgb:133, 144, 250; */
   --background-start-rgb: 239, 246, 255;
   --background-end-rgb: 255, 255, 255;
@@ -17,17 +17,9 @@
     --background-end-rgb: 255, 255, 255;
   }
 }
-@font-face {
-  font-family: 'MapleMono';
-  src: url('/font/MapleMono-CN-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 
 body {
   color: rgb(var(--foreground-rgb));
-  font-family: 'MapleMono', monospace;
-  font-weight: 400;
   /* background: linear-gradient(
       to bottom,
       transparent,
