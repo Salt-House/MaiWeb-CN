@@ -21,7 +21,7 @@ const ChinaMap = () => {
             },
             tooltip: {
                 trigger: "item",
-                formatter: function (params) {
+                formatter: function (params: any) { 
                     const { name, data } = params;
                     if (data && data.properties) {
                         const { adcode, center, centroid, childrenNum, level, parent } = data.properties;
