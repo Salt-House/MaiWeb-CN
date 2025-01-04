@@ -1,8 +1,10 @@
 'use client'
 
+import { Chilanka } from "next/font/google";
 import Head from "next/head";
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import ChinaMap from "./components/ChinaMap";
 
 
 function StarMove({ count = 5 }) {
@@ -327,8 +329,8 @@ export default function Home() {
           {/* Map Play display */}
           <div className="relative w-[900px] h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7]">
             <div className="absolute -top-5 flex justify-center items-center text-black font-bold text-2xl">全国出勤行脚图</div>
-            <div className="w-[800px] h-[450px] bg-red-600">
-              嵌入全国玩家行脚图
+            <div className="w-[800px] h-[450px] p-5 border-2 rounded-2xl border-gray-300">
+              <ChinaMap />
             </div>
           </div>
           <div className="w-[900px] mt-2 h-20 flex mx-auto justify-center items-center space-x-4 text-white font-bold text-2xl">
