@@ -1,7 +1,8 @@
+@import url('https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css');
 
 :root {
   /* --background-start-rgb:133, 144, 250; */
