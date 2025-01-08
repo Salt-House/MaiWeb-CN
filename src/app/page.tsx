@@ -73,7 +73,7 @@ export default function Home() {
           <div className="w-[10px] h-[200px]">
           </div>
           <div className="flex justify-center max-sm:hidden max-md:hidden max-lg:hidden max-xl:hidden">
-            <div className="w-[1000px] h-[600px] max-xl:h-[400px] max-xl:w-[300px]  bg-[url('/img/chara-left.png')] bg-no-repeat bg-contain bg-left"></div>
+            <div className="w-[1000px] h-[600px] max-xl:h-[400px] max-xl:w-[300px]  bg-[url('/img/chara-left.png')] bg-no-repeat bg-contain bg-left "></div>
             <div className="w-[1200px]"></div>
             <div className="w-[1000px] h-[600px] max-xl:h-[400px] max-xl:w-[300px] bg-[url('/img/chara-right.png')] bg-no-repeat bg-contain bg-right"></div>
           </div>
@@ -82,30 +82,17 @@ export default function Home() {
         <div className="fixed w-full h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div>
         {/* Main Layer */}
         <div className="relative w-full">
-          {/* Top Container Back */}
-          <div className="absolute inset-0 z-[-1] flex justify-center ">
-            <div className="w-[900px] h-[500px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain"></div>
-          </div>
-          {/* Top Container */}
-          <div className="relative z-[10] w-[90%] max-w-[800px] bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-6 mx-auto mt-10 flex items-center space-x-4 justify-center
-          text-2xl  text-white font-bold">
-            <Link href={"/music"} className="hover:scale-125 transition-all duration-300 ease-in-out">音乐</Link>
-            <div>|</div>
-            <Link href={"/region"} className="hover:scale-125 transition-all duration-300 ease-in-out">区域</Link>
-            <div>|</div>
-            <Link href={"/"} className="hover:scale-125 transition-all duration-300 ease-in-out">工具</Link>
-            <div>|</div>
-            <Link href={"/"} className="hover:scale-125 transition-all duration-300 ease-in-out">教学</Link>
-          </div>
 
           {/* Control */}
           <div className="w-[200px] h-[100px]"></div>
 
           {/* Welcome to Home page */}
           <div className=" flex flex-col justify-center items-center">
-            <div className="w-[900px] mx-auto text-4xl text-center font-bold bg-gradient-to-r from-blue-500 via-green-500 to-purple-500 bg-clip-text text-transparent">
+            <div className="relative w-[900px] mx-auto text-4xl text-center font-bold bg-gradient-to-r from-blue-500 via-green-500 to-purple-500 bg-clip-text text-transparent">
               Welcome to Maimai.moe In China!!!<br></br>
               本站点提供以下服务功能
+              <img src="/img/handblue.png" className="h-14 inline-block animate-bounce" alt="" />
+              <img src="/img/handpink.png" className="h-14 inline-block animate-bounce" alt="" />
             </div>
             <div className="w-[900px]  mt-10 ">
               <div className="flex flex-row justify-center items-center space-x-4">
@@ -329,7 +316,7 @@ export default function Home() {
           {/* Map Play display */}
           <div className="relative w-[900px] h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7]">
             <div className="absolute -top-5 flex justify-center items-center text-black font-bold text-2xl">全国出勤行脚图</div>
-            <div className="w-[800px] h-[450px] p-5 border-2 rounded-2xl border-gray-300">
+            <div className="w-[800px] h-[450px] p-5 ">
               <ChinaMap />
             </div>
           </div>
