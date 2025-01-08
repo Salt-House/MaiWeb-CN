@@ -63,23 +63,7 @@ export default function Home() {
   return (
     <>
       <div className="w-full  overflow-auto scroll-smooth">
-        {/* BackGround Layer */}
-        <div className="fixed top-0 left-0 w-full h-full  z-[-1] bg-[url('/img/bg_shines.png')]">
-          <div className="fixed top-4 left-4 size-44 bg-[url('/img/moon.png')] bg-contain flex justify-center items-center">
-            <img src="/img/logo.png" alt="" />
-          </div>
-        </div>
-        <div className="fixed top-0 left-0 w-full h-full  z-[-2]">
-          <div className="w-[10px] h-[200px]">
-          </div>
-          <div className="flex justify-center max-sm:hidden max-md:hidden max-lg:hidden max-xl:hidden">
-            <div className="w-[1000px] h-[600px] max-xl:h-[400px] max-xl:w-[300px]  bg-[url('/img/chara-left.png')] bg-no-repeat bg-contain bg-left "></div>
-            <div className="w-[1200px]"></div>
-            <div className="w-[1000px] h-[600px] max-xl:h-[400px] max-xl:w-[300px] bg-[url('/img/chara-right.png')] bg-no-repeat bg-contain bg-right"></div>
-          </div>
-        </div>
-        <StarMove />
-        <div className="fixed w-full h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div>
+
         {/* Main Layer */}
         <div className="relative w-full">
 
@@ -363,10 +347,7 @@ export default function Home() {
             </div>
           </div>
 
-          <Link href={"/user"}>
-            <div className="fixed top-4 right-4 size-44  bg-[url('/img/user.png')] bg-no-repeat bg-contain hover:scale-125 transition-all duration-300 ease-in-out">
-            </div>
-          </Link>
+
         </div>
       </div>
     </>
