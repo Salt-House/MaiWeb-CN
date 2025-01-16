@@ -17,7 +17,8 @@ const config: Config = {
         "test":"test 1s infinite",
         "moveStar":"moveStar 3s linear infinite",
         "moveDot":"moveDot 30s linear infinite",
-        "volume":"volume 1s infinite"
+        "volume":"volume 1s infinite",
+        "leftToRight":"leftToRight 2s ease-in-out infinite",
       },
       fontFamily: {
         douyin: ['DouyinSansBold', 'sans-serif'], // 自定义字体
