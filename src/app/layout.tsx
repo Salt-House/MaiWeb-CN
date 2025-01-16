@@ -64,11 +64,10 @@ export default function RootLayout({
         />
       </Head>
       <body className="font-douyin">
-        <div className="relative">
+        <div className="relative h-[1200px] overflow-scroll">
           <AnimatedComponent>
             {/* BackGround Layer */}
             <div className="fixed top-0 left-0 w-full h-full  z-[-1] bg-[url('/img/bg_shines.png')]">
-
             </div>
             <div className="fixed top-0 left-0 w-full h-full  z-[-2]">
               <div className="w-[10px] h-[200px]">

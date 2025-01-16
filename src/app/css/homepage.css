@@ -41,3 +41,15 @@
       transform: scaleY(1.8);
     }
 }
+
+@keyframes leftToRight {
+    0% {
+        transform: translateX(0px);
+    }
+    50% {
+        transform: translateX(calc(40% - 5px));
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
