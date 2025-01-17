@@ -31,28 +31,20 @@ export default function MusicPage() {
                 className="w-80 h-12 bg-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-5">
                 <div className="ml-2 text-white">搜索</div>
                 <input type="text" name="" id="" placeholder="乐曲名/作曲家"
-                       className="w-56 h-9 ml-2 p-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300" />
+                  className="w-56 h-9 ml-2 p-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300" />
               </div>
             </div>
             <div className="flex flex-row justify-center items-center space-x-4 mb-4">
               <div
                 className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
                 <div
-                  className="w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)]">
-                  最近更新
+                  className="w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold">
+                  舞萌
                 </div>
               </div>
               <div
                 className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                <div
-                  className="w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold">
-                  流行&动漫
-                </div>
-              </div>
-              <div
-                className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                <div
-                  className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold">
+                <div className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold">
                   <span>niconico&</span>
                   <span>VOCALOID</span>
                 </div>
@@ -64,6 +56,13 @@ export default function MusicPage() {
                   东方Project
                 </div>
               </div>
+              <div
+                className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+                <div
+                  className="w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold">
+                  流行&动漫
+                </div>
+              </div>
             </div>
             <div className="flex flex-row justify-center items-center space-x-4 mb-7">
               <div
@@ -71,13 +70,6 @@ export default function MusicPage() {
                 <div
                   className="w-44 h-16 border-4 border-[#62b942] rounded-full bg-[rgb(122,231,83)] flex justify-center items-center font-bold">
                   其他游戏
-                </div>
-              </div>
-              <div
-                className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                <div
-                  className="w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold">
-                  舞萌
                 </div>
               </div>
               <div
@@ -94,7 +86,13 @@ export default function MusicPage() {
                   宴会场
                 </div>
               </div>
-
+              <div
+                className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+                <div
+                  className="w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)]">
+                  最近更新
+                </div>
+              </div>
             </div>
 
             {/* AnimateVolume */}
