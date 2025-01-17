@@ -60,21 +60,13 @@ export default function MusicPage() {
               <div
                 className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
                 <div
-                  className="w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)]">
-                  最近更新
+                  className="w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold">
+                  舞萌
                 </div>
               </div>
               <div
                 className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                <div
-                  className="w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold">
-                  流行&动漫
-                </div>
-              </div>
-              <div
-                className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                <div
-                  className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold">
+                <div className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold">
                   <span>niconico&</span>
                   <span>VOCALOID</span>
                 </div>
@@ -86,6 +78,13 @@ export default function MusicPage() {
                   东方Project
                 </div>
               </div>
+              <div
+                className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+                <div
+                  className="w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold">
+                  流行&动漫
+                </div>
+              </div>
             </div>
             <div className="flex flex-row justify-center items-center space-x-4 mb-7">
               <div
@@ -93,13 +92,6 @@ export default function MusicPage() {
                 <div
                   className="w-44 h-16 border-4 border-[#62b942] rounded-full bg-[rgb(122,231,83)] flex justify-center items-center font-bold">
                   其他游戏
-                </div>
-              </div>
-              <div
-                className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                <div
-                  className="w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold">
-                  舞萌
                 </div>
               </div>
               <div
@@ -116,7 +108,13 @@ export default function MusicPage() {
                   宴会场
                 </div>
               </div>
-
+              <div
+                className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+                <div
+                  className="w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)]">
+                  最近更新
+                </div>
+              </div>
             </div>
 
             {/* AnimateVolume */}
