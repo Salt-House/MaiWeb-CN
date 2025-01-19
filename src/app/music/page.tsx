@@ -1,3 +1,5 @@
+'use client'
+
 import { sampleSong } from "@/app/music/songModel"
 import SongList from '@/app/music/songList'
 
@@ -6,6 +8,26 @@ export default function MusicPage() {
 
   return (
     <>
+      <style jsx>{`
+        select {
+          appearance: none; /* 清除默认样式 */
+          -webkit-appearance: none; /* 兼容 Safari */
+          -moz-appearance: none; /* 兼容 Firefox */
+          color: white; /* 默认文本颜色 */
+        }
+        select option {
+          color: black; /* 默认选项文本颜色 */
+          background-color: white; /* 默认选项背景颜色 */
+        }
+        select:focus option:checked {
+          color: black; /* 被选中选项的文本颜色 */
+          background-color: white; /* 被选中选项的背景颜色 */
+        }
+        select:not(:focus) option:checked {
+          color: black; /* 失去焦点时被选中选项的文本颜色 */
+          background-color: white; /* 失去焦点时被选中选项的背景颜色 */
+        }
+    `}</style>
       {/*Top Search Options Bar*/}
       <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
         <div className="border-4 border-white rounded-2xl">
@@ -19,8 +41,8 @@ export default function MusicPage() {
                 className="w-80 h-12 bg-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-3">
                 <div className="text-white ml-2">按照</div>
                 <select
-                  className="w-40 h-9 rounded-full px-4 bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300">
-                  <option value="category">乐曲种类</option>
+                  className="w-40 h-9 rounded-full px-4 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300">
+                  <option value="category" selected>乐曲种类</option>
                   <option value="aeuio">あいうえお</option>
                   <option value="level">等级</option>
                   <option value="version">版本</option>
@@ -31,7 +53,7 @@ export default function MusicPage() {
                 className="w-80 h-12 bg-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-5">
                 <div className="ml-2 text-white">搜索</div>
                 <input type="text" name="" id="" placeholder="乐曲名/作曲家"
-                       className="w-56 h-9 ml-2 p-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300" />
+                  className="w-56 h-9 ml-2 p-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300" />
               </div>
             </div>
             <div className="flex flex-row justify-center items-center space-x-4 mb-4">
