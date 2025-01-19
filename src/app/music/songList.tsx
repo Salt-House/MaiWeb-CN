@@ -21,7 +21,7 @@ export default function SongList({ songs }: SongListProps) {
                 {/* 歌曲信息 */}
                 <div className="flex-1 flex flex-col items-start">
                   <h2 className="inline-flex px-3 py-1 truncate rounded-full text-white border-2 border-[#b38c00] bg-[rgb(255,200,0)] ">{song.category}</h2>
-                  <h2 className="text-2xl font-bold my-3">{song.title}</h2>
+                  <h2 className="text-2xl text-black font-bold my-3">{song.title}</h2>
                   <div className="text-gray-600 self-start w-full">
                     <p className="text-left">Artist: {song.artist}</p>
                     <p className="text-left">BPM: {song.bpm}</p>

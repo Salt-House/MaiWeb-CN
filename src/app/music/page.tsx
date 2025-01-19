@@ -1,3 +1,5 @@
+'use client'
+
 import { sampleSong } from "@/app/music/songModel"
 import SongList from '@/app/music/songList'
 
@@ -6,6 +8,26 @@ export default function MusicPage() {
 
   return (
     <>
+      <style jsx>{`
+        select {
+          appearance: none; /* 清除默认样式 */
+          -webkit-appearance: none; /* 兼容 Safari */
+          -moz-appearance: none; /* 兼容 Firefox */
+          color: white; /* 默认文本颜色 */
+        }
+        select option {
+          color: black; /* 默认选项文本颜色 */
+          background-color: white; /* 默认选项背景颜色 */
+        }
+        select:focus option:checked {
+          color: black; /* 被选中选项的文本颜色 */
+          background-color: white; /* 被选中选项的背景颜色 */
+        }
+        select:not(:focus) option:checked {
+          color: black; /* 失去焦点时被选中选项的文本颜色 */
+          background-color: white; /* 失去焦点时被选中选项的背景颜色 */
+        }
+    `}</style>
       {/*Top Search Options Bar*/}
       <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
         <div className="border-4 border-white rounded-2xl">
@@ -19,8 +41,8 @@ export default function MusicPage() {
                 className="w-80 h-12 bg-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-3">
                 <div className="text-white ml-2">按照</div>
                 <select
-                  className="w-40 h-9 rounded-full px-4 bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300">
-                  <option value="category">乐曲种类</option>
+                  className="w-40 h-9 rounded-full px-4 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300">
+                  <option value="category" selected>乐曲种类</option>
                   <option value="aeuio">あいうえお</option>
                   <option value="level">等级</option>
                   <option value="version">版本</option>
@@ -38,13 +60,21 @@ export default function MusicPage() {
               <div
                 className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
                 <div
-                  className="w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold">
-                  舞萌
+                  className="w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)]">
+                  最近更新
                 </div>
               </div>
               <div
                 className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                <div className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold">
+                <div
+                  className="w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold">
+                  流行&动漫
+                </div>
+              </div>
+              <div
+                className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+                <div
+                  className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold">
                   <span>niconico&</span>
                   <span>VOCALOID</span>
                 </div>
@@ -56,13 +86,6 @@ export default function MusicPage() {
                   东方Project
                 </div>
               </div>
-              <div
-                className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                <div
-                  className="w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold">
-                  流行&动漫
-                </div>
-              </div>
             </div>
             <div className="flex flex-row justify-center items-center space-x-4 mb-7">
               <div
@@ -70,6 +93,13 @@ export default function MusicPage() {
                 <div
                   className="w-44 h-16 border-4 border-[#62b942] rounded-full bg-[rgb(122,231,83)] flex justify-center items-center font-bold">
                   其他游戏
+                </div>
+              </div>
+              <div
+                className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+                <div
+                  className="w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold">
+                  舞萌
                 </div>
               </div>
               <div
@@ -86,13 +116,7 @@ export default function MusicPage() {
                   宴会场
                 </div>
               </div>
-              <div
-                className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                <div
-                  className="w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)]">
-                  最近更新
-                </div>
-              </div>
+
             </div>
 
             {/* AnimateVolume */}
