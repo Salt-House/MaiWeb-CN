@@ -4,6 +4,12 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ChinaMap from '../components/ChinaMap';
 
+interface FunctionStatus {
+  BUpdate: boolean,
+  CycleReport: boolean,
+  RatingPush: boolean,
+  AIRecommend: boolean,
+}
 
 export default function UserPage() {
   const [token, setToken] = useState<string | null>("token");
@@ -30,7 +36,9 @@ export default function UserPage() {
                   </div>
                 </div>
                 <div className='flex flex-col justify-center items-center text-xl '>
-                  <p><b>昵称:</b>YOSHIKI<br></br><b>Rating:</b>00000<br></br><b>机台登陆状态:</b>未登陆</p>
+                  <div className='w-48 flex justify-between'><b>昵称:</b><p>YOSHIKI</p></div>
+                  <div className='w-48 flex justify-between'><b>机台登陆状态:</b><p>未登陆</p></div>
+                  <div className='w-48 flex justify-between'><b>Rating:</b><p>00000</p></div>
                 </div>
               </div>
               <h1 className='text-2xl font-bold mt-5'>游玩信息</h1>
@@ -38,18 +46,18 @@ export default function UserPage() {
               <div className='w-full flex flex-row justify-around items-center space-x-10'>
                 <div>
                   <ul>
-                    <li>本日游玩次数:{0}pc</li>
-                    <li>本周游玩次数:{0}pc</li>
-                    <li>本月游玩次数:{0}pc</li>
-                    <li>本年度游玩次数:{0}pc</li>
+                    <li className='flex justify-between'><b>本日游玩次数:</b>{0}pc</li>
+                    <li className='flex justify-between'><b>本周游玩次数:</b>{0}pc</li>
+                    <li className='flex justify-between'><b>本月游玩次数:</b>{0}pc</li>
+                    <li className='flex justify-between'><b>本年度游玩次数:</b>{0}pc</li>
                   </ul>
                 </div>
                 <div>
                   <ul>
-                    <li>本日提升rating分:{0}rating</li>
-                    <li>本周提升rating分:{0}rating</li>
-                    <li>本月提升rating分:{0}rating</li>
-                    <li>本年度提升rating分:{0}rating</li>
+                    <li className='flex justify-between'><b>本日提升rating分:</b>{0}rating</li>
+                    <li className='flex justify-between'><b>本周提升rating分:</b>{0}rating</li>
+                    <li className='flex justify-between'><b>本月提升rating分:</b>{0}rating</li>
+                    <li className='flex justify-between'><b>本年度提升rating分:</b>{0}rating</li>
                   </ul>
                 </div>
               </div>
@@ -58,32 +66,32 @@ export default function UserPage() {
               <div className='w-full flex flex-row justify-around items-center space-x-10'>
                 <div>
                   <ul className='space-y-2'>
-                    <li>
+                    <li className='flex justify-between'>
                       <b>b50自动更新:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
                     </li>
-                    <li>
-                      <b>每周周报:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
+                    <li className='flex justify-between'>
+                      <b>周期报告:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
                     </li>
-                    <li>
+                    <li className='flex justify-between'>
                       <b>每日推分推荐:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
                     </li>
                   </ul>
                 </div>
                 <div>
                   <ul className='space-y-2'>
-                    <li>
+                    <li className='flex justify-between'>
                       <b>AI智能推荐:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
                     </li>
-                    <li>
-                      <b>每周周报:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
+                    <li className='flex justify-between'>
+                      <b>多方数据共享:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
                     </li>
-                    <li>
-                      <b>每日推分推荐:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
+                    <li className='flex justify-between'>
+                      <b>个人数据分析:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
                     </li>
                   </ul>
                 </div>
               </div>
-              <h1 className='text-2xl font-bold mt-5'>全国行脚图</h1>
+              <h1 className='text-2xl font-bold mt-5'>个人全国行脚图</h1>
               <hr className='w-full border-t-4 border-gray-400 my-5' />
               <div className='w-full h-[200px] mb-10 flex flex-row justify-center items-center'>
                 <ChinaMap />
@@ -94,11 +102,46 @@ export default function UserPage() {
           </>
         );
       case '关联账号':
-        return <div>这是关联账号内容</div>;
+        return (
+          <>
+            <div className='w-[800px]  p-10 flex flex-col justify-center items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
+              <h1 className='text-2xl font-bold mt-5'>关联第三方账号</h1>
+              <hr className='w-full border-t-4 border-gray-400 my-5' />
+              <div className='w-full flex flex-col justify-center items-center space-y-5'>
+                <div className='w-6/12 flex flex-row justify-between'><b>QQ:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>未绑定</button></div>
+                <div className='w-6/12 flex flex-row justify-between'><b>Wechat:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>未绑定</button></div>
+                <div className='w-6/12 flex flex-row justify-between'><b>Github:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>未绑定</button></div>
+                <div className='w-6/12 flex flex-row justify-between'><b>落雪:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>未绑定</button></div>
+                <div className='w-6/12 flex flex-row justify-between'><b>水鱼:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>未绑定</button></div>
+              </div>
+            </div>
+          </>
+        );
       case '隐私设置':
-        return <div>这是隐私设置内容</div>;
-      case 'Else':
-        return <div>这是其他内容</div>;
+        return (
+          <>
+            <div className='w-[800px]  p-10 flex flex-col justify-center items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
+              <h1 className='text-2xl font-bold mt-5'>隐私设置</h1>
+              <hr className='w-full border-t-4 border-gray-400 my-5' />
+              <div className='w-full flex flex-col justify-center items-center space-y-5'>
+                <div className='w-6/12 flex flex-row justify-between'><b>第三方软件调取信息:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>同意</button></div>
+                <div className='w-6/12 flex flex-row justify-between'><b>舞萌萌使用隐私协议:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>同意</button></div>
+                <div className='w-6/12 flex flex-row justify-between'><b>数据用于AI推荐:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>同意</button></div>
+                <div className='w-6/12 flex flex-row justify-between'><b>根据数据优化:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>同意</button></div>
+              </div>
+            </div>
+          </>
+        );
+      case 'else':
+        return (
+          <>
+            <div className='w-[800px]  p-10 flex flex-col justify-center items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
+              <h1 className='text-2xl font-bold mt-5'>其他设置</h1>
+              <hr className='w-full border-t-4 border-gray-400 my-5' />
+              <h1 className='text-2xl font-bold mt-5'>暂无</h1>
+            </div>
+          </>
+        );
       default:
         return <div>请选择一个选项</div>;
     }
