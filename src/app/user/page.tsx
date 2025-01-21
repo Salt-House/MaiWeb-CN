@@ -9,16 +9,26 @@ interface FunctionStatus {
   CycleReport: boolean,
   RatingPush: boolean,
   AIRecommend: boolean,
+  DataShare: boolean,
+  DataAnalyse: boolean
 }
 
 export default function UserPage() {
-  const [token, setToken] = useState<string | null>("token");
+  const [token, setToken] = useState<string | null>();
   const [isHovered, setIsHovered] = useState(false);
   const [thirdalignment, setthirdalignment] = useState<string | null>(null);
   const [loginHint, setLoginHint] = useState<string | null>("请选择登陆方式");
   const [agree, setAgree] = useState<boolean>(false);
   const [username, setUsername] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState('基本信息');
+  const [functionStatus, setFunctionStatus] = useState<FunctionStatus>({
+    BUpdate: false,
+    CycleReport: true,
+    RatingPush: false,
+    AIRecommend: true,
+    DataShare: false,
+    DataAnalyse: false
+  })
 
   const renderContent = () => {
     switch (activeSection) {
@@ -66,31 +76,32 @@ export default function UserPage() {
               <div className='w-full flex flex-row justify-around items-center space-x-10'>
                 <div>
                   <ul className='space-y-2'>
-                    <li className='flex justify-between'>
-                      <b>b50自动更新:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
+                    <li className='flex justify-between items-center'>
+                      <b>b50自动更新:</b><button className={`ml-2 rounded-2xl ${functionStatus.BUpdate ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.BUpdate ? '关闭' : '启用'}</button>
                     </li>
-                    <li className='flex justify-between'>
-                      <b>周期报告:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
+                    <li className='flex justify-between items-center'>
+                      <b>周期报告:</b><button className={`ml-2 rounded-2xl ${functionStatus.CycleReport ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.CycleReport ? '关闭' : '启用'}</button>
                     </li>
-                    <li className='flex justify-between'>
-                      <b>每日推分推荐:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
+                    <li className='flex justify-between items-center'>
+                      <b>每日推分推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.RatingPush ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.RatingPush ? '关闭' : '启用'}</button>
                     </li>
                   </ul>
                 </div>
                 <div>
                   <ul className='space-y-2'>
-                    <li className='flex justify-between'>
-                      <b>AI智能推荐:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
+                    <li className='flex justify-between items-center'>
+                      <b>AI智能推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.AIRecommend ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.AIRecommend ? '关闭' : '启用'}</button>
                     </li>
-                    <li className='flex justify-between'>
-                      <b>多方数据共享:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
+                    <li className='flex justify-between items-center'>
+                      <b>多方数据共享:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataShare ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataShare ? '关闭' : '启用'}</button>
                     </li>
-                    <li className='flex justify-between'>
-                      <b>个人数据分析:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>启用</button>
+                    <li className='flex justify-between items-center'>
+                      <b>个人数据分析:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataAnalyse ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataAnalyse ? '关闭' : '启用'}</button>
                     </li>
                   </ul>
                 </div>
               </div>
+              <h1 className='text-gray-500 font-bold'>注意</h1>
               <h1 className='text-2xl font-bold mt-5'>个人全国行脚图</h1>
               <hr className='w-full border-t-4 border-gray-400 my-5' />
               <div className='w-full h-[200px] mb-10 flex flex-row justify-center items-center'>
@@ -156,13 +167,14 @@ export default function UserPage() {
   }, []);
 
   return (
-    <div className="w-[900px] mt-20  mx-auto relative flex justify-center overflow-y-scroll">
+    <div className="w-[900px] mt-20  mx-auto relative flex justify-center">
       {token == null ?
         // 登陆页面
-        <div className='relative w-[600px] h-[500px] bg-[rgb(239,246,255)] rounded-2xl flex flex-row'>
-          <div className={`h-[500px] bg-pink-500 p-5 left-0 rounded-l-2xl transition-all duration-300 ease-in-out ${isHovered ? 'w-[150px]' : 'w-[450px]'} `}>
+        <div className='relative w-[600px] h-[600px] bg-[rgb(239,246,255)] rounded-2xl flex flex-row border-4 border-white'>
+          {/* 第三方登录 */}
+          <div className={`h-full absolute bg-pink-500 p-5 left-0 rounded-2xl transition-all duration-300 ease-in-out ${isHovered ? 'w-[180px] z-[1]' : 'w-[450px] z-[2] border-r-4 border-white shadow-lg'} `}>
             {isHovered ?
-              <div className='h-full flex flex-col justify-center items-center space-y-5'>
+              <div className='h-[480px] flex flex-col justify-center items-center space-y-5'>
                 <img src="/img/third/lxns.webp" onClick={() => setIsHovered(false)} className='size-16' alt="" />
                 <div className='size-16 bg-[rgb(133,144,250)] font-bold flex justify-center items-center text-center rounded-full'>水鱼</div>
                 <div className='size-16 bg-[rgb(133,144,250)] font-bold flex justify-center items-center text-center rounded-full'>暂无</div>
@@ -170,15 +182,16 @@ export default function UserPage() {
                 <div className='size-16 bg-[rgb(133,144,250)] font-bold flex justify-center items-center text-center rounded-full'>暂无</div>
               </div>
               :
-              <div className='w-full h-full flex flex-col p-5 justify-center items-center space-y-5'>
+              <div className='w-full h-[480px] flex flex-col p-5 justify-center items-center space-y-5'>
+                <img src="/img/logo.png" className='w-48' alt="" />
                 <h1 className='text-2xl font-bold'>欢迎使用第三方账号登陆</h1>
                 <h2 className='font-bold text-xl'>{loginHint}</h2>
                 <div className='flex flex-row space-x-5'>
                   <img src="/img/third/lxns.webp" className='size-12' onClick={() => { setthirdalignment("lxns"); setLoginHint("使用落雪账号登陆") }} alt="" />
-                  <img src="/img/third/lxns.webp" className='size-12' onClick={() => { setthirdalignment("qq"); setLoginHint("使用QQ账号登陆") }} alt="" />
-                  <img src="/img/third/lxns.webp" className='size-12' onClick={() => { setthirdalignment("wechat"); setLoginHint("使用微信账号登陆") }} alt="" />
-                  <img src="/img/third/lxns.webp" className='size-12' onClick={() => { setthirdalignment("divingfish"); setLoginHint("使用水鱼账号登陆") }} alt="" />
-                  <img src="/img/third/lxns.webp" className='size-12' onClick={() => { setthirdalignment("github"); setLoginHint("使用Github账号登陆") }} alt="" />
+                  <img src="/img/third/qq.png" className='size-12' onClick={() => { setthirdalignment("qq"); setLoginHint("使用QQ账号登陆") }} alt="" />
+                  <img src="/img/third/wechat.png" className='size-12' onClick={() => { setthirdalignment("wechat"); setLoginHint("使用微信账号登陆") }} alt="" />
+                  <img src="/img/third/divingfish.png" className='size-12' onClick={() => { setthirdalignment("divingfish"); setLoginHint("使用水鱼账号登陆") }} alt="" />
+                  <img src="/img/third/github.png" className='size-12' onClick={() => { setthirdalignment("github"); setLoginHint("使用Github账号登陆") }} alt="" />
                 </div>
                 <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' />
                 <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' />
@@ -186,11 +199,13 @@ export default function UserPage() {
               </div>
             }
           </div>
-          <div className={`h-[500px] bg-blue-500 p-5 right-0 rounded-r-2xl transition-all duration-300 ease-in-out ${isHovered ? 'w-[450px]' : 'w-[150px]'} `}>
+          {/* 舞萌萌登录 */}
+          <div className={`h-full absolute bg-blue-500 p-5 right-0 rounded-2xl transition-all duration-300 ease-in-out ${isHovered ? 'w-[450px] z-[2] border-l-4 border-white shadow-lg' : 'w-[180px] z-[1]'} `}>
             {isHovered ?
               <>
                 <div className='h-full flex flex-col p-2 justify-center items-center space-y-2'>
-                  <h1 className='text-2xl font-bold'>使用舞萌萌账号登陆</h1>
+                  <img src="/img/logo.png" className='w-48' alt="" />
+                  <h1 className='text-2xl font-bold'>舞萌萌账号登陆</h1>
                   <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' />
                   <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' />
                   <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold'>登陆</button>
@@ -198,8 +213,8 @@ export default function UserPage() {
               </>
               :
               <>
-                <div className='h-full flex justify-center items-center'>
-                  <h1 className='w-[100px] font-bold text-2xl'>使用第一方账号登陆</h1>
+                <div className='h-full flex flex-col justify-center items-center text-center space-y-5'>
+                  <h1 className='w-[80px] font-bold text-2xl'>使用<br></br>舞萌萌</h1>
                   <img src="/img/arrowright.png" onClick={() => setIsHovered(true)} className='animate-leftToRight' alt="" />
                 </div>
               </>}
