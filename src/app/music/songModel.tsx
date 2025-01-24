@@ -128,3 +128,15 @@ export const sampleSong: Song = {
     // },
   ]
 }
+
+// 难度颜色辅助函数
+export function getDifficultyColor(difficulty: keyof typeof colors): string {
+  const colors = {
+    'Basic': '#1eb300',
+    'Advanced': '#e1d030',
+    'Expert': '#ff1744',
+    'Master': '#ab47bc',
+    'Re:Master': '#acaadd'
+  }
+  return colors[difficulty]
+}
