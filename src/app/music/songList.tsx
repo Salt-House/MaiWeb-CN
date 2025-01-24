@@ -1,4 +1,5 @@
-import { Song } from '@/app/music/songModel'
+import Link from 'next/link'
+import { Song, getDifficultyColor } from '@/app/music/songModel'
 
 interface SongListProps {
   songs: Song[]
@@ -8,8 +9,8 @@ export default function SongList({ songs }: SongListProps) {
   return (
     <div className="flex-col w-full p-4 space-y-1">
       {songs.map((song, index) => (
-        <>
-          <div key={song.id} className="flex h-44 bg-white px-4 py-2 space-x-8">
+        <Link href={`/music/${song.id}`} key={song.id}>
+          <div className="flex h-44 bg-white px-4 py-2 space-x-8 cursor-pointer duration-300">
             {/* 左侧曲绘封面 */}
             <div className="w-36 h-36">
               <img src="/img/testResource/HeartPieDanceHall.png" alt="" className="rounded-xl" />
@@ -48,20 +49,8 @@ export default function SongList({ songs }: SongListProps) {
               </div>}
             </div>
           </div>
-        </>
+        </Link>
       ))}
     </div>
   )
-}
-
-// 难度颜色辅助函数
-function getDifficultyColor(difficulty: keyof typeof colors): string {
-  const colors = {
-    'Basic': '#1eb300',
-    'Advanced': '#e1d030',
-    'Expert': '#ff1744',
-    'Master': '#ab47bc',
-    'Re:Master': '#acaadd'
-  }
-  return colors[difficulty]
 }

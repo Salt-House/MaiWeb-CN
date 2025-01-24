@@ -54,11 +54,19 @@ export default function MusicPage() {
                 </select>
                 <div className="text-white ml-2">分类</div>
               </div>
-              <div
-                className="w-80 h-12 bg-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-5">
-                <div className="ml-2 text-white">搜索</div>
-                <input type="text" name="" id="" placeholder="乐曲名/作曲家"
-                  className="w-56 h-9 ml-2 p-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300" />
+              <div className="w-80 h-12 bg-white border-4 border-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5">
+                <div className="flex w-full h-full overflow-hidden">
+                  <div className="w-1/3 bg-blue-700 flex items-center justify-center border-r-4 border-blue-700" style={{ borderTopLeftRadius: '1rem', borderBottomLeftRadius: '1rem' }}>
+                    <div className="text-white">搜索</div>
+                  </div>
+                  <div className="w-2/3 flex items-center justify-center">
+                    <input
+                      type="text"
+                      placeholder="乐曲名/作曲家"
+                      className="w-[90%] h-9 bg-transparent text-black placeholder-gray-500 focus:outline-none transition-none"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div className='h-[172px]'>
@@ -66,7 +74,7 @@ export default function MusicPage() {
               {selectedOption === 'category' && <CategoryBar />}
               {selectedOption === 'aeuio' && <AeuioBar />}
               {selectedOption === 'level' && <LevelBar />}
-              {selectedOption === 'version' && <div>版本页面</div>}
+              {selectedOption === 'version' && <VersionBar />}
             </div>
 
             {/* AnimateVolume */}
@@ -197,7 +205,7 @@ function LevelBar() {
 
   return (
     <div className="h-[172px] max-w-[1200px] mx-auto">
-      <div className="grid grid-cols-8 grid-rows-3 gap-4 h-full">
+      <div className="grid grid-cols-8 grid-rows-3 gap-4 h-full pt-1">
         {[...Array(24)].map((_, index) => (
           <div
             key={index}
@@ -212,4 +220,30 @@ function LevelBar() {
 }
 
 function VersionBar() {
+  const versions = ["maimai", "GreeN", "ORANGE", "PiNK", "MURASAKi", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024"]
+
+  return (
+    <div className="h-[172px] max-w-[1200px] mx-auto">
+      <div className="grid grid-cols-4 grid-rows-3 gap-4 h-full w-full">
+        {[...Array(versions.length)].map((_, index) => (
+          <div key={index} className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border-4 border-[rgb(155,244,236)]">
+            {index < 6 ? (
+              <div className="flex w-full h-full">
+                <div className="w-2/3 flex items-center justify-center border-r-4 pt-1 border-[rgb(155,244,236)] ">
+                  {versions[index]}
+                </div>
+                <div className="w-1/3 flex items-center justify-center text-2xl">
+                  +
+                </div>
+              </div>
+            ) : (
+              <div className="px-7 py-2 mt-1">
+                {versions[index]}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
