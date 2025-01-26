@@ -14,13 +14,17 @@ interface FunctionStatus {
 }
 
 export default function UserPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [token, setToken] = useState<string | null>();
   const [isHovered, setIsHovered] = useState(false);
   const [thirdalignment, setthirdalignment] = useState<string | null>(null);
   const [loginHint, setLoginHint] = useState<string | null>("请选择登陆方式");
   const [agree, setAgree] = useState<boolean>(false);
-  const [username, setUsername] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState('基本信息');
+  const [register, setRegister] = useState<boolean>(false);
+  
   const [functionStatus, setFunctionStatus] = useState<FunctionStatus>({
     BUpdate: false,
     CycleReport: true,
@@ -203,13 +207,29 @@ export default function UserPage() {
           <div className={`h-full absolute bg-blue-500 p-5 right-0 rounded-2xl transition-all duration-300 ease-in-out ${isHovered ? 'w-[450px] z-[2] border-l-4 border-white shadow-lg' : 'w-[180px] z-[1]'} `}>
             {isHovered ?
               <>
-                <div className='h-full flex flex-col p-2 justify-center items-center space-y-2'>
-                  <img src="/img/logo.png" className='w-48' alt="" />
-                  <h1 className='text-2xl font-bold'>舞萌萌账号登陆</h1>
-                  <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' />
-                  <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' />
-                  <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold'>登陆</button>
-                </div>
+                {register ?
+                  <>
+                    <div className='h-full flex flex-col p-2 justify-center items-center space-y-2'>
+                      <img src="/img/logo.png" className='w-48' alt="" />
+                      <h1 className='text-2xl font-bold'>舞萌萌账号注册</h1>
+                      <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={username} onChange={(e) => setUsername(e.target.value)} />
+                      <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={password} onChange={(e) => setPassword(e.target.value)} />
+                      <input type="email" id="email" placeholder='email' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={email} onChange={(e) => setEmail(e.target.value)}/>
+                      <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold' onClick={()=>{console.log(username)}}>注册</button>
+                    </div>
+                  </>
+                  : <>
+                    <div className='h-full flex flex-col p-2 justify-center items-center space-y-2'>
+                      <img src="/img/logo.png" className='w-48' alt="" />
+                      <h1 className='text-2xl font-bold'>舞萌萌账号登陆</h1>
+                      <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={username} onChange={(e) => setUsername(e.target.value)} />
+                      <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={password} onChange={(e) => setPassword(e.target.value)} />
+                      <div className='flex flex-row space-x-5'>
+                        <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105'>登陆</button>
+                        <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={()=>{setRegister(true)}}>注册</button>
+                      </div>
+                    </div>
+                  </>}
               </>
               :
               <>
