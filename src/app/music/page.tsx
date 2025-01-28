@@ -1,12 +1,45 @@
 'use client'
 
-import { useState } from 'react'
-import { sampleSong } from "@/app/music/songModel"
+import { useState, useEffect } from 'react'
+import { Song } from "@/app/music/songModel"
 import SongList from '@/app/music/songList'
 
 export default function MusicPage() {
-  const songs = [sampleSong, sampleSong, sampleSong, sampleSong, sampleSong, sampleSong]
+  //const songs = [sampleSong, sampleSong, sampleSong, sampleSong, sampleSong, sampleSong]
+  const [songs, setSongs] = useState<Song[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [selectedOption, setSelectedOption] = useState('category')
+
+  useEffect(() => {
+    getSongs()
+  }, [])
+
+  const getSongs = async () => {
+    const baseUrl = 'https://dev.maimai.moe/api'
+    try {
+      const response = await fetch(
+        `${baseUrl}/maimai/songs?version=24000`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
+      setSongs(data);
+      setLoading(false);
+    } catch (err) {
+      console.error('获取数据错误:', err)
+      setError(err instanceof Error ? err.message : '获取数据失败')
+      setLoading(false)
+    }
+  }
 
   return (
     <>
@@ -96,9 +129,14 @@ export default function MusicPage() {
       {/*Music Cards*/}
       <div className="relative flex flex-col justify-center items-center mt-10 mb-32">
         <div className="border-4 border-white rounded-2xl">
-          <div
-            className="w-[900px] min-h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
-            <SongList songs={songs} />
+          <div className="w-[900px] min-h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
+            {loading ? (
+              <div>加载中...</div>
+            ) : error ? (
+              <div>错误: {error}</div>
+            ) : (
+              <SongList songs={songs} />
+            )}
           </div>
         </div>
       </div>
