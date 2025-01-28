@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { Song } from "@/app/music/songModel"
 import SongList from '@/app/music/songList'
 
+const currentVersion = "24005"
+
 export default function MusicPage() {
   //const songs = [sampleSong, sampleSong, sampleSong, sampleSong, sampleSong, sampleSong]
   const [songs, setSongs] = useState<Song[]>([])
@@ -11,15 +13,16 @@ export default function MusicPage() {
   const [error, setError] = useState<string | null>(null)
   const [selectedOption, setSelectedOption] = useState('category')
 
+  const defaultUrl = `version=${currentVersion}`
   useEffect(() => {
-    getSongs()
+    getSongs(defaultUrl)
   }, [])
 
-  const getSongs = async () => {
-    const baseUrl = 'https://dev.maimai.moe/api'
+  const getSongs = async (filteredUrl: string) => {
+    const baseUrl = 'https://dev.maimai.moe/api/maimai/songs?'
     try {
       const response = await fetch(
-        `${baseUrl}/maimai/songs?version=24000`, {
+        `${baseUrl}${filteredUrl}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json'
@@ -81,8 +84,8 @@ export default function MusicPage() {
                   onChange={(e) => setSelectedOption(e.target.value)}
                 >
                   <option value="category">乐曲种类</option>
-                  <option value="aeuio">あいうえお</option>
-                  <option value="level">等级</option>
+                  {/* <option value="aeuio">あいうえお</option> */}
+                  {/* <option value="level">等级</option> */}
                   <option value="version">版本</option>
                 </select>
                 <div className="text-white ml-2">分类</div>
@@ -104,10 +107,10 @@ export default function MusicPage() {
             </div>
             <div className='h-[172px]'>
               {/* 根据选择的选项显示不同分类选项 */}
-              {selectedOption === 'category' && <CategoryBar />}
-              {selectedOption === 'aeuio' && <AeuioBar />}
-              {selectedOption === 'level' && <LevelBar />}
-              {selectedOption === 'version' && <VersionBar />}
+              {selectedOption === 'category' && <CategoryBar getSongs={getSongs} />}
+              {/* {selectedOption === 'aeuio' && <AeuioBar getSongs={getSongs} />} */}
+              {/* {selectedOption === 'level' && <LevelBar getSongs={getSongs} />} */}
+              {selectedOption === 'version' && <VersionBar getSongs={getSongs} />}
             </div>
 
             {/* AnimateVolume */}
@@ -144,28 +147,34 @@ export default function MusicPage() {
   )
 }
 
-function CategoryBar() {
+function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
   return (
     <>
       <div className="flex flex-row justify-center items-center space-x-4 mb-4">
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)]">
+            className="w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)]"
+            onClick={() => getSongs(`version=${currentVersion}`)}
+          >
             最近更新
           </div>
         </div>
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold">
+            className="w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold"
+            onClick={() => getSongs("genre=POPSアニメ")}
+          >
             流行&动漫
           </div>
         </div>
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold">
+            className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold"
+            onClick={() => getSongs("genre=niconicoボーカロイド")}
+          >
             <span>niconico&</span>
             <span>VOCALOID</span>
           </div>
@@ -173,7 +182,9 @@ function CategoryBar() {
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[#7f2bb6] rounded-full bg-[rgb(159,54,227)] flex justify-center items-center font-bold">
+            className="w-44 h-16 border-4 border-[#7f2bb6] rounded-full bg-[rgb(159,54,227)] flex justify-center items-center font-bold"
+            onClick={() => getSongs("genre=東方Project")}
+          >
             东方Project
           </div>
         </div>
@@ -182,28 +193,36 @@ function CategoryBar() {
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[#62b942] rounded-full bg-[rgb(122,231,83)] flex justify-center items-center font-bold">
+            className="w-44 h-16 border-4 border-[#62b942] rounded-full bg-[rgb(122,231,83)] flex justify-center items-center font-bold"
+            onClick={() => getSongs("genre=ゲームバラエティ")}
+          >
             其他游戏
           </div>
         </div>
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold">
+            className="w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold"
+            onClick={() => getSongs("genre=maimai")}
+          >
             舞萌
           </div>
         </div>
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(48,157,248)] flex justify-center items-center font-bold">
+            className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(48,157,248)] flex justify-center items-center font-bold"
+            onClick={() => getSongs("genre=オンゲキCHUNITHM")}
+          >
             音击&中二
           </div>
         </div>
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[rgb(179,46,121)] rounded-full bg-[rgb(220,56,184)] flex justify-center items-center font-bold">
+            className="w-44 h-16 border-4 border-[rgb(179,46,121)] rounded-full bg-[rgb(220,56,184)] flex justify-center items-center font-bold"
+            onClick={() => getSongs("genre=utage")}
+          >
             宴会场
           </div>
         </div>
@@ -212,7 +231,8 @@ function CategoryBar() {
   )
 }
 
-function AeuioBar() {
+// 暂时不实现
+function AeuioBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
   const items: String[] = [
     'あ行', 'か行', 'さ行', 'た行', 'な行',
     'は行', 'ま行', 'や行', 'ら行', 'わ行',
@@ -235,7 +255,8 @@ function AeuioBar() {
   )
 }
 
-function LevelBar() {
+// 暂时不实现
+function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
   const levels = [
     '1', '2', '3', '4', '5', '6', '7', '7+',
     '8', '8+', '9', '9+', '10', '10+', '11', '11+',
@@ -248,6 +269,7 @@ function LevelBar() {
           <div
             key={index}
             className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)]"
+            onClick={() => getSongs(`map=${index}`)}
           >
             {levels[index]}
           </div>
@@ -257,8 +279,9 @@ function LevelBar() {
   )
 }
 
-function VersionBar() {
+function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
   const versions = ["maimai", "GreeN", "ORANGE", "PiNK", "MURASAKi", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024"]
+  const versionIds = [""]
 
   return (
     <div className="h-[172px] max-w-[1200px] mx-auto">
@@ -267,7 +290,10 @@ function VersionBar() {
           <div key={index} className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border-4 border-[rgb(155,244,236)]">
             {index < 6 ? (
               <div className="flex w-full h-full">
-                <div className="w-2/3 flex items-center justify-center border-r-4 pt-1 border-[rgb(155,244,236)] ">
+                <div
+                  className="w-2/3 flex items-center justify-center border-r-4 pt-1 border-[rgb(155,244,236)] "
+                // onClick={() => getSongs(`version=${index}`)}
+                >
                   {versions[index]}
                 </div>
                 <div className="w-1/3 flex items-center justify-center text-2xl">
