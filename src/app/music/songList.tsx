@@ -30,13 +30,13 @@ export default function SongList({ songs }: SongListProps) {
                 {/* 歌曲信息 */}
                 <div className="flex-1 flex flex-col items-start min-w-0">
                   <h2
-                    className="inline-flex px-3 py-1 truncate rounded-full text-white border-2"
+                    className="inline-flex px-5 py-1 truncate rounded-full text-white border-2"
                     style={{
                       backgroundColor: getGenreColor(song.genre).bg,
                       borderColor: getGenreColor(song.genre).border
                     }}
                   >
-                    {song.genre}
+                    {transferText(song.genre)}
                   </h2>
                   <h2 className="text-2xl text-black font-bold my-3 truncate max-w-full">
                     {song.title}
@@ -134,4 +134,17 @@ export function getGenreColor(genre: string): { bg: string, border: string } {
     'utage': { bg: 'rgb(220,56,184)', border: 'rgb(179,46,121)' }
   }
   return colors[genre as keyof typeof colors] || { bg: 'rgb(255,200,0)', border: '#b38c00' }
+}
+
+export function transferText(genre: string): string {
+  const texts = {
+    'POPSアニメ': '流行&动漫',
+    'niconicoボーカロイド': 'niconico & VOCALOID',
+    '東方Project': '东方Project',
+    'ゲームバラエティ': '其他游戏',
+    'maimai': '舞萌',
+    'オンゲキCHUNITHM': '音击/中二节奏',
+    'utage': '宴会场'
+  }
+  return texts[genre as keyof typeof texts] || genre
 }
