@@ -13,7 +13,8 @@ export default function MusicPage() {
   const [error, setError] = useState<string | null>(null)
   const [selectedOption, setSelectedOption] = useState('category')
 
-  const defaultUrl = `version=${currentVersion}`
+  //const defaultUrl = `version=${currentVersion}`
+  const defaultUrl = `level=12`
   useEffect(() => {
     getSongs(defaultUrl)
   }, [])
@@ -85,8 +86,8 @@ export default function MusicPage() {
                 >
                   <option value="category">乐曲种类</option>
                   {/* <option value="aeuio">あいうえお</option> */}
-                  {/* <option value="level">等级</option> */}
-                  <option value="version">版本</option>
+                  <option value="level">等级</option>
+                  {/* <option value="version">版本</option> */}
                 </select>
                 <div className="text-white ml-2">分类</div>
               </div>
@@ -109,7 +110,7 @@ export default function MusicPage() {
               {/* 根据选择的选项显示不同分类选项 */}
               {selectedOption === 'category' && <CategoryBar getSongs={getSongs} />}
               {/* {selectedOption === 'aeuio' && <AeuioBar getSongs={getSongs} />} */}
-              {/* {selectedOption === 'level' && <LevelBar getSongs={getSongs} />} */}
+              {selectedOption === 'level' && <LevelBar getSongs={getSongs} />}
               {selectedOption === 'version' && <VersionBar getSongs={getSongs} />}
             </div>
 
@@ -221,7 +222,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="w-44 h-16 border-4 border-[rgb(179,46,121)] rounded-full bg-[rgb(220,56,184)] flex justify-center items-center font-bold"
-            onClick={() => getSongs("genre=utage")}
+            onClick={() => getSongs("type=utage")}
           >
             宴会场
           </div>
@@ -255,7 +256,6 @@ function AeuioBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
   )
 }
 
-// 暂时不实现
 function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
   const levels = [
     '1', '2', '3', '4', '5', '6', '7', '7+',
@@ -269,7 +269,7 @@ function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
           <div
             key={index}
             className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)]"
-            onClick={() => getSongs(`map=${index}`)}
+            onClick={() => levels[index] == "宴" ? getSongs("type=utage") : getSongs(`level=${levels[index]}`)}
           >
             {levels[index]}
           </div>
@@ -281,7 +281,28 @@ function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
 
 function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
   const versions = ["maimai", "GreeN", "ORANGE", "PiNK", "MURASAKi", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024"]
-  const versionIds = [""]
+  const versionIds = {
+    'MAIMAI': 10000,
+    'MAIMAI_GREEN': 12000,
+    'MAIMAI_ORANGE': 14000,
+    'MAIMAI_PINK': 16000,
+    'MAIMAI_MURASAKI': 18000,
+    'MAIMAI_MILK': 19000,
+    'MAIMAI_FINALE': 19900,
+    'MAIMAI_DX': 20000,
+    'MAIMAI_DX_2021': 21000,
+    'MAIMAI_DX_2022': 22000,
+    'MAIMAI_DX_2023': 23000,
+    'MAIMAI_DX_2024': 24000,
+  }
+  const versionPlusIds = {
+    'MAIMAI_PLUS': 11000,
+    'MAIMAI_GREEN_PLUS': 13000,
+    'MAIMAI_ORANGE_PLUS': 15000,
+    'MAIMAI_PINK_PLUS': 17000,
+    'MAIMAI_MURASAKI_PLUS': 18500,
+    'MAIMAI_MILK_PLUS': 19500,
+  }
 
   return (
     <div className="h-[172px] max-w-[1200px] mx-auto">
@@ -292,7 +313,7 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
               <div className="flex w-full h-full">
                 <div
                   className="w-2/3 flex items-center justify-center border-r-4 pt-1 border-[rgb(155,244,236)] "
-                // onClick={() => getSongs(`version=${index}`)}
+                  onClick={() => getSongs(`version=${index}`)}
                 >
                   {versions[index]}
                 </div>
