@@ -20,9 +20,11 @@ export default function MusicPage() {
 
   const getSongs = async (filteredUrl: string) => {
     const baseUrl = 'https://dev.maimai.moe/api/maimai/songs?'
+    const url = `${baseUrl}${filteredUrl}`
+    // console.log(url)
     try {
       const response = await fetch(
-        `${baseUrl}${filteredUrl}`, {
+        url, {
         method: 'GET',
         headers: {
           'Accept': 'application/json'
@@ -86,7 +88,7 @@ export default function MusicPage() {
                   <option value="category">乐曲种类</option>
                   {/* <option value="aeuio">あいうえお</option> */}
                   <option value="level">等级</option>
-                  {/* <option value="version">版本</option> */}
+                  <option value="version">版本</option>
                 </select>
                 <div className="text-white ml-2">分类</div>
               </div>
@@ -287,22 +289,23 @@ function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
 }
 
 function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
-  const versions = ["maimai", "GreeN", "ORANGE", "PiNK", "MURASAKi", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024"]
+  const versions: (keyof typeof versionIds)[] = ["maimai", "GreeN", "ORANGE", "PiNK", "MURASAKi", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024"]
   const versionIds = {
-    'MAIMAI': 10000,
-    'MAIMAI_GREEN': 12000,
-    'MAIMAI_ORANGE': 14000,
-    'MAIMAI_PINK': 16000,
-    'MAIMAI_MURASAKI': 18000,
-    'MAIMAI_MILK': 19000,
-    'MAIMAI_FINALE': 19900,
-    'MAIMAI_DX': 20000,
-    'MAIMAI_DX_2021': 21000,
-    'MAIMAI_DX_2022': 22000,
-    'MAIMAI_DX_2023': 23000,
-    'MAIMAI_DX_2024': 24000,
+    'maimai': 10000,
+    'GreeN': 12000,
+    'ORANGE': 14000,
+    'PiNK': 16000,
+    'MURASAKi': 18000,
+    'MiLK': 19000,
+    'FiNALE': 19900,
+    '舞萌DX': 20000,
+    '舞萌DX 2021': 21000,
+    '舞萌DX 2022': 22000,
+    '舞萌DX 2023': 23000,
+    '舞萌DX 2024': 24000,
   }
-  const versionPlusIds = {
+  const versionsPlus: (keyof typeof versionsPlusIds)[] = ["MAIMAI_PLUS", "MAIMAI_GREEN_PLUS", "MAIMAI_ORANGE_PLUS", "MAIMAI_PINK_PLUS", "MAIMAI_MURASAKI_PLUS", "MAIMAI_MILK_PLUS"]
+  const versionsPlusIds = {
     'MAIMAI_PLUS': 11000,
     'MAIMAI_GREEN_PLUS': 13000,
     'MAIMAI_ORANGE_PLUS': 15000,
@@ -320,16 +323,22 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
               <div className="flex w-full h-full">
                 <div
                   className="w-2/3 flex items-center justify-center border-r-4 pt-1 border-[rgb(155,244,236)] "
-                  onClick={() => getSongs(`version=${index}`)}
+                  onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
                 >
                   {versions[index]}
                 </div>
-                <div className="w-1/3 flex items-center justify-center text-2xl">
+                <div
+                  className="w-1/3 flex items-center justify-center text-2xl"
+                  onClick={() => getSongs(`versions=${versionsPlusIds[versionsPlus[index]]}`)}
+                >
                   +
                 </div>
               </div>
             ) : (
-              <div className="px-7 py-2 mt-1">
+              <div
+                className="px-7 py-2 mt-1"
+                onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
+              >
                 {versions[index]}
               </div>
             )}
