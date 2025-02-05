@@ -13,8 +13,7 @@ export default function MusicPage() {
   const [error, setError] = useState<string | null>(null)
   const [selectedOption, setSelectedOption] = useState('category')
 
-  //const defaultUrl = `version=${currentVersion}`
-  const defaultUrl = `level=12`
+  const defaultUrl = `version=${currentVersion}`
   useEffect(() => {
     getSongs(defaultUrl)
   }, [])
@@ -101,6 +100,7 @@ export default function MusicPage() {
                       type="text"
                       placeholder="乐曲名/作曲家"
                       className="w-[90%] h-9 bg-transparent text-black placeholder-gray-500 focus:outline-none transition-none"
+                      onChange={(e) => getSongs(`keywords=${e.target.value}`)}
                     />
                   </div>
                 </div>
@@ -139,7 +139,11 @@ export default function MusicPage() {
             ) : error ? (
               <div>错误: {error}</div>
             ) : (
-              <SongList songs={songs} />
+              songs.length === 0 ? (
+                <div>{`没有找到相关乐曲……{{(>_<)}}`}</div>
+              ) : (
+                <SongList songs={songs} />
+              )
             )}
           </div>
         </div>
