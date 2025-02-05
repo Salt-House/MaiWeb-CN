@@ -2,7 +2,6 @@
 
 import AnimatedComponent from "@/app/components/AnimatedComponent";
 import ChinaMap from "@/app/components/ChinaMap";
-import { Xanh_Mono } from "next/font/google";
 import { useState, useEffect } from "react";
 
 interface FunctionStatus {
@@ -56,6 +55,8 @@ export default function UserProfilePage() {
     const [accounts, setAccounts] = useState<ThirdAccount[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [lxnstoken, setLxnsToken] = useState<string>("");
+    const [divingfishusername, setDivingFishUsername] = useState<string>("");
+    const [divingfishpassword, setDivingFishPassword] = useState<string>("");
     let [bindaccount, setBindAccount] = useState<BindAccount>({
         islxns: false,
         isdivingfish: false,
@@ -136,11 +137,35 @@ export default function UserProfilePage() {
                 if (statusCode === 200) {
                     alert("绑定成功")
                     setLink('')
-                }else{
+                } else {
                     alert("绑定失败")
                 }
             })
             .then((result) => { })
+            .catch((error) => console.error(error));
+    }
+    const BindDivifish = () => {
+        const myHeaders = new Headers();
+        myHeaders.append("accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+        };
+
+        fetch(`https://dev.maimai.moe/api/maimai/maiweb/accounts/divingfish?username=${divingfishusername}&password=${divingfishpassword}`, requestOptions)
+            .then((response) => {
+                const statusCode = response.status;
+                console.log(`Status Code: ${statusCode}`);
+                if (statusCode === 200) {
+                    alert("绑定成功")
+                    setLink('')
+                } else {
+                    alert("绑定失败")
+                }
+            })
+            .then((result) => console.log(result))
             .catch((error) => console.error(error));
     }
 
@@ -290,9 +315,9 @@ export default function UserProfilePage() {
                             <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                                 <h1 className="text-2xl font-bold">绑定落雪账号</h1>
                                 <h1 className="text-xl font-bold text-red-500">（请至少上传一次成绩至落雪）</h1>
-                                <input type="text" name="token" id="" placeholder="个人token" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" />
+                                <input type="text" name="lxnstoken" id="" placeholder="个人token" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={lxnstoken} onChange={(e) => setLxnsToken(e.target.value)} />
                                 <a href="https://maimai.lxns.net/login" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往落雪获取token➡️</a>
-                                <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" >绑定</button>
+                                <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindLxns}>绑定</button>
                                 <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
                             </div>
                         </AnimatedComponent>
@@ -304,10 +329,10 @@ export default function UserProfilePage() {
                         <AnimatedComponent>
                             <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                                 <h1 className="text-2xl font-bold">绑定水鱼账号</h1>
-                                <input type="username" name="divingfishusername" id="" placeholder="水鱼账号" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" />
-                                <input type="password" name="divingfishpassword" id="" placeholder="水鱼密码" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" />
+                                <input type="username" name="divingfishusername" id="" placeholder="水鱼账号" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishusername} onChange={(e) => setDivingFishUsername(e.target.value)} />
+                                <input type="password" name="divingfishpassword" id="" placeholder="水鱼密码" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishpassword} onChange={(e) => setDivingFishPassword(e.target.value)} />
                                 <a href="" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往水鱼注册账号</a>
-                                <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" >绑定</button>
+                                <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindDivifish}>绑定</button>
                                 <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
                             </div>
                         </AnimatedComponent>
