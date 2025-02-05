@@ -98,7 +98,7 @@ export default function MusicPage() {
                   <div className="w-2/3 flex items-center justify-center">
                     <input
                       type="text"
-                      placeholder="乐曲名/作曲家"
+                      placeholder="乐曲名/别名/作曲家"
                       className="w-[90%] h-9 bg-transparent text-black placeholder-gray-500 focus:outline-none transition-none"
                       onChange={(e) => getSongs(`keywords=${e.target.value}`)}
                     />
@@ -273,7 +273,10 @@ function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
           <div
             key={index}
             className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)]"
-            onClick={() => levels[index] == "宴" ? getSongs("type=utage") : getSongs(`level=${levels[index]}`)}
+            onClick={() => levels[index] == "宴"
+              ? getSongs("type=utage")
+              : getSongs(`level=${encodeURIComponent(levels[index])}`)
+            }
           >
             {levels[index]}
           </div>
