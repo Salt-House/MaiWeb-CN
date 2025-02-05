@@ -3,15 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ChinaMap from '../components/ChinaMap';
+import { redirect } from 'next/dist/server/api-utils';
 
-interface FunctionStatus {
-  BUpdate: boolean,
-  CycleReport: boolean,
-  RatingPush: boolean,
-  AIRecommend: boolean,
-  DataShare: boolean,
-  DataAnalyse: boolean
-}
 
 export default function UserPage() {
   const [username, setUsername] = useState('');
@@ -22,158 +15,90 @@ export default function UserPage() {
   const [thirdalignment, setthirdalignment] = useState<string | null>(null);
   const [loginHint, setLoginHint] = useState<string | null>("请选择登陆方式");
   const [agree, setAgree] = useState<boolean>(false);
-  const [activeSection, setActiveSection] = useState('基本信息');
   const [register, setRegister] = useState<boolean>(false);
-  
-  const [functionStatus, setFunctionStatus] = useState<FunctionStatus>({
-    BUpdate: false,
-    CycleReport: true,
-    RatingPush: false,
-    AIRecommend: true,
-    DataShare: false,
-    DataAnalyse: false
-  })
 
-  const renderContent = () => {
-    switch (activeSection) {
-      case '基本信息':
-        return (
-          <>
-            <div className='w-[800px]  p-10 flex flex-col justify-center items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
-              <h1 className='text-2xl font-bold mt-5'>基本信息</h1>
-              <hr className='w-full border-t-4 border-gray-400 my-5' />
-              <div className='w-full flex flex-row space-x-10 justify-around'>
-                <div className='flex flex-col justify-center items-center space-y-5'>
-                  <img src="/img/chara-left.png" className='size-48 rounded-full border-2 border-gray-500 shadow-xl' alt="" />
-                  <div className='border-2 border-white rounded-2xl'>
-                    <button className='w-24 h-8 rounded-2xl bg-white border-4 border-[#3c81f6] font-bold'>更改头像</button>
-                  </div>
-                </div>
-                <div className='flex flex-col justify-center items-center text-xl '>
-                  <div className='w-48 flex justify-between'><b>昵称:</b><p>YOSHIKI</p></div>
-                  <div className='w-48 flex justify-between'><b>机台登陆状态:</b><p>未登陆</p></div>
-                  <div className='w-48 flex justify-between'><b>Rating:</b><p>00000</p></div>
-                </div>
-              </div>
-              <h1 className='text-2xl font-bold mt-5'>游玩信息</h1>
-              <hr className='w-full border-t-4 border-gray-400 my-5' />
-              <div className='w-full flex flex-row justify-around items-center space-x-10'>
-                <div>
-                  <ul>
-                    <li className='flex justify-between'><b>本日游玩次数:</b>{0}pc</li>
-                    <li className='flex justify-between'><b>本周游玩次数:</b>{0}pc</li>
-                    <li className='flex justify-between'><b>本月游玩次数:</b>{0}pc</li>
-                    <li className='flex justify-between'><b>本年度游玩次数:</b>{0}pc</li>
-                  </ul>
-                </div>
-                <div>
-                  <ul>
-                    <li className='flex justify-between'><b>本日提升rating分:</b>{0}rating</li>
-                    <li className='flex justify-between'><b>本周提升rating分:</b>{0}rating</li>
-                    <li className='flex justify-between'><b>本月提升rating分:</b>{0}rating</li>
-                    <li className='flex justify-between'><b>本年度提升rating分:</b>{0}rating</li>
-                  </ul>
-                </div>
-              </div>
-              <h1 className='text-2xl font-bold mt-5'>启用功能列表</h1>
-              <hr className='w-full border-t-4 border-gray-400 my-5' />
-              <div className='w-full flex flex-row justify-around items-center space-x-10'>
-                <div>
-                  <ul className='space-y-2'>
-                    <li className='flex justify-between items-center'>
-                      <b>b50自动更新:</b><button className={`ml-2 rounded-2xl ${functionStatus.BUpdate ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.BUpdate ? '关闭' : '启用'}</button>
-                    </li>
-                    <li className='flex justify-between items-center'>
-                      <b>周期报告:</b><button className={`ml-2 rounded-2xl ${functionStatus.CycleReport ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.CycleReport ? '关闭' : '启用'}</button>
-                    </li>
-                    <li className='flex justify-between items-center'>
-                      <b>每日推分推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.RatingPush ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.RatingPush ? '关闭' : '启用'}</button>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <ul className='space-y-2'>
-                    <li className='flex justify-between items-center'>
-                      <b>AI智能推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.AIRecommend ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.AIRecommend ? '关闭' : '启用'}</button>
-                    </li>
-                    <li className='flex justify-between items-center'>
-                      <b>多方数据共享:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataShare ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataShare ? '关闭' : '启用'}</button>
-                    </li>
-                    <li className='flex justify-between items-center'>
-                      <b>个人数据分析:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataAnalyse ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataAnalyse ? '关闭' : '启用'}</button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <h1 className='text-gray-500 font-bold'>注意</h1>
-              <h1 className='text-2xl font-bold mt-5'>个人全国行脚图</h1>
-              <hr className='w-full border-t-4 border-gray-400 my-5' />
-              <div className='w-full h-[200px] mb-10 flex flex-row justify-center items-center'>
-                <ChinaMap />
-              </div>
-              <h1 className='text-2xl font-bold mt-5'>The End</h1>
-              <hr className='w-full border-t-4 border-gray-400 my-5' />
-            </div>
-          </>
-        );
-      case '关联账号':
-        return (
-          <>
-            <div className='w-[800px]  p-10 flex flex-col justify-center items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
-              <h1 className='text-2xl font-bold mt-5'>关联第三方账号</h1>
-              <hr className='w-full border-t-4 border-gray-400 my-5' />
-              <div className='w-full flex flex-col justify-center items-center space-y-5'>
-                <div className='w-6/12 flex flex-row justify-between'><b>QQ:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>未绑定</button></div>
-                <div className='w-6/12 flex flex-row justify-between'><b>Wechat:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>未绑定</button></div>
-                <div className='w-6/12 flex flex-row justify-between'><b>Github:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>未绑定</button></div>
-                <div className='w-6/12 flex flex-row justify-between'><b>落雪:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>未绑定</button></div>
-                <div className='w-6/12 flex flex-row justify-between'><b>水鱼:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>未绑定</button></div>
-              </div>
-            </div>
-          </>
-        );
-      case '隐私设置':
-        return (
-          <>
-            <div className='w-[800px]  p-10 flex flex-col justify-center items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
-              <h1 className='text-2xl font-bold mt-5'>隐私设置</h1>
-              <hr className='w-full border-t-4 border-gray-400 my-5' />
-              <div className='w-full flex flex-col justify-center items-center space-y-5'>
-                <div className='w-6/12 flex flex-row justify-between'><b>第三方软件调取信息:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>同意</button></div>
-                <div className='w-6/12 flex flex-row justify-between'><b>舞萌萌使用隐私协议:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>同意</button></div>
-                <div className='w-6/12 flex flex-row justify-between'><b>数据用于AI推荐:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>同意</button></div>
-                <div className='w-6/12 flex flex-row justify-between'><b>根据数据优化:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>同意</button></div>
-              </div>
-            </div>
-          </>
-        );
-      case 'else':
-        return (
-          <>
-            <div className='w-[800px]  p-10 flex flex-col justify-center items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
-              <h1 className='text-2xl font-bold mt-5'>其他设置</h1>
-              <hr className='w-full border-t-4 border-gray-400 my-5' />
-              <h1 className='text-2xl font-bold mt-5'>暂无</h1>
-            </div>
-          </>
-        );
-      default:
-        return <div>请选择一个选项</div>;
-    }
-  };
+  const Register = () => {
+    const myHeaders = new Headers();
+    myHeaders.append("accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      "username": username,
+      "email": email,
+      "password": password
+    });
+    console.log(raw);
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    fetch("https://dev.maimai.moe/api/auth/register", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(alert(result)))
+      .catch((error) => console.error(error));
+
+  }
+  const Login = () => {
+    const myHeaders = new Headers();
+    myHeaders.append("accept", "application/json");
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("grant_type", "");
+    urlencoded.append("username", username);
+    urlencoded.append("password", password);
+    urlencoded.append("scope", "");
+    urlencoded.append("client_id", "");
+    urlencoded.append("client_secret", "");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: urlencoded,
+    };
+
+    fetch("https://dev.maimai.moe/api/auth/jwt/login", requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        const data = JSON.parse(result);
+        console.log(data);
+        if (data.access_token) {
+          localStorage.setItem('token', data.access_token);
+          console.log("开始跳转");
+          window.location.href = '/user/profile';
+        } else {
+          alert("Login Failed")
+        }
+      })
+      .catch((error) => console.error(error));
+  }
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      const newToken = 'your-token-value';
+    const storedToken = localStorage.getItem('token');
+    if (!storedToken) {
+      const newToken = '';
       localStorage.setItem('token', newToken);
+      setToken(newToken);
+    } else {
+      setToken(storedToken);
     }
   }, []);
 
+  useEffect(() => {
+    if (token && token.startsWith('ey')) {
+      window.location.href = '/user/profile';
+    } else {
+      console.log(token);
+      console.log('Token invalid');
+    }
+  }, [token]);
+
   return (
-    <div className="w-[900px] mt-20  mx-auto relative flex justify-center">
-      {token == null ?
-        // 登陆页面
+    <>
+      <div className="w-[900px] mt-20  mx-auto relative flex justify-center">
         <div className='relative w-[600px] h-[600px] bg-[rgb(239,246,255)] rounded-2xl flex flex-row border-4 border-white'>
           {/* 第三方登录 */}
           <div className={`h-full absolute bg-pink-500 p-5 left-0 rounded-2xl transition-all duration-300 ease-in-out ${isHovered ? 'w-[180px] z-[1]' : 'w-[450px] z-[2] border-r-4 border-white shadow-lg'} `}>
@@ -203,7 +128,7 @@ export default function UserPage() {
               </div>
             }
           </div>
-          {/* 舞萌萌登录 */}
+          {/* 舞萌萌登录与注册 */}
           <div className={`h-full absolute bg-blue-500 p-5 right-0 rounded-2xl transition-all duration-300 ease-in-out ${isHovered ? 'w-[450px] z-[2] border-l-4 border-white shadow-lg' : 'w-[180px] z-[1]'} `}>
             {isHovered ?
               <>
@@ -214,8 +139,8 @@ export default function UserPage() {
                       <h1 className='text-2xl font-bold'>舞萌萌账号注册</h1>
                       <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={username} onChange={(e) => setUsername(e.target.value)} />
                       <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={password} onChange={(e) => setPassword(e.target.value)} />
-                      <input type="email" id="email" placeholder='email' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={email} onChange={(e) => setEmail(e.target.value)}/>
-                      <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold' onClick={()=>{console.log(username)}}>注册</button>
+                      <input type="email" id="email" placeholder='email' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={email} onChange={(e) => setEmail(e.target.value)} />
+                      <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold' onClick={Register}>注册</button>
                     </div>
                   </>
                   : <>
@@ -225,8 +150,8 @@ export default function UserPage() {
                       <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={username} onChange={(e) => setUsername(e.target.value)} />
                       <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={password} onChange={(e) => setPassword(e.target.value)} />
                       <div className='flex flex-row space-x-5'>
-                        <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105'>登陆</button>
-                        <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={()=>{setRegister(true)}}>注册</button>
+                        <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={Login}>登陆</button>
+                        <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={() => { setRegister(true) }}>注册</button>
                       </div>
                     </div>
                   </>}
@@ -241,25 +166,7 @@ export default function UserPage() {
 
           </div>
         </div>
-        :
-        // 用户页面 
-        <div className='w-[900px] h-auto rounded-2xl flex flex-col justify-center items-center'>
-          <div className='w-[700px] h-24  bg-white/30 backdrop-blur-md rounded-xl text-black font-bold flex justify-center items-center mb-5'>
-            <ul className='flex flex-row justify-center items-center space-x-5 text-xl'>
-              <li><a href='#' onClick={() => setActiveSection("基本信息")}>基本信息</a></li>
-              <li>|</li>
-              <li><a href='#' onClick={() => setActiveSection("关联账号")}>关联账号</a></li>
-              <li>|</li>
-              <li><a href='#' onClick={() => setActiveSection("隐私设置")}>隐私设置</a></li>
-              <li>|</li>
-              <li><a href='#' onClick={() => setActiveSection("else")}>else</a></li>
-            </ul>
-          </div>
-          <div className='w-[800px] flex justify-center items-center'>
-            {renderContent()}
-          </div>
-        </div>
-      }
-    </div>
+      </div>
+    </>
   );
 }
