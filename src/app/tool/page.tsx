@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect,useState } from "react";
 
 
@@ -18,8 +19,8 @@ export default function ToolPage(){
 
     return(
         <>
-            <div className="">
-
+            <div className="w-[800px] flex justify-center items-center">
+                <Link href={'/tool/best'}>B50</Link>
             </div>
         </>
     )
