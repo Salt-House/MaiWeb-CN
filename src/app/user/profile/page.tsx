@@ -119,7 +119,6 @@ export default function UserProfilePage() {
             .catch((error) => console.error(error));
 
     }
-
     const BindLxns = () => {
         const myHeaders = new Headers();
         myHeaders.append("accept", "application/json");
@@ -168,11 +167,36 @@ export default function UserProfilePage() {
             .then((result) => console.log(result))
             .catch((error) => console.error(error));
     }
-
     const LogOut = () => {
         setToken(null);
         localStorage.removeItem('token');
         window.location.href = '/user';
+    }
+    const RefreshData = () => {
+        setIsLoading(true);
+        const myHeaders = new Headers();
+        myHeaders.append("accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+        };
+
+        fetch("https://dev.maimai.moe/api/maimai/maiweb/accounts", requestOptions)
+            .then((response) => {
+                const statusCode = response.status;
+                console.log(`Status Code: ${statusCode}`);
+                if (statusCode === 200) {
+                    alert("刷新成功")
+                    setIsLoading(false);
+                } else {
+                    alert("刷新失败")
+                    setIsLoading(false);
+                }
+            })
+            .then((result) => { })
+            .catch((error) => console.error(error));
     }
 
     const renderContent = () => {
@@ -180,7 +204,8 @@ export default function UserProfilePage() {
             case '基本信息':
                 return (
                     <>
-                        <div className='w-[800px]  p-10 flex flex-col justify-center items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
+                        <div className='relative w-[800px]  p-10 flex flex-col justify-center items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
+                            <button className="absolute top-5 right-10 ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>
                             <h1 className='text-2xl font-bold mt-5'>基本信息</h1>
                             <hr className='w-full border-t-4 border-gray-400 my-5' />
                             <div className='w-full flex flex-row space-x-10 justify-around'>
