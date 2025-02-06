@@ -64,6 +64,33 @@ export function getDifficultyColor(difficulty: keyof typeof colors): string {
   return colors[difficulty]
 }
 
+// 乐曲种类文字转换
+export function transferText(genre: string): string {
+  const texts = {
+    'POPSアニメ': '流行&动漫',
+    'niconicoボーカロイド': 'niconico & VOCALOID',
+    '東方Project': '东方Project',
+    'ゲームバラエティ': '其他游戏',
+    'maimai': '舞萌',
+    'オンゲキCHUNITHM': '音击/中二节奏',
+    'utage': '宴会场'
+  }
+  return texts[genre as keyof typeof texts] || genre
+}
+
+// 乐曲种类对应颜色
+export function getGenreColor(genre: string): { bg: string, border: string } {
+  const colors = {
+    'POPSアニメ': { bg: 'rgb(255,200,0)', border: '#b38c00' },
+    'niconicoボーカロイド': { bg: 'rgb(69,197,255)', border: 'rgb(0,108,196)' },
+    '東方Project': { bg: 'rgb(159,54,227)', border: '#7f2bb6' },
+    'ゲームバラエティ': { bg: 'rgb(122,231,83)', border: '#62b942' },
+    'maimai': { bg: 'rgb(255,70,70)', border: '#802323' },
+    'オンゲキCHUNITHM': { bg: 'rgb(48,157,248)', border: 'rgb(0,108,196)' },
+    'utage': { bg: 'rgb(220,56,184)', border: 'rgb(179,46,121)' }
+  }
+  return colors[genre as keyof typeof colors] || { bg: 'rgb(255,200,0)', border: '#b38c00' }
+}
 
 // 难度等级枚举
 // export enum Difficulty {
