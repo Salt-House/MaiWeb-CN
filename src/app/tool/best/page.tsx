@@ -15,11 +15,12 @@ let baseUrl = "https://assets2.lxns.net/maimai"
 export default function BestPage() {
     const [token, setToken] = useState<string | null>()
     const [accounts, setAccounts] = useState<ThirdAccount[]>([])
-    const [nowFrom, setNowFrom] = useState<string | null>('divingfish')
+    const [nowFrom, setNowFrom] = useState<string | null>('暂无数据源')
     const [best35, setBest35] = useState<any>()
     const [best15, setBest15] = useState<any>()
     const [rating35, setRating35] = useState<any>()
     const [rating15, setRating15] = useState<any>()
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -45,6 +46,7 @@ export default function BestPage() {
     }, [accounts])
 
     const GetBindAccount = () => {
+        setIsLoading(true)
         const myHeaders = new Headers();
         myHeaders.append("accept", "application/json");
         myHeaders.append("Authorization", `Bearer ${token}`);
@@ -68,13 +70,18 @@ export default function BestPage() {
                     })));
                 }
                 console.log(data)
+                setIsLoading(false)
             })
-            .catch((error) => console.error(error));
+            .catch((error) => {
+                console.error(error)
+                setIsLoading(false)
+            });
     }
 
 
 
     const GetBest50 = () => {
+        setIsLoading(true)
         let nickname = ""
         if (nowFrom == "divingfish") {
             for (let i = 0; i < accounts.length; i++) {
@@ -97,9 +104,15 @@ export default function BestPage() {
                     if (data.rating) {
                         setBest35(data.scores_b35)
                         setBest15(data.scores_b15)
+                        setRating15(Math.ceil(data.rating_b15))
+                        setRating35(Math.ceil(data.rating_b35))
+                        setIsLoading(false)
                     }
                 })
-                .catch((error) => console.error(error));
+                .catch((error) => {
+                    console.error(error)
+                    setIsLoading(false)
+                });
         }
         else if (nowFrom == "lxns") {
             for (let i = 0; i < accounts.length; i++) {
@@ -122,37 +135,41 @@ export default function BestPage() {
                     if (data.rating) {
                         setBest35(data.scores_b35)
                         setBest15(data.scores_b15)
-                        setRating15(data.rating_b15)
-                        setRating35(data.rating_b35)
+                        setRating15(Math.ceil(data.rating_b15))
+                        setRating35(Math.ceil(data.rating_b35))
+                        setIsLoading(false)
                     }
                 })
-                .catch((error) => console.error(error));
+                .catch((error) => {
+                    console.error(error)
+                    setIsLoading(false)
+                });
         }
+
     }
 
     return (
         <>
-            <div className="w-[900px] p-5 flex flex-col justify-center items-center mx-auto">
-                <h1>B50</h1>
-                <button onClick={GetBindAccount}>查询当前账号可用数据源</button>
-                <div className="flex flex-row justify-center items-center space-x-5">
-                    当前账户可用数据源：
-                    {accounts.map((account, index) => {
-                        return (
-                            <button key={index} className="text-center" onClick={() => setNowFrom(account.from)}>
-                                {account.from}
-                            </button>
-                        )
-                    })}
-                </div>
-                <div>
-                    <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={GetBest50}>更新B50</button>
-                    <h1>Rating:{rating35 + rating15}</h1>
-                    <h1>B35:{rating35}</h1>
-                    <h1>B15:{rating15}</h1>
-                </div>
-                <div className="w-[900px] flex flex-row justify-center flex-wrap mx-auto">
-                    {best35 && best35.map((song: any, index: number) => {
+            <div className="relative w-[900px] p-5 flex flex-col justify-center items-center mx-auto">
+                <h1 className="text-2xl font-bold">B50</h1>
+                <button className="rounded-2xl mb-12 bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={GetBindAccount}>查询当前账号可用数据源</button>
+                <div className="relative w-[900px] flex flex-row justify-center flex-wrap mx-auto">
+                    <div className="absolute -top-12 flex flex-row justify-center items-center space-x-5 p-1 px-4">
+                        <div className="flex flex-row justify-center items-center space-x-5 p-1 px-4 bg-green-500 rounded-2xl">
+                            <b>当前账户可用数据源:</b>
+                            {accounts.map((account, index) => {
+                                return (
+                                    <button key={index} className="text-center rounded-2xl bg-blue-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={() => setNowFrom(account.from)}>
+                                        {account.from}
+                                    </button>
+                                )
+                            })}
+                        </div>
+                        <div className="p-1 px-4 bg-green-500 rounded-2xl">当前数据源:<b>{nowFrom}</b></div>
+                        <button className="rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={GetBest50}>更新B50</button>
+                        <h1 className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 rounded-2xl p-1 px-4">Rating:{rating35 + rating15}</h1>
+                    </div>
+                    {best35 && best35.length > 0 ? best35.map((song: any, index: number) => {
                         return (
                             <Link href={`/music/${song.id}`} key={index} className="w-[160px] h-48 break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg bg-white bg-opacity-30">
                                 <h1 className="w-full h-10 text-lg font-bold truncate">{song.song_name}</h1>
@@ -161,7 +178,7 @@ export default function BestPage() {
                                 <img className="size-20 mt-2" src={`${baseUrl}/jacket/${song.id}.png`} alt={song.song_name} />
                             </Link>
                         );
-                    })}
+                    }) : <div className="w-full text-black h-48 break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg bg-white bg-opacity-30">暂无数据</div>}
                 </div>
                 <div className="w-[900px] flex flex-row justify-center flex-wrap mx-auto">
                     {best15 && best15.map((song: any, index: number) => {
@@ -175,6 +192,16 @@ export default function BestPage() {
                         );
                     })}
                 </div>
+                {isLoading ?
+                    <>
+                        <div className="fixed z-[1000] inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                            <div className="w-16 h-16 border-4 border-t-4 border-t-transparent border-white rounded-full animate-spin"></div>
+                        </div>
+                    </>
+                    :
+                    <>
+                    </>
+                }
             </div>
         </>
     )
