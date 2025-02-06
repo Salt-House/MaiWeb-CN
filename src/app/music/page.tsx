@@ -102,7 +102,7 @@ export default function MusicPage() {
                   <option value="category">乐曲种类</option>
                   {/* <option value="aeuio">あいうえお</option> */}
                   <option value="level">等级</option>
-                  {/* <option value="version">版本</option> */}
+                  <option value="version">版本</option>
                 </select>
                 <div className="text-white ml-2">分类</div>
               </div>
