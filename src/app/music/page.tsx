@@ -102,7 +102,7 @@ export default function MusicPage() {
                   <option value="category">乐曲种类</option>
                   {/* <option value="aeuio">あいうえお</option> */}
                   <option value="level">等级</option>
-                  {/* <option value="version">版本</option> */}
+                  <option value="version">版本</option>
                 </select>
                 <div className="text-white ml-2">分类</div>
               </div>
@@ -285,7 +285,7 @@ function AeuioBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
         {[...Array(15)].map((_, index) => (
           <div
             key={index}
-            className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)] cursor-pointer"
+            className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)] cursor-pointer text-black"
           >
             {items[index]}
           </div>
@@ -307,7 +307,7 @@ function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
         {[...Array(24)].map((_, index) => (
           <div
             key={index}
-            className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)] cursor-pointer"
+            className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)] cursor-pointer text-black"
             onClick={() => levels[index] == "宴"
               ? getSongs("type=utage")
               : getSongs(`level=${encodeURIComponent(levels[index])}`)
@@ -355,13 +355,13 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
             {index < 6 ? (
               <div className="flex w-full h-full">
                 <div
-                  className="w-2/3 flex items-center justify-center border-r-4 pt-1 border-[rgb(155,244,236)] cursor-pointer"
+                  className="w-2/3 flex items-center justify-center border-r-4 pt-1 border-[rgb(155,244,236)] cursor-pointer text-black"
                   onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
                 >
                   {versions[index]}
                 </div>
                 <div
-                  className="w-1/3 flex items-center justify-center text-2xl cursor-pointer"
+                  className="w-1/3 flex items-center justify-center text-2xl cursor-pointer text-black"
                   onClick={() => getSongs(`versions=${versionsPlusIds[versionsPlus[index]]}`)}
                 >
                   +
@@ -370,7 +370,7 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
             ) : (
 
               <div
-                className="px-7 py-2 mt-1 cursor-pointer"
+                className="px-7 py-2 mt-1 cursor-pointer text-black"
                 onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
               >
                 {versions[index]}
