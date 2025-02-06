@@ -65,7 +65,7 @@ export default function SongDetail() {
           <div
             className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
             <div className="container mx-auto p-4">
-              <LoadingSpinner size='sm' message="加载中..." description="正在获取乐曲数据" />
+              <h1 className="text-3xl font-bold mb-4 text-black">加载中...</h1>
             </div>
           </div>
         </div>
@@ -79,6 +79,7 @@ export default function SongDetail() {
         <div className="border-4 border-white rounded-2xl">
           <div
             className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
+            <div className="container mx-auto p-4 text-black">
             <div className="container mx-auto p-4 text-black">
               <div>错误: {error || '未找到歌曲 QAQ'}</div>
             </div>
@@ -145,8 +146,11 @@ function SongInfo({ song }: { song: Song }) {
             </h2>
             <div className="space-y-2.5 text-left">
               <h2 className='text-black'>Artist: {song.artist}</h2>
+              <h2 className='text-black'>Artist: {song.artist}</h2>
               <div className="flex flex-row space-x-4 items-center">
                 <div className="space-y-2.5">
+                  <h2 className='text-black'>BPM: {song.bpm}</h2>
+                  <h2 className='text-black'>更新版本: {song.version}</h2>
                   <h2 className='text-black'>BPM: {song.bpm}</h2>
                   <h2 className='text-black'>更新版本: {song.version}</h2>
                 </div>
