@@ -328,7 +328,7 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
               <div className="flex w-full h-full">
                 <div
                   className="w-2/3 flex items-center justify-center border-r-4 pt-1 border-[rgb(155,244,236)] "
-onlick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
+onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
                 >
                   {versions[index]}
                 </div>
