@@ -1,8 +1,9 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { Song, getDifficultyColor, transferText, getGenreColor } from '@/app/music/songModel'
+import { Song, getDifficultyColor, transferText, getGenreColor, ChartType } from '@/app/music/songModel'
 import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, AwaitedReactNode, Key, useState, useEffect } from 'react'
+import NoteTable from './noteTable'
 
 export default function SongDetail() {
   const params = useParams()
@@ -166,64 +167,73 @@ function LevelBar({ song }: { song: Song }) {
     <div className="flex flex-col space-y-4 m-6">
       {/* Standard谱面 */}
       {song.difficulties?.standard?.length > 0 && (
-        <div className="flex items-center">
-          <span className="w-16 text-sm text-white bg-blue-500 rounded-full py-1 mr-2">标准</span>
-          <div className="flex space-x-2">
-            {song.difficulties.standard.map((diff: { level_index: number; level: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined }, idx: Key | null | undefined) => (
-              <div
-                key={idx}
-                className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
-                style={{
-                  backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
-                }}
-              >
-                {diff.level}
-              </div>
-            ))}
+        <>
+          <div className="flex items-center">
+            <span className="w-16 text-sm text-white bg-blue-500 rounded-full py-1 mr-2">标准</span>
+            <div className="flex space-x-2">
+              {song.difficulties.standard.map((diff: { level_index: number; level: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined }, idx: Key | null | undefined) => (
+                <div
+                  key={idx}
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
+                  style={{
+                    backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
+                  }}
+                >
+                  {diff.level}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+          <NoteTable song={song} chartType={'standard' as ChartType} />
+        </>
       )}
 
       {/* DX谱面 */}
       {song.difficulties?.dx?.length > 0 && (
-        <div className="flex items-center">
-          <span className="w-16 text-sm text-white bg-orange-500 rounded-full py-1 mr-2">DX</span>
-          <div className="flex space-x-2">
-            {song.difficulties.dx.map((diff: { level_index: number; level: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined }, idx: Key | null | undefined) => (
-              <div
-                key={idx}
-                className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
-                style={{
-                  backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
-                }}
-              >
-                {diff.level}
-              </div>
-            ))}
+        <>
+          <div className="flex items-center">
+            <span className="w-16 text-sm text-white bg-orange-500 rounded-full py-1 mr-2">DX</span>
+            <div className="flex space-x-2">
+              {song.difficulties.dx.map((diff: { level_index: number; level: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined }, idx: Key | null | undefined) => (
+                <div
+                  key={idx}
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
+                  style={{
+                    backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
+                  }}
+                >
+                  {diff.level}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+          <NoteTable song={song} chartType={'dx' as ChartType} />
+        </>
       )}
 
       {/* Utage谱面 */}
       {song.difficulties?.utage?.length > 0 && (
-        <div className="flex items-center">
-          <span className="w-16 text-sm text-white rounded-full py-1 mr-2" style={{
-            backgroundColor: "rgb(220, 56, 184)"
-          }}>宴会场</span>
-          <div className="flex space-x-2">
-            {song.difficulties.utage.map((diff: { level: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined }, idx: Key | null | undefined) => (
-              <div
-                key={idx}
-                className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
-                style={{
-                  backgroundColor: "rgb(220, 56, 184)"
-                }}
-              >
-                {diff.level}
-              </div>
-            ))}
+        <>
+          <div className="flex items-center">
+            <span className="w-16 text-sm text-white rounded-full py-1 mr-2" style={{
+              backgroundColor: "rgb(220, 56, 184)"
+            }}>宴会场</span>
+            <div className="flex space-x-2">
+              {song.difficulties.utage.map((diff: { level: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined }, idx: Key | null | undefined) => (
+                <div
+                  key={idx}
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
+                  style={{
+                    backgroundColor: "rgb(220, 56, 184)"
+                  }}
+                >
+                  {diff.level}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+          <NoteTable song={song} chartType={'utage' as ChartType} />
+        </>
       )}
     </div>
   )
