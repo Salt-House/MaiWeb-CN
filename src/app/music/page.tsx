@@ -48,7 +48,7 @@ export default function MusicPage() {
       } else {
         setSongs(prev => [...prev, ...data])
       }
-      // console.log(data);
+      console.log(data);
       setHasMore(data.length === 100)
       setCurrentPage(page)
       setLoading(false);
@@ -149,7 +149,7 @@ export default function MusicPage() {
         {/*Music Cards*/}
         <div className="relative flex flex-col justify-center items-center">
           <div className="border-4 border-white rounded-2xl">
-            <div className="w-[900px] min-h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
+            <div className="w-[900px] min-h-60 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
               {loading ? (
                 <div>加载中...</div>
               ) : error ? (
