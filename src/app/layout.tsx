@@ -74,14 +74,17 @@ export default function RootLayout({
               </div>
               <div className="flex justify-center max-sm:hidden max-md:hidden max-lg:hidden max-xl:hidden">
                 <div className="w-[1000px] h-[600px] max-xl:h-[400px] max-xl:w-[300px]  bg-[url('/img/chara-left.png')] bg-no-repeat bg-contain bg-left "></div>
-                <div className="w-[1200px]"></div>
+                <div className="relative w-[1200px] h-[500px] flex justify-center items-center space-x-10">
+                  <img src="/img/front_left.png" className="absolute -left-20 w-[400px] z-[1]" alt="" />
+                  <img src="/img/rainbow.png" className="absolute top-0 w-[600px] z-[-1]" alt="" />
+                  <img src="/img/front_right.png" className="absolute -right-28 w-[400px] z-[1]" alt="" />
+                </div>
                 <div className="w-[1000px] h-[600px] max-xl:h-[400px] max-xl:w-[300px] bg-[url('/img/chara-right.png')] bg-no-repeat bg-contain bg-right"></div>
               </div>
             </div>
             <StarMove />
             <div className="fixed w-full h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div>
             <div className="relative">
-
               {/* Top Container Back */}
               <div className="absolute inset-0 z-[-1] flex justify-center ">
                 <div className="w-[900px] h-[500px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain"></div>
@@ -93,7 +96,7 @@ export default function RootLayout({
                 <div>|</div>
                 <Link href={"/region"} className="hover:scale-125 transition-all duration-300 ease-in-out">区域</Link>
                 <div>|</div>
-                <Link href={"/"} className="hover:scale-125 transition-all duration-300 ease-in-out">工具</Link>
+                <Link href={"/tool"} className="hover:scale-125 transition-all duration-300 ease-in-out">工具</Link>
                 <div>|</div>
                 <Link href={"/"} className="hover:scale-125 transition-all duration-300 ease-in-out">教学</Link>
               </div>

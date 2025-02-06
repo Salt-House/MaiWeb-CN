@@ -80,7 +80,6 @@ export default function SongDetail() {
       </div>
     )
   }
-
   return (
     <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
       <div className="border-4 border-white rounded-2xl">

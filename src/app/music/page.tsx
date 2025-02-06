@@ -27,6 +27,7 @@ export default function MusicPage() {
 
     const baseUrl = 'https://dev.maimai.moe/api/maimai/songs?'
     const url = `${baseUrl}${filteredUrl}&page=${page}&page_size=100`
+
     // console.log(url)
     try {
       const response = await fetch(
@@ -101,7 +102,7 @@ export default function MusicPage() {
                   <option value="category">乐曲种类</option>
                   {/* <option value="aeuio">あいうえお</option> */}
                   <option value="level">等级</option>
-                  <option value="version">版本</option>
+                  {/* <option value="version">版本</option> */}
                 </select>
                 <div className="text-white ml-2">分类</div>
               </div>
@@ -113,6 +114,7 @@ export default function MusicPage() {
                   <div className="w-2/3 flex items-center justify-center">
                     <input
                       type="text"
+
                       placeholder="乐曲名/别名/作曲家"
                       className="w-[90%] h-9 bg-transparent text-black placeholder-gray-500 focus:outline-none transition-none"
                       onChange={(e) => getSongs(`keywords=${e.target.value}`)}
@@ -144,6 +146,7 @@ export default function MusicPage() {
           </div>
         </div>
       </div>
+
 
       <div className='mt-10 mb-32'>
         {/*Music Cards*/}
@@ -365,6 +368,7 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
                 </div>
               </div>
             ) : (
+
               <div
                 className="px-7 py-2 mt-1 cursor-pointer"
                 onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
