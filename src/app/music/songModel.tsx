@@ -31,6 +31,9 @@ export interface DifficultyInfo {
   touch_num: number;
   break_num: number;
   curve?: RateCurve;
+  kanji?: string;
+  description?: string;
+  is_buddy?: boolean;
 }
 
 // 谱面类型枚举
