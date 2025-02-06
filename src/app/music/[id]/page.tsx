@@ -86,7 +86,6 @@ export default function SongDetail() {
       <div className="border-4 border-white rounded-2xl">
         <div className="w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-[rgb(155,244,236)]">
           <SongInfo song={song} />
-
           <div className="flex flex-row space-x-6 justify-center items-center">
             <div className="w-2/5 h-1 rounded-full bg-gray-300" />
             <div className="text-gray-700 font-bold text-xl">谱面详情</div>
@@ -101,8 +100,8 @@ export default function SongDetail() {
 
 function SongInfo({ song }: { song: Song }) {
   return (
-    <div className="container mx-auto pt-4 pl-4 pr-4">
-      <div className="flex space-x-8 mt-2 h-72">
+    <div className="container mx-auto pt-4 pl-4 pr-4 mb-6">
+      <div className="flex space-x-8 mt-2">
         {/* 左侧曲绘 */}
         <div className="w-64 flex-shrink-0 ml-2">
           <img
@@ -118,7 +117,7 @@ function SongInfo({ song }: { song: Song }) {
         </div>
 
         {/* 右侧信息 */}
-        <div className="flex-1 flex-col h-56 flex-shrink-0">
+        <div className="flex-1 flex-col flex-shrink-0">
           <h1 className="text-3xl font-bold mb-4 ml-1 text-left">{song.title}</h1>
           <div className="flex-1 space-y-3 text-left">
             <h2
@@ -130,29 +129,31 @@ function SongInfo({ song }: { song: Song }) {
             >
               {transferText(song.genre)} | {song.genre}
             </h2>
-            <div className={`flex flex-row space-x-4 ${song.disabled ? 'items-center' : ''}`}>
-              <div className="space-y-2.5 text-left">
-                <h2>Artist: {song.artist}</h2>
-                <h2>BPM: {song.bpm}</h2>
-                <h2>更新版本: {song.version}</h2>
-                <h2>所属区域: {song.map ?? "无"}</h2>
-                <div className="flex flex-row space-x-4">
-                  <h2>落雪id: {song.id}</h2>
-                  <a
-                    href="https://maimai.lxns.net"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 hover:text-blue-700 underline cursor-pointer"
-                  >
-                    关于落雪?
-                  </a>
+            <div className="space-y-2.5 text-left">
+              <h2>Artist: {song.artist}</h2>
+              <div className="flex flex-row space-x-4 items-center">
+                <div className="space-y-2.5">
+                  <h2>BPM: {song.bpm}</h2>
+                  <h2>更新版本: {song.version}</h2>
                 </div>
+                {song.disabled && (
+                  <div className="flex-1 flex justify-center items-center">
+                    <h1 className="text-2xl font-bold text-red-500">——此乐曲已删除——</h1>
+                  </div>
+                )}
               </div>
-              {song.disabled && (
-                <div className="flex-1">
-                  <h1 className="text-2xl font-bold text-red-500 text-center mb-4"> ——此乐曲已删除—— </h1>
-                </div>
-              )}
+              <h2>所属区域: {song.map ?? "无"}</h2>
+              <div className="flex flex-row space-x-4">
+                <h2>落雪id: {song.id}</h2>
+                <a
+                  href="https://maimai.lxns.net"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:text-blue-700 underline cursor-pointer"
+                >
+                  关于落雪?
+                </a>
+              </div>
             </div>
           </div>
         </div>
