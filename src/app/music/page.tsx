@@ -13,6 +13,7 @@ export default function MusicPage() {
   const [error, setError] = useState<string | null>(null)
   const [selectedOption, setSelectedOption] = useState('category')
 
+
   const defaultUrl = `version=${currentVersion}`
   useEffect(() => {
     getSongs(defaultUrl)
@@ -20,6 +21,7 @@ export default function MusicPage() {
 
   const getSongs = async (filteredUrl: string) => {
     const baseUrl = 'https://dev.maimai.moe/api/maimai/songs?'
+
     const url = `${baseUrl}${filteredUrl}`
     // console.log(url)
     try {
@@ -88,7 +90,7 @@ export default function MusicPage() {
                   <option value="category">乐曲种类</option>
                   {/* <option value="aeuio">あいうえお</option> */}
                   <option value="level">等级</option>
-                  <option value="version">版本</option>
+                  {/* <option value="version">版本</option> */}
                 </select>
                 <div className="text-white ml-2">分类</div>
               </div>
@@ -100,6 +102,7 @@ export default function MusicPage() {
                   <div className="w-2/3 flex items-center justify-center">
                     <input
                       type="text"
+
                       placeholder="乐曲名/别名/作曲家"
                       className="w-[90%] h-9 bg-transparent text-black placeholder-gray-500 focus:outline-none transition-none"
                       onChange={(e) => getSongs(`keywords=${e.target.value}`)}
@@ -141,6 +144,7 @@ export default function MusicPage() {
             ) : error ? (
               <div>错误: {error}</div>
             ) : (
+
               songs.length === 0 ? (
                 <div>{`没有找到相关乐曲……{{(>_<)}}`}</div>
               ) : (
@@ -275,6 +279,7 @@ function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
           <div
             key={index}
             className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)]"
+
             onClick={() => levels[index] == "宴"
               ? getSongs("type=utage")
               : getSongs(`level=${encodeURIComponent(levels[index])}`)
@@ -323,7 +328,7 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
               <div className="flex w-full h-full">
                 <div
                   className="w-2/3 flex items-center justify-center border-r-4 pt-1 border-[rgb(155,244,236)] "
-                  onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
+lick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
                 >
                   {versions[index]}
                 </div>
@@ -335,6 +340,7 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
                 </div>
               </div>
             ) : (
+
               <div
                 className="px-7 py-2 mt-1"
                 onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
