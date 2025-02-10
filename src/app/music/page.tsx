@@ -83,7 +83,7 @@ export default function MusicPage() {
         }
     `}</style>
       {/*Top Search Options Bar*/}
-      <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
+      <div className="relative flex flex-col justify-center items-center mt-10 mb-16 text-black">
         <div className="border-4 border-white rounded-2xl">
           <div
             className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
