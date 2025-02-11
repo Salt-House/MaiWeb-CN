@@ -34,23 +34,12 @@ export default function BestPage() {
         }
     }, [])
 
-    useEffect(() => {
-        for (let i = 0; i < accounts.length; i++) {
-            if (!isNaN(Number(accounts[i].identifier))) {
-                accounts[i].from = "lxns"
-            } else {
-                accounts[i].from = "divingfish"
-            }
-        }
-        console.log(accounts)
-    }, [accounts])
-
     const GetBindAccount = () => {
         setIsLoading(true)
         const myHeaders = new Headers();
         myHeaders.append("accept", "application/json");
         myHeaders.append("Authorization", `Bearer ${token}`);
-
+    
         const requestOptions = {
             method: "GET",
             headers: myHeaders,
@@ -62,12 +51,25 @@ export default function BestPage() {
                 console.log("get data")
                 const data = JSON.parse(result)
                 if (data[0].server) {
-                    setAccounts(data.map((account: any) => ({
-                        server: account.server,
-                        nickname: account.nickname,
-                        identifier: account.identifier,
-                        from: !isNaN(Number(account.identifier)) ? 'lxns' : 'divingfish'
-                    })));
+                    const updatedAccounts = data.map((account: any) => {
+                        let from = "";
+                        if (!isNaN(Number(account.identifier))) {
+                            from = "lxns";
+                        } else {
+                            if (account.identifier.length > 10) {
+                                from = "arcaed";
+                            } else {
+                                from = "divingfish";
+                            }
+                        }
+                        return {
+                            server: account.server,
+                            nickname: account.nickname,
+                            identifier: account.identifier,
+                            from: from
+                        };
+                    });
+                    setAccounts(updatedAccounts);
                 }
                 console.log(data)
                 setIsLoading(false)

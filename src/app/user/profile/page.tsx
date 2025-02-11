@@ -48,6 +48,8 @@ const defaultUserProfile: UserProfile = {
     mai_trophy_id: "trophy-1",
 };
 
+let baseUrl = "https://assets2.lxns.net/maimai"
+
 export default function UserProfilePage() {
     const [activeSection, setActiveSection] = useState('基本信息');
     const [token, setToken] = useState<string | null>();
@@ -57,6 +59,7 @@ export default function UserProfilePage() {
     const [lxnstoken, setLxnsToken] = useState<string>("");
     const [divingfishusername, setDivingFishUsername] = useState<string>("");
     const [divingfishpassword, setDivingFishPassword] = useState<string>("");
+    const [qr_code, setQrCode] = useState<string>("");
     let [bindaccount, setBindAccount] = useState<BindAccount>({
         islxns: false,
         isdivingfish: false,
@@ -77,12 +80,17 @@ export default function UserProfilePage() {
                 accounts[i].from = "lxns"
                 bindaccount.islxns = true
             } else {
+                if (accounts[i].identifier.length > 10) {
+                    accounts[i].from = "arcaed";
+                    bindaccount.isarcaed = true;
+                } else {
                 accounts[i].from = "divingfish"
                 bindaccount.isdivingfish = true
             }
         }
-        console.log(accounts)
-    }, [accounts])
+            console.log(accounts);
+        }
+    }, [accounts]);
 
     const GetBindAccount = () => {
         setIsLoading(true);
@@ -167,6 +175,32 @@ export default function UserProfilePage() {
             .then((result) => console.log(result))
             .catch((error) => console.error(error));
     }
+    const BindArcade = () => {
+        setIsLoading(true);
+        const myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+        };
+
+        fetch(`https://dev.maimai.moe/api/maimai/maiweb/accounts/arcade?qr_code=${qr_code}`, requestOptions)
+            .then((response) => {
+                const statusCode = response.status;
+                console.log(`Status Code: ${statusCode}`);
+                if (statusCode === 200) {
+                    alert("绑定成功")
+                    setIsLoading(false);
+                } else {
+                    alert("绑定失败")
+                    setIsLoading(false);
+                }
+            })
+            .then((result) => console.log(result))
+            .catch((error) => console.error(error));
+    }
     const LogOut = () => {
         setToken(null);
         localStorage.removeItem('token');
@@ -210,10 +244,7 @@ export default function UserProfilePage() {
                             <hr className='w-full border-t-4 border-gray-400 my-5' />
                             <div className='w-full flex flex-row space-x-10 justify-around'>
                                 <div className='flex flex-col justify-center items-center space-y-5'>
-                                    <img src="/img/chara-left.png" className='size-48 rounded-full border-2 border-gray-500 shadow-xl' alt="" />
-                                    <div className='border-2 border-white rounded-2xl'>
-                                        <button className='w-24 h-8 rounded-2xl bg-white border-4 border-[#3c81f6] font-bold'>更改头像</button>
-                                    </div>
+                                    <img src={baseUrl+'/icon/'+userdata.mai_icon_id+'.png'} className='size-32 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
                                 </div>
                                 <div className='flex flex-col justify-center items-center text-xl '>
                                     <div className='w-80 flex justify-between'><b>昵称:</b><p>{userdata.username}</p></div>
@@ -368,7 +399,9 @@ export default function UserProfilePage() {
                     <>
                         <AnimatedComponent>
                             <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
-                                <h1 className="text-2xl font-bold">开发中</h1>
+                                <h1 className="text-2xl font-bold">绑定街机账号</h1>
+                                <input type="username" name="divingfishusername" id="" placeholder="二维码字段" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={qr_code} onChange={(e) => setQrCode(e.target.value)} />
+                                <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindArcade}>绑定</button>
                                 <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
                             </div>
                         </AnimatedComponent>
