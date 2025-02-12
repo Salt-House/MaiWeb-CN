@@ -11,7 +11,7 @@ export default function UserPage() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [token, setToken] = useState<string | null>();
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(true);
   const [thirdalignment, setthirdalignment] = useState<string | null>(null);
   const [loginHint, setLoginHint] = useState<string | null>("请选择登陆方式");
   const [agree, setAgree] = useState<boolean>(false);

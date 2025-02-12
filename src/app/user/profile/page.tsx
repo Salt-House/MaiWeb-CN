@@ -66,10 +66,10 @@ export default function UserProfilePage() {
         isarcaed: false
     })
     const [functionStatus, setFunctionStatus] = useState<FunctionStatus>({
-        BUpdate: false,
-        CycleReport: true,
+        BUpdate: true,
+        CycleReport: false,
         RatingPush: false,
-        AIRecommend: true,
+        AIRecommend: false,
         DataShare: false,
         DataAnalyse: false
     })
@@ -273,32 +273,32 @@ export default function UserProfilePage() {
                                     </ul>
                                 </div>
                             </div>
-                            <h1 className='text-2xl font-bold mt-5'>启用功能列表</h1>
+                            <h1 className='text-2xl font-bold mt-5'>已启用功能列表</h1>
                             <hr className='w-full border-t-4 border-gray-400 my-5' />
                             <div className='w-full flex flex-row justify-around items-center space-x-10'>
                                 <div>
                                     <ul className='space-y-2'>
                                         <li className='flex justify-between items-center'>
-                                            <b>b50自动更新:</b><button className={`ml-2 rounded-2xl ${functionStatus.BUpdate ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.BUpdate ? '关闭' : '启用'}</button>
+                                            <b>b50自动更新:</b><button className={`ml-2 rounded-2xl ${functionStatus.BUpdate ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.BUpdate ? '已启用' : '关闭'}</button>
                                         </li>
                                         <li className='flex justify-between items-center'>
-                                            <b>周期报告:</b><button className={`ml-2 rounded-2xl ${functionStatus.CycleReport ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.CycleReport ? '关闭' : '启用'}</button>
+                                            <b>周期报告:</b><button className={`ml-2 rounded-2xl ${functionStatus.CycleReport ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.CycleReport ? '已启用' : '开发中'}</button>
                                         </li>
                                         <li className='flex justify-between items-center'>
-                                            <b>每日推分推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.RatingPush ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.RatingPush ? '关闭' : '启用'}</button>
+                                            <b>每日推分推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.RatingPush ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.RatingPush ? '已启用' : '开发中'}</button>
                                         </li>
                                     </ul>
                                 </div>
                                 <div>
                                     <ul className='space-y-2'>
                                         <li className='flex justify-between items-center'>
-                                            <b>AI智能推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.AIRecommend ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.AIRecommend ? '关闭' : '启用'}</button>
+                                            <b>AI智能推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.AIRecommend ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.AIRecommend ? '已启用' : '开发中'}</button>
                                         </li>
                                         <li className='flex justify-between items-center'>
-                                            <b>多方数据共享:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataShare ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataShare ? '关闭' : '启用'}</button>
+                                            <b>多方数据共享:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataShare ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataShare ? '已启用' : '开发中'}</button>
                                         </li>
                                         <li className='flex justify-between items-center'>
-                                            <b>个人数据分析:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataAnalyse ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataAnalyse ? '关闭' : '启用'}</button>
+                                            <b>个人数据分析:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataAnalyse ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataAnalyse ? '已启用' : '开发中'}</button>
                                         </li>
                                     </ul>
                                 </div>
