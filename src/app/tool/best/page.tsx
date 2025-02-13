@@ -1,5 +1,6 @@
 'use client'
 
+import AnimatedComponent from "@/app/components/AnimatedComponent";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -39,7 +40,7 @@ export default function BestPage() {
         const myHeaders = new Headers();
         myHeaders.append("accept", "application/json");
         myHeaders.append("Authorization", `Bearer ${token}`);
-    
+
         const requestOptions = {
             method: "GET",
             headers: myHeaders,
@@ -152,59 +153,65 @@ export default function BestPage() {
 
     return (
         <>
-            <div className="relative w-[900px] p-5 flex flex-col justify-center items-center mx-auto">
-                <h1 className="text-2xl font-bold">B50</h1>
-                <button className="rounded-2xl mb-12 bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={GetBindAccount}>查询当前账号可用数据源</button>
-                <div className="relative w-[900px] flex flex-row justify-center flex-wrap mx-auto">
-                    <div className="absolute -top-12 flex flex-row justify-center items-center space-x-5 p-1 px-4">
-                        <div className="flex flex-row justify-center items-center space-x-5 p-1 px-4 bg-green-500 rounded-2xl">
-                            <b>当前账户可用数据源:</b>
-                            {accounts.map((account, index) => {
-                                return (
-                                    <button key={index} className="text-center rounded-2xl bg-blue-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={() => setNowFrom(account.from)}>
-                                        {account.from}
-                                    </button>
-                                )
-                            })}
+            <AnimatedComponent>
+                <div className="relative w-[900px] p-5 flex flex-col justify-center items-center mx-auto">
+                    <h1 className="text-2xl font-bold">B50</h1>
+                    <button className="rounded-2xl mb-12 bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={GetBindAccount}>查询当前账号可用数据源</button>
+                    <div className="relative w-[900px] flex flex-row justify-center flex-wrap mx-auto">
+                        <div className="absolute -top-12 flex flex-row justify-center items-center space-x-5 p-1 px-4">
+                            <div className="flex flex-row justify-center items-center space-x-5 p-1 px-4 bg-green-500 rounded-2xl">
+                                <b>当前账户可用数据源:</b>
+                                {accounts.map((account, index) => {
+                                    return (
+                                        <button key={index} className="text-center rounded-2xl bg-blue-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={() => setNowFrom(account.from)}>
+                                            {account.from}
+                                        </button>
+                                    )
+                                })}
+                            </div>
+                            <div className="p-1 px-4 bg-green-500 rounded-2xl">当前数据源:<b>{nowFrom}</b></div>
+                            <button className="rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={GetBest50}>更新B50</button>
+                            <h1 className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 rounded-2xl p-1 px-4">Rating:{rating35 + rating15}</h1>
                         </div>
-                        <div className="p-1 px-4 bg-green-500 rounded-2xl">当前数据源:<b>{nowFrom}</b></div>
-                        <button className="rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={GetBest50}>更新B50</button>
-                        <h1 className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 rounded-2xl p-1 px-4">Rating:{rating35 + rating15}</h1>
+                        {best35 && best35.length > 0 ? best35.map((song: any, index: number) => {
+                            return (
+                                <Link href={`/music/${song.id}`} key={index} className="w-[160px] h-48 break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg bg-white bg-opacity-30">
+                                    <h1 className="w-full h-10 text-lg font-bold truncate">{song.song_name}</h1>
+                                    <h2 className="text-md">{song.level}</h2>
+                                    <h3 className="text-sm text-gray-600 font-bold">{song.achievements}</h3>
+                                    <img className="size-20 mt-2" src={`${baseUrl}/jacket/${song.id}.png`} alt={song.song_name} />
+                                </Link>
+                            );
+                        }) : <div className="w-full text-black h-48 break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg bg-white bg-opacity-30">暂无数据</div>}
                     </div>
-                    {best35 && best35.length > 0 ? best35.map((song: any, index: number) => {
-                        return (
-                            <Link href={`/music/${song.id}`} key={index} className="w-[160px] h-48 break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg bg-white bg-opacity-30">
-                                <h1 className="w-full h-10 text-lg font-bold truncate">{song.song_name}</h1>
-                                <h2 className="text-md">{song.level}</h2>
-                                <h3 className="text-sm text-gray-600 font-bold">{song.achievements}</h3>
-                                <img className="size-20 mt-2" src={`${baseUrl}/jacket/${song.id}.png`} alt={song.song_name} />
-                            </Link>
-                        );
-                    }) : <div className="w-full text-black h-48 break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg bg-white bg-opacity-30">暂无数据</div>}
+                    <div className="w-[900px] flex flex-row justify-    center flex-wrap mx-auto">
+                        {best15 && best15.map((song: any, index: number) => {
+                            return (
+                                <AnimatedComponent>
+                                    <Link href={`/music/${song.id}`} key={index} className="w-[160px] h-48 break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out">
+                                        <h1 className="w-full h-10 text-lg font-bold truncate">{song.song_name}</h1>
+                                        <h2 className="text-md">{song.level}</h2>
+                                        <h3 className="text-sm text-gray-600">{song.achievements}</h3>
+                                        <img className="size-20 mt-2" src={`${baseUrl}/jacket/${song.id}.png`} alt={song.song_name} />
+                                    </Link>
+                                </AnimatedComponent>
+                            );
+                        })}
+                    </div>
+                    {isLoading ?
+                        <>
+                            <AnimatedComponent>
+                                <div className="fixed z-[1000] inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                                    <div className="w-16 h-16 border-4 border-t-4 border-t-transparent border-white rounded-full animate-spin"></div>
+                                </div>
+                            </AnimatedComponent>
+                        </>
+                        :
+                        <>
+                        </>
+                    }
                 </div>
-                <div className="w-[900px] flex flex-row justify-center flex-wrap mx-auto">
-                    {best15 && best15.map((song: any, index: number) => {
-                        return (
-                            <Link href={`/music/${song.id}`} key={index} className="w-[160px] h-48 break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out">
-                                <h1 className="w-full h-10 text-lg font-bold truncate">{song.song_name}</h1>
-                                <h2 className="text-md">{song.level}</h2>
-                                <h3 className="text-sm text-gray-600">{song.achievements}</h3>
-                                <img className="size-20 mt-2" src={`${baseUrl}/jacket/${song.id}.png`} alt={song.song_name} />
-                            </Link>
-                        );
-                    })}
-                </div>
-                {isLoading ?
-                    <>
-                        <div className="fixed z-[1000] inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                            <div className="w-16 h-16 border-4 border-t-4 border-t-transparent border-white rounded-full animate-spin"></div>
-                        </div>
-                    </>
-                    :
-                    <>
-                    </>
-                }
-            </div>
+            </AnimatedComponent>
         </>
     )
 }

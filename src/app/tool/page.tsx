@@ -1,27 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
+import AnimatedComponent from "../components/AnimatedComponent";
 
 
 
-export default function ToolPage(){
-    const [token,setToken] = useState<string | null>()
+export default function ToolPage() {
+    const [token, setToken] = useState<string | null>()
 
-    useEffect(()=>{
-        if(localStorage.getItem('token')){
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
             setToken(localStorage.getItem('token'))
         }
-    },[])
-    useEffect(()=>{
+    }, [])
+    useEffect(() => {
 
-    },[token])
+    }, [token])
 
-    return(
+    return (
         <>
-            <div className="w-[800px] flex justify-center items-center">
-                <Link href={'/tool/best'}>B50</Link>
-            </div>
+            <AnimatedComponent>
+                <div className="w-[800px] flex justify-center items-center">
+
+                    <Link href={'/tool/best'}>B50</Link>
+                </div>
+            </AnimatedComponent>
         </>
     )
 }

@@ -44,15 +44,15 @@ const defaultUserProfile: UserProfile = {
     mai_play_count: "0",
     mai_player_name: "Player 1",
     mai_nameplate_id: "1",
-    mai_icon_id: "icon-1",
-    mai_trophy_id: "trophy-1",
+    mai_icon_id: "1",
+    mai_trophy_id: "1",
 };
 
 let baseUrl = "https://assets2.lxns.net/maimai"
 
 export default function UserProfilePage() {
     const [activeSection, setActiveSection] = useState('基本信息');
-    const [token, setToken] = useState<string | null>();
+    const [token, setToken] = useState<string | null>(null);
     const [userdata, setUserData] = useState<UserProfile>(defaultUserProfile);
     const [accounts, setAccounts] = useState<ThirdAccount[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -84,10 +84,10 @@ export default function UserProfilePage() {
                     accounts[i].from = "arcaed";
                     bindaccount.isarcaed = true;
                 } else {
-                accounts[i].from = "divingfish"
-                bindaccount.isdivingfish = true
+                    accounts[i].from = "divingfish"
+                    bindaccount.isdivingfish = true
+                }
             }
-        }
             console.log(accounts);
         }
     }, [accounts]);
@@ -242,17 +242,23 @@ export default function UserProfilePage() {
                             <button className="absolute top-5 right-10 ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>
                             <h1 className='text-2xl font-bold mt-5'>基本信息</h1>
                             <hr className='w-full border-t-4 border-gray-400 my-5' />
-                            <div className='w-full flex flex-row space-x-10 justify-around'>
-                                <div className='flex flex-col justify-center items-center space-y-5'>
-                                    <img src={baseUrl+'/icon/'+userdata.mai_icon_id+'.png'} className='size-32 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
+                            <div className='w-full p-5 flex flex-row space-x-2 items-center bg-no-repeat bg-contain bg-center' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
+                                <div className='flex flex-col justify-center items-center' >
+                                    {token == null ?
+                                        <img src={baseUrl + '/icon/1.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
+                                        :
+                                        <img src={baseUrl + '/icon/' + userdata.mai_icon_id + '.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
+                                    }
                                 </div>
                                 <div className='flex flex-col justify-center items-center text-xl '>
-                                    <div className='w-80 flex justify-between'><b>昵称:</b><p>{userdata.username}</p></div>
-                                    <div className='w-80 flex justify-between'><b>邮箱:</b><p>{userdata.email}</p></div>
-                                    <div className='w-80 flex justify-between'><b>Rating:</b><p>{userdata.mai_rating}</p></div>
-                                    <button className={`ml-2 mt-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold`} onClick={LogOut}>退出舞萌萌登陆</button>
+                                    <div className='w-[400px] h-16 p-x-2 text-2xl flex justify-center items-center bg-no-repeat bg-contain bg-center'
+                                        style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
+                                        <b className="mx-auto w-64 text-center bg-white rounded-2xl">{userdata.username}</b>
+                                    </div>
+                                    <div className='w-80 flex '><b>Rating:</b><p>{userdata.mai_rating}</p></div>
                                 </div>
                             </div>
+                            <button className={`ml-2 mt-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold`} onClick={LogOut}>退出舞萌萌登陆</button>
                             <h1 className='text-2xl font-bold mt-5'>游玩信息</h1>
                             <hr className='w-full border-t-4 border-gray-400 my-5' />
                             <div className='w-full flex flex-row justify-around items-center space-x-10'>

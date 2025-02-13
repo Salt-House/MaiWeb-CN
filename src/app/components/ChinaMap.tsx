@@ -74,9 +74,7 @@ const ChinaMap = () => {
                         return `
                             <div>
                                 <strong>${name}</strong><br/>
-                                年出勤人数: ${dataTimes}<br/>
-                                月出勤人数: ${monthTimes}<br/>
-                                日出勤人数: ${yearTimes}<br/>
+                                出勤次数: ${yearTimes}<br/>
                             </div>
                         `;
                     } else {
@@ -85,12 +83,13 @@ const ChinaMap = () => {
                 }
             },
             visualMap: {
+                show:false,
                 min: 0,
                 max: 5,
                 left: "left",
                 top: "bottom",
                 text: ["高", "低"],
-                calculable: true,
+                calculable:true,
                 inRange: {
                     color: ["#e0ffff", "#006edd"], // 渐变色
                 },
