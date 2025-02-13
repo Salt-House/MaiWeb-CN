@@ -373,7 +373,7 @@ export default function UserProfilePage() {
             case 'lxns':
                 return (
                     <>
-                        <AnimatedComponent>
+                        <AnimatedComponent isVisible={true}>
                             <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                                 <h1 className="text-2xl font-bold">绑定落雪账号</h1>
                                 <h1 className="text-xl font-bold text-red-500">（请至少上传一次成绩至落雪）</h1>
@@ -388,7 +388,7 @@ export default function UserProfilePage() {
             case 'divingfish':
                 return (
                     <>
-                        <AnimatedComponent>
+                        <AnimatedComponent isVisible={true}>
                             <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                                 <h1 className="text-2xl font-bold">绑定水鱼账号</h1>
                                 <input type="username" name="divingfishusername" id="" placeholder="水鱼账号" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishusername} onChange={(e) => setDivingFishUsername(e.target.value)} />
@@ -403,7 +403,7 @@ export default function UserProfilePage() {
             case 'arcaed':
                 return (
                     <>
-                        <AnimatedComponent>
+                        <AnimatedComponent isVisible={true}>
                             <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                                 <h1 className="text-2xl font-bold">绑定街机账号</h1>
                                 <input type="username" name="divingfishusername" id="" placeholder="二维码字段" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={qr_code} onChange={(e) => setQrCode(e.target.value)} />

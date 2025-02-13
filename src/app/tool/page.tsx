@@ -20,7 +20,7 @@ export default function ToolPage() {
 
     return (
         <>
-            <AnimatedComponent>
+            <AnimatedComponent isVisible={true}>
                 <div className="w-[800px] flex justify-center items-center">
 
                     <Link href={'/tool/best'}>B50</Link>

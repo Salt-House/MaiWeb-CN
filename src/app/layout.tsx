@@ -65,7 +65,7 @@ export default function RootLayout({
       </Head>
       <body className="font-douyin">
         <div className="relative h-screen overflow-scroll">
-          <AnimatedComponent>
+          <AnimatedComponent isVisible={true}>
             {/* BackGround Layer */}
             <div className="fixed top-0 left-0 w-full h-full  z-[-1] bg-[url('/img/bg_shines.png')]">
             </div>
