@@ -462,15 +462,17 @@ export default function UserProfilePage() {
             <div className='w-[800px] flex justify-center items-center'>
                 {renderContent()}
             </div>
-            {isLoading ?
-                <>
-                    <div className="fixed z-[1000] inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="w-16 h-16 border-4 border-t-4 border-t-transparent border-white rounded-full animate-spin"></div>
-                    </div>
-                </>
-                :
-                <>
-                </>}
+            <AnimatedComponent isVisible={isLoading}>
+                {isLoading ?
+                    <>
+                        <div className="fixed z-[1000] inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                            <div className="w-16 h-16 border-4 border-t-4 border-t-transparent border-white rounded-full animate-spin"></div>
+                        </div>
+                    </>
+                    :
+                    <>
+                    </>}
+            </AnimatedComponent>
         </div>
     );
 }

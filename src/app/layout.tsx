@@ -101,7 +101,7 @@ export default function RootLayout({
                 <Link href={"/"} className="hover:scale-125 transition-all duration-300 ease-in-out">教学</Link>
               </div>
             </div>
-            {children}
+              {children}
             <Link href={"/"} className="top-4 left-4 size-44">
               <div className="fixed top-4 left-4 size-44 bg-[url('/img/moon.png')] bg-contain flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
                 <img src="/img/logo.png" alt="" />

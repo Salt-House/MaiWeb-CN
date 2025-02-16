@@ -14,14 +14,17 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       animation: {
-        "test":"test 1s infinite",
-        "moveStar":"moveStar 3s linear infinite",
-        "moveDot":"moveDot 30s linear infinite",
-        "volume":"volume 1s infinite",
-        "leftToRight":"leftToRight 2s ease-in-out infinite",
+        "test": "test 1s infinite",
+        "moveStar": "moveStar 3s linear infinite",
+        "moveDot": "moveDot 30s linear infinite",
+        "volume": "volume 1s infinite",
+        "leftToRight": "leftToRight 2s ease-in-out infinite",
       },
       fontFamily: {
         douyin: ['DouyinSansBold', 'sans-serif'], // 自定义字体
+      },
+      boxShadow: {
+        'text': '2px 2px 5px rgba(255, 255, 255, 0.8)', // 自定义文字阴影
       },
     },
   },
