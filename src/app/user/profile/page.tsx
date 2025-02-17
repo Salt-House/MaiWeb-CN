@@ -44,29 +44,32 @@ const defaultUserProfile: UserProfile = {
     mai_play_count: "0",
     mai_player_name: "Player 1",
     mai_nameplate_id: "1",
-    mai_icon_id: "icon-1",
-    mai_trophy_id: "trophy-1",
+    mai_icon_id: "1",
+    mai_trophy_id: "1",
 };
+
+let baseUrl = "https://assets2.lxns.net/maimai"
 
 export default function UserProfilePage() {
     const [activeSection, setActiveSection] = useState('基本信息');
-    const [token, setToken] = useState<string | null>();
+    const [token, setToken] = useState<string | null>(null);
     const [userdata, setUserData] = useState<UserProfile>(defaultUserProfile);
     const [accounts, setAccounts] = useState<ThirdAccount[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [lxnstoken, setLxnsToken] = useState<string>("");
     const [divingfishusername, setDivingFishUsername] = useState<string>("");
     const [divingfishpassword, setDivingFishPassword] = useState<string>("");
+    const [qr_code, setQrCode] = useState<string>("");
     let [bindaccount, setBindAccount] = useState<BindAccount>({
         islxns: false,
         isdivingfish: false,
         isarcaed: false
     })
     const [functionStatus, setFunctionStatus] = useState<FunctionStatus>({
-        BUpdate: false,
-        CycleReport: true,
+        BUpdate: true,
+        CycleReport: false,
         RatingPush: false,
-        AIRecommend: true,
+        AIRecommend: false,
         DataShare: false,
         DataAnalyse: false
     })
@@ -77,12 +80,17 @@ export default function UserProfilePage() {
                 accounts[i].from = "lxns"
                 bindaccount.islxns = true
             } else {
-                accounts[i].from = "divingfish"
-                bindaccount.isdivingfish = true
+                if (accounts[i].identifier.length > 10) {
+                    accounts[i].from = "arcaed";
+                    bindaccount.isarcaed = true;
+                } else {
+                    accounts[i].from = "divingfish"
+                    bindaccount.isdivingfish = true
+                }
             }
+            console.log(accounts);
         }
-        console.log(accounts)
-    }, [accounts])
+    }, [accounts]);
 
     const GetBindAccount = () => {
         setIsLoading(true);
@@ -167,6 +175,32 @@ export default function UserProfilePage() {
             .then((result) => console.log(result))
             .catch((error) => console.error(error));
     }
+    const BindArcade = () => {
+        setIsLoading(true);
+        const myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+        };
+
+        fetch(`https://dev.maimai.moe/api/maimai/maiweb/accounts/arcade?qr_code=${qr_code}`, requestOptions)
+            .then((response) => {
+                const statusCode = response.status;
+                console.log(`Status Code: ${statusCode}`);
+                if (statusCode === 200) {
+                    alert("绑定成功")
+                    setIsLoading(false);
+                } else {
+                    alert("绑定失败")
+                    setIsLoading(false);
+                }
+            })
+            .then((result) => console.log(result))
+            .catch((error) => console.error(error));
+    }
     const LogOut = () => {
         setToken(null);
         localStorage.removeItem('token');
@@ -208,20 +242,23 @@ export default function UserProfilePage() {
                             <button className="absolute top-5 right-10 ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>
                             <h1 className='text-2xl font-bold mt-5'>基本信息</h1>
                             <hr className='w-full border-t-4 border-gray-400 my-5' />
-                            <div className='w-full flex flex-row space-x-10 justify-around'>
-                                <div className='flex flex-col justify-center items-center space-y-5'>
-                                    <img src="/img/chara-left.png" className='size-48 rounded-full border-2 border-gray-500 shadow-xl' alt="" />
-                                    <div className='border-2 border-white rounded-2xl'>
-                                        <button className='w-24 h-8 rounded-2xl bg-white border-4 border-[#3c81f6] font-bold'>更改头像</button>
-                                    </div>
+                            <div className='w-full p-5 flex flex-row space-x-2 items-center bg-no-repeat bg-contain bg-center' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
+                                <div className='flex flex-col justify-center items-center' >
+                                    {token == null ?
+                                        <img src={baseUrl + '/icon/1.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
+                                        :
+                                        <img src={baseUrl + '/icon/' + userdata.mai_icon_id + '.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
+                                    }
                                 </div>
                                 <div className='flex flex-col justify-center items-center text-xl '>
-                                    <div className='w-80 flex justify-between'><b>昵称:</b><p>{userdata.username}</p></div>
-                                    <div className='w-80 flex justify-between'><b>邮箱:</b><p>{userdata.email}</p></div>
-                                    <div className='w-80 flex justify-between'><b>Rating:</b><p>{userdata.mai_rating}</p></div>
-                                    <button className={`ml-2 mt-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold`} onClick={LogOut}>退出舞萌萌登陆</button>
+                                    <div className='w-[400px] h-16 p-x-2 text-2xl flex justify-center items-center bg-no-repeat bg-contain bg-center'
+                                        style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
+                                        <b className="mx-auto w-64 text-center bg-white rounded-2xl">{userdata.username}</b>
+                                    </div>
+                                    <div className='w-80 flex '><b>Rating:</b><p>{userdata.mai_rating}</p></div>
                                 </div>
                             </div>
+                            <button className={`ml-2 mt-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold`} onClick={LogOut}>退出舞萌萌登陆</button>
                             <h1 className='text-2xl font-bold mt-5'>游玩信息</h1>
                             <hr className='w-full border-t-4 border-gray-400 my-5' />
                             <div className='w-full flex flex-row justify-around items-center space-x-10'>
@@ -242,32 +279,32 @@ export default function UserProfilePage() {
                                     </ul>
                                 </div>
                             </div>
-                            <h1 className='text-2xl font-bold mt-5'>启用功能列表</h1>
+                            <h1 className='text-2xl font-bold mt-5'>已启用功能列表</h1>
                             <hr className='w-full border-t-4 border-gray-400 my-5' />
                             <div className='w-full flex flex-row justify-around items-center space-x-10'>
                                 <div>
                                     <ul className='space-y-2'>
                                         <li className='flex justify-between items-center'>
-                                            <b>b50自动更新:</b><button className={`ml-2 rounded-2xl ${functionStatus.BUpdate ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.BUpdate ? '关闭' : '启用'}</button>
+                                            <b>b50自动更新:</b><button className={`ml-2 rounded-2xl ${functionStatus.BUpdate ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.BUpdate ? '已启用' : '关闭'}</button>
                                         </li>
                                         <li className='flex justify-between items-center'>
-                                            <b>周期报告:</b><button className={`ml-2 rounded-2xl ${functionStatus.CycleReport ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.CycleReport ? '关闭' : '启用'}</button>
+                                            <b>周期报告:</b><button className={`ml-2 rounded-2xl ${functionStatus.CycleReport ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.CycleReport ? '已启用' : '开发中'}</button>
                                         </li>
                                         <li className='flex justify-between items-center'>
-                                            <b>每日推分推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.RatingPush ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.RatingPush ? '关闭' : '启用'}</button>
+                                            <b>每日推分推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.RatingPush ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.RatingPush ? '已启用' : '开发中'}</button>
                                         </li>
                                     </ul>
                                 </div>
                                 <div>
                                     <ul className='space-y-2'>
                                         <li className='flex justify-between items-center'>
-                                            <b>AI智能推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.AIRecommend ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.AIRecommend ? '关闭' : '启用'}</button>
+                                            <b>AI智能推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.AIRecommend ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.AIRecommend ? '已启用' : '开发中'}</button>
                                         </li>
                                         <li className='flex justify-between items-center'>
-                                            <b>多方数据共享:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataShare ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataShare ? '关闭' : '启用'}</button>
+                                            <b>多方数据共享:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataShare ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataShare ? '已启用' : '开发中'}</button>
                                         </li>
                                         <li className='flex justify-between items-center'>
-                                            <b>个人数据分析:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataAnalyse ? 'bg-red-500' : 'bg-green-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataAnalyse ? '关闭' : '启用'}</button>
+                                            <b>个人数据分析:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataAnalyse ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataAnalyse ? '已启用' : '开发中'}</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -336,7 +373,7 @@ export default function UserProfilePage() {
             case 'lxns':
                 return (
                     <>
-                        <AnimatedComponent>
+                        <AnimatedComponent isVisible={true}>
                             <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                                 <h1 className="text-2xl font-bold">绑定落雪账号</h1>
                                 <h1 className="text-xl font-bold text-red-500">（请至少上传一次成绩至落雪）</h1>
@@ -351,7 +388,7 @@ export default function UserProfilePage() {
             case 'divingfish':
                 return (
                     <>
-                        <AnimatedComponent>
+                        <AnimatedComponent isVisible={true}>
                             <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                                 <h1 className="text-2xl font-bold">绑定水鱼账号</h1>
                                 <input type="username" name="divingfishusername" id="" placeholder="水鱼账号" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishusername} onChange={(e) => setDivingFishUsername(e.target.value)} />
@@ -366,9 +403,11 @@ export default function UserProfilePage() {
             case 'arcaed':
                 return (
                     <>
-                        <AnimatedComponent>
+                        <AnimatedComponent isVisible={true}>
                             <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
-                                <h1 className="text-2xl font-bold">开发中</h1>
+                                <h1 className="text-2xl font-bold">绑定街机账号</h1>
+                                <input type="username" name="divingfishusername" id="" placeholder="二维码字段" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={qr_code} onChange={(e) => setQrCode(e.target.value)} />
+                                <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindArcade}>绑定</button>
                                 <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
                             </div>
                         </AnimatedComponent>
@@ -423,15 +462,17 @@ export default function UserProfilePage() {
             <div className='w-[800px] flex justify-center items-center'>
                 {renderContent()}
             </div>
-            {isLoading ?
-                <>
-                    <div className="fixed z-[1000] inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="w-16 h-16 border-4 border-t-4 border-t-transparent border-white rounded-full animate-spin"></div>
-                    </div>
-                </>
-                :
-                <>
-                </>}
+            <AnimatedComponent isVisible={isLoading}>
+                {isLoading ?
+                    <>
+                        <div className="fixed z-[1000] inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                            <div className="w-16 h-16 border-4 border-t-4 border-t-transparent border-white rounded-full animate-spin"></div>
+                        </div>
+                    </>
+                    :
+                    <>
+                    </>}
+            </AnimatedComponent>
         </div>
     );
 }

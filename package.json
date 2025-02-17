@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "echarts": "^5.6.0",
-    "next": "14.2.18",
+    "framer-motion": "^12.4.2",
+    "next": "^14.2.24",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-scrollbar-hide": "^1.1.7",

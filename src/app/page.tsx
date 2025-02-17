@@ -47,16 +47,16 @@ export default function Home() {
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
                   <div className="">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">全国行脚</div>
-                  <div className="text-black pl-8 pt-5">提供统计全国各省份出勤行脚图，让我们一起点亮地图吧！</div>
+                  <div className="text-black pl-8 pt-5">提供统计全国各省份出勤行脚图，让我们一起点亮地图吧！✅ </div>
                 </div>
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
                   <div className="">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">乐曲工具</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
-                      <li>基础乐曲信息查询</li>
+                      <li>基础乐曲信息查询✅ </li>
                       <li>快速且便捷的铺面确认</li>
-                      <li>支持别名查询</li>
+                      <li>支持别名查询✅ </li>
                       <li className="list-none">.......</li>
                     </ul>
                   </div>
@@ -135,7 +135,7 @@ export default function Home() {
           </div>
 
           {/* Search Music */}
-          <div className="relative mb-32 flex flex-col justify-center items-center">
+          <div className="relative w-[900px] mx-auto mb-32 flex flex-col justify-center items-center shadow-xl">
             <div className="border-4 border-white rounded-2xl">
               <div className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
                 <div className="absolute -top-4 w-48 h-20 text-3xl font-bold text-black">
@@ -206,7 +206,7 @@ export default function Home() {
           </div>
 
           {/* Search Game Center */}
-          <div className="relative mb-32 w-[800px] h-64 mx-auto flex flex-col justify-center items-center space-y-5 rounded-2xl overflow-visible">
+          <div className="relative mb-32 w-[800px] h-64 mx-auto flex flex-col justify-center items-center space-y-5 rounded-2xl overflow-visible shadow-xl">
             <div className="absolute  rounded-2xl inset-x-0 z-[-1] bg-white">
               <div className="border-4 border-white rounded-2xl">
                 <div className="border-4 border-[rgb(113,241,229)] rounded-2xl">
@@ -262,16 +262,16 @@ export default function Home() {
           </div>
 
           {/* Map Play display */}
-          <div className="relative w-[900px] h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7]">
-            <div className="absolute -top-5 flex justify-center items-center text-black font-bold text-2xl">全国出勤行脚图</div>
+          <div className="relative w-[900px] h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
+            <div className="absolute -top-5 flex justify-center items-center text-black font-bold text-2xl">全国出勤行脚图 </div>
             <div className="w-[800px] h-[450px] p-5 ">
               <ChinaMap />
             </div>
           </div>
           <div className="w-[900px] mt-2 h-20 flex mx-auto justify-center items-center space-x-4 text-white font-bold text-2xl">
             <div className="border-4 border-white rounded-full hover:scale-105 transition-all duration-300 ease-in-out">
-              <div className="p-5 rounded-full bg-[#41e7d7] border-4 border-[#2ea297]">
-                <button>全国玩家行脚图</button>
+              <div className="relative p-5 rounded-full bg-[#41e7d7] border-4 border-[#2ea297]">
+                <button>全国玩家行脚图<br></br><b className="absolute w-full left-0  bottom-0 text-lg text-red-500">数据不足，暂无法使用</b></button>
               </div>
             </div>
             <div className="border-4 border-white rounded-full hover:scale-105 transition-all duration-300 ease-in-out">
