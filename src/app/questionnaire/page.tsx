@@ -71,7 +71,7 @@ export default function QuestionnairePage() {
 
   return (
     <>
-      <AnimatedComponent>
+      <AnimatedComponent isVisible={true}>
         <img src="/img/bg_shines.png" className="fixed" alt="" />
         <div className="relative w-full">
           <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1]">

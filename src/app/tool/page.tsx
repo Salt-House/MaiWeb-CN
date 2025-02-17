@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import AnimatedComponent from "../components/AnimatedComponent";
-import StarEffect from "../components/StarEffect";
 
 
 
