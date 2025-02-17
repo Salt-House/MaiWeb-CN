@@ -23,7 +23,7 @@ export default function IntroductionPage() {
     return (
         <>
 
-            <AnimatedComponent>
+            <AnimatedComponent isVisible={true}>
                 <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1]">
                     <div className="w-[10px] h-[200px]">
                     </div>
