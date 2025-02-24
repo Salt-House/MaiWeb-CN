@@ -98,7 +98,7 @@ export default function RootLayout({
                 <div>|</div>
                 <Link href={"/tool"} className="hover:scale-125 transition-all duration-300 ease-in-out">工具</Link>
                 <div>|</div>
-                <Link href={"/"} className="hover:scale-125 transition-all duration-300 ease-in-out">教学</Link>
+                <Link href={"/guide"} className="hover:scale-125 transition-all duration-300 ease-in-out">教学</Link>
               </div>
             </div>
               {children}
