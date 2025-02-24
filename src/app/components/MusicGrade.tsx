@@ -78,7 +78,7 @@ export default function MusicGrade(props: MusicGradeProps) {
       fc = null;
       break;
     case 1:
-      fc = null;
+      fc = '/img/grade/ap.webp';
       break;
     case 2:
       fc = '/img/grade/fcp.webp';
