@@ -78,7 +78,7 @@ export default function MusicGrade(props: MusicGradeProps) {
       fc = null;
       break;
     case 1:
-      fc = null;
+      fc = '/img/grade/ap.webp';
       break;
     case 2:
       fc = '/img/grade/fcp.webp';
@@ -147,7 +147,10 @@ export default function MusicGrade(props: MusicGradeProps) {
           {props.song_name}
         </h1>
         <div className='flex flex-row space-x-2'>
-          <h2 className={`text-md pl-1 font-bold ${nameColor}`} style={textstroke}>{props.level}</h2>
+          <div className='flex flex-col justify-center items-center'>
+            <h2 className={`text-md pl-1 font-bold ${nameColor}`} style={textstroke}>{props.level}</h2>
+            <h2 className='pl-1 text-black font-bold'>{props.dx_rating.toString().substring(0, 3)}</h2>
+          </div>
           <img src={`${achievements}`} className='w-24' alt="" />
         </div>
         <h3 className={`text-xl pl-1 tracking-[0.2em] font-bold text-white`} style={GradeColor}>{props.achievements}</h3>

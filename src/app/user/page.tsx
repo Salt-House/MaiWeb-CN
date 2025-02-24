@@ -99,37 +99,9 @@ export default function UserPage() {
   return (
     <>
       <div className="w-[900px] mt-20  mx-auto relative flex justify-center">
-        <div className='relative w-[600px] h-[600px] bg-[rgb(239,246,255)] rounded-2xl flex flex-row border-4 border-white'>
-          {/* 第三方登录 */}
-          <div className={`h-full absolute bg-pink-500 p-5 left-0 rounded-2xl transition-all duration-300 ease-in-out ${isHovered ? 'w-[180px] z-[1]' : 'w-[450px] z-[2] border-r-4 border-white shadow-lg'} `}>
-            {isHovered ?
-              <div className='h-[480px] flex flex-col justify-center items-center space-y-5'>
-                <img src="/img/third/lxns.webp" onClick={() => setIsHovered(false)} className='size-16' alt="" />
-                <div className='size-16 bg-[rgb(133,144,250)] font-bold flex justify-center items-center text-center rounded-full'>水鱼</div>
-                <div className='size-16 bg-[rgb(133,144,250)] font-bold flex justify-center items-center text-center rounded-full'>暂无</div>
-                <div className='size-16 bg-[rgb(133,144,250)] font-bold flex justify-center items-center text-center rounded-full'>暂无</div>
-                <div className='size-16 bg-[rgb(133,144,250)] font-bold flex justify-center items-center text-center rounded-full'>暂无</div>
-              </div>
-              :
-              <div className='w-full h-[480px] flex flex-col p-5 justify-center items-center space-y-5'>
-                <img src="/img/logo.png" className='w-48' alt="" />
-                <h1 className='text-2xl font-bold'>欢迎使用第三方账号登陆</h1>
-                <h2 className='font-bold text-xl'>{loginHint}</h2>
-                <div className='flex flex-row space-x-5'>
-                  <img src="/img/third/lxns.webp" className='size-12' onClick={() => { setthirdalignment("lxns"); setLoginHint("使用落雪账号登陆") }} alt="" />
-                  <img src="/img/third/qq.png" className='size-12' onClick={() => { setthirdalignment("qq"); setLoginHint("使用QQ账号登陆") }} alt="" />
-                  <img src="/img/third/wechat.png" className='size-12' onClick={() => { setthirdalignment("wechat"); setLoginHint("使用微信账号登陆") }} alt="" />
-                  <img src="/img/third/divingfish.png" className='size-12' onClick={() => { setthirdalignment("divingfish"); setLoginHint("使用水鱼账号登陆") }} alt="" />
-                  <img src="/img/third/github.png" className='size-12' onClick={() => { setthirdalignment("github"); setLoginHint("使用Github账号登陆") }} alt="" />
-                </div>
-                <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' />
-                <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' />
-                <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold'>登陆</button>
-              </div>
-            }
-          </div>
+        <div className='w-[450px] h-[600px] bg-[rgb(239,246,255)] rounded-2xl flex flex-row border-4 border-white'>
           {/* 舞萌萌登录与注册 */}
-          <div className={`h-full absolute bg-blue-500 p-5 right-0 rounded-2xl transition-all duration-300 ease-in-out ${isHovered ? 'w-[450px] z-[2] border-l-4 border-white shadow-lg' : 'w-[180px] z-[1]'} `}>
+          <div className={`h-full bg-blue-500 p-5 rounded-2xl transition-all duration-300 ease-in-out w-[450px] border-l-4 border-white shadow-lg`}>
             {isHovered ?
               <>
                 {register ?
