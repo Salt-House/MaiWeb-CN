@@ -178,13 +178,14 @@ export default function BestPage() {
                                 <MusicGrade {...song} key={index} />
                             );
                         }) : <div className="w-full text-black h-48 break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg bg-white bg-opacity-30">暂无数据</div>}
-                    </div>
-                    <div className="w-[900px] flex flex-row justify-center flex-wrap mx-auto">
-                        {best15 && best15.map((song: any, index: number) => {
-                            return (
-                                <MusicGrade {...song} key={index} />
-                            );
-                        })}
+                        <hr className='w-full mx-auto  border-t-4 border-gray-400 my-5' />
+                        <div className="w-[900px] flex flex-row justify-center flex-wrap mx-auto">
+                            {best15 && best15.map((song: any, index: number) => {
+                                return (
+                                    <MusicGrade {...song} key={index} />
+                                );
+                            })}
+                        </div>
                     </div>
                     {/* {isLoading && ( */}
                     <AnimatedComponent isVisible={isLoading}>
