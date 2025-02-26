@@ -69,7 +69,6 @@ export default function MusicGrade(props: MusicGradeProps) {
       nameColor = 'text-purple-500';
       textstroke = {
         textShadow: '-2px -2px 2px rgba(255, 255, 255, 1), 2px -2px 2px rgba(255, 255, 255, 1), -2px 2px 2px rgba(255, 255, 255, 1), 2px 2px 2px rgba(255, 255, 255, 1)'
-        // WebkitTextStroke: '0.8px rgba(255, 255, 255, 1)',  // 白色描边
       };
       break;
   }
