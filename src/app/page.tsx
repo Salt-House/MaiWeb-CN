@@ -6,14 +6,82 @@ import Link from "next/link"
 import { useEffect, useState } from "react";
 import ChinaMap from "./components/ChinaMap";
 
-
+interface NewsProps {
+  title: string,
+  content: string,
+  image_url: string,
+  source: string,
+  source_url: string,
+  source_author: string,
+  source_created_at: string
+}
 
 
 export default function Home() {
+  const [news1, setNews1] = useState<NewsProps[]>([
+    {
+      "title": "【2/27(木)「大都会区域9」登场！】在遥远过去的记忆中、黒姫在思考着什么呢――新人曲师也参战的KOP6th International ver. 決…",
+      "content": "【2/27(木)「大都会区域9」登场！】\n在遥远过去的记忆中、黒姫在思考着什么呢――\n新人曲师也参战的\nKOP6th International ver. 決勝楽曲「雨露霜雪」登场！\n\n🎧参加曲师\nRiraN / Reku Mochizuki / かねこちはる vs t+pazolite",
+      "image_url": "http://i0.hdslb.com/bfs/archive/4237cbd92befef9ba793ec76effeef25277c26f0.jpg",
+      "source": "bilibili",
+      "source_url": "https://t.bilibili.com/1037499077487493121",
+      "source_author": "舞萌でらっくす公式",
+      "source_created_at": "2025-02-24T12:26:18"
+    },
+    {
+      "title": "t+pazolite vs かねこちはる - 宙天 [maimai でらっくす]",
+      "content": "maimai official\nTitle：宙天\nArtist：t+pazolite vs かねこちはる\nMovie：川崎ヒロミツ (SIKAKU Inc.)\nIllust：Metropolis Stories\n\n「雨露霜雪」がかなり王道の合作だったため、かなり邪道の合作になりました。\nt+pazolite\n\n音楽ゲーム『maimai でらっくす』　全国のゲームセンターで絶賛稼働中！",
+      "image_url": "http://i2.hdslb.com/bfs/archive/1a9c2a00470b19160a490f4b156535854c3190be.jpg",
+      "source": "bilibili",
+      "source_url": "https://t.bilibili.com/1037498549231681538",
+      "source_author": "舞萌でらっくす公式",
+      "source_created_at": "2025-02-24T12:24:15"
+    },
+    {
+      "title": "【2/27(木)～「KALEIDXSCOPE -終末エリア-」登场！】KING of Performai The 6th FINAL ROUND　宙天 /…",
+      "content": "【2/27(木)～「KALEIDXSCOPE -終末エリア-」登场！】\nKING of Performai The 6th FINAL ROUND\n　宙天 / t+pazolite vs かねこちはる\n\n找到「黒の扉」「黒の鍵」、\n就可以在カレイドスコープ中的「黒の扉」完成乐曲并解禁！",
+      "image_url": "http://i2.hdslb.com/bfs/archive/ee90348591b72ff267b7c0254ba6963f1e868542.jpg",
+      "source": "bilibili",
+      "source_url": "https://t.bilibili.com/1037498420355399697",
+      "source_author": "舞萌でらっくす公式",
+      "source_created_at": "2025-02-24T12:23:45"
+    }
+  ])
+  const [news2, setNews2] = useState<NewsProps[]>([
+    {
+      "title": "【KoP 6th 切片】闭幕 & Burning Hearts ～炎のANGEL～ / 汤毛&光吉猛修",
+      "content": "KoP official",
+      "image_url": "http://i0.hdslb.com/bfs/archive/3d4e3d408fbe5e7771e3a0c39489d34c13ffab00.jpg",
+      "source": "bilibili",
+      "source_url": "https://t.bilibili.com/1037496500522844227",
+      "source_author": "舞萌でらっくす公式",
+      "source_created_at": "2025-02-24T12:16:18"
+    },
+    {
+      "title": "【maimai でらっくす】雨露霜雪 - かねこちはる vs t+pazolite【official】",
+      "content": "maimai official\nTitle：雨露霜雪\nArtist：かねこちはる vs t+pazolite\nMovie：Kazuma Enta、cell、SEGA\nIllust：えすてぃお\n\n\n音楽ゲーム『maimai でらっくす』　全国のゲームセンターで絶賛稼働中！",
+      "image_url": "http://i0.hdslb.com/bfs/archive/c12c9f5a3da4d65d6bb049f4690479412f608334.jpg",
+      "source": "bilibili",
+      "source_url": "https://t.bilibili.com/1037496229950390293",
+      "source_author": "舞萌でらっくす公式",
+      "source_created_at": "2025-02-24T12:15:15"
+    },
+    {
+      "title": "【maimai でらっくす】Colorfull:Encounter / Reku Mochizuki【Official MV】",
+      "content": "maimai official\nTitle：Colorfull:Encounter\nArtist：Reku Mochizuki\nMovie：cell、Kazuma Enta、SEGA\nIllust：尾崎ドミノ\n\n愛してやまないmaimaiシリーズへの想いを込めた、とても大切な楽曲です。\nカラフルな思い出たちとの出会いが、これからもずっと続いていきますように。\n\n(略称は「フルエン」でお願いします！)",
+      "image_url": "http://i1.hdslb.com/bfs/archive/da4ad9a8ec7c73d299a640e08c1b088e355570f7.jpg",
+      "source": "bilibili",
+      "source_url": "https://t.bilibili.com/1037494486165356565",
+      "source_author": "舞萌でらっくす公式",
+      "source_created_at": "2025-02-24T12:08:29"
+    }
+  ])
   const [inputValue, setInputValue] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const options = ["1km", "5km", "10km"];
-
+  const textstroke = {
+    textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
+  };
 
 
   useEffect(() => {
@@ -36,7 +104,8 @@ export default function Home() {
 
           {/* Welcome to Home page */}
           <div className=" flex flex-col justify-center items-center">
-            <div className="relative w-[900px] mx-auto text-4xl text-center font-bold bg-gradient-to-r from-blue-500 via-green-500 to-purple-500 bg-clip-text text-transparent">
+            <div className="relative w-[900px] mx-auto text-4xl text-center font-bold text-white bg-clip-text text-transparent"
+              style={textstroke}>
               Welcome to Maimai.moe In China!!!<br></br>
               本站点提供以下服务功能
               <img src="/img/handblue.png" className="h-14 inline-block animate-bounce" alt="" />
@@ -118,14 +187,25 @@ export default function Home() {
 
           {/* Update News Display */}
           <div className="w-[900px]  mx-auto p-5">
-            <div className="flex justify-center items-center text-center text-black font-bold text-3xl mb-10">
+            <div className="flex justify-center items-center text-center text-white font-bold text-3xl mb-10" style={textstroke}>
               舞萌相关资讯
             </div>
             {/* First row */}
             <div className="flex flex-row justify-center items-center space-x-2">
-              <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
-              <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
-              <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
+              {news1.length === 0 ?
+                <>
+                 <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
+                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
+                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
+                </> :
+                <>
+                  {news1.map((news, index) => (
+                    <>
+                      {/* <Link href={'/'} className={` w-96 h-48  bg-no-repeat bg-contain hover:cursor-pointer `} style={{ backgroundImage: `url(${news.image_url})` }}></Link> */}
+                      <Link href={'/'} className={` w-96 h-48 bg-[url('http://i0.hdslb.com/bfs/archive/4237cbd92befef9ba793ec76effeef25277c26f0.jpg')] bg-no-repeat bg-contain hover:cursor-pointer `}></Link>
+                    </>
+                  ))}
+                </>}
             </div>
             <div className="flex flex-row justify-center items-center space-x-2">
               <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
@@ -138,7 +218,7 @@ export default function Home() {
           <div className="relative w-[900px] mx-auto mb-32 flex flex-col justify-center items-center shadow-xl">
             <div className="border-4 border-white rounded-2xl">
               <div className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
-                <div className="absolute -top-4 w-48 h-20 text-3xl font-bold text-black">
+                <div className="absolute -top-4 w-48 h-20 text-3xl font-bold text-white" style={textstroke}>
                   Music
                 </div>
                 <div className="flex flex-row justify-center items-center space-x-4 mb-4">
@@ -263,7 +343,7 @@ export default function Home() {
 
           {/* Map Play display */}
           <div className="relative w-[900px] h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
-            <div className="absolute -top-5 flex justify-center items-center text-black font-bold text-2xl">全国出勤行脚图 </div>
+            <div className="absolute -top-5 flex justify-center items-center text-white font-bold text-2xl" style={textstroke}>全国出勤行脚图 </div>
             <div className="w-[800px] h-[450px] p-5 ">
               <ChinaMap />
             </div>

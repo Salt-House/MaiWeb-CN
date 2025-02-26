@@ -55,6 +55,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const  textstroke = {
+    textShadow: '-2px -2px 2px rgba(255, 255, 255, 1), 2px -2px 2px rgba(255, 255, 255, 1), -2px 2px 2px rgba(255, 255, 255, 1), 2px 2px 2px rgba(255, 255, 255, 1)'
+  };
+  const textDonate = {
+    textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
+  };
   return (
     <html lang="en">
       <Head>
@@ -65,6 +71,8 @@ export default function RootLayout({
       </Head>
       <body className="font-douyin">
         <div className="relative h-screen overflow-scroll">
+          <Link href={'/tool/donate'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8"><img src="/img/youxibi.png" className="hover:scale-105 transition-all duration-300 ease-in-out" alt="" /><h1 className="text-white font-bold" style={textDonate}>请开发者打一把mai</h1></Link>
+          <Link href={'/tool/feedback'} className="fixed z-[5] bottom-5 left-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8"><img src="/img/yijianfankui.png" className="hover:scale-105 transition-all duration-300 ease-in-out" alt="" /><h1 className="text-white font-bold" style={textDonate}>意见反馈</h1></Link>
           <AnimatedComponent isVisible={true}>
             {/* BackGround Layer */}
             <div className="fixed top-0 left-0 w-full h-full  z-[-1] bg-[url('/img/bg_shines.png')]">
@@ -92,13 +100,13 @@ export default function RootLayout({
               {/* Top Container */}
               <div className="relative z-[10] w-[90%] max-w-[800px] bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-6 mx-auto mt-10 flex items-center space-x-4 justify-center
           text-2xl  text-white font-bold">
-                <Link href={"/music"} className="hover:scale-125 transition-all duration-300 ease-in-out">音乐</Link>
+                <Link href={"/music"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>音乐</Link>
                 <div>|</div>
-                <Link href={"/region"} className="hover:scale-125 transition-all duration-300 ease-in-out">区域</Link>
+                <Link href={"/region"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>区域</Link>
                 <div>|</div>
-                <Link href={"/tool"} className="hover:scale-125 transition-all duration-300 ease-in-out">工具</Link>
+                <Link href={"/tool"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>工具</Link>
                 <div>|</div>
-                <Link href={"/guide"} className="hover:scale-125 transition-all duration-300 ease-in-out">教学</Link>
+                <Link href={"/guide"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>教学</Link>
               </div>
             </div>
               {children}
