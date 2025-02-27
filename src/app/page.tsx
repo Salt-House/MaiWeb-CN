@@ -186,7 +186,7 @@ export default function Home() {
           </div>
 
           {/* Update News Display */}
-          <div className="w-[900px]  mx-auto p-5">
+          <div className="w-[1200px]  mx-auto p-5">
             <div className="flex justify-center items-center text-center text-white font-bold text-3xl mb-10" style={textstroke}>
               舞萌相关资讯
             </div>
@@ -194,28 +194,46 @@ export default function Home() {
             <div className="flex flex-row justify-center items-center space-x-2">
               {news1.length === 0 ?
                 <>
-                 <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
+                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
                   <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
                   <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
                 </> :
                 <>
                   {news1.map((news, index) => (
                     <>
-                      {/* <Link href={'/'} className={` w-96 h-48  bg-no-repeat bg-contain hover:cursor-pointer `} style={{ backgroundImage: `url(${news.image_url})` }}></Link> */}
-                      <Link href={'/'} className={` w-96 h-48 bg-[url('http://i0.hdslb.com/bfs/archive/4237cbd92befef9ba793ec76effeef25277c26f0.jpg')] bg-no-repeat bg-contain hover:cursor-pointer `}></Link>
+                      <div key={index} className="w-[500px] h-64 bg-no-repeat bg-contain hover:cursor-pointer mb-2">
+                        <h1>{news.title}</h1>
+                        <a href={'/'} >
+                          <img referrerPolicy="no-referrer" className="w-[450px] h-56 object-cover" src={news.image_url} />
+                        </a>
+                      </div>
                     </>
                   ))}
                 </>}
             </div>
             <div className="flex flex-row justify-center items-center space-x-2">
-              <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
-              <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
-              <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
+              {news1.length === 0 ?
+                <>
+                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
+                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
+                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
+                </> :
+                <>
+                  {news2.map((news, index) => (
+                    <>
+                      <div key={index} className="bg-no-repeat bg-contain hover:cursor-pointer">
+                        <a href={'/'} >
+                          <img referrerPolicy="no-referrer" className="w-[450px] h-56 object-cover " src={news.image_url} />
+                        </a>
+                      </div>
+                    </>
+                  ))}
+                </>}
             </div>
           </div>
 
           {/* Search Music */}
-          <div className="relative w-[900px] mx-auto mb-32 flex flex-col justify-center items-center shadow-xl">
+          <div className="relative w-[900px] mx-auto mb-32 mt-16 flex flex-col justify-center items-center shadow-xl">
             <div className="border-4 border-white rounded-2xl">
               <div className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
                 <div className="absolute -top-4 w-48 h-20 text-3xl font-bold text-white" style={textstroke}>
