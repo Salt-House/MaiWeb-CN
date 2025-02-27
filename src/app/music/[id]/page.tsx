@@ -17,6 +17,7 @@ export default function SongDetail() {
         // 先检查 localStorage 是否有歌曲信息
         const songData = localStorage.getItem(`song_${params.id}`)
         if (songData) {
+          console.log('从localStorage获取数据:' + songData)
           setSong(JSON.parse(songData))
           setLoading(false)
           return
@@ -38,6 +39,7 @@ export default function SongDetail() {
         }
 
         const data = await response.json()
+        console.log(data)
         setSong(data[0])  // API 返回的是数组，取第一个元素
         setLoading(false)
 
@@ -127,7 +129,8 @@ function SongInfo({ song }: { song: Song }) {
                 borderColor: getGenreColor(song.genre).border
               }}
             >
-              {transferText(song.genre)} | {song.genre}
+              {/* {transferText(song.genre)} | {song.genre} */}
+              {song.genre}
             </h2>
             <div className="space-y-2.5 text-left">
               <h2 className='text-black'>Artist: {song.artist}</h2>
