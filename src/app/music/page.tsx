@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Song } from "@/app/music/songModel"
 import SongList from '@/app/music/songList'
 
-const currentVersion = "24005"
+const currentVersion = "24000"
 
 export default function MusicPage() {
   //const songs = [sampleSong, sampleSong, sampleSong, sampleSong, sampleSong, sampleSong]
@@ -17,18 +17,22 @@ export default function MusicPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [hasMore, setHasMore] = useState(false)
 
+  const textstroke = {
+    textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
+  };
+
   const defaultUrl = `version=${currentVersion}`
   useEffect(() => {
     getSongs(defaultUrl)
   }, [])
 
-  const getSongs = async (filteredUrl: string, page: number = 1) => {
+  const getSongs = useCallback(async (filteredUrl: string, page: number = 1) => {
     setFilteredUrl(filteredUrl)
 
     const baseUrl = 'https://dev.maimai.moe/api/maimai/songs?'
     const url = `${baseUrl}${filteredUrl}&page=${page}&page_size=100`
 
-    // console.log(url)
+    setLoading(true)
     try {
       const response = await fetch(
         url, {
@@ -50,6 +54,7 @@ export default function MusicPage() {
         setSongs(prev => [...prev, ...data])
       }
       console.log(data);
+      //console.log(url)
       setHasMore(data.length === 100)
       setCurrentPage(page)
       setLoading(false);
@@ -58,7 +63,7 @@ export default function MusicPage() {
       setError(err instanceof Error ? err.message : '获取数据失败')
       setLoading(false)
     }
-  }
+  }, [])
 
   return (
     <>
@@ -87,8 +92,8 @@ export default function MusicPage() {
         <div className="border-4 border-white rounded-2xl">
           <div
             className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
-            <div className="absolute -top-4 w-48 h-20 text-3xl font-bold text-black">
-              {/* Music */}
+            <div className="absolute -top-4 w-48 h-20 text-3xl font-bold text-white" style={textstroke}>
+              音乐
             </div>
             <div className="flex flex-row space-x-16 -mt-4 mb-2">
               <div
@@ -114,10 +119,9 @@ export default function MusicPage() {
                   <div className="w-2/3 flex items-center justify-center">
                     <input
                       type="text"
-
                       placeholder="乐曲名/别名/作曲家"
                       className="w-[90%] h-9 bg-transparent text-black placeholder-gray-500 focus:outline-none transition-none"
-                      onChange={(e) => getSongs(`keywords=${e.target.value}`)}
+                      onChange={(e) => { if (e.target.value !== '') { getSongs(`keywords=${e.target.value}`) } }}
                     />
                   </div>
                 </div>
@@ -285,7 +289,7 @@ function AeuioBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
         {[...Array(15)].map((_, index) => (
           <div
             key={index}
-            className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)] cursor-pointer"
+            className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)] cursor-pointer text-black"
           >
             {items[index]}
           </div>
@@ -307,7 +311,7 @@ function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
         {[...Array(24)].map((_, index) => (
           <div
             key={index}
-            className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)] cursor-pointer"
+            className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)] cursor-pointer text-black"
             onClick={() => levels[index] == "宴"
               ? getSongs("type=utage")
               : getSongs(`level=${encodeURIComponent(levels[index])}`)
@@ -355,13 +359,13 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
             {index < 6 ? (
               <div className="flex w-full h-full">
                 <div
-                  className="w-2/3 flex items-center justify-center border-r-4 pt-1 border-[rgb(155,244,236)] cursor-pointer"
+                  className="w-2/3 flex items-center justify-center border-r-4 pt-1 border-[rgb(155,244,236)] cursor-pointer text-black"
                   onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
                 >
                   {versions[index]}
                 </div>
                 <div
-                  className="w-1/3 flex items-center justify-center text-2xl cursor-pointer"
+                  className="w-1/3 flex items-center justify-center text-2xl cursor-pointer text-black"
                   onClick={() => getSongs(`versions=${versionsPlusIds[versionsPlus[index]]}`)}
                 >
                   +
@@ -370,7 +374,7 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
             ) : (
 
               <div
-                className="px-7 py-2 mt-1 cursor-pointer"
+                className="px-7 py-2 mt-1 cursor-pointer text-black"
                 onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
               >
                 {versions[index]}

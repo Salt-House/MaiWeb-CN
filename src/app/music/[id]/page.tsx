@@ -17,6 +17,7 @@ export default function SongDetail() {
         // 先检查 localStorage 是否有歌曲信息
         const songData = localStorage.getItem(`song_${params.id}`)
         if (songData) {
+          console.log('从localStorage获取数据:' + songData)
           setSong(JSON.parse(songData))
           setLoading(false)
           return
@@ -38,6 +39,7 @@ export default function SongDetail() {
         }
 
         const data = await response.json()
+        console.log(data)
         setSong(data[0])  // API 返回的是数组，取第一个元素
         setLoading(false)
 
@@ -59,7 +61,7 @@ export default function SongDetail() {
           <div
             className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
             <div className="container mx-auto p-4">
-              <h1 className="text-3xl font-bold mb-4">加载中...</h1>
+              <h1 className="text-3xl font-bold mb-4 text-black">加载中...</h1>
             </div>
           </div>
         </div>
@@ -73,7 +75,7 @@ export default function SongDetail() {
         <div className="border-4 border-white rounded-2xl">
           <div
             className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
-            <div className="container mx-auto p-4">
+            <div className="container mx-auto p-4 text-black">
               <div>错误: {error || '未找到歌曲 QAQ'}</div>
             </div>
           </div>
@@ -118,7 +120,7 @@ function SongInfo({ song }: { song: Song }) {
 
         {/* 右侧信息 */}
         <div className="flex-1 flex-col flex-shrink-0">
-          <h1 className="text-3xl font-bold mb-4 ml-1 text-left">{song.title}</h1>
+          <h1 className="text-3xl font-bold mb-4 ml-1 text-left text-black">{song.title}</h1>
           <div className="flex-1 space-y-3 text-left">
             <h2
               className="inline-flex px-5 py-1 mb-1.5 truncate rounded-full text-white border-2"
@@ -127,14 +129,15 @@ function SongInfo({ song }: { song: Song }) {
                 borderColor: getGenreColor(song.genre).border
               }}
             >
-              {transferText(song.genre)} | {song.genre}
+              {/* {transferText(song.genre)} | {song.genre} */}
+              {song.genre}
             </h2>
             <div className="space-y-2.5 text-left">
-              <h2>Artist: {song.artist}</h2>
+              <h2 className='text-black'>Artist: {song.artist}</h2>
               <div className="flex flex-row space-x-4 items-center">
                 <div className="space-y-2.5">
-                  <h2>BPM: {song.bpm}</h2>
-                  <h2>更新版本: {song.version}</h2>
+                  <h2 className='text-black'>BPM: {song.bpm}</h2>
+                  <h2 className='text-black'>更新版本: {song.version}</h2>
                 </div>
                 {song.disabled && (
                   <div className="flex-1 flex justify-center items-center">
@@ -142,9 +145,9 @@ function SongInfo({ song }: { song: Song }) {
                   </div>
                 )}
               </div>
-              <h2>所属区域: {song.map ?? "无"}</h2>
+              <h2 className='text-black'>所属区域: {song.map ?? "无"}</h2>
               <div className="flex flex-row space-x-4">
-                <h2>落雪id: {song.id}</h2>
+                <h2 className='text-black'>落雪id: {song.id}</h2>
                 <a
                   href="https://maimai.lxns.net"
                   target="_blank"

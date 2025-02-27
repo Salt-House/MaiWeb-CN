@@ -36,7 +36,8 @@ export default function SongList({ songs }: SongListProps) {
                       borderColor: getGenreColor(song.genre).border
                     }}
                   >
-                    {transferText(song.genre)}
+                    {/* {transferText(song.genre)} */}
+                    {song.genre}
                   </h2>
                   <h2 className="text-2xl text-black font-bold my-3 truncate max-w-full">
                     {song.title}

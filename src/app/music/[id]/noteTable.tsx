@@ -27,13 +27,13 @@ export default function NoteTable({ song, chartType }: { song: Song, chartType: 
     <table className="w-full mt-4 border-collapse table-fixed">
       <thead>
         <tr>
-          <th className="border-2 border-gray-500 bg-slate-300 p-2">难度</th>
-          <th className="border-2 border-gray-500 bg-slate-300 p-2">Tap</th>
-          <th className="border-2 border-gray-500 bg-slate-300 p-2">Hold</th>
-          <th className="border-2 border-gray-500 bg-slate-300 p-2">Slide</th>
-          <th className="border-2 border-gray-500 bg-slate-300 p-2">Touch</th>
-          <th className="border-2 border-gray-500 bg-slate-300 p-2">Break</th>
-          <th className="border-2 border-gray-500 bg-slate-300 p-2">Total</th>
+          <th className="border-2 border-gray-500 bg-slate-300 p-2 text-black">难度</th>
+          <th className="border-2 border-gray-500 bg-slate-300 p-2 text-black">Tap</th>
+          <th className="border-2 border-gray-500 bg-slate-300 p-2 text-black">Hold</th>
+          <th className="border-2 border-gray-500 bg-slate-300 p-2 text-black">Slide</th>
+          <th className="border-2 border-gray-500 bg-slate-300 p-2 text-black">Touch</th>
+          <th className="border-2 border-gray-500 bg-slate-300 p-2 text-black">Break</th>
+          <th className="border-2 border-gray-500 bg-slate-300 p-2 text-black">Total</th>
         </tr>
       </thead>
       <tbody>
@@ -48,12 +48,12 @@ export default function NoteTable({ song, chartType }: { song: Song, chartType: 
               }}
             >
               {chartType == 'utage' ? `${diff.level} | ${diff.kanji}` : diff.level_value}</td>
-            <td className="border-2 border-gray-500 p-2 text-lg">{diff.tap_num}</td>
-            <td className="border-2 border-gray-500 p-2 text-lg">{diff.hold_num}</td>
-            <td className="border-2 border-gray-500 p-2 text-lg">{diff.slide_num}</td>
-            <td className="border-2 border-gray-500 p-2 text-lg">{diff.touch_num}</td>
-            <td className="border-2 border-gray-500 p-2 text-lg">{diff.break_num}</td>
-            <td className="border-2 border-gray-500 p-2 text-lg">{getTotalNotes(diff)}</td>
+            <td className="border-2 border-gray-500 p-2 text-lg text-black">{diff.tap_num}</td>
+            <td className="border-2 border-gray-500 p-2 text-lg text-black">{diff.hold_num}</td>
+            <td className="border-2 border-gray-500 p-2 text-lg text-black">{diff.slide_num}</td>
+            <td className="border-2 border-gray-500 p-2 text-lg text-black">{diff.touch_num}</td>
+            <td className="border-2 border-gray-500 p-2 text-lg text-black">{diff.break_num}</td>
+            <td className="border-2 border-gray-500 p-2 text-lg text-black">{getTotalNotes(diff)}</td>
           </tr>
         ))}
       </tbody>
