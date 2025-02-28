@@ -191,7 +191,7 @@ export default function Home() {
               舞萌相关资讯
             </div>
             {/* First row */}
-            <div className="flex flex-row justify-center items-center space-x-2">
+            <div className="flex flex-row justify-center items-center space-x-4 mb-6">
               {news1.length === 0 ?
                 <>
                   <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
@@ -201,17 +201,17 @@ export default function Home() {
                 <>
                   {news1.map((news, index) => (
                     <>
-                      <div key={index} className="w-[500px] h-64 bg-no-repeat bg-contain hover:cursor-pointer mb-2">
-                        <h1>{news.title}</h1>
+                      <div key={index} className="w-[540px] h-72 p-2 bg-blue-500 bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
+                        <h1 className="w-96 h-12 py-2 px-1 font-bold text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
                         <a href={'/'} >
-                          <img referrerPolicy="no-referrer" className="w-[450px] h-56 object-cover" src={news.image_url} />
+                          <img referrerPolicy="no-referrer" className="w-[450px] h-52 object-cover border-4 border-white" src={news.image_url} />
                         </a>
                       </div>
                     </>
                   ))}
                 </>}
             </div>
-            <div className="flex flex-row justify-center items-center space-x-2">
+            <div className="flex flex-row justify-center items-center space-x-4">
               {news1.length === 0 ?
                 <>
                   <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
@@ -221,14 +221,18 @@ export default function Home() {
                 <>
                   {news2.map((news, index) => (
                     <>
-                      <div key={index} className="bg-no-repeat bg-contain hover:cursor-pointer">
+                      <div key={index} className="w-[540px] h-72 p-2 bg-blue-500 bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
+                        <h1 className="w-96 h-12 py-2 px-1 font-bold text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
                         <a href={'/'} >
-                          <img referrerPolicy="no-referrer" className="w-[450px] h-56 object-cover " src={news.image_url} />
+                          <img referrerPolicy="no-referrer" className="w-[450px] h-52 object-cover border-4 border-white" src={news.image_url} />
                         </a>
                       </div>
                     </>
                   ))}
                 </>}
+            </div>
+            <div className="w-full flex justify-end mt-2">
+              <a href="" className=" text-xl text-white font-bold hover:border-b-4 border-purple-500 hover:scale-105 transition-all duration-300 ease-in-out" style={textstroke}>查看更多{">"}{">"}</a>
             </div>
           </div>
 
@@ -357,6 +361,9 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            <div className="absolute z-[1000] h-full w-full flex items-center justify-center bg-black bg-opacity-50">
+              <h1 className="text-xl font-bold tracking-wide">请等待接口开放</h1>
+            </div>
           </div>
 
           {/* Map Play display */}
@@ -408,7 +415,6 @@ export default function Home() {
               © 2024 Salt House. All rights reserved.
             </div>
           </div>
-
 
         </div>
       </div>
