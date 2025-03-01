@@ -9,14 +9,20 @@ export default function FeedbackPage() {
     const [contact, setContact] = useState("") //联系方式
     const [category, setCategory] = useState("") //类别
     const [content, setContent] = useState("") //内容
+    const [isModalOpen, setIsModalOpen] = useState(false); // 控制弹窗状态
+    const openModal = () => setIsModalOpen(true); // 打开弹窗
+    const closeModal = () => setIsModalOpen(false); // 关闭弹窗
+    const [display, setDisplay] = useState("正在提交中，请稍等");
+
 
     const sendFeedback = () => {
+        openModal();
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
         const raw = JSON.stringify({
             "to": "e2544733@outlook.com",
-            "subject": category+"反馈",
+            "subject": category + "反馈",
             "text": content
         });
         console.log(raw)
@@ -25,9 +31,16 @@ export default function FeedbackPage() {
             headers: myHeaders,
             body: raw,
         };
-
         fetch("https://dev.maimai.moe/dev/api/send-email", requestOptions)
-            .then((response) => response.text())
+            .then((response) => {
+                const statusCode = response.status;
+                console.log(`Status Code: ${statusCode}`);
+                if (statusCode === 200) {
+                    setDisplay("提交成功，感谢您的反馈")
+                } else {
+                    setDisplay("提交失败，请稍后再试")
+                }
+            })
             .then((result) => console.log(result))
             .catch((error) => console.error(error));
     }
@@ -49,7 +62,7 @@ export default function FeedbackPage() {
                             <label>2、您的邮箱📮</label><br></br>
                             <input className="w-full px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300" type="email" name="email" value={contact} onChange={(e) => setContact(e.target.value)} /><br></br>
                             <label>3、您想要反馈的问题类别</label><br></br>
-                            <div className="flex items-center justify-start space-x-10"> 
+                            <div className="flex items-center justify-start space-x-10">
                                 <div><input className="text-black mr-4 my-2" type="radio" name="identity" value="bug" onChange={(e) => setCategory(e.target.value)} /><label>Bug🐞</label></div>
                                 <div><input className="text-black mr-4" type="radio" name="identity" value="function" onChange={(e) => setCategory(e.target.value)} /><label>功能💡</label></div>
                                 <div><input className="text-black mr-4" type="radio" name="identity" value="optimize" onChange={(e) => setCategory(e.target.value)} /><label>优化😭</label><br></br></div>
@@ -71,6 +84,27 @@ export default function FeedbackPage() {
                         </form>
                     </div>
                 </div>
+                {isModalOpen && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                        <div className="bg-white w-[90%] md:w-[400px] rounded-lg shadow-lg p-6 relative">
+                            <button
+                                onClick={closeModal} // 点击关闭按钮
+                                className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 transition duration-200"
+                            >
+                                ✕
+                            </button>
+                            <h2 className="text-xl  mb-4 text-gray-800">Thank you </h2>
+                            <img src="/img/chara.png" alt="" />
+                            <p className="text-gray-600 mt-10 mb-4 text-center">{display}</p>
+                            <button
+                                onClick={closeModal} // 点击关闭按钮
+                                className="w-full py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition duration-300"
+                            >
+                                确定
+                            </button>
+                        </div>
+                    </div>
+                )}
             </AnimatedComponent>ƒ
         </>
 
