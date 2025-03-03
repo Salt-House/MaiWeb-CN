@@ -5,6 +5,7 @@ import Head from "next/head";
 import Link from "next/link"
 import { useEffect, useState } from "react";
 import ChinaMap from "./components/ChinaMap";
+import { number } from "echarts";
 
 interface NewsProps {
   title: string,
@@ -76,21 +77,51 @@ export default function Home() {
       "source_created_at": "2025-02-24T12:08:29"
     }
   ])
+  const [news3, setNews3] = useState<NewsProps[]>([])
   const [inputValue, setInputValue] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const options = ["1km", "5km", "10km"];
   const textstroke = {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
   };
+  const getNews = async (limit: number, offset: number): Promise<NewsProps[]> => {
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+    };
+
+    try {
+      const response = await fetch(`http://dev.maimai.moe/api//maimai/maiweb/news?limit=${limit}&offset=${offset}`, requestOptions);
+      const result = await response.text();
+      const data = JSON.parse(result);
+      return data;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
 
 
   useEffect(() => {
     const now = new Date();
     const hours = now.getUTCHours() + 8; // Convert to East 8th timezone
     if (hours >= 22 && hours < 23) {
-      alert("系统正处于开发阶段，每天22:30-23:00为部署测试时间，网站不稳定，您的数据可能不会被记录\n请注意，本问卷仅限于中国大陆地区，如果您不在中国大陆地区，请不要填写");
+      alert("晚上好，夜深了，注意休息哦！");
     }
+    getNews(3, 0).then(data => setNews1(data));
+    getNews(3, 3).then(data => setNews2(data));
+    getNews(6, 0).then(data => setNews3(data));
   }, []);
+
+  useEffect(() => {
+    const news = JSON.stringify(news3);
+    console.log(news)
+    localStorage.setItem('mainews', news);
+  }, [news3])
+
 
   return (
     <>
@@ -194,16 +225,13 @@ export default function Home() {
             <div className="flex flex-row justify-center items-center space-x-4 mb-6">
               {news1.length === 0 ?
                 <>
-                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
-                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
-                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
                 </> :
                 <>
                   {news1.map((news, index) => (
                     <>
                       <div key={index} className="w-[540px] h-72 p-2 bg-blue-500 bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
                         <h1 className="w-96 h-12 py-2 px-1 font-bold text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
-                        <a href={'/'} >
+                        <a href={'/tool/news/'+news.source_created_at} >
                           <img referrerPolicy="no-referrer" className="w-[450px] h-52 object-cover border-4 border-white" src={news.image_url} />
                         </a>
                       </div>
@@ -214,16 +242,13 @@ export default function Home() {
             <div className="flex flex-row justify-center items-center space-x-4">
               {news1.length === 0 ?
                 <>
-                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
-                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
-                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
                 </> :
                 <>
                   {news2.map((news, index) => (
                     <>
                       <div key={index} className="w-[540px] h-72 p-2 bg-blue-500 bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
                         <h1 className="w-96 h-12 py-2 px-1 font-bold text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
-                        <a href={'/'} >
+                        <a href={'/tool/news/'+news.source_created_at} >
                           <img referrerPolicy="no-referrer" className="w-[450px] h-52 object-cover border-4 border-white" src={news.image_url} />
                         </a>
                       </div>
