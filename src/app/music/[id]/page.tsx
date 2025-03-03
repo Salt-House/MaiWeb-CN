@@ -85,6 +85,7 @@ export default function SongDetail() {
           </div>
         </div>
       </div>
+      </div>
     )
   }
 
