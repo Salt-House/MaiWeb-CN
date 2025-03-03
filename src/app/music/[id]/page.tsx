@@ -140,8 +140,8 @@ function SongInfo({ song }: { song: Song }) {
                 borderColor: getGenreColor(song.genre).border
               }}
             >
-              {/* {transferText(song.genre)} | {song.genre} */}
-              {song.genre}
+              {transferText(song.genre)} | {song.genre}
+              {/* {song.genre} */}
             </h2>
             <div className="space-y-2.5 text-left">
               <h2 className='text-black'>Artist: {song.artist}</h2>
