@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Song } from "@/app/music/songModel"
 import SongList from '@/app/music/songList'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 const currentVersion = "24000"
 
@@ -32,7 +33,10 @@ export default function MusicPage() {
     const baseUrl = 'https://dev.maimai.moe/api/maimai/songs?'
     const url = `${baseUrl}${filteredUrl}&page=${page}&page_size=100`
 
-    setLoading(true)
+    if (!songs) {
+      setLoading(true)
+    }
+
     try {
       const response = await fetch(
         url, {
@@ -158,12 +162,15 @@ export default function MusicPage() {
           <div className="border-4 border-white rounded-2xl">
             <div className="w-[900px] min-h-60 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
               {loading ? (
-                <div>加载中...</div>
+                <LoadingSpinner size='sm' message="加载中..." description="正在获取乐曲数据" />
               ) : error ? (
                 <div>错误: {error}</div>
               ) : (
                 songs.length === 0 ? (
-                  <div>{`没有找到相关乐曲……{{(>_<)}}`}</div>
+                  <>
+                    <div className='text-3xl mb-2'>❌</div>
+                    <div>{`没有找到相关乐曲……{{(>_<)}}`}</div>
+                  </>
                 ) : (
                   <SongList songs={songs} />
                 )
@@ -209,6 +216,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
           <div
             className="w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=POPSアニメ")}
+          // onClick={() => getSongs("genre=POPSアニメ")}
           >
             流行&动漫
           </div>
@@ -218,6 +226,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
           <div
             className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=niconicoボーカロイド")}
+          // onClick={() => getSongs("genre=niconico&VOCALOID")}
           >
             <span>niconico&</span>
             <span>VOCALOID</span>
@@ -228,6 +237,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
           <div
             className="w-44 h-16 border-4 border-[#7f2bb6] rounded-full bg-[rgb(159,54,227)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=東方Project")}
+          // onClick={() => getSongs("genre=东方Project")}
           >
             东方Project
           </div>
@@ -239,6 +249,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
           <div
             className="w-44 h-16 border-4 border-[#62b942] rounded-full bg-[rgb(122,231,83)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=ゲームバラエティ")}
+          // onClick={() => getSongs("genre=其他游戏")}
           >
             其他游戏
           </div>
@@ -248,6 +259,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
           <div
             className="w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=maimai")}
+          // onClick={() => getSongs("genre=舞萌")}
           >
             舞萌
           </div>
