@@ -5,6 +5,7 @@ import Head from "next/head";
 import Link from "next/link"
 import { useEffect, useState } from "react";
 import ChinaMap from "./components/ChinaMap";
+import { number } from "echarts";
 
 interface NewsProps {
   title: string,
@@ -76,21 +77,50 @@ export default function Home() {
       "source_created_at": "2025-02-24T12:08:29"
     }
   ])
+  const [news3, setNews3] = useState<NewsProps[]>([])
   const [inputValue, setInputValue] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const options = ["1km", "5km", "10km"];
   const textstroke = {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
   };
+  const getNews = async (limit: number, offset: number): Promise<NewsProps[]> => {
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+    };
+
+    try {
+      const response = await fetch(`https://dev.maimai.moe/api//maimai/maiweb/news?limit=${limit}&offset=${offset}`, requestOptions);
+      const result = await response.text();
+      const data = JSON.parse(result);
+      return data;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
 
 
   useEffect(() => {
     const now = new Date();
     const hours = now.getUTCHours() + 8; // Convert to East 8th timezone
     if (hours >= 22 && hours < 23) {
-      alert("系统正处于开发阶段，每天22:30-23:00为部署测试时间，网站不稳定，您的数据可能不会被记录\n请注意，本问卷仅限于中国大陆地区，如果您不在中国大陆地区，请不要填写");
+      alert("晚上好，夜深了，注意休息哦！");
     }
+    getNews(3, 0).then(data => setNews1(data));
+    getNews(3, 3).then(data => setNews2(data));
+    getNews(6, 0).then(data => setNews3(data));
   }, []);
+
+  useEffect(() => {
+    const news = JSON.stringify(news3);
+    localStorage.setItem('mainews', news);
+  }, [news3])
+
 
   return (
     <>
@@ -186,36 +216,52 @@ export default function Home() {
           </div>
 
           {/* Update News Display */}
-          <div className="w-[900px]  mx-auto p-5">
+          <div className="w-[1200px]  mx-auto p-5">
             <div className="flex justify-center items-center text-center text-white font-bold text-3xl mb-10" style={textstroke}>
               舞萌相关资讯
             </div>
             {/* First row */}
-            <div className="flex flex-row justify-center items-center space-x-2">
+            <div className="flex flex-row justify-center items-center space-x-4 mb-6">
               {news1.length === 0 ?
                 <>
-                 <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
-                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
-                  <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
                 </> :
                 <>
                   {news1.map((news, index) => (
                     <>
-                      {/* <Link href={'/'} className={` w-96 h-48  bg-no-repeat bg-contain hover:cursor-pointer `} style={{ backgroundImage: `url(${news.image_url})` }}></Link> */}
-                      <Link href={'/'} className={` w-96 h-48 bg-[url('http://i0.hdslb.com/bfs/archive/4237cbd92befef9ba793ec76effeef25277c26f0.jpg')] bg-no-repeat bg-contain hover:cursor-pointer `}></Link>
+                      <div key={index} className="w-[540px] h-72 p-2 bg-blue-500 bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
+                        <h1 className="w-96 h-12 py-2 px-1 font-bold text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
+                        <a href={'/tool/news/'+news.source_created_at} >
+                          <img referrerPolicy="no-referrer" className="w-[450px] h-52 object-cover border-4 border-white" src={news.image_url} />
+                        </a>
+                      </div>
                     </>
                   ))}
                 </>}
             </div>
-            <div className="flex flex-row justify-center items-center space-x-2">
-              <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
-              <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
-              <Link href={'/'} className="w-96 h-48 bg-[url('/img/news/sample.png')] bg-no-repeat bg-contain hover:cursor-pointer"></Link>
+            <div className="flex flex-row justify-center items-center space-x-4">
+              {news1.length === 0 ?
+                <>
+                </> :
+                <>
+                  {news2.map((news, index) => (
+                    <>
+                      <div key={index} className="w-[540px] h-72 p-2 bg-blue-500 bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
+                        <h1 className="w-96 h-12 py-2 px-1 font-bold text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
+                        <a href={'/tool/news/'+news.source_created_at} >
+                          <img referrerPolicy="no-referrer" className="w-[450px] h-52 object-cover border-4 border-white" src={news.image_url} />
+                        </a>
+                      </div>
+                    </>
+                  ))}
+                </>}
+            </div>
+            <div className="w-full flex justify-end mt-2">
+              <a href="" className=" text-xl text-white font-bold hover:border-b-4 border-purple-500 hover:scale-105 transition-all duration-300 ease-in-out" style={textstroke}>查看更多{">"}{">"}</a>
             </div>
           </div>
 
           {/* Search Music */}
-          <div className="relative w-[900px] mx-auto mb-32 flex flex-col justify-center items-center shadow-xl">
+          <div className="relative w-[900px] mx-auto mb-32 mt-16 flex flex-col justify-center items-center shadow-xl">
             <div className="border-4 border-white rounded-2xl">
               <div className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
                 <div className="absolute -top-4 w-48 h-20 text-3xl font-bold text-white" style={textstroke}>
@@ -339,6 +385,9 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            <div className="absolute z-[1000] h-full w-full flex items-center justify-center bg-black bg-opacity-50">
+              <h1 className="text-xl font-bold tracking-wide">请等待接口开放</h1>
+            </div>
           </div>
 
           {/* Map Play display */}
@@ -390,7 +439,6 @@ export default function Home() {
               © 2024 Salt House. All rights reserved.
             </div>
           </div>
-
 
         </div>
       </div>
