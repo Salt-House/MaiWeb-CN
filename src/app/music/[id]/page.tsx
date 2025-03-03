@@ -185,15 +185,20 @@ function LevelBar({ song }: { song: Song }) {
           <div className="flex items-center">
             <span className="w-16 text-sm text-white bg-blue-500 rounded-full py-1 mr-2">标准</span>
             <div className="flex space-x-2">
-              {song.difficulties.standard.map((diff: { level_index: number; level: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined }, idx: Key | null | undefined) => (
-                <div
-                  key={idx}
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
-                  style={{
-                    backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
-                  }}
-                >
-                  {diff.level}
+              {song.difficulties.standard.map((diff: { level_index: number; level: string, note_designer: string }, idx: Key | null | undefined) => (
+                <div className="flex items-end space-x-1">
+                  <div
+                    key={idx}
+                    className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
+                    style={{
+                      backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
+                    }}
+                  >
+                    {diff.level}
+                  </div>
+                  <div>
+                    {(diff.note_designer == "-") ? undefined : (diff.note_designer)}
+                  </div>
                 </div>
               ))}
             </div>
@@ -208,15 +213,20 @@ function LevelBar({ song }: { song: Song }) {
           <div className="flex items-center">
             <span className="w-16 text-sm text-white bg-orange-500 rounded-full py-1 mr-2">DX</span>
             <div className="flex space-x-2">
-              {song.difficulties.dx.map((diff: { level_index: number; level: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined }, idx: Key | null | undefined) => (
-                <div
-                  key={idx}
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
-                  style={{
-                    backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
-                  }}
-                >
-                  {diff.level}
+              {song.difficulties.dx.map((diff: { level_index: number; level: string, note_designer: string }, idx: Key | null | undefined) => (
+                <div className="flex items-end space-x-1">
+                  <div
+                    key={idx}
+                    className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
+                    style={{
+                      backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
+                    }}
+                  >
+                    {diff.level}
+                  </div>
+                  <div>
+                    {(diff.note_designer == "-") ? undefined : (diff.note_designer)}
+                  </div>
                 </div>
               ))}
             </div>
@@ -233,7 +243,7 @@ function LevelBar({ song }: { song: Song }) {
               backgroundColor: "rgb(220, 56, 184)"
             }}>宴会场</span>
             <div className="flex space-x-2">
-              {song.difficulties.utage.map((diff: { level: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined }, idx: Key | null | undefined) => (
+              {song.difficulties.utage.map((diff: { level_index: number; level: string, note_designer: string }, idx: Key | null | undefined) => (
                 <div
                   key={idx}
                   className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
