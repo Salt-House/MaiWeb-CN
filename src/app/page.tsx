@@ -94,7 +94,7 @@ export default function Home() {
     };
 
     try {
-      const response = await fetch(`http://dev.maimai.moe/api//maimai/maiweb/news?limit=${limit}&offset=${offset}`, requestOptions);
+      const response = await fetch(`https://dev.maimai.moe/api//maimai/maiweb/news?limit=${limit}&offset=${offset}`, requestOptions);
       const result = await response.text();
       const data = JSON.parse(result);
       return data;
@@ -118,7 +118,6 @@ export default function Home() {
 
   useEffect(() => {
     const news = JSON.stringify(news3);
-    console.log(news)
     localStorage.setItem('mainews', news);
   }, [news3])
 
