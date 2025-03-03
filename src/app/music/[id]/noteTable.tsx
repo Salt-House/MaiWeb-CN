@@ -51,7 +51,7 @@ export default function NoteTable({ song, chartType }: { song: Song, chartType: 
             <td className="border-2 border-gray-500 p-2 text-lg text-black">{diff.tap_num}</td>
             <td className="border-2 border-gray-500 p-2 text-lg text-black">{diff.hold_num}</td>
             <td className="border-2 border-gray-500 p-2 text-lg text-black">{diff.slide_num}</td>
-            <td className="border-2 border-gray-500 p-2 text-lg text-black">{diff.touch_num}</td>
+            <td className="border-2 border-gray-500 p-2 text-lg text-black">{(chartType == ChartType.STANDARD) ? "-" : diff.touch_num}</td>
             <td className="border-2 border-gray-500 p-2 text-lg text-black">{diff.break_num}</td>
             <td className="border-2 border-gray-500 p-2 text-lg text-black">{getTotalNotes(diff)}</td>
           </tr>

@@ -243,7 +243,7 @@ function LevelBar({ song }: { song: Song }) {
               backgroundColor: "rgb(220, 56, 184)"
             }}>宴会场</span>
             <div className="flex space-x-2">
-              {song.difficulties.utage.map((diff: { level_index: number; level: string, note_designer: string }, idx: Key | null | undefined) => (
+              {song.difficulties.utage.map((diff: { level: string }, idx: Key | null | undefined) => (
                 <div
                   key={idx}
                   className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
