@@ -4,6 +4,8 @@ import { useParams } from 'next/navigation'
 import { Song, getDifficultyColor, transferText, getGenreColor, ChartType } from '@/app/music/songModel'
 import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, AwaitedReactNode, Key, useState, useEffect } from 'react'
 import NoteTable from './noteTable'
+import LoadingSpinner from '@/app/components/LoadingSpinner'
+import MusicPlayer from './musicPlayer'
 
 export default function SongDetail() {
   const params = useParams()
@@ -54,6 +56,8 @@ export default function SongDetail() {
     fetchSongData()
   }, [params.id])
 
+  const audio_url = `https://assets2.lxns.net/maimai/music/${song?.id ?? params.id}.mp3`
+
   if (loading) {
     return (
       <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
@@ -61,7 +65,7 @@ export default function SongDetail() {
           <div
             className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
             <div className="container mx-auto p-4">
-              <h1 className="text-3xl font-bold mb-4 text-black">加载中...</h1>
+              <LoadingSpinner size='sm' message="加载中..." description="正在获取乐曲数据" />
             </div>
           </div>
         </div>
@@ -83,11 +87,18 @@ export default function SongDetail() {
       </div>
     )
   }
+
   return (
     <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
       <div className="border-4 border-white rounded-2xl">
         <div className="w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-[rgb(155,244,236)]">
           <SongInfo song={song} />
+
+          {/* 音乐播放器 */}
+          <div className="mt-2 mb-6 mx-6">
+            <MusicPlayer audioUrl={audio_url} title={song.title} />
+          </div>
+
           <div className="flex flex-row space-x-6 justify-center items-center">
             <div className="w-2/5 h-1 rounded-full bg-gray-300" />
             <div className="text-gray-700 font-bold text-xl">谱面详情</div>
