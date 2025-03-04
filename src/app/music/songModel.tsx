@@ -81,6 +81,30 @@ export function transferText(genre: string): string {
   return texts[genre as keyof typeof texts] || genre
 }
 
+// 乐曲版本文字转换
+export function transferVersion(version: number): string {
+  const versions = {
+    10000: 'maimai',
+    11000: 'maimai PLUS',
+    12000: 'maimai GreeN',
+    13000: 'maimai GreeN PLUS',
+    14000: 'maimai ORANGE',
+    15000: 'maimai ORANGE PLUS',
+    16000: 'maimai PiNK',
+    17000: 'maimai PiNK PLUS',
+    18000: 'maimai MURASAKi',
+    19000: 'maimai MURASAKi PLUS',
+    19900: 'maimai FiNALE',
+    20000: '舞萌DX',
+    21000: '舞萌DX 2021',
+    22000: '舞萌DX 2022',
+    23000: '舞萌DX 2023',
+    24000: '舞萌DX 2024',
+  }
+
+  return versions[version as keyof typeof versions] || version.toString()
+}
+
 // 乐曲种类对应颜色
 export function getGenreColor(genre: string): { bg: string, border: string } {
   const colors = {
