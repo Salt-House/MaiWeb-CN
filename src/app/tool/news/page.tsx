@@ -29,7 +29,7 @@ export default function NewsPage() {
         };
 
         try {
-            const response = await fetch(`http://dev.maimai.moe/api//maimai/maiweb/news?limit=${limit}&offset=${offset}`, requestOptions);
+            const response = await fetch(`https://dev.maimai.moe/api//maimai/maiweb/news?limit=${limit}&offset=${offset}`, requestOptions);
             const result = await response.text();
             const data = JSON.parse(result);
             console.log(data.length)
