@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 @import url('https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css');
 
 :root {
@@ -34,6 +34,24 @@ body {
       rgb(var(--background-start-rgb)) 85%,
       /* 第三段：从中间颜色渐变到变量指定的 RGB 颜色 */
       rgb(255, 255, 255) 90%);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overflow: hidden;
+}
+
+html {
+  height: -webkit-fill-available;
+}
+
+@supports(padding: max(0px)) {
+  .pb-safe {
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+    background-color: white;
+  }
+
+  .bottom-safe {
+    bottom: max(0px, env(safe-area-inset-bottom));
+  }
 }
 
 @layer utilities {
