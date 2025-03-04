@@ -1,8 +1,8 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { Song, getDifficultyColor, transferText, getGenreColor, ChartType } from '@/app/music/songModel'
-import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, AwaitedReactNode, Key, useState, useEffect } from 'react'
+import { Song, getDifficultyColor, transferText, transferVersion, getGenreColor, ChartType } from '@/app/music/songModel'
+import { Key, useState, useEffect } from 'react'
 import NoteTable from './noteTable'
 import LoadingSpinner from '@/app/components/LoadingSpinner'
 import MusicPlayer from './musicPlayer'
@@ -148,7 +148,7 @@ function SongInfo({ song }: { song: Song }) {
               <div className="flex flex-row space-x-4 items-center">
                 <div className="space-y-2.5">
                   <h2 className='text-black'>BPM: {song.bpm}</h2>
-                  <h2 className='text-black'>更新版本: {song.version}</h2>
+                  <h2 className='text-black'>更新版本: {transferVersion(song.version)}</h2>
                 </div>
                 {song.disabled && (
                   <div className="flex-1 flex justify-center items-center">
