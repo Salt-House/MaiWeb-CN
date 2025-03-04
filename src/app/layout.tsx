@@ -56,6 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const textstroke = {
+  const textstroke = {
     textShadow: '-2px -2px 2px rgba(255, 255, 255, 1), 2px -2px 2px rgba(255, 255, 255, 1), -2px 2px 2px rgba(255, 255, 255, 1), 2px 2px 2px rgba(255, 255, 255, 1)'
   };
   const textDonate = {
@@ -71,9 +72,9 @@ export default function RootLayout({
         <meta name="referrer" content="no-referrer" />
       </Head>
       <body className="font-douyin">
-        <div className="relative h-screen overflow-scroll">
-          <Link href={'/tool/donate'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8"><img src="/img/youxibi.png" className="hover:scale-105 transition-all duration-300 ease-in-out" alt="" /><h1 className="text-white font-bold" style={textDonate}>请开发者打一把mai</h1></Link>
-          <Link href={'/tool/feedback'} className="fixed z-[5] bottom-5 left-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8"><img src="/img/yijianfankui.png" className="hover:scale-105 transition-all duration-300 ease-in-out" alt="" /><h1 className="text-white font-bold" style={textDonate}>意见反馈</h1></Link>
+        <div className="relative h-screen overflow-y-auto pb-safe">
+          <Link href={'/tool/donate'} className="fixed z-[5] bottom-safe right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8"><img src="/img/youxibi.png" className="hover:scale-105 transition-all duration-300 ease-in-out" alt="" /><h1 className="text-white font-bold" style={textDonate}>请开发者打一把mai</h1></Link>
+          <Link href={'/tool/feedback'} className="fixed z-[5] bottom-safe left-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8"><img src="/img/yijianfankui.png" className="hover:scale-105 transition-all duration-300 ease-in-out" alt="" /><h1 className="text-white font-bold" style={textDonate}>意见反馈</h1></Link>
           <AnimatedComponent isVisible={true}>
             {/* BackGround Layer */}
             <div className="fixed top-0 left-0 w-full h-full  z-[-1] bg-[url('/img/bg_shines.png')]">
@@ -110,8 +111,8 @@ export default function RootLayout({
                 <Link href={"/guide"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>教学</Link>
               </div>
             </div>
-            {children}
-            <Link href={"/"} className="max-sm:hidden top-4 left-4 size-44">
+              {children}
+            <Link href={"/"} className="top-4 left-4 size-44">
               <div className="fixed top-4 left-4 size-44 bg-[url('/img/moon.png')] bg-contain flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
                 <img src="/img/logo.png" alt="" />
               </div>
