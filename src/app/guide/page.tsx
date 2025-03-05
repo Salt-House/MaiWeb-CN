@@ -39,7 +39,12 @@ export default function GuidePage() {
       ) : (
         <ul>
           {guide.map((item, index) => (
-            <li key={index}>{item.title}</li>
+            <>
+              <div key={index} className="flex flex-col justify-center items-center">
+                <h1 className="text-2xl font-bold">{item.title}</h1>
+                <p>{item.content}</p>
+              </div>
+            </>
           ))}
         </ul>
       )}
