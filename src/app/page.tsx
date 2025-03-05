@@ -5,7 +5,8 @@ import Head from "next/head";
 import Link from "next/link"
 import { useEffect, useState } from "react";
 import ChinaMap from "./components/ChinaMap";
-import { number } from "echarts";
+import { FcClock } from "react-icons/fc";
+
 
 interface NewsProps {
   title: string,
@@ -77,10 +78,13 @@ export default function Home() {
       "source_created_at": "2025-02-24T12:08:29"
     }
   ])
+  const [latitude, setLatitude] = useState<number | undefined>(undefined);
+  const [longitude, setLongitude] = useState<number | undefined>(undefined);
   const [news3, setNews3] = useState<NewsProps[]>([])
   const [inputValue, setInputValue] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const options = ["1km", "5km", "10km"];
+  const [range, setRange] = useState(1);
   const textstroke = {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
   };
@@ -104,12 +108,38 @@ export default function Home() {
     }
   }
 
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+        },
+        (err) => {
+          console.log('Cannot get location');
+        }
+      );
+    } else {
+      console.log('Cannot get location');
+    }
+  }
+
+  const getGameCenter = async (range:number) => {
+    const requestOptions = {
+      method: "GET",
+    };
+    
+    fetch(`https://maimap.tech/api/arcades/get/nearby?lat=${latitude}&lng=${longitude}&range=${range}&sortMethod=DistanceAscending`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.error(error));
+  }
 
   useEffect(() => {
     const now = new Date();
     const hours = now.getUTCHours() + 8; // Convert to East 8th timezone
     if (hours >= 22 && hours < 23) {
-      alert("晚上好，夜深了，注意休息哦！");
+      // alert("晚上好，夜深了，注意休息哦！");
     }
     getNews(3, 0).then(data => setNews1(data));
     getNews(3, 3).then(data => setNews2(data));
@@ -189,11 +219,12 @@ export default function Home() {
                 </div>
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
                   <div className="">2024/12/31</div>
-                  <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">舞萌背景介绍</div>
+                  <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">舞萌成绩工具</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
-                      <li>区域背景介绍介绍</li>
-                      <li>角色背景介绍</li>
+                      <li>水鱼、落雪绑定✅</li>
+                      <li>机台绑定✅</li>
+                      <li>B50查询✅</li>
                       <li className="list-none">.......</li>
                     </ul>
                   </div>
@@ -203,8 +234,8 @@ export default function Home() {
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">资讯</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
-                      <li>国服舞萌最新资讯</li>
-                      <li>最新最热资讯</li>
+                      <li>国服舞萌最新资讯✅</li>
+                      <li>最新最热资讯✅</li>
                       <li>未来更新爆料</li>
                       <li>联动资讯</li>
                       <li>机厅活动资讯</li>
@@ -230,7 +261,7 @@ export default function Home() {
                     <>
                       <div key={index} className="w-[540px] h-72 p-2 bg-blue-500 bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
                         <h1 className="w-96 h-12 py-2 px-1 font-bold text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
-                        <a href={'/tool/news/'+news.source_created_at} >
+                        <a href={'/tool/news/' + news.source_created_at} >
                           <img referrerPolicy="no-referrer" className="w-[450px] h-52 object-cover border-4 border-white" src={news.image_url} />
                         </a>
                       </div>
@@ -247,7 +278,7 @@ export default function Home() {
                     <>
                       <div key={index} className="w-[540px] h-72 p-2 bg-blue-500 bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
                         <h1 className="w-96 h-12 py-2 px-1 font-bold text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
-                        <a href={'/tool/news/'+news.source_created_at} >
+                        <a href={'/tool/news/' + news.source_created_at} >
                           <img referrerPolicy="no-referrer" className="w-[450px] h-52 object-cover border-4 border-white" src={news.image_url} />
                         </a>
                       </div>
