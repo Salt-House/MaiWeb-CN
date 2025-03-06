@@ -68,7 +68,6 @@ export default function MusicPage() {
       setLoading(false)
     }
   }, [])
-
   useEffect(() => {
     //MARK: - 临时方案：获取全部乐曲分数数据
     const storedToken = localStorage.getItem('token');
@@ -89,6 +88,7 @@ export default function MusicPage() {
         console.log("获取分数失败" + error)
       });
   }, [])
+
 
   // MARK: - 主视图
   return (
