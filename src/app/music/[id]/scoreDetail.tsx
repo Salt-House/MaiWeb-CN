@@ -12,8 +12,10 @@ export default function ScoreDetail({ song }: { song: Song }) {
     if (storedScores) {
       try {
         const scoresData = JSON.parse(storedScores)
+        console.log("解析分数数据成功:", scoresData)
         // 根据歌曲ID查找对应的所有难度分数数据
-        const songScores = scoresData.filter((item: any) => item.id === song.id)
+        console.log("歌曲ID:", song.id)
+        const songScores = scoresData.filter((item:any) => item.song_id === song.id)
         setScoreData(songScores)
         console.log("找到分数了：", songScores)
       } catch (e) {
@@ -100,7 +102,6 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
           {isExpanded ? <FaChevronUp size={16} /> : <FaChevronDown size={16} />}
         </button>
       </div>
-
       {isExpanded && (
         <div className="space-y-4 mx-2">
           {scores.map((score: any, index: number) => (
