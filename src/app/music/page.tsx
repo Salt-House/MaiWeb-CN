@@ -69,6 +69,45 @@ export default function MusicPage() {
     }
   }, [])
 
+  //MARK: - 临时方案：获取全部乐曲分数数据
+  const storedToken = localStorage.getItem('token');
+  if (storedToken) {
+    console.log("已登录")
+    // 获取全部乐曲分数数据
+    interface ThirdAccount {
+      server: string,
+      nickname: string,
+      identifier: string,
+      from: string
+    }
+    const [nowFrom, setNowFrom] = useState<string | null>('暂无可用数据源')
+    const [accounts, setAccounts] = useState<ThirdAccount[]>([])
+    let nickname = ""
+    for (let i = 0; i < accounts.length; i++) {
+      if (accounts[i].from == "lxns") {
+        nickname = accounts[i].identifier
+      }
+    }
+    const myHeaders = new Headers();
+    myHeaders.append("accept", "application/json");
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+    };
+
+    fetch(`https://dev.maimai.moe/api/maimai/lxns/scores?friend_code=196218429781699`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        console.log("获取分数成功" + result)
+        localStorage.setItem('scores', result)
+      })
+      .catch((error) => {
+        console.log("获取分数失败" + error)
+      });
+  }
+
+  // MARK: - 主视图
   return (
     <>
       <style jsx>{`
@@ -198,6 +237,7 @@ export default function MusicPage() {
   )
 }
 
+// MARK: - 分类栏
 function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
   return (
     <>
