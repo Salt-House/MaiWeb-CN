@@ -43,7 +43,6 @@ export enum ChartType {
   UTAGE = 'utage'
 }
 
-
 // 难度成绩分布曲线
 export interface RateCurve {
   sample_size: number;
@@ -53,6 +52,20 @@ export interface RateCurve {
   avg_dx_score: number;
   rate_sample_size: { [key: number]: number };
   fc_sample_size: { [key: number]: number };
+}
+
+export interface SongScoreProps {
+  id: string,
+  song_name: string,
+  level: string,
+  level_index: number,
+  achievements: number,
+  fc: number,
+  fs: number,
+  dx_score: number,
+  dx_rating: number,
+  rate: number,
+  type: string
 }
 
 // 难度颜色辅助函数

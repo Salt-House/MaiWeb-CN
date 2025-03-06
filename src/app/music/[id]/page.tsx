@@ -6,6 +6,7 @@ import { Key, useState, useEffect } from 'react'
 import NoteTable from './noteTable'
 import LoadingSpinner from '@/app/components/LoadingSpinner'
 import MusicPlayer from './musicPlayer'
+import ScoreDetail from './scoreDetail'
 
 export default function SongDetail() {
   const params = useParams()
@@ -99,12 +100,21 @@ export default function SongDetail() {
             <MusicPlayer audioUrl={audio_url} title={song.title} />
           </div>
 
+          {/* 乐曲成绩 */}
+          <div className="flex flex-row space-x-6 justify-center items-center">
+            <div className="w-2/5 h-1 rounded-full bg-gray-300" />
+            <div className="text-gray-700 font-bold text-xl">乐曲成绩</div>
+            <div className="w-2/5 h-1 rounded-full bg-gray-300" />
+          </div>
+          <ScoreDetail song={song} />
+
+          {/* 谱面详情 */}
           <div className="flex flex-row space-x-6 justify-center items-center">
             <div className="w-2/5 h-1 rounded-full bg-gray-300" />
             <div className="text-gray-700 font-bold text-xl">谱面详情</div>
             <div className="w-2/5 h-1 rounded-full bg-gray-300" />
           </div>
-          <LevelBar song={song} />
+          <NoteDetail song={song} />
         </div>
       </div>
     </div>
@@ -176,7 +186,7 @@ function SongInfo({ song }: { song: Song }) {
   )
 }
 
-function LevelBar({ song }: { song: Song }) {
+function NoteDetail({ song }: { song: Song }) {
   return (
     <div className="flex flex-col space-y-4 m-6">
       {/* Standard谱面 */}
@@ -262,3 +272,4 @@ function LevelBar({ song }: { song: Song }) {
     </div>
   )
 }
+
