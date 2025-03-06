@@ -160,11 +160,11 @@ export default function Home() {
         <div className="relative w-full">
 
           {/* Control */}
-          <div className="w-[200px] h-[100px]"></div>
+          <div className="max-sm:h-[40px] w-[200px] h-[100px]"></div>
 
           {/* Welcome to Home page */}
           <div className=" flex flex-col justify-center items-center">
-            <div className="relative w-[900px] mx-auto text-4xl text-center font-bold text-white bg-clip-text text-transparent"
+            <div className="max-sm:w-[420px] relative w-[900px] mx-auto text-4xl text-center font-bold text-white bg-clip-text text-transparent"
               style={textstroke}>
               Welcome to Maimai.moe In China!!!<br></br>
               本站点提供以下服务功能

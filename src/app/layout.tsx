@@ -96,7 +96,7 @@ export default function RootLayout({
             <div className="relative">
               {/* Top Container Back */}
               <div className="absolute inset-0 z-[-1] flex justify-center ">
-                <div className="w-[900px] h-[500px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain"></div>
+                <div className="max-sm:w-[600px] w-[900px] h-[500px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain"></div>
               </div>
               {/* Top Container */}
               <div className="relative z-[10] w-[90%] max-w-[800px] bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-6 mx-auto mt-10 flex items-center space-x-4 justify-center
@@ -111,12 +111,12 @@ export default function RootLayout({
               </div>
             </div>
             {children}
-            <Link href={"/"} className="top-4 left-4 size-44">
+            <Link href={"/"} className="max-sm:hidden top-4 left-4 size-44">
               <div className="fixed top-4 left-4 size-44 bg-[url('/img/moon.png')] bg-contain flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
                 <img src="/img/logo.png" alt="" />
               </div>
             </Link>
-            <Link href={"/user"}>
+            <Link href={"/user"} className="max-sm:hidden ">
               <div className="fixed top-4 right-4 size-44  bg-[url('/img/user.png')] bg-no-repeat bg-contain hover:scale-125 transition-all duration-300 ease-in-out">
               </div>
             </Link>
