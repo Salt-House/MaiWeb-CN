@@ -56,7 +56,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const textstroke = {
-  const textstroke = {
     textShadow: '-2px -2px 2px rgba(255, 255, 255, 1), 2px -2px 2px rgba(255, 255, 255, 1), -2px 2px 2px rgba(255, 255, 255, 1), 2px 2px 2px rgba(255, 255, 255, 1)'
   };
   const textDonate = {
