@@ -2,7 +2,7 @@
 
 import AnimatedComponent from "@/app/components/AnimatedComponent";
 import ChinaMap from "@/app/components/ChinaMap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 
 interface FunctionStatus {
     BUpdate: boolean,
@@ -244,7 +244,7 @@ export default function UserProfilePage() {
                             <hr className='w-full border-t-4 border-gray-400 my-5' />
                             <div className='w-full p-5 flex flex-row space-x-2 items-center bg-no-repeat bg-contain bg-center' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
                                 <div className='flex flex-col justify-center items-center' >
-                                    {token == null ?
+                                    {token == null || userdata.mai_icon_id == null ?
                                         <img src={baseUrl + '/icon/1.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
                                         :
                                         <img src={baseUrl + '/icon/' + userdata.mai_icon_id + '.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
