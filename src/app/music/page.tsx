@@ -78,7 +78,7 @@ export default function MusicPage() {
       method: "GET",
       headers: myHeaders,
     };
-    fetch("http://dev.maimai.moe/api/maimai/maiweb/scores", requestOptions)
+    fetch("https://dev.maimai.moe/api/maimai/maiweb/scores", requestOptions)
       .then((response) => response.text())
       .then((result) => {
         console.log("获取分数成功" + result)
