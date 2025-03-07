@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
@@ -74,7 +73,7 @@ export default function MusicGrade(props: MusicGradeProps) {
   }
   switch (props.fc) {
     case 0:
-      fc = null;
+      fc = '/img/grade/app.webp';
       break;
     case 1:
       fc = '/img/grade/ap.webp';
@@ -91,19 +90,19 @@ export default function MusicGrade(props: MusicGradeProps) {
   }
   switch (props.fs) {
     case 0:
-      fs = null;
+      fs = '/img/grade/sync.webp';
       break;
     case 1:
-      fs = null;
+      fs = '/img/grade/fs.webp';
       break;
     case 2:
       fs = '/img/grade/fsp.webp';
       break;
     case 3:
-      fs = null;
+      fs = '/img/grade/fsd.webp';
       break;
     default:
-      fs = null;
+      fs = '/img/grade/fsdp.webp';
       break;
   }
   switch (true) {
@@ -119,17 +118,20 @@ export default function MusicGrade(props: MusicGradeProps) {
     case props.achievements >= 99:
       achievements = '/img/grade/ss.webp';
       break;
-    case props.achievements >= 98.5:
+    case props.achievements >= 98:
       achievements = '/img/grade/sp.webp';
       break;
-    case props.achievements >= 98:
+    case props.achievements >= 97:
       achievements = '/img/grade/s.webp';
       break;
-    case props.achievements >= 97:
-      achievements = '/img/grade/a.webp';
-      break;
-    case props.achievements >= 95:
+    case props.achievements >= 94:
       achievements = '/img/grade/aaa.webp';
+      break;
+    case props.achievements >= 90:
+      achievements = '/img/grade/aa.webp';
+      break;
+    case props.achievements >= 80:
+      achievements = '/img/grade/a.webp';
       break;
     default:
       achievements = null;
