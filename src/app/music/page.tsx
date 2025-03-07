@@ -68,26 +68,26 @@ export default function MusicPage() {
       setLoading(false)
     }
   }, [])
-  useEffect(() => {
-    //MARK: - 临时方案：获取全部乐曲分数数据
-    const storedToken = localStorage.getItem('token');
-    const myHeaders = new Headers();
-    myHeaders.append("Accept", "application/json");
-    myHeaders.append("Authorization", `Bearer ${storedToken}`);
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-    };
-    fetch("https://dev.maimai.moe/api/maimai/maiweb/scores", requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
-        console.log("获取分数成功" + result)
-        localStorage.setItem('scores', result)
-      })
-      .catch((error) => {
-        console.log("获取分数失败" + error)
-      });
-  }, [])
+  // useEffect(() => {
+  //   //MARK: - 临时方案：获取全部乐曲分数数据
+  //   const storedToken = localStorage.getItem('token');
+  //   const myHeaders = new Headers();
+  //   myHeaders.append("Accept", "application/json");
+  //   myHeaders.append("Authorization", `Bearer ${storedToken}`);
+  //   const requestOptions = {
+  //     method: "GET",
+  //     headers: myHeaders,
+  //   };
+  //   fetch("https://dev.maimai.moe/api/maimai/maiweb/scores", requestOptions)
+  //     .then((response) => response.text())
+  //     .then((result) => {
+  //       console.log("获取分数成功" + result)
+  //       localStorage.setItem('scores', result)
+  //     })
+  //     .catch((error) => {
+  //       console.log("获取分数失败" + error)
+  //     });
+  // }, [])
 
 
   // MARK: - 主视图

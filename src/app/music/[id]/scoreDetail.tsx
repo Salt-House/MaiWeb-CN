@@ -1,42 +1,79 @@
 import { useEffect, useState } from 'react'
 import { Song, getDifficultyColor, SongScoreProps, ChartType } from "../songModel"
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
+import LoadingSpinner from '@/app/components/LoadingSpinner'
 
 
-export default function ScoreDetail({ song }: { song: Song }) {
-  const [scoreData, setScoreData] = useState<any>(null)
+export default function ScoreDetail({ song, scores }: { song: Song, scores?: SongScoreProps[] }) {
   const [loading, setLoading] = useState(true)
+  const [scoreData, setScoreData] = useState<SongScoreProps[]>([])
+  const [hasAttemptedLoad, setHasAttemptedLoad] = useState(false)
 
   useEffect(() => {
-    // 从localStorage获取分数数据
-    const storedScores = localStorage.getItem('scores')
-    if (storedScores) {
+    // 重置状态，避免切换歌曲时显示上一首歌的数据
+    setLoading(true)
+    setHasAttemptedLoad(false)
+
+    if (scores && scores.length > 0) {
+      setScoreData(scores)
+      setLoading(false)
+      setHasAttemptedLoad(true)
+      return
+    }
+
+    // 如果没有传入scores，则尝试从API获取
+    const fetchScores = async () => {
+      const storedToken = localStorage.getItem('token')
+      if (!storedToken) {
+        setLoading(false)
+        setHasAttemptedLoad(true)
+        return
+      }
+
       try {
-        const scoresData = JSON.parse(storedScores)
-        console.log("解析分数数据成功:", scoresData)
-        // 根据歌曲ID查找对应的所有难度分数数据
-        console.log("歌曲ID:", song.id)
-        const songScores = scoresData.filter((item: any) => item.song_id === song.id)
-        setScoreData(songScores)
-        console.log("找到分数了：", songScores)
+        const response = await fetch(
+          `https://dev.maimai.moe/api/maimai/maiweb/scores?song_id=${song.id}`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${storedToken}`
+          }
+        })
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+        const data = await response.json()
+        if (data.scores && Array.isArray(data.scores)) {
+          setScoreData(data.scores)
+        }
       } catch (e) {
-        console.error("解析分数数据失败:", e)
+        console.error("获取成绩数据失败:", e)
+      } finally {
+        setLoading(false)
+        setHasAttemptedLoad(true)
       }
     }
-    setLoading(false)
-  }, [song.id])
+
+    fetchScores()
+  }, [song.id, scores])
 
   const storedToken = localStorage.getItem('token');
   if (!storedToken) {
     return <div className="text-center py-4">登录以查看个人乐曲成绩</div>
   }
 
-  if (loading) {
-    return <div className="text-center py-4">加载中...</div>
+  if (loading && !hasAttemptedLoad) {
+    return (
+      <div className="text-center py-4">
+        <LoadingSpinner size="ultrasm" message="加载成绩中..." />
+      </div>
+    )
   }
 
-  if (!scoreData || scoreData.length === 0) {
-    return <div className="text-center py-4">暂无该歌曲的分数数据</div>
+  if ((!scoreData || scoreData.length === 0) && hasAttemptedLoad) {
+    return <div className="text-center py-12">暂无该歌曲的分数数据</div>
   }
 
   // 按照类型分组
@@ -91,6 +128,9 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // 按照level_index排序，从小到大
+  const sortedScores = [...scores].sort((a, b) => a.level_index - b.level_index);
+
   return (
     <div className="mb-6">
       <div className="flex items-center mb-3">
@@ -105,8 +145,8 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
       </div>
       {isExpanded && (
         <div className="space-y-4 mx-2">
-          {scores.map((score: any, index: number) => (
-            <div key={index} className={`flex items-start ${index === scores.length - 1 ? (needBottomBorder ? 'border-b-2 pb-4 mb-8' : 'pb-4 mb-4') : 'border-b-2 pb-4 mb-4'}`}>
+          {sortedScores.map((score: any, index: number) => (
+            <div key={index} className={`flex items-start ${index === sortedScores.length - 1 ? (needBottomBorder ? 'border-b-2 pb-4 mb-8' : 'pb-4 mb-4') : 'border-b-2 pb-4 mb-4'}`}>
               {/* 难度方块 */}
               <div className="mr-4">
                 <div
