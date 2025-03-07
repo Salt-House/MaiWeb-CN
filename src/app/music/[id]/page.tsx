@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { Song, getDifficultyColor, transferText, transferVersion, getGenreColor, ChartType } from '@/app/music/songModel'
+import { Song, getDifficultyColor, transferText, transferVersion, getGenreColor, ChartType, SongScoreProps } from '@/app/music/songModel'
 import { Key, useState, useEffect } from 'react'
 import NoteTable from './noteTable'
 import LoadingSpinner from '@/app/components/LoadingSpinner'
@@ -11,29 +11,45 @@ import ScoreDetail from './scoreDetail'
 export default function SongDetail() {
   const params = useParams()
   const [song, setSong] = useState<Song | null>(null)
+  const [scores, setScores] = useState<SongScoreProps[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    const storedToken = localStorage.getItem('token')
+
     const fetchSongData = async () => {
       try {
         // 先检查 localStorage 是否有歌曲信息
         const songData = localStorage.getItem(`song_${params.id}`)
         if (songData) {
           console.log('从localStorage获取数据:' + songData)
-          setSong(JSON.parse(songData))
+          const parsedData = JSON.parse(songData)
+          setSong(parsedData)
           setLoading(false)
+          
+          // 即使从缓存获取了歌曲信息，也异步获取最新数据
+          fetchLatestData()
           return
         }
 
-        const url = `https://dev.maimai.moe/api/maimai/songs?id=${params.id}`
-
         // 如果没有缓存数据，发送网络请求
+        fetchLatestData()
+      } catch (err) {
+        setError(err instanceof Error ? err.message : '获取数据失败')
+        setLoading(false)
+      }
+    }
+
+    const fetchLatestData = async () => {
+      try {
+        const url = `https://dev.maimai.moe/api/maimai/maiweb/songs?id=${params.id}`
         const response = await fetch(
           url, {
           method: 'GET',
           headers: {
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${storedToken}`
           }
         })
 
@@ -42,15 +58,18 @@ export default function SongDetail() {
         }
 
         const data = await response.json()
-        console.log(data)
-        setSong(data[0])  // API 返回的是数组，取第一个元素
+        console.log("歌曲数据：", data)
+        setSong(data.song)
+        setScores(data.scores || [])
         setLoading(false)
 
         // 缓存到 localStorage
-        localStorage.setItem(`song_${params.id}`, JSON.stringify(data[0]))
+        localStorage.setItem(`song_${params.id}`, JSON.stringify(data.song))
       } catch (err) {
-        setError(err instanceof Error ? err.message : '获取数据失败')
-        setLoading(false)
+        if (!song) { // 只有在没有缓存数据的情况下才设置错误
+          setError(err instanceof Error ? err.message : '获取数据失败')
+          setLoading(false)
+        }
       }
     }
 
@@ -106,7 +125,7 @@ export default function SongDetail() {
             <div className="text-gray-700 font-bold text-xl">乐曲成绩</div>
             <div className="w-2/5 h-1 rounded-full bg-gray-300" />
           </div>
-          <ScoreDetail song={song} />
+          <ScoreDetail song={song} scores={scores} />
 
           {/* 谱面详情 */}
           <div className="flex flex-row space-x-6 justify-center items-center">
