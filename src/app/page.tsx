@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react";
 import ChinaMap from "./components/ChinaMap";
 import { FcClock } from "react-icons/fc";
+import NewsCard from "./components/NewsCard";
 
 
 interface NewsProps {
@@ -249,48 +250,56 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Update News Display */}
-          <div className="w-[1200px]  mx-auto p-5 text-white">
+          {/* News */}
+          <div className="w-[1200px] mx-auto p-5 text-white mb-8">
             <div className="flex justify-center items-center text-center text-white font-bold text-3xl mb-10" style={textstroke}>
-              舞萌相关资讯
+              — 舞萌相关资讯 —
             </div>
             {/* First row */}
             <div className="flex flex-row justify-center items-center space-x-4 mb-6">
-              {news1.length === 0 ?
-                <>
-                </> :
+              {news1.length === 0 ? (
+                <></>
+              ) : (
                 <>
                   {news1.map((news, index) => (
-                    <>
-                      <div key={index} className="w-[540px]  bg-white/30 backdrop-blur-md h-72 p-2 bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
-                        <h1 className="w-96 h-12 py-2 px-1 text-blue-500 font-bold text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
-                        <a href={'/tool/news/' + news.source_created_at} >
-                          <img referrerPolicy="no-referrer" className="w-[450px] h-52 object-cover border-4 border-white" src={news.image_url} />
-                        </a>
-                      </div>
-                    </>
+                    <NewsCard
+                      key={index}
+                      title={news.title}
+                      content={news.content}
+                      image_url={news.image_url}
+                      source={news.source}
+                      source_url={news.source_url}
+                      source_author={news.source_author}
+                      source_created_at={news.source_created_at}
+                      size="sm" // 使用小尺寸
+                    />
                   ))}
-                </>}
+                </>
+              )}
             </div>
             <div className="flex flex-row justify-center items-center space-x-4">
-              {news1.length === 0 ?
-                <>
-                </> :
+              {news1.length === 0 ? (
+                <></>
+              ) : (
                 <>
                   {news2.map((news, index) => (
-                    <>
-                      <div key={index} className="w-[540px] h-72 p-2  bg-white/30 backdrop-blur-md bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
-                        <h1 className="w-96 h-12 py-2 px-1 font-bold text-blue-500 text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
-                        <a href={'/tool/news/' + news.source_created_at} >
-                          <img referrerPolicy="no-referrer" className="w-[450px] h-52 object-cover border-4 border-white" src={news.image_url} />
-                        </a>
-                      </div>
-                    </>
+                    <NewsCard
+                      key={index}
+                      title={news.title}
+                      content={news.content}
+                      image_url={news.image_url}
+                      source={news.source}
+                      source_url={news.source_url}
+                      source_author={news.source_author}
+                      source_created_at={news.source_created_at}
+                      size="sm"
+                    />
                   ))}
-                </>}
+                </>
+              )}
             </div>
             <div className="w-full flex justify-end mt-2">
-              <Link href={'/tool/news'} className=" text-xl text-white font-bold hover:border-b-4 border-purple-500 hover:scale-105 transition-all duration-300 ease-in-out" style={textstroke}>查看更多{">"}{">"}</Link>
+              <Link href={'/tool/news'} className="text-xl text-white font-bold hover:border-b-4 border-purple-500 hover:scale-105 transition-all duration-300 ease-in-out" style={textstroke}>查看更多{">"}{">"}</Link>
             </div>
           </div>
 
