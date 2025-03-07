@@ -174,12 +174,12 @@ export default function Home() {
             <div className="w-[900px]  mt-10 ">
               <div className="flex flex-row justify-center items-center space-x-4">
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
-                  <div className="">2024/12/31</div>
+                  <div className="text-white">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">全国行脚</div>
                   <div className="text-black pl-8 pt-5">提供统计全国各省份出勤行脚图，让我们一起点亮地图吧！✅ </div>
                 </div>
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
-                  <div className="">2024/12/31</div>
+                  <div className="text-white pl-1">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">乐曲工具</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
@@ -191,7 +191,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
-                  <div className="">2024/12/31</div>
+                  <div className="text-white">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">卷王工具</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
@@ -206,7 +206,7 @@ export default function Home() {
               </div>
               <div className="flex flex-row justify-center items-center space-x-4">
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
-                  <div className="">2024/12/31</div>
+                  <div className="text-white">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">舞萌区域工具</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
@@ -218,7 +218,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
-                  <div className="">2024/12/31</div>
+                  <div className="text-white">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">舞萌成绩工具</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
@@ -230,7 +230,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
-                  <div className="">2024/12/31</div>
+                  <div className="text-white">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">资讯</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
@@ -247,7 +247,7 @@ export default function Home() {
           </div>
 
           {/* Update News Display */}
-          <div className="w-[1200px]  mx-auto p-5">
+          <div className="w-[1200px]  mx-auto p-5 text-white">
             <div className="flex justify-center items-center text-center text-white font-bold text-3xl mb-10" style={textstroke}>
               舞萌相关资讯
             </div>
