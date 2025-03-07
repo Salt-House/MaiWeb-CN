@@ -5,7 +5,7 @@ import { Song } from "@/app/music/songModel"
 import SongList from '@/app/music/songList'
 import LoadingSpinner from '../components/LoadingSpinner'
 
-const currentVersion = "24000"
+const currentVersion = "24006"
 
 export default function MusicPage() {
   //const songs = [sampleSong, sampleSong, sampleSong, sampleSong, sampleSong, sampleSong]
