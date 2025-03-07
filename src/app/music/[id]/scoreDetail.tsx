@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Song, getDifficultyColor, SongScoreProps, ChartType } from "../songModel"
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
+
 export default function ScoreDetail({ song }: { song: Song }) {
   const [scoreData, setScoreData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -15,7 +16,7 @@ export default function ScoreDetail({ song }: { song: Song }) {
         console.log("解析分数数据成功:", scoresData)
         // 根据歌曲ID查找对应的所有难度分数数据
         console.log("歌曲ID:", song.id)
-        const songScores = scoresData.filter((item:any) => item.song_id === song.id)
+        const songScores = scoresData.filter((item: any) => item.song_id === song.id)
         setScoreData(songScores)
         console.log("找到分数了：", songScores)
       } catch (e) {
@@ -124,7 +125,7 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
                   {/* 成绩和评级 */}
                   <div>
                     <p className="text-lg font-semibold">{score.achievements ? `${score.achievements.toFixed(4)}%` : "暂无成绩"}</p>
-                    <p className="text-sm">{getRateText(score.rate)}</p>
+                    <p className="text-sm">{getRateText(score.achievements)}</p>
                   </div>
 
                   {/* 全连和全同步 */}
@@ -157,68 +158,87 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
 }
 
 // 根据rate值返回对应的评级文本
-function getRateText(rate: number | null): string {
-  if (rate === null) return "无评级";
-  const rateMap: { [key: number]: string } = {
-    0: "无评级",
-    1: "D",
-    2: "C",
-    3: "B",
-    4: "BB",
-    5: "BBB",
-    6: "A",
-    7: "AA",
-    8: "AAA",
-    9: "S",
-    10: "S+",
-    11: "SS",
-    12: "SS+",
-    13: "SSS",
-    14: "SSS+"
-  };
-  return rateMap[rate] || "未知";
+function getRateText(achievements: number | null): string {
+  if (achievements === null) return "无评级";
+  switch (true) {
+    case achievements >= 100.5:
+      return "SSS+";
+    case achievements >= 100:
+      return "SSS";
+    case achievements >= 99.5:
+      return "SS+";
+    case achievements >= 99:
+      return "SS";
+    case achievements >= 98:
+      return "S+";
+    case achievements >= 97:
+      return "S";
+    case achievements >= 94:
+      return "AAA";
+    case achievements >= 90:
+      return "AA";
+    case achievements >= 80:
+      return "A";
+    case achievements >= 75:
+      return "BBB";
+    case achievements >= 70:
+      return "BB";
+    case achievements >= 60:
+      return "B";
+    case achievements >= 50:
+      return "C";
+    case achievements >= 0:
+      return "D";
+  }
+  return "未知";
 }
 
 // 根据fc值返回对应的文本
 function getFCText(fc: number | null): string {
-  if (fc === null || fc === 0) return "无FC";
+  if (fc === null) return "无FC";
   const fcMap: { [key: number]: string } = {
-    1: "FC",
+    0: "AP+",
+    1: "AP",
     2: "FC+",
-    3: "AP",
-    4: "AP+"
+    3: "FC",
   };
   return fcMap[fc] || "未知";
 }
 
 // 根据fc值返回对应的颜色类名
 function getFCColor(fc: number | null): string {
-  if (fc === null || fc === 0) return "text-gray-500";
+  if (fc === null) return "text-gray-500";
   const fcColorMap: { [key: number]: string } = {
-    1: "text-green-500",
-    2: "text-green-600",
-    3: "text-yellow-500",
-    4: "text-yellow-600"
+    0: "text-yellow-600",
+    1: "text-yellow-600",
+    2: "text-green-500",
+    3: "text-green-600",
   };
   return fcColorMap[fc] || "text-gray-500";
 }
 
 // 根据fs值返回对应的文本
 function getFSText(fs: number | null): string {
-  if (fs === null || fs === 0) return "无FS";
+  if (fs === null) return "无FS";
   const fsMap: { [key: number]: string } = {
+    0: "SYNC PLAY",
     1: "FS",
-    2: "FDX"
+    2: "FS+",
+    3: "FDX",
+    4: "FDX+",
   };
   return fsMap[fs] || "未知";
 }
 
 // 根据fs值返回对应的颜色类名
 function getFSColor(fs: number | null): string {
-  if (fs === null || fs === 0) return "text-gray-500";
+  if (fs === null) return "text-gray-500";
   const fsColorMap: { [key: number]: string } = {
+    0: "text-blue-500",
     1: "text-blue-500",
-    2: "text-purple-500"
+    2: "text-blue-500",
+    3: "text-yellow-500",
+    4: "text-yellow-500",
   };
   return fsColorMap[fs] || "text-gray-500";
 }
