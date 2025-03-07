@@ -12,7 +12,8 @@ interface MusicGradeProps {
   dx_score: number,
   dx_rating: number,
   rate: number,
-  type: string
+  type: string,
+  
 }
 let baseUrl = "https://assets2.lxns.net/maimai"
 

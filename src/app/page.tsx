@@ -83,7 +83,9 @@ export default function Home() {
   const [news3, setNews3] = useState<NewsProps[]>([])
   const [inputValue, setInputValue] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [token, setToken] = useState('');
   const options = ["1km", "5km", "10km"];
+  const [CardDisplay, setCardDisplay] = useState(false);
   const [range, setRange] = useState(1);
   const textstroke = {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
@@ -124,11 +126,11 @@ export default function Home() {
     }
   }
 
-  const getGameCenter = async (range:number) => {
+  const getGameCenter = async (range: number) => {
     const requestOptions = {
       method: "GET",
     };
-    
+
     fetch(`https://maimap.tech/api/arcades/get/nearby?lat=${latitude}&lng=${longitude}&range=${range}&sortMethod=DistanceAscending`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
@@ -139,11 +141,12 @@ export default function Home() {
     const now = new Date();
     const hours = now.getUTCHours() + 8; // Convert to East 8th timezone
     if (hours >= 22 && hours < 23) {
-      // alert("晚上好，夜深了，注意休息哦！");
+      alert("晚上好，夜深了，注意休息哦！");
     }
     getNews(3, 0).then(data => setNews1(data));
     getNews(3, 3).then(data => setNews2(data));
     getNews(6, 0).then(data => setNews3(data));
+    setToken(localStorage.getItem('token') || '');
   }, []);
 
   useEffect(() => {
@@ -174,12 +177,12 @@ export default function Home() {
             <div className="w-[900px]  mt-10 ">
               <div className="flex flex-row justify-center items-center space-x-4">
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
-                  <div className="">2024/12/31</div>
+                  <div className="text-white">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">全国行脚</div>
                   <div className="text-black pl-8 pt-5">提供统计全国各省份出勤行脚图，让我们一起点亮地图吧！✅ </div>
                 </div>
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
-                  <div className="">2024/12/31</div>
+                  <div className="text-white pl-1">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">乐曲工具</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
@@ -191,7 +194,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
-                  <div className="">2024/12/31</div>
+                  <div className="text-white">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">卷王工具</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
@@ -206,7 +209,7 @@ export default function Home() {
               </div>
               <div className="flex flex-row justify-center items-center space-x-4">
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
-                  <div className="">2024/12/31</div>
+                  <div className="text-white">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">舞萌区域工具</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
@@ -218,7 +221,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
-                  <div className="">2024/12/31</div>
+                  <div className="text-white">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">舞萌成绩工具</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
@@ -230,7 +233,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="w-96 h-72 p-1 bg-[url('/img/news_bg.png')] bg-no-repeat bg-contain">
-                  <div className="">2024/12/31</div>
+                  <div className="text-white">2024/12/31</div>
                   <div className="w-full flex justify-center items-center h-16 text-center text-2xl text-white font-bold">资讯</div>
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
@@ -247,7 +250,7 @@ export default function Home() {
           </div>
 
           {/* Update News Display */}
-          <div className="w-[1200px]  mx-auto p-5">
+          <div className="w-[1200px]  mx-auto p-5 text-white">
             <div className="flex justify-center items-center text-center text-white font-bold text-3xl mb-10" style={textstroke}>
               舞萌相关资讯
             </div>
@@ -259,8 +262,8 @@ export default function Home() {
                 <>
                   {news1.map((news, index) => (
                     <>
-                      <div key={index} className="w-[540px] h-72 p-2 bg-blue-500 bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
-                        <h1 className="w-96 h-12 py-2 px-1 font-bold text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
+                      <div key={index} className="w-[540px]  bg-white/30 backdrop-blur-md h-72 p-2 bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
+                        <h1 className="w-96 h-12 py-2 px-1 text-blue-500 font-bold text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
                         <a href={'/tool/news/' + news.source_created_at} >
                           <img referrerPolicy="no-referrer" className="w-[450px] h-52 object-cover border-4 border-white" src={news.image_url} />
                         </a>
@@ -276,8 +279,8 @@ export default function Home() {
                 <>
                   {news2.map((news, index) => (
                     <>
-                      <div key={index} className="w-[540px] h-72 p-2 bg-blue-500 bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
-                        <h1 className="w-96 h-12 py-2 px-1 font-bold text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
+                      <div key={index} className="w-[540px] h-72 p-2  bg-white/30 backdrop-blur-md bg-no-repeat bg-contain shadow-lg hover:cursor-pointer rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out">
+                        <h1 className="w-96 h-12 py-2 px-1 font-bold text-blue-500 text-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{news.title}</h1>
                         <a href={'/tool/news/' + news.source_created_at} >
                           <img referrerPolicy="no-referrer" className="w-[450px] h-52 object-cover border-4 border-white" src={news.image_url} />
                         </a>
@@ -287,78 +290,7 @@ export default function Home() {
                 </>}
             </div>
             <div className="w-full flex justify-end mt-2">
-              <a href="" className=" text-xl text-white font-bold hover:border-b-4 border-purple-500 hover:scale-105 transition-all duration-300 ease-in-out" style={textstroke}>查看更多{">"}{">"}</a>
-            </div>
-          </div>
-
-          {/* Search Music */}
-          <div className="relative w-[900px] mx-auto mb-32 mt-16 flex flex-col justify-center items-center shadow-xl">
-            <div className="border-4 border-white rounded-2xl">
-              <div className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
-                <div className="absolute -top-4 w-48 h-20 text-3xl font-bold text-white" style={textstroke}>
-                  Music
-                </div>
-                <div className="flex flex-row justify-center items-center space-x-4 mb-4">
-                  <div className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                    <div className="w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold">
-                      Maimai
-                    </div>
-                  </div>ƒ
-                  <div className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                    <div className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex justify-center items-center font-bold">
-                      Vocal
-                    </div>
-                  </div>
-                  <div className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                    <div className="w-44 h-16 border-4 border-[#7f2bb6] rounded-full bg-[rgb(159,54,227)] flex justify-center items-center font-bold">
-                      东方
-                    </div>
-                  </div>
-                  <div className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                    <div className="w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold">
-                      Pop&Animate
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-row justify-center items-center space-x-4 mb-4">
-                  <div className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                    <div className="w-44 h-16 border-4 border-[#62b942] rounded-full bg-[rgb(122,231,83)] flex justify-center items-center font-bold">
-                      Game
-                    </div>
-                  </div>ƒ
-                  <div className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                    <div className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(48,157,248)] flex justify-center items-center font-bold">
-                      CHUNITHM
-                    </div>
-                  </div>
-                  <div className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                    <div className="w-44 h-16 border-4 border-[rgb(179,46,121)] rounded-full bg-[rgb(220,56,184)] flex justify-center items-center font-bold">
-                      宴！
-                    </div>
-                  </div>
-                  <div className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
-                    <div className="w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)]">
-                      最近更新
-                    </div>
-                  </div>
-                </div>
-                <div className="w-72 h-12 bg-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500">
-                  <div className="ml-2">查询</div>
-                  <input type="text" name="" id="" placeholder="乐曲名/作曲家" className="w-56 h-10 ml-2 p-4 rounded-l-none rounded-r-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300" />
-                </div>
-                {/* AnimateVolume */}
-                <div className="absolute -bottom-8 flex space-x-2">
-                  <div className="w-2 h-8 bg-[#5ac0b6] animate-volume"></div>
-                  <div className="w-2 h-10 bg-[#7ef2e7] animate-volume [animation-delay:0.1s]"></div>
-                  <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.2s]"></div>
-                  <div className="w-2 h-12 bg-[#65d8cd] animate-volume [animation-delay:0.3s]"></div>
-                  <div className="w-2 h-10 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.4s]"></div>
-                  <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.5s]"></div>
-                  <div className="w-2 h-12 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.6s]"></div>
-                  <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.7s]"></div>
-                  <div className="w-2 h-8 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.8s]"></div>
-                </div>
-              </div>
+              <Link href={'/tool/news'} className=" text-xl text-white font-bold hover:border-b-4 border-purple-500 hover:scale-105 transition-all duration-300 ease-in-out" style={textstroke}>查看更多{">"}{">"}</Link>
             </div>
           </div>
 
@@ -377,55 +309,70 @@ export default function Home() {
               </div>
             </div>
             <img className="absolute w-48 -top-16" src="/img/logo.png" alt="" />
-            <div className="text-2xl text-center font-bold bg-gradient-to-r from-blue-500 via-green-500 to-purple-500 bg-clip-text text-transparent">
-              选择你的出勤机厅
-            </div>
-            <div className="border-4 border-white rounded-full">
-              <div className="border-4 border-[rgb(113,241,229)] rounded-full ">
-                <div className=" border-4 border-white rounded-full">
-                  <div className="w-[650px] h-24 p-4 bg-[rgb(113,241,229)] rounded-full
+            {CardDisplay ?
+              <>
+                <div className="text-2xl text-center font-bold bg-gradient-to-r from-blue-500 via-green-500 to-purple-500 bg-clip-text text-transparent">
+                  选择你的出勤机厅
+                </div>
+                <div className="border-4 border-white rounded-full">
+                  <div className="border-4 border-[rgb(113,241,229)] rounded-full ">
+                    <div className=" border-4 border-white rounded-full">
+                      <div className="w-[650px] h-24 p-4 bg-[rgb(113,241,229)] rounded-full
                   flex justify-center items-center space-x-4 space-y- text-black text-xl">
-                    <p>从现在的位置以</p>
-                    <div className="relative w-48">
-                      <input
-                        type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onFocus={() => setIsDropdownOpen(true)} onBlur={() => setTimeout(() => setIsDropdownOpen(false), 100)} placeholder="选择范围"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-full text-black focus:outline-none"
-                      />
-                      {isDropdownOpen && (
-                        <ul className="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg max-h-40 overflow-y-auto text-black">
-                          {options.filter((option) =>
-                            option.toLowerCase().includes(inputValue.toLowerCase())
-                          ).map((option, index) => (
-                            <li key={index} onMouseDown={() => setInputValue(option)} className="px-4 py-2 cursor-pointer bg-[rgb(164,247,238)] hover:bg-gray-100">
-                              {option}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                    <p>为范围</p>
-                    <div className="border-2 border-white rounded-full hover:scale-125 transition-all duration-300">
-                      <div className="border-2 border-[rgb(113,241,229)] rounded-full">
-                        <button className="w-24 border-2 p-2 border-white rounded-full bg-[rgb(245,242,193)] hover:bg-[rgb(210,251,246)] ">
-                          查找
-                        </button>
+                        <p>从现在的位置以</p>
+                        <div className="relative w-48">
+                          <input
+                            type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onFocus={() => setIsDropdownOpen(true)} onBlur={() => setTimeout(() => setIsDropdownOpen(false), 100)} placeholder="选择范围"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-full text-black focus:outline-none"
+                          />
+                          {isDropdownOpen && (
+                            <ul className="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg max-h-40 overflow-y-auto text-black">
+                              {options.filter((option) =>
+                                option.toLowerCase().includes(inputValue.toLowerCase())
+                              ).map((option, index) => (
+                                <li key={index} onMouseDown={() => setInputValue(option)} className="px-4 py-2 cursor-pointer bg-[rgb(164,247,238)] hover:bg-gray-100">
+                                  {option}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                        <p>为范围</p>
+                        <div className="border-2 border-white rounded-full hover:scale-125 transition-all duration-300">
+                          <div className="border-2 border-[rgb(113,241,229)] rounded-full">
+                            <button className="w-24 border-2 p-2 border-white rounded-full bg-[rgb(245,242,193)] hover:bg-[rgb(210,251,246)] ">
+                              查找
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="absolute z-[1000] h-full w-full flex items-center justify-center bg-black bg-opacity-50">
-              <h1 className="text-xl font-bold tracking-wide">请等待接口开放</h1>
-            </div>
+              </> :
+              <>
+                <div className="absolute z-[1000] h-full w-full flex items-center justify-center bg-opacity-50">
+                  <h1 className="text-xl font-bold tracking-wide">请等待接口开放</h1>
+                </div>
+              </>
+
+            }
+
           </div>
 
           {/* Map Play display */}
           <div className="relative w-[900px] h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
             <div className="absolute -top-5 flex justify-center items-center text-white font-bold text-2xl" style={textstroke}>全国出勤行脚图 </div>
             <div className="w-[800px] h-[450px] p-5 ">
-              <ChinaMap />
+              {token == '' ? <>
+                <div className="w-full h-full flex justify-center items-center">
+                  <h1 className="text-xl font-bold tracking-wide">请登录查看</h1>
+
+                </div>
+              </> :
+                <>
+                  <ChinaMap />
+                </>}
             </div>
           </div>
           <div className="w-[900px] mt-2 h-20 flex mx-auto justify-center items-center space-x-4 text-white font-bold text-2xl">
@@ -470,7 +417,6 @@ export default function Home() {
               © 2024 Salt House. All rights reserved.
             </div>
           </div>
-
         </div>
       </div>
     </>

@@ -58,7 +58,7 @@ export default function BestPage() {
                             from = "lxns";
                         } else {
                             if (account.identifier.length > 10) {
-                                from = "arcaed";
+                                from = "开发中";
                             } else {
                                 from = "divingfish";
                             }
@@ -146,6 +146,33 @@ export default function BestPage() {
                     setIsLoading(false)
                 });
         }
+        else if (nowFrom == "arcaed") {
+            console.log("开始从maiweb获取数据")
+            const myHeaders = new Headers();
+            myHeaders.append("Accept", "application/json");
+            myHeaders.append("Authorization", `Bearer ${token}`);
+
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+            };
+            console.log("发起请求")
+            fetch("https://dev.maimai.moe/api/maimai/maiweb/bests", requestOptions)
+                .then((response) => response.text())
+                .then((result) => {
+                    const data = JSON.parse(result);
+                    console.log(data)
+                    setBest35(data.scores_b35)
+                    setBest15(data.scores_b15)
+                    setRating15(Math.ceil(data.rating_b15))
+                    setRating35(Math.ceil(data.rating_b35))
+                    setIsLoading(false)
+                })
+                .catch((error) => {
+                    console.error(error)
+                    setIsLoading(false)
+                });
+        }
 
     }
 
@@ -157,7 +184,7 @@ export default function BestPage() {
                     <div className="mb-12 flex flex-row space-x-2">
                         <button className="rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={GetBindAccount}>查询当前账号可用数据源</button>
                         <div className="flex flex-row justify-center items-center space-x-5 p-1 px-4 bg-green-500 rounded-2xl">
-                            <b>当前账户可用数据源:</b>
+                            <b className="text-white">当前账户可用数据源:</b>
                             {accounts.map((account, index) => {
                                 return (
                                     <button key={index} className="text-center rounded-2xl bg-blue-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={() => setNowFrom(account.from)}>
@@ -175,14 +202,36 @@ export default function BestPage() {
                         </div>
                         {best35 && best35.length > 0 ? best35.map((song: any, index: number) => {
                             return (
-                                <MusicGrade {...song} key={index} />
+                                <MusicGrade
+                                id={song.song_id}
+                                song_name={song.song_name}
+                                level={song.level}
+                                level_index={song.level_index}
+                                achievements={song.achievements}
+                                fc={song.fc}
+                                fs={song.fs}
+                                dx_score={song.dx_score}
+                                dx_rating={song.dx_rating}
+                                rate={song.rate}
+                                type={song.type} key={index} />
                             );
                         }) : <div className="w-full text-black h-48 break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg bg-white bg-opacity-30">暂无数据</div>}
                         <hr className='w-full mx-auto  border-t-4 border-gray-400 my-5' />
                         <div className="w-[900px] flex flex-row justify-center flex-wrap mx-auto">
                             {best15 && best15.map((song: any, index: number) => {
                                 return (
-                                    <MusicGrade {...song} key={index} />
+                                    <MusicGrade
+                                    id={song.song_id}
+                                    song_name={song.song_name}
+                                    level={song.level}
+                                    level_index={song.level_index}
+                                    achievements={song.achievements}
+                                    fc={song.fc}
+                                    fs={song.fs}
+                                    dx_score={song.dx_score}
+                                    dx_rating={song.dx_rating}
+                                    rate={song.rate}
+                                    type={song.type} key={index} />
                                 );
                             })}
                         </div>

@@ -60,8 +60,8 @@ export default function NewsPage() {
         <>
             <div className="w-[900px] h-[700px] mt-16 mx-auto space-y-10">
                 {news.map((item, index) => (
-                    <div key={index} className="relative z-[2] flex flex-col p-5 bg-blue-500 rounded-2xl shadow-sm hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out">
-                        <h1 className="font-bold text-xl mb-2 tracking-wide" style={textShadow}>{item.title}</h1>
+                    <div key={index} className="text-white relative z-[2] flex flex-col p-5 bg-blue-500 rounded-2xl shadow-sm hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out">
+                        <h1 className="font-bold text-xl mb-2 tracking-wide text-white" style={textShadow}>{item.title}</h1>
                         {/* <p style={{ whiteSpace: 'pre-line' }}>{item.content}</p> */}
                         <Link href={`/tool/news/${item.source_created_at}`}>
                         <img className="w-[860px] h-[480px] object-cover border-4 border-white" src={item.image_url} alt={item.title} />
