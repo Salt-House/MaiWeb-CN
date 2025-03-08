@@ -58,6 +58,7 @@ export default function UserProfilePage() {
     const [userdata, setUserData] = useState<UserProfile>(defaultUserProfile);
     const [accounts, setAccounts] = useState<ThirdAccount[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isBindLoading, setBindIsLoading] = useState<boolean>(false);
     const [lxnstoken, setLxnsToken] = useState<string>("");
     const [divingfishusername, setDivingFishUsername] = useState<string>("");
     const [divingfishpassword, setDivingFishPassword] = useState<string>("");
@@ -130,6 +131,7 @@ export default function UserProfilePage() {
 
     }
     const BindLxns = () => {
+        setBindIsLoading(true);
         const myHeaders = new Headers();
         myHeaders.append("accept", "application/json");
         myHeaders.append("Authorization", `Bearer ${token}`);
@@ -146,14 +148,17 @@ export default function UserProfilePage() {
                 if (statusCode === 200) {
                     alert("绑定成功")
                     setLink('')
+                    setBindIsLoading(false);
                 } else {
                     alert("绑定失败")
+                    setBindIsLoading(false);
                 }
             })
             .then((result) => { })
             .catch((error) => console.error(error));
     }
     const BindDivifish = () => {
+        setBindIsLoading(true);
         const myHeaders = new Headers();
         myHeaders.append("accept", "application/json");
         myHeaders.append("Authorization", `Bearer ${token}`);
@@ -170,15 +175,18 @@ export default function UserProfilePage() {
                 if (statusCode === 200) {
                     alert("绑定成功")
                     setLink('')
+                    setBindIsLoading(false);
                 } else {
                     alert("绑定失败")
+                    setBindIsLoading(false);
+
                 }
             })
             .then((result) => console.log(result))
             .catch((error) => console.error(error));
     }
     const BindArcade = () => {
-        setIsLoading(true);
+        setBindIsLoading(true);
         const myHeaders = new Headers();
         myHeaders.append("Accept", "application/json");
         myHeaders.append("Authorization", `Bearer ${token}`);
@@ -194,10 +202,10 @@ export default function UserProfilePage() {
                 console.log(`Status Code: ${statusCode}`);
                 if (statusCode === 200) {
                     alert("绑定成功")
-                    setIsLoading(false);
+                    setBindIsLoading(false);
                 } else {
                     alert("绑定失败")
-                    setIsLoading(false);
+                    setBindIsLoading(false);
                 }
             })
             .then((result) => console.log(result))
@@ -388,12 +396,15 @@ export default function UserProfilePage() {
                     <>
                         <AnimatedComponent isVisible={true}>
                             <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
-                                <h1 className="text-2xl font-bold">绑定落雪账号</h1>
-                                <h1 className="text-xl font-bold text-red-500">（请至少上传一次成绩至落雪）</h1>
-                                <input type="text" name="lxnstoken" id="" placeholder="个人token" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={lxnstoken} onChange={(e) => setLxnsToken(e.target.value)} />
-                                <a href="https://maimai.lxns.net/login" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往落雪获取token➡️</a>
-                                <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindLxns}>绑定</button>
-                                <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
+                                {isBindLoading ? <LoadingSpinner /> : <>
+                                    <h1 className="text-2xl font-bold">绑定落雪账号</h1>
+                                    <h1 className="text-xl font-bold text-red-500">（请至少上传一次成绩至落雪）</h1>
+                                    <input type="text" name="lxnstoken" id="" placeholder="个人token" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={lxnstoken} onChange={(e) => setLxnsToken(e.target.value)} />
+                                    <a href="https://maimai.lxns.net/login" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往落雪获取token➡️</a>
+                                    <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindLxns}>绑定</button>
+                                    <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
+                                </>}
+
                             </div>
                         </AnimatedComponent>
                     </>
@@ -403,12 +414,16 @@ export default function UserProfilePage() {
                     <>
                         <AnimatedComponent isVisible={true}>
                             <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
-                                <h1 className="text-2xl font-bold">绑定水鱼账号</h1>
-                                <input type="username" name="divingfishusername" id="" placeholder="水鱼账号" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishusername} onChange={(e) => setDivingFishUsername(e.target.value)} />
-                                <input type="password" name="divingfishpassword" id="" placeholder="水鱼密码" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishpassword} onChange={(e) => setDivingFishPassword(e.target.value)} />
-                                <a href="" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往水鱼注册账号</a>
-                                <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindDivifish}>绑定</button>
-                                <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
+                                {isBindLoading ? <LoadingSpinner /> : <>
+
+                                    <h1 className="text-2xl font-bold">绑定水鱼账号</h1>
+                                    <input type="username" name="divingfishusername" id="" placeholder="水鱼账号" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishusername} onChange={(e) => setDivingFishUsername(e.target.value)} />
+                                    <input type="password" name="divingfishpassword" id="" placeholder="水鱼密码" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishpassword} onChange={(e) => setDivingFishPassword(e.target.value)} />
+                                    <a href="" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往水鱼注册账号</a>
+                                    <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindDivifish}>绑定</button>
+                                    <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
+                                </>}
+
                             </div>
                         </AnimatedComponent>
                     </>
@@ -418,10 +433,13 @@ export default function UserProfilePage() {
                     <>
                         <AnimatedComponent isVisible={true}>
                             <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
-                                <h1 className="text-2xl font-bold">绑定街机账号</h1>
-                                <input type="username" name="divingfishusername" id="" placeholder="二维码字段" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={qr_code} onChange={(e) => setQrCode(e.target.value)} />
-                                <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindArcade}>绑定</button>
-                                <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
+                                {isBindLoading ? <LoadingSpinner /> : <>
+
+                                    <h1 className="text-2xl font-bold">绑定街机账号</h1>
+                                    <input type="username" name="divingfishusername" id="" placeholder="二维码字段" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={qr_code} onChange={(e) => setQrCode(e.target.value)} />
+                                    <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindArcade}>绑定</button>
+                                    <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
+                                </>}
                             </div>
                         </AnimatedComponent>
                     </>
