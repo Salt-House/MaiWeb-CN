@@ -310,7 +310,7 @@ export default function BestPage() {
                             {best35 && best35.length > 0 ? best35.map((song: any, index: number) => {
                                 return (
                                     <MusicGrade
-                                        id={song.song_id}
+                                        id={song.id}
                                         song_name={song.song_name}
                                         level={song.level}
                                         level_index={song.level_index}
@@ -326,22 +326,24 @@ export default function BestPage() {
                         </>}
                         <hr className='w-full mx-auto  border-t-4 border-gray-400 my-5' />
                         <div className="w-[900px] flex flex-row justify-center flex-wrap mx-auto">
-                            {best15 && best15.map((song: any, index: number) => {
-                                return (
-                                    <MusicGrade
-                                        id={song.song_id}
-                                        song_name={song.song_name}
-                                        level={song.level}
-                                        level_index={song.level_index}
-                                        achievements={song.achievements}
-                                        fc={song.fc}
-                                        fs={song.fs}
-                                        dx_score={song.dx_score}
-                                        dx_rating={song.dx_rating}
-                                        rate={song.rate}
-                                        type={song.type} key={index} />
-                                );
-                            })}
+                            {isLoading ? <></> : <>
+                                {best15 && best15.map((song: any, index: number) => {
+                                    return (
+                                        <MusicGrade
+                                            id={song.id}
+                                            song_name={song.song_name}
+                                            level={song.level}
+                                            level_index={song.level_index}
+                                            achievements={song.achievements}
+                                            fc={song.fc}
+                                            fs={song.fs}
+                                            dx_score={song.dx_score}
+                                            dx_rating={song.dx_rating}
+                                            rate={song.rate}
+                                            type={song.type} key={index} />
+                                    );
+                                })}
+                            </>}
                         </div>
                     </div>
                 </div>
