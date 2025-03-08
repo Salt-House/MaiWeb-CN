@@ -2,7 +2,8 @@
 
 import AnimatedComponent from "@/app/components/AnimatedComponent";
 import ChinaMap from "@/app/components/ChinaMap";
-import { useState, useEffect } from "react";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
+import { useState, useEffect, use } from "react";
 
 interface FunctionStatus {
     BUpdate: boolean,
@@ -52,7 +53,7 @@ let baseUrl = "https://assets2.lxns.net/maimai"
 
 export default function UserProfilePage() {
     const [activeSection, setActiveSection] = useState('基本信息');
-    const [token, setToken] = useState<string | null>(null);
+    const [token, setToken] = useState<string | null>("");
     const [userdata, setUserData] = useState<UserProfile>(defaultUserProfile);
     const [accounts, setAccounts] = useState<ThirdAccount[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -239,84 +240,87 @@ export default function UserProfilePage() {
                 return (
                     <>
                         <div className='relative w-[800px]  p-10 flex flex-col justify-center items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
-                            <button className="absolute top-5 right-10 ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>
-                            <h1 className='text-2xl font-bold mt-5'>基本信息</h1>
-                            <hr className='w-full border-t-4 border-gray-400 my-5' />
-                            <div className='w-full p-5 flex flex-row space-x-2 items-center bg-no-repeat bg-contain bg-center' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
-                                <div className='flex flex-col justify-center items-center' >
-                                    {token == null ?
-                                        <img src={baseUrl + '/icon/1.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
-                                        :
-                                        <img src={baseUrl + '/icon/' + userdata.mai_icon_id + '.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
-                                    }
-                                </div>
-                                <div className='flex flex-col justify-center items-center text-xl '>
-                                    <div className='w-[400px] h-16 p-x-2 text-2xl flex justify-center items-center bg-no-repeat bg-contain bg-center'
-                                        style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
-                                        <b className="mx-auto w-64 text-center bg-white rounded-2xl">{userdata.username}</b>
+                            {isLoading ? <><LoadingSpinner /></> : <>
+                                <button className="absolute top-5 right-10 ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>
+                                <h1 className='text-2xl font-bold mt-5'>基本信息</h1>
+                                <hr className='w-full border-t-4 border-gray-400 my-5' />
+                                <div className='w-full p-5 flex flex-row space-x-2 items-center bg-no-repeat bg-contain bg-center' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
+                                    <div className='flex flex-col justify-center items-center' >
+                                        {token == null || userdata.mai_icon_id == null ?
+                                            <img src={baseUrl + '/icon/1.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
+                                            :
+                                            <img src={baseUrl + '/icon/' + userdata.mai_icon_id + '.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
+                                        }
                                     </div>
-                                    <div className='w-80 flex '><b>Rating:</b><p>{userdata.mai_rating}</p></div>
+                                    <div className='flex flex-col justify-center items-center text-xl '>
+                                        <div className='w-[400px] h-16 p-x-2 text-2xl flex justify-center items-center bg-no-repeat bg-contain bg-center'
+                                            style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
+                                            <b className="mx-auto w-64 text-center bg-white rounded-2xl">{userdata.username}</b>
+                                        </div>
+                                        <div className='w-80 flex '><b>Rating:</b><p>{userdata.mai_rating}</p></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <button className={`ml-2 mt-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold`} onClick={LogOut}>退出舞萌萌登陆</button>
-                            <h1 className='text-2xl font-bold mt-5'>游玩信息</h1>
-                            <hr className='w-full border-t-4 border-gray-400 my-5' />
-                            <div className='w-full flex flex-row justify-around items-center space-x-10'>
-                                <div>
-                                    <ul>
-                                        <li className='flex justify-between'><b>本日游玩次数:</b>{0}pc</li>
-                                        <li className='flex justify-between'><b>本周游玩次数:</b>{0}pc</li>
-                                        <li className='flex justify-between'><b>本月游玩次数:</b>{0}pc</li>
-                                        <li className='flex justify-between'><b>本年度游玩次数:</b>{0}pc</li>
-                                    </ul>
+                                <button className={`ml-2 mt-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold`} onClick={LogOut}>退出舞萌萌登陆</button>
+                                <h1 className='text-2xl font-bold mt-5'>游玩信息</h1>
+                                <hr className='w-full border-t-4 border-gray-400 my-5' />
+                                <div className='w-full flex flex-row justify-around items-center space-x-10'>
+                                    <div>
+                                        <ul>
+                                            <li className='flex justify-between'><b>本日游玩次数:</b>{0}pc</li>
+                                            <li className='flex justify-between'><b>本周游玩次数:</b>{0}pc</li>
+                                            <li className='flex justify-between'><b>本月游玩次数:</b>{0}pc</li>
+                                            <li className='flex justify-between'><b>本年度游玩次数:</b>{0}pc</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul>
+                                            <li className='flex justify-between'><b>本日提升rating分:</b>{0}rating</li>
+                                            <li className='flex justify-between'><b>本周提升rating分:</b>{0}rating</li>
+                                            <li className='flex justify-between'><b>本月提升rating分:</b>{0}rating</li>
+                                            <li className='flex justify-between'><b>本年度提升rating分:</b>{0}rating</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div>
-                                    <ul>
-                                        <li className='flex justify-between'><b>本日提升rating分:</b>{0}rating</li>
-                                        <li className='flex justify-between'><b>本周提升rating分:</b>{0}rating</li>
-                                        <li className='flex justify-between'><b>本月提升rating分:</b>{0}rating</li>
-                                        <li className='flex justify-between'><b>本年度提升rating分:</b>{0}rating</li>
-                                    </ul>
+                                <h1 className='text-2xl font-bold mt-5'>已启用功能列表</h1>
+                                <hr className='w-full border-t-4 border-gray-400 my-5' />
+                                <div className='w-full flex flex-row justify-around items-center space-x-10'>
+                                    <div>
+                                        <ul className='space-y-2'>
+                                            <li className='flex justify-between items-center'>
+                                                <b>b50自动更新:</b><button className={`ml-2 rounded-2xl ${functionStatus.BUpdate ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.BUpdate ? '已启用' : '关闭'}</button>
+                                            </li>
+                                            <li className='flex justify-between items-center'>
+                                                <b>周期报告:</b><button className={`ml-2 rounded-2xl ${functionStatus.CycleReport ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.CycleReport ? '已启用' : '开发中'}</button>
+                                            </li>
+                                            <li className='flex justify-between items-center'>
+                                                <b>每日推分推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.RatingPush ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.RatingPush ? '已启用' : '开发中'}</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul className='space-y-2'>
+                                            <li className='flex justify-between items-center'>
+                                                <b>AI智能推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.AIRecommend ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.AIRecommend ? '已启用' : '开发中'}</button>
+                                            </li>
+                                            <li className='flex justify-between items-center'>
+                                                <b>多方数据共享:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataShare ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataShare ? '已启用' : '开发中'}</button>
+                                            </li>
+                                            <li className='flex justify-between items-center'>
+                                                <b>个人数据分析:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataAnalyse ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataAnalyse ? '已启用' : '开发中'}</button>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                            <h1 className='text-2xl font-bold mt-5'>已启用功能列表</h1>
-                            <hr className='w-full border-t-4 border-gray-400 my-5' />
-                            <div className='w-full flex flex-row justify-around items-center space-x-10'>
-                                <div>
-                                    <ul className='space-y-2'>
-                                        <li className='flex justify-between items-center'>
-                                            <b>b50自动更新:</b><button className={`ml-2 rounded-2xl ${functionStatus.BUpdate ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.BUpdate ? '已启用' : '关闭'}</button>
-                                        </li>
-                                        <li className='flex justify-between items-center'>
-                                            <b>周期报告:</b><button className={`ml-2 rounded-2xl ${functionStatus.CycleReport ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.CycleReport ? '已启用' : '开发中'}</button>
-                                        </li>
-                                        <li className='flex justify-between items-center'>
-                                            <b>每日推分推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.RatingPush ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.RatingPush ? '已启用' : '开发中'}</button>
-                                        </li>
-                                    </ul>
+                                <h1 className='text-gray-500 font-bold'>注意:所有功能显示当前状态</h1>
+                                <h1 className='text-2xl font-bold mt-5'>个人全国行脚图</h1>
+                                <hr className='w-full border-t-4 border-gray-400 my-5' />
+                                <div className='w-full h-[200px] mb-10 flex flex-row justify-center items-center'>
+                                    <ChinaMap />
                                 </div>
-                                <div>
-                                    <ul className='space-y-2'>
-                                        <li className='flex justify-between items-center'>
-                                            <b>AI智能推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.AIRecommend ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.AIRecommend ? '已启用' : '开发中'}</button>
-                                        </li>
-                                        <li className='flex justify-between items-center'>
-                                            <b>多方数据共享:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataShare ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataShare ? '已启用' : '开发中'}</button>
-                                        </li>
-                                        <li className='flex justify-between items-center'>
-                                            <b>个人数据分析:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataAnalyse ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataAnalyse ? '已启用' : '开发中'}</button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <h1 className='text-gray-500 font-bold'>注意:所有功能显示当前状态</h1>
-                            <h1 className='text-2xl font-bold mt-5'>个人全国行脚图</h1>
-                            <hr className='w-full border-t-4 border-gray-400 my-5' />
-                            <div className='w-full h-[200px] mb-10 flex flex-row justify-center items-center'>
-                                <ChinaMap />
-                            </div>
-                            <h1 className='text-2xl font-bold mt-5'>The End</h1>
-                            <hr className='w-full border-t-4 border-gray-400 my-5' />
+                                <h1 className='text-2xl font-bold mt-5'>The End</h1>
+                                <hr className='w-full border-t-4 border-gray-400 my-5' />
+                            </>}
+
                         </div>
                     </>
                 );
@@ -324,17 +328,19 @@ export default function UserProfilePage() {
                 return (
                     <>
                         <div className='relative w-[800px] h-[600px] p-10 flex flex-col  items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
-                            <h1 className='text-2xl font-bold mt-5'>关联第三方账号</h1>
-                            <hr className='w-full border-t-4 border-gray-400 my-5' />
-                            <div className='w-full flex flex-col justify-center items-center space-y-5'>
-                                <div className='w-6/12 flex flex-row justify-between'><b>落雪:</b><button className={`ml-2 rounded-2xl ${bindaccount.islxns ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`} onClick={() => setLink('lxns')}>{bindaccount.islxns ? '已绑定' : '未绑定'}</button></div>
-                                <div className='w-6/12 flex flex-row justify-between'><b>水鱼:</b><button className={`ml-2 rounded-2xl ${bindaccount.isdivingfish ? 'bg-green-500' : 'bg-red-500'}  p-1 px-4 text-white font-bold`} onClick={() => { setLink('divingfish') }}>{bindaccount.isdivingfish ? '已绑定' : '未绑定'}</button></div>
-                                <div className='w-6/12 flex flex-row justify-between'><b>Arcaed:</b><button className={`ml-2 rounded-2xl ${bindaccount.isarcaed ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`} onClick={() => { setLink('arcaed') }}>{bindaccount.isarcaed ? '已绑定' : '未绑定'}</button></div>
-                            </div>
-                            <button className="absolute top-5 right-10 ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={GetBindAccount}>更新绑定状态</button>
-                            <div className="absolute z-[1000] h-full flex justify-center items-center">
-                                {BindThirdAccount(link)}
-                            </div>
+                            {isLoading ? <LoadingSpinner /> : <>
+                                <h1 className='text-2xl font-bold mt-5'>关联第三方账号</h1>
+                                <hr className='w-full border-t-4 border-gray-400 my-5' />
+                                <div className='w-full flex flex-col justify-center items-center space-y-5'>
+                                    <div className='w-6/12 flex flex-row justify-between'><b>落雪:</b><button className={`ml-2 rounded-2xl ${bindaccount.islxns ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`} onClick={() => setLink('lxns')}>{bindaccount.islxns ? '已绑定' : '未绑定'}</button></div>
+                                    <div className='w-6/12 flex flex-row justify-between'><b>水鱼:</b><button className={`ml-2 rounded-2xl ${bindaccount.isdivingfish ? 'bg-green-500' : 'bg-red-500'}  p-1 px-4 text-white font-bold`} onClick={() => { setLink('divingfish') }}>{bindaccount.isdivingfish ? '已绑定' : '未绑定'}</button></div>
+                                    <div className='w-6/12 flex flex-row justify-between'><b>Arcaed:</b><button className={`ml-2 rounded-2xl ${bindaccount.isarcaed ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`} onClick={() => { setLink('arcaed') }}>{bindaccount.isarcaed ? '已绑定' : '未绑定'}</button></div>
+                                </div>
+                                <button className="absolute top-5 right-10 ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={GetBindAccount}>更新绑定状态</button>
+                                <div className="absolute z-[1000] h-full flex justify-center items-center">
+                                    {BindThirdAccount(link)}
+                                </div>
+                            </>}
                         </div>
                     </>
                 );
@@ -342,14 +348,17 @@ export default function UserProfilePage() {
                 return (
                     <>
                         <div className='w-[800px]  p-10 flex flex-col justify-center items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
-                            <h1 className='text-2xl font-bold mt-5'>隐私设置</h1>
-                            <hr className='w-full border-t-4 border-gray-400 my-5' />
-                            <div className='w-full flex flex-col justify-center items-center space-y-5'>
-                                <div className='w-6/12 flex flex-row justify-between'><b>第三方软件调取信息:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>同意</button></div>
-                                <div className='w-6/12 flex flex-row justify-between'><b>舞萌萌使用隐私协议:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>同意</button></div>
-                                <div className='w-6/12 flex flex-row justify-between'><b>数据用于AI推荐:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>同意</button></div>
-                                <div className='w-6/12 flex flex-row justify-between'><b>根据数据优化:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>同意</button></div>
-                            </div>
+                            {isLoading ? <><LoadingSpinner /></> : <>
+                                <h1 className='text-2xl font-bold mt-5'>隐私设置</h1>
+                                <hr className='w-full border-t-4 border-gray-400 my-5' />
+                                <div className='w-full flex flex-col justify-center items-center space-y-5'>
+                                    <div className='w-6/12 flex flex-row justify-between'><b>第三方软件调取信息:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>撰写中</button></div>
+                                    <div className='w-6/12 flex flex-row justify-between'><b>舞萌萌使用隐私协议:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>撰写中</button></div>
+                                    <div className='w-6/12 flex flex-row justify-between'><b>数据用于AI推荐:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>撰写中</button></div>
+                                    <div className='w-6/12 flex flex-row justify-between'><b>根据数据优化:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>撰写中</button></div>
+                                </div>
+                            </>}
+
                         </div>
                     </>
                 );
@@ -357,9 +366,11 @@ export default function UserProfilePage() {
                 return (
                     <>
                         <div className='w-[800px]  p-10 flex flex-col justify-center items-center bg-white/30 backdrop-blur-md text-black overflow-auto rounded-2xl'>
-                            <h1 className='text-2xl font-bold mt-5'>其他设置</h1>
-                            <hr className='w-full border-t-4 border-gray-400 my-5' />
-                            <h1 className='text-2xl font-bold mt-5'>暂无</h1>
+                            {isLoading ? <LoadingSpinner /> : <>
+                                <h1 className='text-2xl font-bold mt-5'>其他设置</h1>
+                                <hr className='w-full border-t-4 border-gray-400 my-5' />
+                                <h1 className='text-2xl font-bold mt-5'>暂无</h1>
+                            </>}
                         </div>
                     </>
                 );
@@ -423,27 +434,30 @@ export default function UserProfilePage() {
     }, []);
 
     useEffect(() => {
-        const myHeaders = new Headers();
-        // console.log(token);
-        myHeaders.append("Authorization", `Bearer ${token}`);
+        if (token != "") {
+            const myHeaders = new Headers();
+            // console.log(token);
+            myHeaders.append("Authorization", `Bearer ${token}`);
 
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-        };
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+            };
 
-        fetch("https://dev.maimai.moe/api/user/me", requestOptions)
-            .then((response) => response.text())
-            .then((result) => {
-                console.log(result);
-                const data = JSON.parse(result);
-                if (data.id) {
-                    setUserData(data);
-                } else {
-                    setUserData(defaultUserProfile);
-                }
-            })
-            .catch((error) => console.error(error));
+            fetch("https://dev.maimai.moe/api/user/me", requestOptions)
+                .then((response) => response.text())
+                .then((result) => {
+                    console.log(result);
+                    const data = JSON.parse(result);
+                    if (data.id) {
+                        setUserData(data);
+                    } else {
+                        setUserData(defaultUserProfile);
+                    }
+                })
+                .catch((error) => console.error(error));
+            GetBindAccount();
+        }
     }, [token])
 
     return (
@@ -462,17 +476,6 @@ export default function UserProfilePage() {
             <div className='w-[800px] flex justify-center items-center'>
                 {renderContent()}
             </div>
-            <AnimatedComponent isVisible={isLoading}>
-                {isLoading ?
-                    <>
-                        <div className="fixed z-[1000] inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                            <div className="w-16 h-16 border-4 border-t-4 border-t-transparent border-white rounded-full animate-spin"></div>
-                        </div>
-                    </>
-                    :
-                    <>
-                    </>}
-            </AnimatedComponent>
         </div>
     );
 }

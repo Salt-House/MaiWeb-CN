@@ -18,7 +18,6 @@ interface MusicGradeProps {
 let baseUrl = "https://assets2.lxns.net/maimai"
 
 export default function MusicGrade(props: MusicGradeProps) {
-
   let levelColor: string = 'bg-green-500';
   let nameColor: string = 'bg-green-500';
   let fc = null;
