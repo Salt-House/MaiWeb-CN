@@ -77,7 +77,6 @@ export default function RootLayout({
         <div className="relative h-screen overflow-scroll">
           <Link href={'/tool/donate'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8"><img src="/img/youxibi.png" className="hover:scale-105 transition-all duration-300 ease-in-out" alt="" /><h1 className="text-white font-bold" style={textDonate}>请开发者打一把mai</h1></Link>
           <Link href={'/tool/feedback'} className="fixed z-[5] bottom-5 left-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8"><img src="/img/yijianfankui.png" className="hover:scale-105 transition-all duration-300 ease-in-out" alt="" /><h1 className="text-white font-bold" style={textDonate}>意见反馈</h1></Link>
-          <AnimatedComponent isVisible={true}>
             {/* BackGround Layer */}
             <div className="fixed top-0 left-0 w-full h-full  z-[-1] bg-[url('/img/bg_shines.png')]">
             </div>
@@ -120,7 +119,6 @@ export default function RootLayout({
               </div>
             </Link>
             <UserLogin />
-          </AnimatedComponent>
         </div>
       </body>
     </html>
