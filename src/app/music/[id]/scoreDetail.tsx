@@ -161,29 +161,34 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
 
               {/* 成绩信息 */}
               <div className="flex-1">
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-4 pl-8 mx-4">
                   {/* 成绩和评级 */}
-                  <div>
+                  <div className="flex items-center space-x-3 justify-center">
+                    {getRateImage(score.achievements) ? (
+                      <img src={getRateImage(score.achievements)!} alt={getRateText(score.achievements)} className="h-10" />
+                    ) : (
+                      <div className="text-lg font-medium">{getRateText(score.achievements)}</div>
+                    )}
                     <p className="text-lg font-semibold">{score.achievements ? `${score.achievements.toFixed(4)}%` : "暂无成绩"}</p>
-                    <p className="text-sm">{getRateText(score.achievements)}</p>
                   </div>
 
-                  {/* 全连和全同步 */}
-                  <div>
-                    <p className="font-medium">
-                      <span className={getFCColor(score.fc)}>
-                        {getFCText(score.fc)}
-                      </span>
-                    </p>
-                    <p className="font-medium">
-                      <span className={getFSColor(score.fs)}>
-                        {getFSText(score.fs)}
-                      </span>
-                    </p>
+                  {/* FC FDX */}
+                  <div className="flex items-center justify-center space-x-4">
+                    {getFCImage(score.fc) ? (
+                      <div className='size-12 bg-no-repeat bg-center bg-[length:55px_55px]' style={{ backgroundImage: `url(${getFCImage(score.fc)})` }}></div>
+                    ) : (
+                      <div className='size-12 rounded-full bg-gray-400'></div>
+                    )}
+
+                    {getFSImage(score.fs) ? (
+                      <div className='size-12 bg-no-repeat bg-center bg-[length:55px_55px]' style={{ backgroundImage: `url(${getFSImage(score.fs)})` }}></div>
+                    ) : (
+                      <div className='size-10 rounded-full bg-gray-400'></div>
+                    )}
                   </div>
 
                   {/* DX分数和DX Rating */}
-                  <div>
+                  <div className="text-center">
                     <p className="font-medium">DX分数: {score.dx_score || "暂无"}</p>
                     <p className="font-medium">DX Rating: {score.dx_rating || "暂无"}</p>
                   </div>
@@ -195,6 +200,43 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
       )}
     </div>
   );
+}
+
+// 根据rate值返回对应的评级图片路径
+function getRateImage(achievements: number | null): string | null {
+  if (achievements === null) return null;
+  switch (true) {
+    case achievements >= 100.5:
+      return '/img/grade/sssp.webp';
+    case achievements >= 100:
+      return '/img/grade/sss.webp';
+    case achievements >= 99.5:
+      return '/img/grade/ssp.webp';
+    case achievements >= 99:
+      return '/img/grade/ss.webp';
+    case achievements >= 98:
+      return '/img/grade/sp.webp';
+    case achievements >= 97:
+      return '/img/grade/s.webp';
+    case achievements >= 94:
+      return '/img/grade/aaa.webp';
+    case achievements >= 90:
+      return '/img/grade/aa.webp';
+    case achievements >= 80:
+      return '/img/grade/a.webp';
+    case achievements >= 75:
+      return '/img/grade/bbb.webp';
+    case achievements >= 70:
+      return '/img/grade/bb.webp';
+    case achievements >= 60:
+      return '/img/grade/b.webp';
+    case achievements >= 50:
+      return '/img/grade/c.webp';
+    case achievements >= 0:
+      return '/img/grade/d.webp';
+    default:
+      return null;
+  }
 }
 
 // 根据rate值返回对应的评级文本
@@ -231,6 +273,31 @@ function getRateText(achievements: number | null): string {
       return "D";
   }
   return "未知";
+}
+
+// 根据fc值返回对应的图片路径
+function getFCImage(fc: number | null): string | null {
+  if (fc === null) return null;
+  const fcImageMap: { [key: number]: string } = {
+    0: '/img/grade/app.webp',
+    1: '/img/grade/ap.webp',
+    2: '/img/grade/fcp.webp',
+    3: '/img/grade/fc.webp',
+  };
+  return fcImageMap[fc] || null;
+}
+
+// 根据fs值返回对应的图片路径
+function getFSImage(fs: number | null): string | null {
+  if (fs === null) return null;
+  const fsImageMap: { [key: number]: string } = {
+    0: '/img/grade/sync.webp',
+    1: '/img/grade/fs.webp',
+    2: '/img/grade/fsp.webp',
+    3: '/img/grade/fsd.webp',
+    4: '/img/grade/fsdp.webp',
+  };
+  return fsImageMap[fs] || null;
 }
 
 // 根据fc值返回对应的文本
