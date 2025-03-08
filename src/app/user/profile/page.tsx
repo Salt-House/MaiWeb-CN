@@ -121,9 +121,7 @@ export default function UserProfilePage() {
                         })));
                     }
                     setIsLoading(false);
-
                 } catch (e) {
-                    alert("获取绑定账号失败")
                     setIsLoading(false);
                 }
             })

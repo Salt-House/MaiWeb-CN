@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ChinaMap from '../components/ChinaMap';
 import { redirect } from 'next/dist/server/api-utils';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 
 export default function UserPage() {
@@ -16,8 +17,10 @@ export default function UserPage() {
   const [loginHint, setLoginHint] = useState<string | null>("请选择登陆方式");
   const [agree, setAgree] = useState<boolean>(false);
   const [register, setRegister] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const Register = () => {
+    setIsLoading(true);
     const myHeaders = new Headers();
     myHeaders.append("accept", "application/json");
     myHeaders.append("Content-Type", "application/json");
@@ -36,12 +39,22 @@ export default function UserPage() {
     };
 
     fetch("https://dev.maimai.moe/api/auth/register", requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(alert(result)))
-      .catch((error) => console.error(error));
+      .then((response) => {
+        const statusCode = response.status;
+        console.log(`Status Code: ${statusCode}`);
+        if (statusCode == 201) {
+          alert("Register Success")
+          window.location.href = '/user';
+        } else {
+          alert("Register 失败")
+        }
+      })
+      .then((result) => console.log(result))
+      .catch((error) => alert(error));
 
   }
   const Login = () => {
+    setIsLoading(true);
     const myHeaders = new Headers();
     myHeaders.append("accept", "application/json");
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -59,7 +72,6 @@ export default function UserPage() {
       headers: myHeaders,
       body: urlencoded,
     };
-
     fetch("https://dev.maimai.moe/api/auth/jwt/login", requestOptions)
       .then((response) => response.text())
       .then((result) => {
@@ -109,22 +121,26 @@ export default function UserPage() {
                     <div className='h-full flex flex-col p-2 justify-center items-center space-y-2'>
                       <img src="/img/logo.png" className='w-48' alt="" />
                       <h1 className='text-2xl font-bold'>舞萌萌账号注册</h1>
-                      <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={username} onChange={(e) => setUsername(e.target.value)} />
-                      <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={password} onChange={(e) => setPassword(e.target.value)} />
-                      <input type="email" id="email" placeholder='email' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={email} onChange={(e) => setEmail(e.target.value)} />
-                      <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold' onClick={Register}>注册</button>
+                      {isLoading ? <LoadingSpinner /> : <>
+                        <input type="username" id="username" placeholder='username请在4-16以内' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <input type="email" id="email" placeholder='email' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold' onClick={Register}>注册</button>
+                      </>}
                     </div>
                   </>
                   : <>
                     <div className='h-full flex flex-col p-2 justify-center items-center space-y-2'>
                       <img src="/img/logo.png" className='w-48' alt="" />
                       <h1 className='text-2xl font-bold'>舞萌萌账号登陆</h1>
-                      <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={username} onChange={(e) => setUsername(e.target.value)} />
-                      <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={password} onChange={(e) => setPassword(e.target.value)} />
-                      <div className='flex flex-row space-x-5'>
-                        <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={Login}>登陆</button>
-                        <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={() => { setRegister(true) }}>注册</button>
-                      </div>
+                      {isLoading ? <LoadingSpinner /> : <>
+                        <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <div className='flex flex-row space-x-5'>
+                          <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={Login}>登陆</button>
+                          <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={() => { setRegister(true) }}>注册</button>
+                        </div>
+                      </>}
                     </div>
                   </>}
               </>

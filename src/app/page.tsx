@@ -88,6 +88,7 @@ export default function Home() {
   const options = ["1km", "5km", "10km"];
   const [CardDisplay, setCardDisplay] = useState(false);
   const [range, setRange] = useState(1);
+  const [homehint, setHomehint] = useState(true);
   const textstroke = {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
   };
@@ -126,7 +127,10 @@ export default function Home() {
       console.log('Cannot get location');
     }
   }
-
+  const HomeHintNoLonger = () =>{
+    localStorage.setItem("homehint", '1');
+    setHomehint(false);
+  }
   const getGameCenter = async (range: number) => {
     const requestOptions = {
       method: "GET",
@@ -148,6 +152,14 @@ export default function Home() {
     getNews(3, 3).then(data => setNews2(data));
     getNews(6, 0).then(data => setNews3(data));
     setToken(localStorage.getItem('token') || '');
+    if (localStorage.getItem('homehint') == null) {
+      localStorage.setItem('token', '0');
+    }
+    if (localStorage.getItem('homehint') == '0') {
+      setHomehint(true);
+    } else {
+      setHomehint(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -427,6 +439,55 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {homehint && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div className="relative w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
+              <button
+                className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 transition-colors"
+                onClick={() => setHomehint(false)}
+              >
+                <span className="text-xl">×</span>
+              </button>
+
+              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+                操作指南
+              </h2>
+
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                    <span className="inline-block w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
+                    导航
+                  </h3>
+                  <p className="text-gray-600 ml-8">点击版本标记可以返回首页</p>
+                  <p className="text-gray-600 ml-8">点击牛奶进入用户中心</p>
+                </div>
+
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                    <span className="inline-block w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
+                    关联账号
+                  </h3>
+                  <p className="text-gray-600 ml-8">绑定街机账号可以使用绝大部分功能</p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                    <span className="inline-block w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
+                    Else
+                  </h3>
+                  <p className="text-gray-600 ml-8">注册账户用户名请在4-16字符以内</p>
+                </div>
+              </div>
+
+              <div className="mt-8 p-4 bg-gray-50 rounded-xl">
+                <p className="text-sm text-gray-500">
+                  提示：点击右上角的刷新按钮可以更新最新数据
+                </p>
+                <button className="my-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={HomeHintNoLonger}>不再提示</button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   )
