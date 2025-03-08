@@ -17,13 +17,13 @@ export default function FeedbackPage() {
 
     const sendFeedback = () => {
         openModal();
+        let SendContent = "称呼：" + nickname + "\n联系方式：" + contact + "\n类别：" + category + "\n内容：" + content
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-
         const raw = JSON.stringify({
             "to": "e2544733@outlook.com",
             "subject": category + "反馈",
-            "text": content
+            "text": SendContent
         });
         console.log(raw)
         const requestOptions = {

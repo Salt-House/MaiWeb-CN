@@ -83,13 +83,13 @@ const ChinaMap = () => {
                 }
             },
             visualMap: {
-                show:false,
+                show: false,
                 min: 0,
                 max: 5,
                 left: "left",
                 top: "bottom",
                 text: ["高", "低"],
-                calculable:true,
+                calculable: true,
                 inRange: {
                     color: ["#e0ffff", "#006edd"], // 渐变色
                 },
@@ -143,25 +143,26 @@ const ChinaMap = () => {
     }, []);
 
     useEffect(() => {
-        const myHeaders = new Headers();
-        myHeaders.append("Accept", "application/json");
-        myHeaders.append("Authorization", `Bearer ${token}`);
+        if (token != "") {
+            const myHeaders = new Headers();
+            myHeaders.append("Accept", "application/json");
+            myHeaders.append("Authorization", `Bearer ${token}`);
 
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-        };
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+            };
 
-        fetch("https://dev.maimai.moe/api/maimai/maiweb/regions", requestOptions)
-            .then((response) => response.text())
-            .then((result) => {
-                const data = JSON.parse(result);
-                if (data) {
-                    setUserRegionData(data);
-                }
-            })
-            .catch((error) => console.error(error));
-
+            fetch("https://dev.maimai.moe/api/maimai/maiweb/regions", requestOptions)
+                .then((response) => response.text())
+                .then((result) => {
+                    const data = JSON.parse(result);
+                    if (data) {
+                        setUserRegionData(data);
+                    }
+                })
+                .catch((error) => console.error(error));
+        }
     }, [token]);
 
     useEffect(() => {
@@ -180,21 +181,21 @@ const ChinaMap = () => {
         const updatedData = globalData.map(item => {
             // 找到对应的区域数据
             const userRegion = userRegionData.find(region => region.region_name === item.name);
-    
+
             // 如果找到了对应的区域数据，则更新
             if (userRegion) {
-                return { 
+                return {
                     ...item,
                     yearTimes: userRegion.play_count, // 假设play_count对应yearTimes，按需求调整
                     dateTimes: userRegion.play_count, // 假设play_count对应dateTimes，按需求调整
                     monthTimes: userRegion.play_count // 假设play_count对应monthTimes，按需求调整
                 };
             }
-    
+
             // 如果没有找到，保持不变
             return item;
         });
-    
+
         // 更新状态
         setgloablData(updatedData);
     };

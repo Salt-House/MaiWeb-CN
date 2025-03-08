@@ -5,6 +5,7 @@ import Head from "next/head";
 import "./css/homepage.css"
 import AnimatedComponent from "./components/AnimatedComponent";
 import Link from "next/link";
+import UserLogin from "./components/UserLogin";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -55,12 +56,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let token = ""
   const textstroke = {
     textShadow: '-2px -2px 2px rgba(255, 255, 255, 1), 2px -2px 2px rgba(255, 255, 255, 1), -2px 2px 2px rgba(255, 255, 255, 1), 2px 2px 2px rgba(255, 255, 255, 1)'
   };
   const textDonate = {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
   };
+
+
   return (
     <html lang="en">
       <Head>
@@ -68,7 +72,6 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css"
         />
-        <meta name="referrer" content="no-referrer" />
       </Head>
       <body className="font-douyin">
         <div className="relative h-screen overflow-scroll">
@@ -116,10 +119,7 @@ export default function RootLayout({
                 <img src="/img/logo.png" alt="" />
               </div>
             </Link>
-            <Link href={"/user"} className="max-sm:hidden ">
-              <div className="fixed top-4 right-4 size-44  bg-[url('/img/user.png')] bg-no-repeat bg-contain hover:scale-125 transition-all duration-300 ease-in-out">
-              </div>
-            </Link>
+            <UserLogin />
           </AnimatedComponent>
         </div>
       </body>
