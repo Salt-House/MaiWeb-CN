@@ -177,7 +177,7 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
                     {getFCImage(score.fc) ? (
                       <div className='size-12 bg-no-repeat bg-center bg-[length:55px_55px]' style={{ backgroundImage: `url(${getFCImage(score.fc)})` }}></div>
                     ) : (
-                      <div className='size-12 rounded-full bg-gray-400'></div>
+                      <div className='size-10 rounded-full bg-gray-400'></div>
                     )}
 
                     {getFSImage(score.fs) ? (
