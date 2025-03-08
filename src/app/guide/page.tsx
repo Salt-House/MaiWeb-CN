@@ -1,54 +1,28 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from "react";
+import { FaTools } from "react-icons/fa"
 
-
-export default function GuidePage() {
-
-  const [guide, setGuide] = useState<any[]>([]);
-
-  useEffect(() => {
-    const myHeaders = new Headers();
-    myHeaders.append("Accept", "application/json");
-
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-    };
-
-    fetch("https://dev.maimai.moe/api/tutorial?limit=10&offset=0", requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
-        if (result) {
-          const data = JSON.parse(result);
-          setGuide(data);
-        }
-      })
-      .catch((error) => console.error(error));
-  }, []);
-  useEffect(() => {
-    console.log(guide);
-  }, [guide]);
-
-  return (
-    <div className="mx-auto w-[900px] h-[700px] mt-16 flex flex-col justify-center items-center">
-      {guide.length === 0 ? (
+export default function RegionPage() {
+    return (
         <>
-          <p>No guides available</p>
+            <div className="flex justify-center items-center mt-32">
+                <div className="flex flex-col items-center gap-4 p-6 bg-yellow-100 rounded-lg max-w-lg">
+                    <div className="flex items-center gap-2">
+                        <FaTools className="text-2xl text-yellow-600" />
+                        <span className="text-yellow-700 font-semibold text-lg">开发进行中</span>
+                    </div>
+                    <div className="text-yellow-700 text-center">
+                        <p className="mb-2">该页面正在开发中，我们正在努力为您打造更好的舞萌教学功能。</p>
+                        <p className="mb-2">即将推出的功能：</p>
+                        <ul className="list-disc list-inside text-left space-y-1">
+                            <li>全面的新手入门教学（至Rating14500）</li>
+                            <li>特定配置的歌曲教学</li>
+                            <li>高难谱教学</li>
+                        </ul>
+                        <p className="mt-3 text-sm text-yellow-600">预计完成时间：2024年第一季度</p>
+                    </div>
+                </div>
+            </div>
         </>
-      ) : (
-        <ul>
-          {guide.map((item, index) => (
-            <>
-              <div key={index} className="flex flex-col justify-center items-center">
-                <h1 className="text-2xl font-bold">{item.title}</h1>
-                <p>{item.content}</p>
-              </div>
-            </>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
+    )
 }
-

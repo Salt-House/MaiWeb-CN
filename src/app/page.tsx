@@ -361,7 +361,7 @@ export default function Home() {
               </> :
               <>
                 <div className="absolute z-[1000] h-full w-full flex items-center justify-center bg-opacity-50">
-                  <h1 className="text-xl font-bold tracking-wide">请等待接口开放</h1>
+                  <h1 className="text-xl font-bold tracking-wide">请等待机厅查询接口开放</h1>
                 </div>
               </>
 
