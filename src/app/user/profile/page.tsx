@@ -52,6 +52,7 @@ const defaultUserProfile: UserProfile = {
 let baseUrl = "https://assets2.lxns.net/maimai"
 
 export default function UserProfilePage() {
+    const [showGuide, setShowGuide] = useState(false);
     const [activeSection, setActiveSection] = useState('基本信息');
     const [token, setToken] = useState<string | null>("");
     const [userdata, setUserData] = useState<UserProfile>(defaultUserProfile);
@@ -208,6 +209,7 @@ export default function UserProfilePage() {
         window.location.href = '/user';
     }
     const RefreshData = () => {
+        setShowGuide(false)
         setIsLoading(true);
         const myHeaders = new Headers();
         myHeaders.append("accept", "application/json");
@@ -471,11 +473,72 @@ export default function UserProfilePage() {
                     <li><a href='#' onClick={() => setActiveSection("隐私设置")}>隐私设置</a></li>
                     <li>|</li>
                     <li><a href='#' onClick={() => setActiveSection("else")}>else</a></li>
+                    <li>|</li>
+                    <li><button
+                        onClick={() => setShowGuide(true)}
+                        className="text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                        使用指南
+                    </button></li>
                 </ul>
             </div>
             <div className='w-[800px] flex justify-center items-center'>
                 {renderContent()}
             </div>
+            {showGuide && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <AnimatedComponent isVisible={true}>
+                        <div className="relative w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
+                            <button
+                                className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 transition-colors"
+                                onClick={() => setShowGuide(false)}
+                            >
+                                <span className="text-xl">×</span>
+                            </button>
+
+                            <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+                                操作指南
+                            </h2>
+
+                            <div className="space-y-6">
+                                <div className="space-y-2">
+                                    <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                                        <span className="inline-block w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
+                                        基本信息
+                                    </h3>
+                                    <p className="text-gray-600 ml-8">查看个人信息、游玩数据及功能开启状态</p>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                                        <span className="inline-block w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
+                                        关联账号
+                                    </h3>
+                                    <p className="text-gray-600 ml-8">绑定第三方账号，实现数据互通</p>
+                                    <i className="text-gray-600 ml-8 text-sm">注:推荐绑定Arcaed账号</i>
+                                    <p className="text-gray-600 ml-8">在绑定账号后请点击<button className="my-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>导入数据</p>
+
+                                </div>
+
+                                <div className="space-y-2">
+                                    <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                                        <span className="inline-block w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
+                                        隐私设置
+                                    </h3>
+                                    <p className="text-gray-600 ml-8">管理个人数据的使用范围和隐私选项（撰写中）</p>
+                                </div>
+                            </div>
+
+                            <div className="mt-8 p-4 bg-gray-50 rounded-xl">
+                                <p className="text-sm text-gray-500">
+                                    提示：点击右上角的刷新按钮可以更新最新数据
+                                </p>
+                            </div>
+                        </div>
+                    </AnimatedComponent>
+                </div>
+            )}
+
         </div>
     );
 }
