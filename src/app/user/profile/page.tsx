@@ -76,6 +76,9 @@ export default function UserProfilePage() {
         DataShare: false,
         DataAnalyse: false
     })
+    useEffect(() => {
+        setToken(localStorage.getItem('token'));
+    }, []);
     const [link, setLink] = useState<string>("");
     useEffect(() => {
         for (let i = 0; i < accounts.length; i++) {
@@ -94,7 +97,32 @@ export default function UserProfilePage() {
             console.log(accounts);
         }
     }, [accounts]);
+    useEffect(() => {
+        if (token != "") {
+            const myHeaders = new Headers();
+            console.log(token);
+            myHeaders.append("Authorization", `Bearer ${token}`);
 
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+            };
+
+            fetch("https://dev.maimai.moe/api/user/me", requestOptions)
+                .then((response) => response.text())
+                .then((result) => {
+                    console.log(result);
+                    const data = JSON.parse(result);
+                    if (data.id) {
+                        setUserData(data);
+                    } else {
+                        setUserData(defaultUserProfile);
+                    }
+                })
+                .catch((error) => console.error(error));
+            GetBindAccount();
+        }
+    }, [token])
     const GetBindAccount = () => {
         setIsLoading(true);
         const myHeaders = new Headers();
@@ -446,38 +474,6 @@ export default function UserProfilePage() {
                 return null
         }
     }
-
-    useEffect(() => {
-        setToken(localStorage.getItem('token'));
-    }, []);
-
-    useEffect(() => {
-        if (token != "") {
-            const myHeaders = new Headers();
-            // console.log(token);
-            myHeaders.append("Authorization", `Bearer ${token}`);
-
-            const requestOptions = {
-                method: "GET",
-                headers: myHeaders,
-            };
-
-            fetch("https://dev.maimai.moe/api/user/me", requestOptions)
-                .then((response) => response.text())
-                .then((result) => {
-                    console.log(result);
-                    const data = JSON.parse(result);
-                    if (data.id) {
-                        setUserData(data);
-                    } else {
-                        setUserData(defaultUserProfile);
-                    }
-                })
-                .catch((error) => console.error(error));
-            GetBindAccount();
-        }
-    }, [token])
-
     return (
         <div className='w-[900px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center'>
             <div className='w-[700px] h-24  bg-white/30 backdrop-blur-md rounded-xl text-black font-bold flex justify-center items-center mb-5'>
