@@ -10,7 +10,7 @@ export default function UserLogin() {
   }, [])
 
   const handleLogin = () => {
-    if (token === "") {
+    if (token == "") {
       window.location.href = "/user"
     } else {
       window.location.href = "/user/profile"
