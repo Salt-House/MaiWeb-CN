@@ -76,16 +76,25 @@ export default function UserPage() {
       .then((response) => response.text())
       .then((result) => {
         const data = JSON.parse(result);
-        console.log(data);
         if (data.access_token) {
-          localStorage.setItem('token', data.access_token);
-          console.log("开始跳转");
-          window.location.href = '/user/profile';
+          // 修改：使用 try-catch 确保 localStorage 操作成功
+          try {
+            localStorage.setItem('token', data.access_token);
+            // 添加：同时在 sessionStorage 中也存储一份
+            sessionStorage.setItem('token', data.access_token);
+            window.location.href = '/user/profile';
+          } catch (error) {
+            console.error('存储 token 失败:', error);
+            alert('登录状态保存失败，请检查浏览器设置');
+          }
         } else {
-          alert("Login Failed")
+          alert("登录失败")
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        alert("登录请求失败，请重试");
+      });
   }
 
   useEffect(() => {

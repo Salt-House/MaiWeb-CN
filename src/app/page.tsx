@@ -153,7 +153,7 @@ export default function Home() {
     getNews(6, 0).then(data => setNews3(data));
     setToken(localStorage.getItem('token') || '');
     if (localStorage.getItem('homehint') == null) {
-      localStorage.setItem('token', '0');
+      localStorage.setItem('homehint', '0');
     }
     if (localStorage.getItem('homehint') == '0') {
       setHomehint(true);

@@ -77,7 +77,12 @@ export default function UserProfilePage() {
         DataAnalyse: false
     })
     useEffect(() => {
-        setToken(localStorage.getItem('token'));
+        const storedToken = localStorage.getItem('token');
+        if (storedToken != "") {
+            setToken(storedToken);
+        } else {
+            window.location.href = '/user';
+        }
     }, []);
     const [link, setLink] = useState<string>("");
     useEffect(() => {
