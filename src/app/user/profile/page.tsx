@@ -105,7 +105,7 @@ export default function UserProfilePage() {
     useEffect(() => {
         if (token != "") {
             const myHeaders = new Headers();
-            console.log("token:",token);
+            console.log("token:", token);
             myHeaders.append("Authorization", `Bearer ${token}`);
 
             const requestOptions = {
@@ -247,7 +247,7 @@ export default function UserProfilePage() {
         localStorage.removeItem('token');
         window.location.href = '/user';
     }
-    const RefreshData = () => {
+    const RefreshData = async() => {
         setShowGuide(false)
         setIsLoading(true);
         const myHeaders = new Headers();
@@ -259,20 +259,29 @@ export default function UserProfilePage() {
             headers: myHeaders,
         };
 
-        fetch("https://dev.maimai.moe/api/maimai/maiweb/accounts", requestOptions)
-            .then((response) => {
-                const statusCode = response.status;
-                console.log(`Status Code: ${statusCode}`);
-                if (statusCode === 200) {
-                    alert("刷新成功")
-                    setIsLoading(false);
-                } else {
-                    alert("刷新失败")
-                    setIsLoading(false);
-                }
-            })
-            .then((result) => { })
-            .catch((error) => console.error(error));
+        try {
+            // 添加延迟避免频繁请求
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            const response = await fetch("https://dev.maimai.moe/api/maimai/maiweb/accounts", requestOptions);
+
+            if (response.status === 429) {
+                alert("请求过于频繁，请稍后再试");
+                setIsLoading(false);
+                return;
+            }
+
+            if (response.status === 200) {
+                alert("刷新成功");
+            } else {
+                alert("刷新失败");
+            }
+        } catch (error) {
+            console.error("刷新数据失败:", error);
+            alert("刷新失败，请稍后重试");
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     const renderContent = () => {
