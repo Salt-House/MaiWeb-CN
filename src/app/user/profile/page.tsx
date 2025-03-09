@@ -273,6 +273,7 @@ export default function UserProfilePage() {
 
             if (response.status === 200) {
                 alert("刷新成功");
+                window.location.href = '/user/profile';
             } else {
                 alert("刷新失败");
             }
@@ -299,7 +300,7 @@ export default function UserProfilePage() {
                                         {token == null || userdata.mai_icon_id == null ?
                                             <img src={baseUrl + '/icon/1.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
                                             :
-                                            <img src={baseUrl + '/icon/' + userdata.mai_icon_id + '.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
+                                            <img src={baseUrl + '/icon/' + userdata.mai_icon_id + '.png'} className='size-24 rounded-xl borRder-2 border-gray-500 shadow-xl' alt="" />
                                         }
                                     </div>
                                     <div className='flex flex-col justify-center items-center text-xl '>

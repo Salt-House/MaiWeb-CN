@@ -152,6 +152,9 @@ export default function Home() {
     getNews(3, 3).then(data => setNews2(data));
     getNews(6, 0).then(data => setNews3(data));
     setToken(localStorage.getItem('token') || '');
+    if(localStorage.getItem('token') == '0'){
+      localStorage.removeItem('token');
+    }
     if (localStorage.getItem('homehint') == null) {
       localStorage.setItem('homehint', '0');
     }
