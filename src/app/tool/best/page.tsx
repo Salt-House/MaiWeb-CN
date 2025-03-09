@@ -117,7 +117,7 @@ export default function BestPage() {
         if (nowFrom == "divingfish") {
             for (let i = 0; i < accounts.length; i++) {
                 if (accounts[i].from == "divingfish") {
-                    nickname = accounts[i].nickname
+                    nickname = accounts[i].identifier
                 }
             }
             const myHeaders = new Headers();
