@@ -100,7 +100,7 @@ export default function UserProfilePage() {
     useEffect(() => {
         if (token != "") {
             const myHeaders = new Headers();
-            console.log(token);
+            console.log("token:",token);
             myHeaders.append("Authorization", `Bearer ${token}`);
 
             const requestOptions = {
