@@ -14,7 +14,7 @@ export default function UserPage() {
   const [token, setToken] = useState<string | null>();
   const [isHovered, setIsHovered] = useState(true);
   const [thirdalignment, setthirdalignment] = useState<string | null>(null);
-  const [loginHint, setLoginHint] = useState<string | null>("请选择登陆方式");
+  const [loginHint, setLoginHint] = useState<string | null>("请选择登录方式");
   const [agree, setAgree] = useState<boolean>(false);
   const [register, setRegister] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -141,12 +141,12 @@ export default function UserPage() {
                   : <>
                     <div className='h-full flex flex-col p-2 justify-center items-center space-y-2'>
                       <img src="/img/logo.png" className='w-48' alt="" />
-                      <h1 className='text-2xl font-bold'>舞萌萌账号登陆</h1>
+                      <h1 className='text-2xl font-bold'>舞萌萌账号登录</h1>
                       {isLoading ? <LoadingSpinner /> : <>
                         <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={username} onChange={(e) => setUsername(e.target.value)} />
                         <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={password} onChange={(e) => setPassword(e.target.value)} />
                         <div className='flex flex-row space-x-5'>
-                          <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={Login}>登陆</button>
+                          <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={Login}>登录</button>
                           <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={() => { setRegister(true) }}>注册</button>
                         </div>
                       </>}
