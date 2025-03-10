@@ -161,36 +161,36 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
 
               {/* 成绩信息 */}
               <div className="flex-1">
-                <div className="grid grid-cols-3 gap-4 pl-8 mx-4">
+                <div className="grid max-sm:grid-cols-1 grid-cols-3 gap-4 max-sm:gap-2 max-sm:pl-2 pl-8 mx-4 max-sm:mx-1">
                   {/* 成绩和评级 */}
                   <div className="flex items-center space-x-3 justify-center">
                     {getRateImage(score.achievements) ? (
-                      <img src={getRateImage(score.achievements)!} alt={getRateText(score.achievements)} className="h-10" />
+                      <img src={getRateImage(score.achievements)!} alt={getRateText(score.achievements)} className="max-sm:h-8 h-10" />
                     ) : (
-                      <div className="text-lg font-medium">{getRateText(score.achievements)}</div>
+                      <div className="max-sm:text-base text-lg font-medium">{getRateText(score.achievements)}</div>
                     )}
-                    <p className="text-lg font-semibold">{score.achievements ? `${score.achievements.toFixed(4)}%` : "暂无成绩"}</p>
+                    <p className="max-sm:text-base text-lg font-semibold">{score.achievements ? `${score.achievements.toFixed(4)}%` : "暂无成绩"}</p>
                   </div>
 
                   {/* FC FDX */}
-                  <div className="flex items-center justify-center space-x-4">
+                  <div className="flex items-center justify-center space-x-4 max-sm:py-2">
                     {getFCImage(score.fc) ? (
-                      <div className='size-12 bg-no-repeat bg-center bg-[length:55px_55px]' style={{ backgroundImage: `url(${getFCImage(score.fc)})` }}></div>
+                      <div className='max-sm:size-10 size-12 bg-no-repeat bg-center max-sm:bg-[length:45px_45px] bg-[length:55px_55px]' style={{ backgroundImage: `url(${getFCImage(score.fc)})` }}></div>
                     ) : (
-                      <div className='size-10 rounded-full bg-gray-400'></div>
+                      <div className='max-sm:size-8 size-10 rounded-full bg-gray-400'></div>
                     )}
 
                     {getFSImage(score.fs) ? (
-                      <div className='size-12 bg-no-repeat bg-center bg-[length:55px_55px]' style={{ backgroundImage: `url(${getFSImage(score.fs)})` }}></div>
+                      <div className='max-sm:size-10 size-12 bg-no-repeat bg-center max-sm:bg-[length:45px_45px] bg-[length:55px_55px]' style={{ backgroundImage: `url(${getFSImage(score.fs)})` }}></div>
                     ) : (
-                      <div className='size-10 rounded-full bg-gray-400'></div>
+                      <div className='max-sm:size-8 size-10 rounded-full bg-gray-400'></div>
                     )}
                   </div>
 
                   {/* DX分数和DX Rating */}
                   <div className="text-center">
-                    <p className="font-medium">DX分数: {score.dx_score || "暂无"}</p>
-                    <p className="font-medium">DX Rating: {score.dx_rating || "暂无"}</p>
+                    <p className="font-medium max-sm:text-sm">DX分数: {score.dx_score || "暂无"}</p>
+                    <p className="font-medium max-sm:text-sm">DX Rating: {score.dx_rating || "暂无"}</p>
                   </div>
                 </div>
               </div>

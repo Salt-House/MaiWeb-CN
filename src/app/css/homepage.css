@@ -2,25 +2,29 @@
     0% {
         background-color: #ff0000;
     }
+
     50% {
         background-color: #00ff00;
     }
+
     100% {
         background-color: #0000ff;
     }
 }
 
 @keyframes moveStar {
-    0% { 
+    0% {
         transform: translate(0, 0);
         opacity: 0;
     }
+
     10% {
         opacity: 1;
     }
+
     100% {
-      transform: translate(-30vw, 30vh);
-      opacity: 0;
+        transform: translate(-30vw, 30vh);
+        opacity: 0;
     }
 }
 
@@ -28,17 +32,21 @@
     0% {
         background-position: 100% 0%;
     }
+
     100% {
         background-position: 0% 100%;
     }
 }
 
 @keyframes volume {
-    0%, 100% {
-      transform: scaleY(1);
+
+    0%,
+    100% {
+        transform: scaleY(1);
     }
+
     50% {
-      transform: scaleY(1.8);
+        transform: scaleY(1.8);
     }
 }
 
@@ -46,10 +54,25 @@
     0% {
         transform: translateX(0px);
     }
+
     50% {
         transform: translateX(calc(40% - 5px));
     }
+
     100% {
         transform: translateX(0px);
+    }
+}
+
+@keyframes textScroll {
+    0% {
+        transform: translateX(-20%);
+    }
+
+    50% {
+        transform: translateX(20%);
+    }
+    100% {
+        transform: translateX(-20%);
     }
 }

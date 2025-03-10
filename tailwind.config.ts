@@ -19,6 +19,7 @@ const config: Config = {
         "moveDot": "moveDot 30s linear infinite",
         "volume": "volume 1s infinite",
         "leftToRight": "leftToRight 2s ease-in-out infinite",
+        "text-scroll": "textScroll 5s linear infinite",
       },
       fontFamily: {
         douyin: ['DouyinSansBold', 'sans-serif'], // 自定义字体

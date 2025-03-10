@@ -113,18 +113,19 @@ export default function MusicPage() {
           color: black; /* 失去焦点时被选中选项的文本颜色 */
           background-color: white; /* 失去焦点时被选中选项的背景颜色 */
         }
+
     `}</style>
       {/*Top Search Options Bar*/}
-      <div className="relative flex flex-col justify-center items-center mt-10 mb-16 text-black">
+      <div className="relative flex flex-col justify-center items-center mt-10 mb-16 text-black ">
         <div className="border-4 border-white rounded-2xl">
           <div
-            className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
-            <div className="absolute -top-4 w-48 h-20 text-3xl font-bold text-white" style={textstroke}>
+            className="max-sm:w-[400px] w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
+            <div className="absolute -top-4 w-48 max-sm:h-10 h-20 text-3xl font-bold text-white" style={textstroke}>
               音乐
             </div>
-            <div className="flex flex-row space-x-16 -mt-4 mb-2">
+            <div className="flex flex-row max-sm:flex-col max-sm:justify-center max-sm:items-center max-sm:space-x-0 max-sm:mt-0 max-sm:mb-0 space-x-16 -mt-4 mb-2">
               <div
-                className="w-80 h-12 bg-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-3">
+                className="w-80 h-12 max-sm:my-0 max-sm:mt-4 bg-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-3">
                 <div className="text-white ml-2">按照</div>
                 <select
                   className="w-40 h-9 rounded-full px-4 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 border"
@@ -183,7 +184,7 @@ export default function MusicPage() {
         {/*Music Cards*/}
         <div className="relative flex flex-col justify-center items-center">
           <div className="border-4 border-white rounded-2xl">
-            <div className="w-[900px] min-h-60 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
+            <div className="max-sm:w-[420px] w-[900px] min-h-60 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
               {loading ? (
                 <LoadingSpinner size='sm' message="加载中..." description="正在获取乐曲数据" />
               ) : error ? (
@@ -225,11 +226,11 @@ export default function MusicPage() {
 function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
   return (
     <>
-      <div className="flex flex-row justify-center items-center space-x-4 mb-4">
+      <div className="flex flex-row max-sm:text-sm justify-center items-center max-sm:space-x-0 space-x-4 mb-4">
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)] cursor-pointer"
+            className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)] cursor-pointer"
             onClick={() => getSongs(`version=${currentVersion}`)}
           >
             最近更新
@@ -238,7 +239,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold cursor-pointer"
+            className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=POPSアニメ")}
           // onClick={() => getSongs("genre=POPSアニメ")}
           >
@@ -248,18 +249,18 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold cursor-pointer"
+            className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=niconicoボーカロイド")}
           // onClick={() => getSongs("genre=niconico&VOCALOID")}
           >
-            <span>niconico&</span>
-            <span>VOCALOID</span>
+            <span className='max-sm:hidden'>niconico&</span>
+            <span >VOCALOID</span>
           </div>
         </div>
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[#7f2bb6] rounded-full bg-[rgb(159,54,227)] flex justify-center items-center font-bold cursor-pointer"
+            className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[#7f2bb6] rounded-full bg-[rgb(159,54,227)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=東方Project")}
           // onClick={() => getSongs("genre=东方Project")}
           >
@@ -267,11 +268,11 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
           </div>
         </div>
       </div>
-      <div className="flex flex-row justify-center items-center space-x-4 mb-7">
+      <div className="flex flex-row justify-center items-center max-sm:space-x-0 space-x-4 mb-7">
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[#62b942] rounded-full bg-[rgb(122,231,83)] flex justify-center items-center font-bold cursor-pointer"
+            className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[#62b942] rounded-full bg-[rgb(122,231,83)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=ゲームバラエティ")}
           // onClick={() => getSongs("genre=其他游戏")}
           >
@@ -281,7 +282,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold cursor-pointer"
+            className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=maimai")}
           // onClick={() => getSongs("genre=舞萌")}
           >
@@ -291,7 +292,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(48,157,248)] flex justify-center items-center font-bold cursor-pointer"
+            className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(48,157,248)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=オンゲキCHUNITHM")}
           >
             音击&中二
@@ -300,7 +301,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
         <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
-            className="w-44 h-16 border-4 border-[rgb(179,46,121)] rounded-full bg-[rgb(220,56,184)] flex justify-center items-center font-bold cursor-pointer"
+            className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(179,46,121)] rounded-full bg-[rgb(220,56,184)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("type=utage")}
           >
             宴会场
@@ -342,12 +343,12 @@ function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
     '12', '12+', '13', '13+', '14', '14+', '15', '宴']
 
   return (
-    <div className="h-[172px] max-w-[1200px] mx-auto">
-      <div className="grid grid-cols-8 grid-rows-3 gap-4 h-full pt-1">
+    <div className="h-[172px] max-sm:w-[400px] max-sm:pb-2 max-w-[1200px] mx-auto">
+      <div className="grid grid-cols-8 grid-rows-3 gap-4 max-sm:gap-2 max-sm:px-2 h-full pt-1">
         {[...Array(24)].map((_, index) => (
           <div
             key={index}
-            className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)] cursor-pointer text-black"
+            className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 max-sm:px-2 px-7 py-2 border-4 border-[rgb(155,244,236)] cursor-pointer text-black"
             onClick={() => levels[index] == "宴"
               ? getSongs("type=utage")
               : getSongs(`level=${encodeURIComponent(levels[index])}`)
@@ -362,13 +363,13 @@ function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
 }
 
 function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
-  const versions: (keyof typeof versionIds)[] = ["maimai", "GreeN", "ORANGE", "PiNK", "MURASAKi", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024"]
+  const versions: (keyof typeof versionIds)[] = ["maimai", "GreeN", "ORANGE ", "PiNK", "MURASAKi ", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024"]
   const versionIds = {
     'maimai': 10000,
     'GreeN': 12000,
-    'ORANGE': 14000,
+    'ORANGE ': 14000,
     'PiNK': 16000,
-    'MURASAKi': 18000,
+    'MURASAKi ': 18000,
     'MiLK': 19000,
     'FiNALE': 19900,
     '舞萌DX': 20000,
@@ -388,37 +389,39 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
   }
 
   return (
-    <div className="h-[172px] max-w-[1200px] mx-auto">
-      <div className="grid grid-cols-4 grid-rows-3 gap-4 h-full w-full">
-        {[...Array(versions.length)].map((_, index) => (
-          <div key={index} className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border-4 border-[rgb(155,244,236)]">
-            {index < 6 ? (
-              <div className="flex w-full h-full">
+    <>
+      <div className="h-[172px] max-sm:w-[400px] max-sm:pb-2 max-sm:text-sm max-w-[1200px] mx-auto">
+        <div className="grid grid-cols-4 grid-rows-3 gap-4 max-sm:gap-2 max-sm:px-2 h-full w-full">
+          {[...Array(versions.length)].map((_, index) => (
+            <div key={index} className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border-4 border-[rgb(155,244,236)]">
+              {index < 6 ? (
+                <div className="flex w-full h-full">
+                  <div
+                    className="w-2/3 flex items-center justify-center overflow-hidden border-r-4 max-sm:pb-1 pt-1 border-[rgb(155,244,236)] cursor-pointer text-black"
+                    onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
+                  >
+                    <p className={`${versions[index].length>6 ? 'max-sm:animate-text-scroll':''}`}>{versions[index]}</p>
+                  </div>
+                  <div
+                    className="w-1/3 flex items-center max-sm:pb-1 justify-center text-2xl cursor-pointer text-black"
+                    onClick={() => getSongs(`versions=${versionsPlusIds[versionsPlus[index]]}`)}
+                  >
+                    +
+                  </div>
+                </div>
+              ) : (
+
                 <div
-                  className="w-2/3 flex items-center justify-center border-r-4 pt-1 border-[rgb(155,244,236)] cursor-pointer text-black"
+                  className="max-sm:px-0 px-7 py-2 mt-1 cursor-pointer text-black"
                   onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
                 >
                   {versions[index]}
                 </div>
-                <div
-                  className="w-1/3 flex items-center justify-center text-2xl cursor-pointer text-black"
-                  onClick={() => getSongs(`versions=${versionsPlusIds[versionsPlus[index]]}`)}
-                >
-                  +
-                </div>
-              </div>
-            ) : (
-
-              <div
-                className="px-7 py-2 mt-1 cursor-pointer text-black"
-                onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
-              >
-                {versions[index]}
-              </div>
-            )}
-          </div>
-        ))}
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
