@@ -127,7 +127,7 @@ export default function Home() {
       console.log('Cannot get location');
     }
   }
-  const HomeHintNoLonger = () =>{
+  const HomeHintNoLonger = () => {
     localStorage.setItem("homehint", '1');
     setHomehint(false);
   }
@@ -152,7 +152,7 @@ export default function Home() {
     getNews(3, 3).then(data => setNews2(data));
     getNews(6, 0).then(data => setNews3(data));
     setToken(localStorage.getItem('token') || '');
-    if(localStorage.getItem('token') == '0'){
+    if (localStorage.getItem('token') == '0') {
       localStorage.removeItem('token');
     }
     if (localStorage.getItem('homehint') == null) {
@@ -185,7 +185,7 @@ export default function Home() {
           <div className=" flex flex-col justify-center items-center">
             <div className="max-sm:w-[420px] relative w-[900px] mx-auto text-4xl text-center font-bold text-white bg-clip-text text-transparent"
               style={textstroke}>
-              Welcome to Maimai.moe In China!!!<br></br>
+              Welcome to maimai.moe in China!!!<br></br>
               本站点提供以下服务功能
               <img src="/img/handblue.png" className="h-14 inline-block animate-bounce" alt="" />
               <img src="/img/handpink.png" className="h-14 inline-block animate-bounce" alt="" />
