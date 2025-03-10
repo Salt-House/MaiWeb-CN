@@ -174,7 +174,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="w-full max-sm:w-[420px] overflow-hidden">
+      <div className="w-full overflow-hidden">
         {/* Main Layer */}
         <div className="relative w-full max-sm:w-[420px]">
 
