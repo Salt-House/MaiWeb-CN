@@ -128,6 +128,7 @@ export default function Home() {
       console.log('Cannot get location');
     }
   }
+
   const HomeHintNoLonger = () =>  {
     localStorage.setItem("homehint", '1');
     setHomehint(false);

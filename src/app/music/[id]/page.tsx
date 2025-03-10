@@ -116,7 +116,9 @@ export default function SongDetail() {
 
   return (
     <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
+
       <div className="max-sm:w-[420px] w-[900px] flex justify-start mb-2">
+
         <Link href='/music' className="inline-flex items-center text-white hover:scale-105 transition-colors m-3">
           <FaArrowLeft className="mr-2 size-5" />
           <span className="text-xl font-bold" style={textShadow}>返回音乐列表</span>
