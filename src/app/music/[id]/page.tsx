@@ -7,6 +7,8 @@ import NoteTable from './noteTable'
 import LoadingSpinner from '@/app/components/LoadingSpinner'
 import MusicPlayer from './musicPlayer'
 import ScoreDetail from './scoreDetail'
+import Link from 'next/link'
+import { FaArrowLeft } from 'react-icons/fa'
 
 export default function SongDetail() {
   const params = useParams()
@@ -27,7 +29,7 @@ export default function SongDetail() {
           const parsedData = JSON.parse(songData)
           setSong(parsedData)
           setLoading(false)
-          
+
           // 即使从缓存获取了歌曲信息，也异步获取最新数据
           fetchLatestData()
           return
@@ -78,6 +80,10 @@ export default function SongDetail() {
 
   const audio_url = `https://assets2.lxns.net/maimai/music/${song?.id ?? params.id}.mp3`
 
+  const textShadow = {
+    textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
+  }
+
   if (loading) {
     return (
       <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
@@ -110,6 +116,12 @@ export default function SongDetail() {
 
   return (
     <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
+      <div className="w-[900px] flex justify-start mb-2">
+        <Link href='/music' className="inline-flex items-center text-white hover:scale-105 transition-colors m-3">
+          <FaArrowLeft className="mr-2 size-5" />
+          <span className="text-xl font-bold" style={textShadow}>返回音乐列表</span>
+        </Link>
+      </div>
       <div className="border-4 border-white rounded-2xl">
         <div className="w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-[rgb(155,244,236)]">
           <SongInfo song={song} />
