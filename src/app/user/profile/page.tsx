@@ -310,7 +310,22 @@ export default function UserProfilePage() {
               <div className="relative w-[900px] bg-white/85 rounded-2xl px-10 overflow-auto flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black">
                 {isLoading ? <LoadingSpinner /> : <>
                   <div className="my-12">
-                    <div className="text-white text-4xl font-bold" style={textShadow}>{`上午好，${userdata.username}！`}</div>
+                    <div className="text-white text-4xl font-bold" style={textShadow}>
+                      {(() => {
+                        // 获取当前时间（UTC+8）
+                        const now = new Date();
+                        const hours = now.getHours();
+
+                        // 根据时间段返回不同的问候语
+                        if (hours >= 5 && hours < 12) {
+                          return `上午好，${userdata.username}！`;
+                        } else if (hours >= 12 && hours < 18) {
+                          return `下午好，${userdata.username}！`;
+                        } else {
+                          return `晚上好，${userdata.username}！`;
+                        }
+                      })()}
+                    </div>
                   </div>
                   <div className='w-full p-5 flex flex-row space-x-2 items-center bg-no-repeat bg-contain bg-center' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
                     <div className='flex flex-col justify-center items-center' >
