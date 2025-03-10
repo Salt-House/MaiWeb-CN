@@ -183,7 +183,7 @@ export default function Home() {
 
           {/* Welcome to Home page */}
           <div className=" flex flex-col justify-center items-center max-sm:w-[420px]">
-            <div className="w-full max-w-[420px] sm:max-w-[900px] mx-auto px-4 sm:px-0 text-xl sm:text-4xl text-center font-bold text-white bg-clip-text text-transparent"
+            <div className="w-full max-w-[420px] sm:max-w-[900px] mx-auto px-4 sm:px-0 max-sm:text-2xl sm:text-4xl text-center font-bold text-white bg-clip-text text-transparent"
               style={textstroke}>
               Welcome to Maimai.moe In China!!!<br></br>
               本站点提供以下服务功能<br></br>

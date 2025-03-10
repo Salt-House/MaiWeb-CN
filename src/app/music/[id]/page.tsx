@@ -116,14 +116,14 @@ export default function SongDetail() {
 
   return (
     <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
-      <div className="w-[900px] flex justify-start mb-2">
+      <div className="max-sm:w-[420px] w-[900px] flex justify-start mb-2">
         <Link href='/music' className="inline-flex items-center text-white hover:scale-105 transition-colors m-3">
           <FaArrowLeft className="mr-2 size-5" />
           <span className="text-xl font-bold" style={textShadow}>返回音乐列表</span>
         </Link>
       </div>
       <div className="border-4 border-white rounded-2xl">
-        <div className="w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-[rgb(155,244,236)]">
+        <div className="max-sm:w-[420px] w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-[rgb(155,244,236)]">
           <SongInfo song={song} />
 
           {/* 音乐播放器 */}
@@ -133,17 +133,17 @@ export default function SongDetail() {
 
           {/* 乐曲成绩 */}
           <div className="flex flex-row space-x-6 justify-center items-center">
-            <div className="w-2/5 h-1 rounded-full bg-gray-300" />
+            <div className="w-2/5 max-sm:w-2/6 h-1 rounded-full bg-gray-300" />
             <div className="text-gray-700 font-bold text-xl">乐曲成绩</div>
-            <div className="w-2/5 h-1 rounded-full bg-gray-300" />
+            <div className="w-2/5 max-sm:w-2/6 h-1 rounded-full bg-gray-300" />
           </div>
           <ScoreDetail song={song} scores={scores} />
 
           {/* 谱面详情 */}
           <div className="flex flex-row space-x-6 justify-center items-center">
-            <div className="w-2/5 h-1 rounded-full bg-gray-300" />
+            <div className="w-2/5 max-sm:w-2/6 h-1 rounded-full bg-gray-300" />
             <div className="text-gray-700 font-bold text-xl">谱面详情</div>
-            <div className="w-2/5 h-1 rounded-full bg-gray-300" />
+            <div className="w-2/5 max-sm:w-2/6 h-1 rounded-full bg-gray-300" />
           </div>
           <NoteDetail song={song} />
         </div>
@@ -155,7 +155,7 @@ export default function SongDetail() {
 function SongInfo({ song }: { song: Song }) {
   return (
     <div className="container mx-auto pt-4 pl-4 pr-4 mb-6">
-      <div className="flex space-x-8 mt-2">
+      <div className="flex max-sm:flex-col max-sm:justify-center max-sm:items-center space-x-8 mt-2">
         {/* 左侧曲绘 */}
         <div className="w-64 flex-shrink-0 ml-2">
           <img
@@ -219,25 +219,25 @@ function SongInfo({ song }: { song: Song }) {
 
 function NoteDetail({ song }: { song: Song }) {
   return (
-    <div className="flex flex-col space-y-4 m-6">
+    <div className="flex flex-col space-y-4 max-sm:space-y-2 max-sm:mx-2 m-6">
       {/* Standard谱面 */}
       {song.difficulties?.standard?.length > 0 && (
         <>
           <div className="flex items-center">
-            <span className="w-16 text-sm text-white bg-blue-500 rounded-full py-1 mr-2">标准</span>
-            <div className="flex space-x-2">
+            <span className="w-16 max-sm:w-12 text-sm max-sm:text-xs text-white bg-blue-500 rounded-full py-1 mr-2">标准</span>
+            <div className="flex flex-wrap space-x-2 max-sm:space-x-1">
               {song.difficulties.standard.map((diff: { level_index: number; level: string, note_designer: string }, idx: Key | null | undefined) => (
-                <div className="flex items-end space-x-1">
+                <div className="flex items-end space-x-1 max-sm:mb-1">
                   <div
                     key={idx}
-                    className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
+                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
                     style={{
                       backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
                     }}
                   >
                     {diff.level}
                   </div>
-                  <div>
+                  <div className="max-sm:text-xs">
                     {(diff.note_designer == "-") ? undefined : (diff.note_designer)}
                   </div>
                 </div>
@@ -252,20 +252,20 @@ function NoteDetail({ song }: { song: Song }) {
       {song.difficulties?.dx?.length > 0 && (
         <>
           <div className="flex items-center">
-            <span className="w-16 text-sm text-white bg-orange-500 rounded-full py-1 mr-2">DX</span>
-            <div className="flex space-x-2">
+            <span className="w-16 max-sm:w-12 text-sm max-sm:text-xs text-white bg-orange-500 rounded-full py-1 mr-2">DX</span>
+            <div className="flex flex-wrap space-x-2 max-sm:space-x-1">
               {song.difficulties.dx.map((diff: { level_index: number; level: string, note_designer: string }, idx: Key | null | undefined) => (
-                <div className="flex items-end space-x-1">
+                <div className="flex items-end space-x-1 max-sm:mb-1">
                   <div
                     key={idx}
-                    className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
+                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
                     style={{
                       backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
                     }}
                   >
                     {diff.level}
                   </div>
-                  <div>
+                  <div className="max-sm:text-xs">
                     {(diff.note_designer == "-") ? undefined : (diff.note_designer)}
                   </div>
                 </div>
@@ -280,19 +280,21 @@ function NoteDetail({ song }: { song: Song }) {
       {song.difficulties?.utage?.length > 0 && (
         <>
           <div className="flex items-center">
-            <span className="w-16 text-sm text-white rounded-full py-1 mr-2" style={{
+            <span className="w-16 max-sm:w-12 text-sm max-sm:text-xs text-white rounded-full py-1 mr-2" style={{
               backgroundColor: "rgb(220, 56, 184)"
             }}>宴会场</span>
-            <div className="flex space-x-2">
+            <div className="flex flex-wrap space-x-2 max-sm:space-x-1">
               {song.difficulties.utage.map((diff: { level: string }, idx: Key | null | undefined) => (
-                <div
-                  key={idx}
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
-                  style={{
-                    backgroundColor: "rgb(220, 56, 184)"
-                  }}
-                >
-                  {diff.level}
+                <div className="flex items-end space-x-1 max-sm:mb-1">
+                  <div
+                    key={idx}
+                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                    style={{
+                      backgroundColor: "rgb(220, 56, 184)"
+                    }}
+                  >
+                    {diff.level}
+                  </div>
                 </div>
               ))}
             </div>
