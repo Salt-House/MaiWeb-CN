@@ -73,14 +73,21 @@ export default function RootLayout({
         />
       </Head>
       <body className="font-douyin">
-        <div className="relative h-screen overflow-scroll">
-          <Link href={'/tool/donate'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8"><img src="/img/youxibi.png" className="hover:scale-105 transition-all duration-300 ease-in-out" alt="" /><h1 className="text-white font-bold" style={textDonate}>请开发者打一把mai</h1></Link>
-          <Link href={'/tool/feedback'} className="fixed z-[5] bottom-5 left-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8"><img src="/img/yijianfankui.png" className="hover:scale-105 transition-all duration-300 ease-in-out" alt="" /><h1 className="text-white font-bold" style={textDonate}>意见反馈</h1></Link>
-            {/* BackGround Layer */}
-            <div className="fixed top-0 left-0 w-full h-full  z-[-1] bg-[url('/img/bg_shines.png')]">
-            </div>
-            <div className="fixed top-0 left-0 w-full h-full  z-[-2]">
-              <div className="w-[10px] h-[200px]">
+        <div className="relative h-screen overflow-scroll max-sm:w-[420px] max-sm:mx-auto">
+          <Link href={'/tool/donate'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8">
+            <img src="/img/youxibi.png" className="hover:scale-105 transition-all duration-300 ease-in-out max-sm:w-10" alt="" />
+            <h1 className="text-white font-bold max-sm:text-sm" style={textDonate}>请开发者打一把mai</h1>
+          </Link>
+          <Link href={'/tool/feedback'} className="fixed z-[5] bottom-5 left-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8">
+            <img src="/img/yijianfankui.png" className="hover:scale-105 transition-all duration-300 ease-in-out max-sm:w-10" alt="" />
+            <h1 className="text-white font-bold max-sm:text-sm" style={textDonate}>意见反馈</h1>
+          </Link>
+
+          {/* BackGround Layer */}
+          <div className="fixed top-0 left-0 w-full max-sm:w-[420px] h-full z-[-1] bg-[url('/img/bg_shines.png')]">
+          </div>
+          <div className="fixed top-0 left-0 w-full max-sm:w-[420px] h-full z-[-2]">
+            <div className="w-[10px] h-[200px]">
               </div>
               <div className="flex justify-center max-sm:hidden max-md:hidden max-lg:hidden max-xl:hidden">
                 <div className="w-[1000px] h-[600px] max-xl:h-[400px] max-xl:w-[300px]  bg-[url('/img/chara-left.png')] bg-no-repeat bg-contain bg-left "></div>
@@ -93,15 +100,14 @@ export default function RootLayout({
               </div>
             </div>
             <StarMove />
-            <div className="fixed w-full h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div>
+            <div className="fixed w-full max-sm:w-[420px] h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div>
             <div className="relative">
               {/* Top Container Back */}
-              <div className="absolute inset-0 z-[-1] flex justify-center ">
-                <div className="max-sm:w-[600px] w-[900px] h-[500px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain"></div>
+              <div className="absolute inset-0 z-[-1] flex justify-center">
+                <div className="max-sm:w-[420px] w-[900px] h-[500px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain"></div>
               </div>
               {/* Top Container */}
-              <div className="relative z-[10] w-[90%] max-w-[800px] bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-6 mx-auto mt-10 flex items-center space-x-4 justify-center
-          text-2xl  text-white font-bold">
+              <div className="relative z-[10] max-sm:w-[420px] w-[90%] max-w-[800px] bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-6 mx-auto mt-10 flex items-center space-x-4 justify-center text-2xl text-white font-bold">
                 <Link href={"/music"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>音乐</Link>
                 <div>|</div>
                 <Link href={"/region"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>区域</Link>
@@ -112,7 +118,7 @@ export default function RootLayout({
               </div>
             </div>
             {children}
-            <Link href={"/"} className="top-4 left-4 size-44">
+            <Link href={"/"} className="top-4 left-4 size-44 max-sm:hidden">
               <div className="fixed top-4 left-4 size-44 bg-[url('/img/moon.png')] bg-contain flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
                 <img src="/img/logo.png" alt="" />
               </div>
