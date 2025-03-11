@@ -327,22 +327,45 @@ export default function UserProfilePage() {
                       })()}
                     </div>
                   </div>
-                  <div className='w-full p-5 flex flex-row space-x-2 items-center bg-no-repeat bg-contain bg-center' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
-                    <div className='flex flex-col justify-center items-center' >
+                  
+                  <div className='w-full p-4 flex flex-row items-center bg-no-repeat bg-contain bg-center rounded-xl border-2 border-[#e0e0e0] shadow-md' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
+                    {/* 左侧头像 */}
+                    <div className='flex justify-center items-center mr-4' >
                       {token == null || userdata.mai_icon_id == null ?
-                        <img src={baseUrl + '/icon/1.png'} className='size-24 rounded-xl border-2 border-gray-500 shadow-xl' alt="" />
+                        <img src={baseUrl + '/icon/1.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
                         :
-                        <img src={baseUrl + '/icon/' + userdata.mai_icon_id + '.png'} className='size-24 rounded-xl borRder-2 border-gray-500 shadow-xl' alt="" />
+                        <img src={baseUrl + '/icon/' + userdata.mai_icon_id + '.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
                       }
                     </div>
-                    <div className='flex flex-col justify-center items-center text-xl '>
-                      <div className='w-[400px] h-16 p-x-2 text-2xl flex justify-center items-center bg-no-repeat bg-contain bg-center'
-                        style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
-                        <b className="mx-auto w-64 text-center bg-white rounded-2xl">{userdata.username}</b>
+                    
+                    {/* 右侧信息区域 */}
+                    <div className='flex-1 flex flex-col justify-between h-24'>
+
+                      {/* Rating值 */}
+                      <div className='flex items-center'>
+                        <span className="relative bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-hidden">
+                          <span className="text-sm font-semibold text-gray-700 mr-2">Rating:</span>
+                          <span className="font-bold text-purple-700">{userdata.mai_rating}</span>
+                          <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent z-0"></div>
+                        </span>
                       </div>
-                      <div className='w-80 flex '><b>Rating:</b><p>{userdata.mai_rating}</p></div>
+
+                      {/* 姓名框 */}
+                      <div className='flex text-xl font-bold tracking-wider w-full'>
+                        <span className="bg-white pl-2 pr-2 py-0.5 rounded-lg border-2 border-gray-300 shadow-sm text-left w-64 truncate">
+                          {userdata.username}
+                        </span>
+                      </div>
+
+                      {/* 称号 */}
+                      <div className='flex justify-start w-full'>
+                        <span className='inline-block bg-gradient-to-b from-gray-100 via-gray-300 to-gray-100 px-4 py-0 rounded-3xl border-2 border-gray-400 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.8)] text-center text-gray-700 italic text-sm w-64 truncate'>
+                          欢迎来到 maimai.moe!
+                        </span>
+                      </div>
                     </div>
                   </div>
+
                   <div className="flex justify-end m-3 space-x-4">
                     <button className="inline-flex items-center rounded-2xl bg-blue-500 transition-colors p-1 px-4 text-white font-bold" onClick={() => setShowGuide(true)}>使用指南</button>
                     <button className="inline-flex items-center rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>
