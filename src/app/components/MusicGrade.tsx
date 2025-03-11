@@ -13,6 +13,8 @@ interface MusicGradeProps {
   dx_rating: number,
   rate: number,
   type: string,
+  isExpanded?: boolean;
+  onToggle?: () => void;
 }
 let baseUrl = "https://assets2.lxns.net/maimai"
 
@@ -139,9 +141,10 @@ export default function MusicGrade(props: MusicGradeProps) {
 
   return (
     <>
-      <Link href={`/music/${props.id}`} className={`w-[160px] h-52 break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg ${levelColor} bg-opacity-30`}>
+
+      <Link href={`/music/${props.id}`} className={`max-sm:hidden w-[160px] h-52 break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg ${levelColor} bg-opacity-30`}>
         <h1
-          className={`w-full text-xl pl-1 font-bold truncate ${nameColor}`}
+          className={`w-full max-sm:w-2/6 text-xl pl-1 font-bold truncate ${nameColor}`}
           style={textstroke}
         >
           {props.song_name}
@@ -168,6 +171,72 @@ export default function MusicGrade(props: MusicGradeProps) {
           </div>
         </div>
       </Link >
+      <div className={`max-sm:w-[400px] max-sm:h-12 ${props.isExpanded ? 'max-sm:h-48 flex-col' : 'max-sm:h-12'} max-sm:m-0 sm:hidden flex flex-row space-x-2 items-center break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg ${levelColor} bg-opacity-30`}
+        onClick={props.onToggle}>
+        {props.isExpanded ? <>
+          <div className='flex flex-row space-x-5 mt-3'>
+            <div>
+              <img className="size-20 rounded-2xl" src={`${baseUrl}/jacket/${props.id}.png`} alt={props.song_name} />
+              <img src={`${achievements}`} className='w-24' alt="" />
+            </div>
+            <div className='flex flex-col'>
+              <div className='flex flex-row justify-center items-center space-x-4'>
+                {props.type == 'dx' ? <>
+                  <span className="w-28 h-10 text-xl font-bold text-center text-white bg-orange-500 rounded-full py-1 ">DX</span>
+                </> : <>
+                  <span className="w-28 h-10 text-xl font-bold text-center text-white bg-blue-500 rounded-full py-1 ">标准</span>
+                </>}
+                {fc != null ?
+                  <div className='size-10 bg-no-repeat bg-center bg-[length:50px_50px]' style={{ backgroundImage: `url(${fc})` }}></div>
+                  : <></>}
+                {fs != null ?
+                  <div className='size-10 bg-no-repeat bg-center bg-[length:50px_50px]' style={{ backgroundImage: `url(${fs})` }}></div>
+                  : <></>}
+              </div>
+              <div className={`w-60 pl-1 mt-2 text-2xl ${nameColor} font-bold truncate`} style={textstroke}>{props.song_name}</div>
+              <h3 className={`w-60 text-center text-2xl pl-1 mt-2 tracking-[0.2em] font-bold text-white`} style={GradeColor}>{props.achievements}</h3>
+
+            </div>
+
+          </div>
+          <hr className="w-full my-2 border-gray-700" />
+          <div className={`flex flex-row w-full ${nameColor} justify-around space-x-2`}>
+            <p style={textstroke}>{props.level}</p>
+            <p style={textstroke}>{props.dx_rating}</p>
+            <p style={textstroke}>{props.dx_score}</p>
+          </div>
+        </> :
+          <>
+            <h1
+              className={`w-full max-sm:w-2/6 text-xl pl-1 font-bold truncate ${nameColor}`}
+              style={textstroke}
+            >
+              {props.song_name}
+            </h1>
+            <div className='flex flex-row space-x-2'>
+              <div className='flex flex-col justify-center items-center'>
+                <h2 className={`text-md pl-1 font-bold ${nameColor}`} style={textstroke}>{props.level}</h2>
+                {/* <h2 className='pl-1 text-black font-bold'>{props.dx_rating.toString().substring(0, 3)}</h2> */}
+              </div>
+              {/* <img src={`${achievements}`} className='w-24' alt="" /> */}
+            </div>
+            <h3 className={`text-xl pl-1 font-bold text-white`} style={GradeColor}>{props.achievements}</h3>
+            <div className='flex h-24 flex-row justify-center items-center '>
+              {/* <div className='border-4 border-white'>
+            <img className="size-20" src={`${baseUrl}/jacket/${props.id}.png`} alt={props.song_name} />
+          </div> */}
+              <div className='relative h-full flex flex-row justify-center items-center space-y-1'>
+                {fc != null ?
+                  <div className='size-10 bg-no-repeat bg-center bg-[length:50px_50px]' style={{ backgroundImage: `url(${fc})` }}></div>
+                  : <></>}
+                {fs != null ?
+                  <div className='size-10 bg-no-repeat bg-center bg-[length:50px_50px]' style={{ backgroundImage: `url(${fs})` }}></div>
+                  : <></>}
+              </div>
+            </div>
+          </>}
+
+      </div >
     </>
 
   );
