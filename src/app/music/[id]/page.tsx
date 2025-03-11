@@ -220,9 +220,9 @@ function SongInfo({ song }: { song: Song }) {
                     rel="noopener noreferrer"
                     className="flex items-center px-4 py-1 bg-white text-[#00a1d6] hover:bg-[#00a1d6] hover:text-white transition-colors"
                   >
-                    <FaBilibili className="mr-2" />
+                    <FaBilibili className="mr-3 size-5" />
                     WEB
-                    <FaArrowUpRightFromSquare className='ml-2' />
+                    {/* <FaArrowUpRightFromSquare className='ml-2' /> */}
                   </a>
                 </div>
               </div>
