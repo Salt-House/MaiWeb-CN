@@ -9,6 +9,7 @@ import MusicPlayer from './musicPlayer'
 import ScoreDetail from './scoreDetail'
 import Link from 'next/link'
 import { FaArrowLeft } from 'react-icons/fa'
+import { FaBilibili, FaArrowUpRightFromSquare } from "react-icons/fa6"
 
 export default function SongDetail() {
   const params = useParams()
@@ -208,6 +209,20 @@ function SongInfo({ song }: { song: Song }) {
                 >
                   关于落雪?
                 </a>
+              </div>
+              <div className="flex flex-row space-x-4">
+                <div className="flex rounded-xl border-2 border-[#00a1d6] overflow-hidden">
+                  <a
+                    href={`https://search.bilibili.com/all?keyword=${song.title}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center px-4 py-1 bg-white text-[#00a1d6] hover:bg-[#00a1d6] hover:text-white transition-colors"
+                  >
+                    <FaBilibili className="mr-2" />
+                    WEB
+                    <FaArrowUpRightFromSquare className='ml-2' />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
