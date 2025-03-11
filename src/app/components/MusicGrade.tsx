@@ -171,7 +171,7 @@ export default function MusicGrade(props: MusicGradeProps) {
           </div>
         </div>
       </Link >
-      <div className={`max-sm:w-[400px] max-sm:h-12 ${props.isExpanded ? 'max-sm:h-40 flex-col' : 'max-sm:h-12'} max-sm:m-0 sm:hidden flex flex-row space-x-2 items-center break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg ${levelColor} bg-opacity-30`}
+      <div className={`max-sm:w-[400px] max-sm:h-12 ${props.isExpanded ? 'max-sm:h-48 flex-col' : 'max-sm:h-12'} max-sm:m-0 sm:hidden flex flex-row space-x-2 items-center break-words p-2 m-2 border border-gray-300 rounded-lg shadow-md hover:scale-105 hover:shadow-xl duration-300 ease-in-out backdrop-filter backdrop-blur-lg ${levelColor} bg-opacity-30`}
         onClick={props.onToggle}>
         {props.isExpanded ? <>
           <div className='flex flex-row space-x-5 mt-3'>
@@ -193,9 +193,17 @@ export default function MusicGrade(props: MusicGradeProps) {
                   <div className='size-10 bg-no-repeat bg-center bg-[length:50px_50px]' style={{ backgroundImage: `url(${fs})` }}></div>
                   : <></>}
               </div>
-              <div className='w-60 mt-2 text-2xl font-bold truncate'>{props.song_name}</div>
+              <div className={`w-60 pl-1 mt-2 text-2xl ${nameColor} font-bold truncate`} style={textstroke}>{props.song_name}</div>
               <h3 className={`w-60 text-center text-2xl pl-1 mt-2 tracking-[0.2em] font-bold text-white`} style={GradeColor}>{props.achievements}</h3>
+
             </div>
+
+          </div>
+          <hr className="w-full my-2 border-gray-700" />
+          <div className={`flex flex-row w-full ${nameColor} justify-around space-x-2`}>
+            <p style={textstroke}>{props.level}</p>
+            <p style={textstroke}>{props.dx_rating}</p>
+            <p style={textstroke}>{props.dx_score}</p>
           </div>
         </> :
           <>
