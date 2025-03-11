@@ -107,7 +107,7 @@ export default function RootLayout({
               <div className="max-sm:w-[420px] w-[900px] h-[500px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain"></div>
             </div>
             {/* Top Container */}
-            <div className="relative z-[10] max-sm:w-[420px] w-[90%] max-w-[800px] bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-6 mx-auto mt-10 flex items-center max-sm:space-x-3 space-x-4 justify-center text-2xl text-white font-bold">
+            <div className="relative z-[10] max-sm:w-[410px] max-sm:text-xl max-sm:h-14 w-[90%] max-w-[800px] bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-6 mx-auto mt-10 flex items-center max-sm:space-x-3 space-x-4 justify-center text-2xl text-white font-bold">
               <Link href={"/"} className="sm:hidden hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>主页</Link>
               <div className="sm:hidden">|</div>
               <Link href={"/music"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>音乐</Link>
