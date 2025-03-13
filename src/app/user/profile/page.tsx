@@ -328,6 +328,7 @@ export default function UserProfilePage() {
                     </div>
                   </div>
                   
+
                   <div className='max-sm:w-[380px] max-sm:p-0 w-full p-4 flex flex-row items-center bg-no-repeat bg-contain bg-center rounded-xl border-2 border-[#e0e0e0] shadow-md' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
                     {/* 左侧头像 */}
                     <div className='flex justify-center items-center mr-4' >

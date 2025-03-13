@@ -73,7 +73,7 @@ export default function RootLayout({
         />
       </Head>
       <body className="font-douyin">
-        <div className="relative h-screen overflow-scroll max-sm:w-[420px] max-sm:mx-auto">
+        <div className="relative min-h-screen overflow-auto max-sm:w-[420px] max-sm:mx-auto">
           <Link href={'/tool/donate'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8">
             <img src="/img/youxibi.png" className="hover:scale-105 transition-all duration-300 ease-in-out max-sm:w-10" alt="" />
             <h1 className="text-white font-bold max-sm:text-sm" style={textDonate}>请开发者打一把mai</h1>
