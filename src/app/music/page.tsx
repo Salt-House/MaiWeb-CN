@@ -180,7 +180,7 @@ export default function MusicPage() {
       </div>
 
 
-      <div className='mt-10 mb-32'>
+      <div className='max-sm:mx-5  mt-10 mb-32'>
         {/*Music Cards*/}
         <div className="relative flex flex-col justify-center items-center">
           <div className="border-4 border-white rounded-2xl">

@@ -446,7 +446,7 @@ export default function Home() {
           </div>
 
           {/* Search Game Center */}
-          <div className="relative mb-32 max-sm:w-full w-[800px] h-64 mx-auto flex flex-col justify-center items-center space-y-5 rounded-2xl overflow-visible shadow-xl">
+          <div className="relative mb-32 max-sm:w-[410px] w-[800px] h-64 mx-auto flex flex-col justify-center items-center space-y-5 rounded-2xl overflow-visible shadow-xl">
             <div className="absolute  rounded-2xl inset-x-0 z-[-1] bg-white">
               <div className="border-4 border-white rounded-2xl">
                 <div className="border-4 border-[rgb(113,241,229)] rounded-2xl">
@@ -512,7 +512,7 @@ export default function Home() {
           </div>
 
           {/* Map Play display */}
-          <div className="relative w-full sm:w-[900px] h-[400px] sm:h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
+          <div className="relative w-full max-sm:w-[410px] sm:w-[900px] h-[400px] sm:h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
             <div className="absolute -top-5 flex justify-center items-center text-white font-bold text-xl sm:text-2xl" style={textstroke}>
               全国出勤行脚图 
             </div>
@@ -526,7 +526,7 @@ export default function Home() {
               )}
             </div>
           </div>
-          <div className="w-[900px] max-sm:w-[420px]  mt-2 h-20 flex mx-auto justify-center items-center space-x-4 text-white font-bold max-sm:text-xl text-2xl">
+          <div className="w-[900px] max-sm:mt-5 max-sm:w-[420px]  mt-2 h-20 flex mx-auto justify-center items-center space-x-4 text-white font-bold max-sm:text-xl text-2xl">
             <div className="border-4 border-white rounded-full hover:scale-105 transition-all duration-300 ease-in-out">
               <div className="relative p-5 rounded-full bg-[#41e7d7] border-4 border-[#2ea297]">
                 <button>全国玩家行脚图<br></br><b className="absolute w-full left-0  bottom-0 text-lg text-red-500">数据不足，暂无法使用</b></button>
