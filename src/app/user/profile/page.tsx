@@ -305,9 +305,9 @@ export default function UserProfilePage() {
     switch (activeSection) {
       case '基本信息':
         return (
-          <div className="relative flex flex-col justify-center items-center mb-16">
+          <div className="relative flex flex-col justify-center items-center mb-16 overflow-clip">
             <div className="border-4 border-white rounded-2xl">
-              <div className="relative w-[900px] bg-white/85 rounded-2xl px-10 overflow-auto flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black">
+              <div className="relative max-sm:w-[400px] w-[900px] max-sm:px-2 bg-white/85 rounded-2xl px-10 flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black">
                 {isLoading ? <LoadingSpinner /> : <>
                   <div className="my-12">
                     <div className="text-white text-4xl font-bold" style={textShadow}>
@@ -328,7 +328,7 @@ export default function UserProfilePage() {
                     </div>
                   </div>
                   
-                  <div className='w-full p-4 flex flex-row items-center bg-no-repeat bg-contain bg-center rounded-xl border-2 border-[#e0e0e0] shadow-md' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
+                  <div className='max-sm:w-[380px] max-sm:p-0 w-full p-4 flex flex-row items-center bg-no-repeat bg-contain bg-center rounded-xl border-2 border-[#e0e0e0] shadow-md' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
                     {/* 左侧头像 */}
                     <div className='flex justify-center items-center mr-4' >
                       {token == null || userdata.mai_icon_id == null ?
@@ -343,7 +343,7 @@ export default function UserProfilePage() {
 
                       {/* Rating值 */}
                       <div className='flex items-center'>
-                        <span className="relative bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-hidden">
+                        <span className="relative bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-clip">
                           <span className="text-sm font-semibold text-gray-700 mr-2">Rating:</span>
                           <span className="font-bold text-purple-700">{userdata.mai_rating}</span>
                           <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent z-0"></div>
@@ -377,7 +377,7 @@ export default function UserProfilePage() {
                     <hr className='w-full border-t-4 border-gray-300 my-5 rounded-full' />
                   </div>
                   <div className='w-full flex flex-row justify-around items-center space-x-10 my-3'>
-                    <div>
+                    {/* <div>
                       <ul>
                         <li className='flex justify-between'><b>本日游玩次数:</b>{0} pc</li>
                         <li className='flex justify-between'><b>本周游玩次数:</b>{0} pc</li>
@@ -392,7 +392,8 @@ export default function UserProfilePage() {
                         <li className='flex justify-between'><b>本月提升rating分:</b>{0} rating</li>
                         <li className='flex justify-between'><b>年度提升rating分:</b>{0} rating</li>
                       </ul>
-                    </div>
+                    </div> */}
+                    <h1>完善中</h1>
                   </div>
 
                   <div className="flex-row flex w-full items-center justify-center mb-2 mt-5">
@@ -401,30 +402,30 @@ export default function UserProfilePage() {
                     <hr className='w-full border-t-4 border-gray-300 my-5 rounded-full' />
                   </div>
                   <h1 className='text-gray-500 font-bold mb-3'>注意：功能显示为当前状态</h1>
-                  <div className='w-full flex flex-row justify-around items-center space-x-10 my-3'>
+                  <div className='w-full flex flex-row justify-around items-center space-x-5 my-3'>
                     <div>
                       <ul className='space-y-2'>
                         <li className='flex justify-between items-center'>
-                          <b>b50自动更新:</b><button className={`ml-2 rounded-2xl ${functionStatus.BUpdate ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.BUpdate ? '已启用' : '关闭'}</button>
+                          <b>b50自动更新:</b><button className={`ml-2 rounded-2xl ${functionStatus.BUpdate ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 max-sm:px-2 text-white font-bold`}>{functionStatus.BUpdate ? '已启用' : '关闭'}</button>
                         </li>
                         <li className='flex justify-between items-center'>
-                          <b>周期报告:</b><button className={`ml-2 rounded-2xl ${functionStatus.CycleReport ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.CycleReport ? '已启用' : '开发中'}</button>
+                          <b>周期报告:</b><button className={`ml-2 rounded-2xl ${functionStatus.CycleReport ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 max-sm:px-2 text-white font-bold`}>{functionStatus.CycleReport ? '已启用' : '开发中'}</button>
                         </li>
                         <li className='flex justify-between items-center'>
-                          <b>每日推分推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.RatingPush ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.RatingPush ? '已启用' : '开发中'}</button>
+                          <b>每日推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.RatingPush ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 max-sm:px-2 text-white font-bold`}>{functionStatus.RatingPush ? '已启用' : '开发中'}</button>
                         </li>
                       </ul>
                     </div>
                     <div>
                       <ul className='space-y-2'>
                         <li className='flex justify-between items-center'>
-                          <b>AI智能推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.AIRecommend ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.AIRecommend ? '已启用' : '开发中'}</button>
+                          <b>AI智能推荐:</b><button className={`ml-2 rounded-2xl ${functionStatus.AIRecommend ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 max-sm:px-2 text-white font-bold`}>{functionStatus.AIRecommend ? '已启用' : '开发中'}</button>
                         </li>
                         <li className='flex justify-between items-center'>
-                          <b>多方数据共享:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataShare ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataShare ? '已启用' : '开发中'}</button>
+                          <b>多方数据共享:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataShare ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 max-sm:px-2 text-white font-bold`}>{functionStatus.DataShare ? '已启用' : '开发中'}</button>
                         </li>
                         <li className='flex justify-between items-center'>
-                          <b>个人数据分析:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataAnalyse ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`}>{functionStatus.DataAnalyse ? '已启用' : '开发中'}</button>
+                          <b>个人数据分析:</b><button className={`ml-2 rounded-2xl ${functionStatus.DataAnalyse ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 max-sm:px-2 text-white font-bold`}>{functionStatus.DataAnalyse ? '已启用' : '开发中'}</button>
                         </li>
                       </ul>
                     </div>
@@ -479,15 +480,15 @@ export default function UserProfilePage() {
       case '关联账号':
         return (
           <>
-            <div className="relative flex flex-col justify-center items-center mb-16">
-              <div className="w-[900px] flex justify-start mb-2">
+            <div className=" max-sm:w-[400px] relative flex flex-col justify-center items-center mb-16">
+              <div className="max-sm:w-[400px] w-[900px] flex justify-start mb-2">
                 <button className="inline-flex items-center text-white hover:scale-105 transition-colors m-3" onClick={() => setActiveSection('基本信息')}>
                   <FaArrowLeft className="mr-2 size-5" />
                   <span className="text-xl font-bold" style={textShadow}>返回个人主页</span>
                 </button>
               </div>
               <div className="border-4 border-white rounded-2xl">
-                <div className="relative w-[900px] bg-white/85 rounded-2xl px-10 flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black min-h-96">
+                <div className="relative max-sm:w-[400px] max-sm:px-0 w-[900px] bg-white/85 rounded-2xl px-10 flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black min-h-96">
                   {isLoading ? <LoadingSpinner /> : <>
                     <div className="flex-row flex w-full items-center justify-center mb-2 mt-5">
                       <hr className='w-full border-t-4 border-gray-300 my-5 rounded-full' />
@@ -515,14 +516,14 @@ export default function UserProfilePage() {
       case '隐私设置':
         return (
           <div className="relative flex flex-col justify-center items-center mb-16">
-            <div className="w-[900px] flex justify-start mb-2">
+            <div className="max-sm:w-[400px] w-[900px] flex justify-start mb-2">
               <button className="inline-flex items-center text-white hover:scale-105 transition-colors m-3" onClick={() => setActiveSection('基本信息')}>
                 <FaArrowLeft className="mr-2 size-5" />
                 <span className="text-xl font-bold" style={textShadow}>返回个人主页</span>
               </button>
             </div>
             <div className="border-4 border-white rounded-2xl">
-              <div className="relative w-[900px] bg-white/85 rounded-2xl px-10 overflow-auto flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black">
+              <div className="relative max-sm:w-[400px] max-sm:px-0 w-[900px] bg-white/85 rounded-2xl px-10 flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black">
                 {isLoading ? <><LoadingSpinner /></> : <>
                   <div className="flex-row flex w-full items-center justify-center mb-2 mt-5">
                     <hr className='w-full border-t-4 border-gray-300 my-5 rounded-full' />
@@ -530,10 +531,10 @@ export default function UserProfilePage() {
                     <hr className='w-full border-t-4 border-gray-300 my-5 rounded-full' />
                   </div>
                   <div className='w-full flex flex-col justify-center items-center space-y-5 my-8'>
-                    <div className='w-6/12 flex flex-row justify-between'><b>第三方软件调取信息:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>撰写中</button></div>
-                    <div className='w-6/12 flex flex-row justify-between'><b>舞萌萌使用隐私协议:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>撰写中</button></div>
-                    <div className='w-6/12 flex flex-row justify-between'><b>数据用于AI推荐:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>撰写中</button></div>
-                    <div className='w-6/12 flex flex-row justify-between'><b>根据数据优化:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-4 text-white font-bold'>撰写中</button></div>
+                    <div className='w-6/12 max-sm:w-9/12 flex flex-row justify-between'><b>第三方软件调取信息:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-2 text-white font-bold'>撰写中</button></div>
+                    <div className='w-6/12 max-sm:w-9/12  flex flex-row justify-between'><b>舞萌萌使用隐私协议:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-2 text-white font-bold'>撰写中</button></div>
+                    <div className='w-6/12 max-sm:w-9/12  flex flex-row justify-between'><b>数据用于AI推荐:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-2 text-white font-bold'>撰写中</button></div>
+                    <div className='w-6/12 max-sm:w-9/12  flex flex-row justify-between'><b>根据数据优化:</b><button className='ml-2 rounded-2xl bg-green-500 p-1 px-2 text-white font-bold'>撰写中</button></div>
                   </div>
                 </>}
               </div>
@@ -550,7 +551,7 @@ export default function UserProfilePage() {
               </button>
             </div>
             <div className="border-4 border-white rounded-2xl">
-              <div className="relative w-[900px] bg-white/85 rounded-2xl px-10 overflow-auto flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black">
+              <div className="relative w-[900px] bg-white/85 rounded-2xl px-10 flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black">
                 {isLoading ? <LoadingSpinner /> : <>
                   <h1 className='text-2xl font-bold mt-5'>其他设置</h1>
                   <hr className='w-full border-t-4 border-gray-400 my-5' />
@@ -624,7 +625,7 @@ export default function UserProfilePage() {
     }
   }
   return (
-    <div className='w-[900px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center'>
+    <div className='w-[900px] max-sm:w-[420px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center'>
       {/* <div className='w-[700px] h-24  bg-white/30 backdrop-blur-md rounded-xl text-black font-bold flex justify-center items-center mb-5'>
         <ul className='flex flex-row justify-center items-center space-x-5 text-xl'>
           <li><a href='#'
@@ -651,13 +652,13 @@ export default function UserProfilePage() {
           </button></li>
         </ul>
       </div> */}
-      <div className='w-[800px] flex justify-center items-center'>
+      <div className='max-sm:w-[420px] w-[800px] flex justify-center items-center'>
         {renderContent()}
       </div>
       {showGuide && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <AnimatedComponent isVisible={true}>
-            <div className="relative w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
+            <div className="relative max-sm:w-[420px] w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
               <button
                 className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 transition-colors"
                 onClick={() => setShowGuide(false)}

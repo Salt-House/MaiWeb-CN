@@ -119,8 +119,8 @@ export default function UserPage() {
 
   return (
     <>
-      <div className="w-[900px] mt-20  mx-auto relative flex justify-center">
-        <div className='w-[450px] h-[600px] bg-[rgb(239,246,255)] rounded-2xl flex flex-row border-4 border-white'>
+      <div className="max-sm:w-[420px] w-[900px] mt-20  mx-auto relative flex justify-center">
+        <div className=' max-sm:w-[400px] w-[450px] h-[600px] bg-[rgb(239,246,255)] rounded-2xl flex flex-row border-4 border-white'>
           {/* 舞萌萌登录与注册 */}
           <div className={`h-full bg-blue-500 p-5 rounded-2xl transition-all duration-300 ease-in-out w-[450px] border-l-4 border-white shadow-lg`}>
             {isHovered ?
