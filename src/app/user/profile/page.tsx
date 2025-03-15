@@ -653,7 +653,7 @@ export default function UserProfilePage() {
           </button></li>
         </ul>
       </div> */}
-      <div className='max-sm:w-[420px] w-[800px] flex justify-center items-center'>
+      <div className='max-sm:w-[420px] w-[900px] flex justify-center items-center'>
         {renderContent()}
       </div>
       {showGuide && (
