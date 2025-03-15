@@ -18,20 +18,33 @@ export default function GuideListPage() {
   const [guides, setGuides] = useState<Guide[]>([])
 
   useEffect(() => {
-    const savedGuides = JSON.parse(localStorage.getItem('guides') || '[]')
-    setGuides(savedGuides)
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+    };
+
+    fetch("https://dev.maimai.moe/api/tutorial?limit=100&offset=0", requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        const data = JSON.parse(result);
+        setGuides(data);
+      })
+      .catch((error) => console.error(error));
   }, [])
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-white" 
-            style={{
-              textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
-            }}>
+        <h1 className="text-3xl font-bold text-white"
+          style={{
+            textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
+          }}>
           文稿列表
         </h1>
-        <Link 
+        <Link
           href="/guide/add"
           className="px-6 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors duration-200"
         >
