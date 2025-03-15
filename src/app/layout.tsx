@@ -121,7 +121,7 @@ export default function RootLayout({
           </div>
           {children}
           <Link href={"/"} className="top-4 left-4 size-44 max-sm:hidden">
-            <div className="fixed top-4 left-4 size-44 bg-[url('/img/moon.png')] bg-contain flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
+            <div className="fixed top-4 left-4 size-40 bg-[url('/img/moon.png')] bg-contain flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
               <img src="/img/logo.png" alt="" />
             </div>
           </Link>
