@@ -41,7 +41,7 @@ interface BindAccount {
   isdivingfish: boolean,
   isarcaed: boolean,
 }
-export const defaultUserProfile: UserProfile = {
+const defaultUserProfile: UserProfile = {
   id: "请刷新",
   username: "请刷新",
   email: "请刷新",
