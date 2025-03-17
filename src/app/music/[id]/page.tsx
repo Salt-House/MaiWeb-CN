@@ -125,7 +125,7 @@ export default function SongDetail() {
           <span className="text-xl font-bold" style={textShadow}>返回音乐列表</span>
         </Link>
       </div>
-      <div className="border-4 border-white rounded-2xl">
+      <div className="border-4 border-white bg-white rounded-2xl">
         <div className="max-sm:w-[420px] w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-[rgb(155,244,236)]">
           <SongInfo song={song} />
 

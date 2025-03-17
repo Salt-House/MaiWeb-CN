@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import domtoimage from 'dom-to-image';
 import { UserProfile } from '../user/profile/page';
+import LoadingSpinner from './LoadingSpinner';
 
 interface MusicGradeProps {
     id: number;
@@ -28,7 +29,7 @@ const defaultUserProfile: UserProfile = {
     mai_nameplate_id: "1",
     mai_icon_id: "1",
     mai_trophy_id: "1",
-  };
+};
 let baseUrl = "https://assets2.lxns.net/maimai"
 
 
@@ -49,10 +50,11 @@ export default function ShareableImage() {
     let ArcaedGradeB15: MusicGradeProps[] = []
     const [autoUpdate, setAutoUpdate] = useState(false);
     const [updateInterval, setUpdateInterval] = useState(2000);
+    const [isLoading, setIsLoading] = useState(false)
 
-    useEffect(()=>{
+    useEffect(() => {
         setToken(localStorage.getItem('token') || '')
-    },[])
+    }, [])
 
     useEffect(() => {
         let intervalId: NodeJS.Timeout;
@@ -130,9 +132,26 @@ export default function ShareableImage() {
         }
     }, [token])
 
+    const checkImageLoaded = (imgElement: HTMLImageElement) => {
+        return new Promise((resolve, reject) => {
+            if (imgElement.complete) {
+                resolve(true);
+            } else {
+                imgElement.onload = () => resolve(true);
+                imgElement.onerror = reject;
+            }
+        });
+    };
+    const waitForAllImages = async (container: HTMLElement) => {
+        const images = container.querySelectorAll('img');
+        await Promise.all(
+            Array.from(images).map(checkImageLoaded)
+        );
+    };
 
     const generateImage = async () => {
-        if (!contentRef.current) return;
+        setIsLoading(true)
+        if (!contentRef.current) return setIsLoading(false);
         try {
             // 生成 PNG
             const dataUrl = await domtoimage.toPng(contentRef.current, {
@@ -152,16 +171,20 @@ export default function ShareableImage() {
                 navigator.share({
                     files: [file],
                 }).catch(console.error);
+                setIsLoading(false)
             } else {
                 // 下载图片
                 const link = document.createElement('a');
                 link.download = 'share.png';
                 link.href = dataUrl;
                 link.click();
+                setIsLoading(false)
             }
         } catch (error) {
             console.error('生成图片失败:', error);
+            setIsLoading(false)
         }
+        setIsLoading(false)
     };
 
     return (
@@ -173,7 +196,7 @@ export default function ShareableImage() {
                             transform: `scale(0.2)`,
                         }}>
                         <div className="absolute z-[-10] w-full h-full bg-gradient-to-b from-indigo-400 via-emerald-100 to-white">
-                            <div className="absolute z-[-8] w-full h-full bg-[url('/img/bg_shines.png')]" >
+                            <div className="absolute z-[-8] w-full h-full bg-[url('/img/bg_shines.png')]"  >
                             </div>
                             <div className="w-full h-64 absolute -top-20 bg-[url('/img/aurora.png')] bg-no-repeat bg-cover"></div>
                             <div className="w-full h-64 absolute bottom-0 bg-[url('/img/bg_pc.png')] bg-no-repeat bg-cover"></div>
@@ -308,6 +331,16 @@ export default function ShareableImage() {
                     </button>
 
                 </div>
+                {isLoading ? <>
+                    <div className='absolute z-[1000] w-full h-full bg-white/85'>
+                    <LoadingSpinner />
+                    </div>
+                </> : <>
+
+                </>
+
+                }
+
             </div>
             <img src={imgUrl} alt="" />
         </>
@@ -454,7 +487,7 @@ function ShareableImageSub(props: ShareableImageSubProps) {
                     </div>
                     <div className='m-1 rounded-2xl border-white border-4'>
                         <div className=' border-4 rounded-xl bg-blue-500 border-blue-500'>
-                            <img className="size-20 rounded-xl" src={`${baseUrl}/jacket/${props.id}.png`} alt={props.song_name} />
+                            <img className="size-20 rounded-xl" src={`${baseUrl}/jacket/${props.id}.png`} crossOrigin="anonymous" alt={props.song_name} />
                         </div>
                     </div>
                     <div className='pt-1'>

@@ -306,7 +306,7 @@ export default function UserProfilePage() {
       case '基本信息':
         return (
           <div className="relative flex flex-col justify-center items-center mb-16 overflow-clip">
-            <div className="border-4 border-white rounded-2xl">
+            <div className="border-4 border-white bg-white rounded-2xl">
               <div className="relative max-sm:w-[400px] w-[900px] max-sm:px-2 bg-white/85 rounded-2xl px-10 flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black">
                 {isLoading ? <LoadingSpinner /> : <>
                   <div className="my-12">

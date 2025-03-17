@@ -424,7 +424,7 @@ export default function Home() {
           </div>
 
           {/* Search Game Center */}
-          <div className="relative mb-32 max-sm:w-[410px] w-[800px] h-64 mx-auto flex flex-col justify-center items-center space-y-5 rounded-2xl overflow-visible shadow-xl">
+          <div className="relative mb-32 max-sm:w-[410px] w-[800px] h-64 mx-auto flex flex-col justify-center items-center space-y-5 rounded-2xl overflow-visible ">
             <div className="absolute  rounded-2xl inset-x-0 z-[-1] bg-white">
               <div className="border-4 border-white rounded-2xl">
                 <div className="border-4 border-[rgb(113,241,229)] rounded-2xl">
