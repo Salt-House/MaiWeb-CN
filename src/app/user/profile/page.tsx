@@ -18,7 +18,7 @@ interface FunctionStatus {
   DataShare: boolean,
   DataAnalyse: boolean
 }
-interface UserProfile {
+export interface UserProfile {
   id: string,
   username: string,
   email: string,
@@ -41,7 +41,7 @@ interface BindAccount {
   isdivingfish: boolean,
   isarcaed: boolean,
 }
-const defaultUserProfile: UserProfile = {
+export const defaultUserProfile: UserProfile = {
   id: "请刷新",
   username: "请刷新",
   email: "请刷新",

@@ -10,7 +10,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "dom-to-image": "^2.6.0",
     "echarts": "^5.6.0",
+    "file-saver": "^2.0.5",
     "framer-motion": "^12.4.2",
     "next": "^14.2.24",
     "react": "^18",
@@ -21,6 +23,7 @@
     "tailwindcss-text-stroke": "^0.0.5"
   },
   "devDependencies": {
+    "@types/dom-to-image": "^2.6.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
