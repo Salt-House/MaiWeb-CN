@@ -371,28 +371,6 @@ export default function Home() {
             <div className="flex justify-center items-center text-center text-white font-bold text-3xl mb-10" style={textstroke}>
               — 舞萌相关资讯 —
             </div>
-            {/* First row */}
-            {/* <div className="flex flex-row justify-center items-center space-x-4 mb-6">
-              {news1.length === 0 ? (
-                <></>
-              ) : (
-                <>
-                  {news1.map((news, index) => (
-                    <NewsCard
-                      key={index}
-                      title={news.title}
-                      content={news.content}
-                      image_url={news.image_url}
-                      source={news.source}
-                      source_url={news.source_url}
-                      source_author={news.source_author}
-                      source_created_at={news.source_created_at}
-                      size="sm" // 使用小尺寸
-                    />
-                  ))}
-                </>
-              )}
-            </div> */}
             <div className="flex flex-col space-y-6">
               {/* First row */}
               <div className="flex flex-col sm:flex-row justify-center items-center max-sm:space-y-4 sm:space-x-4">
