@@ -90,7 +90,7 @@ export default function NewDetailPage() {
 
         {targetNews ? (
           <div className="relative">
-            <div className="border-4 border-white rounded-2xl">
+            <div className="border-4 border-white bg-white rounded-2xl">
               <div className="bg-white/80 backdrop-blur-md rounded-2xl overflow-hidden border-4 border-[rgb(155,244,236)]">
                 {/* 图片展示区域，添加左右切换按钮 */}
                 <div className="relative">

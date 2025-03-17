@@ -117,7 +117,7 @@ export default function MusicPage() {
     `}</style>
       {/*Top Search Options Bar*/}
       <div className="relative flex flex-col justify-center items-center mt-10 mb-16 text-black ">
-        <div className="border-4 border-white rounded-2xl">
+        <div className="border-4 border-white bg-white rounded-2xl">
           <div
             className="max-sm:w-[400px] w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
             <div className="absolute -top-4 w-48 max-sm:h-10 h-20 text-3xl font-bold text-white" style={textstroke}>
@@ -183,7 +183,7 @@ export default function MusicPage() {
       <div className='max-sm:mx-5  mt-10 mb-32'>
         {/*Music Cards*/}
         <div className="relative flex flex-col justify-center items-center">
-          <div className="border-4 border-white rounded-2xl">
+          <div className="border-4 border-white bg-white rounded-2xl">
             <div className="max-sm:w-[420px] w-[900px] min-h-60 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
               {loading ? (
                 <LoadingSpinner size='sm' message="加载中..." description="正在获取乐曲数据" />

@@ -14,7 +14,7 @@ export default function SongList({ songs }: SongListProps) {
           key={song.id}
           onClick={() => localStorage.setItem(`song_${song.id}`, JSON.stringify(song))}
         >
-          <div className="flex h-44 max-sm:h-32 max-sm:mx-auto bg-white px-4 max-sm:px-2 max-sm:mb-16 py-2 space-x-8 max-sm:space-x-2 cursor-pointer duration-300">
+          <div className="flex h-44 max-sm:h-32 max-sm:mx-auto bg-white bg-white px-4 max-sm:px-2 max-sm:mb-16 py-2 space-x-8 max-sm:space-x-2 cursor-pointer duration-300">
             {/* 左侧曲绘封面 */}
             <div className="max-sm:size-28 w-36 h-36 flex-shrink-0">
               <img
