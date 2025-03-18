@@ -38,21 +38,21 @@ export default function MusicGrade(props: MusicGradeProps) {
   switch (props.level_index) {
     case 0:
       levelColor = 'bg-green-500';
-      nameColor = 'text-green-500';
+      nameColor = 'text-white';
       textstroke = {
         textShadow: '-2px -2px 4px rgba(34, 197, 94, 1), 2px -2px 4px rgba(34, 197, 94, 1), -2px 2px 2px rgba(34, 197, 94, 1), 2px 2px 2px rgba(34, 197, 94, 1)'
       };
       break;
     case 1:
       levelColor = 'bg-yellow-500';
-      nameColor = 'text-yellow-500';
+      nameColor = 'text-white';
       textstroke = {
         textShadow: '-2px -2px 4px rgba(234, 179, 8, 1), 2px -2px 4px rgba(234, 179, 8, 1), -2px 2px 2px rgba(234, 179, 8, 1), 2px 2px 2px rgba(234, 179, 8, 1)'
       };
       break;
     case 2:
       levelColor = 'bg-red-500';
-      nameColor = 'text-red-500';
+      nameColor = 'text-white';
       textstroke = {
         textShadow: '-2px -2px 4px rgba(239, 68, 68, 1), 2px -2px 4px rgba(239, 68, 68, 1), -2px 2px 2px rgba(239, 68, 68, 1), 2px 2px 2px rgba(239, 68, 68, 1)'
       };
