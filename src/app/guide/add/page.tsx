@@ -6,6 +6,7 @@ import LoadingSpinner from '@/app/components/LoadingSpinner'
 import 'react-quill/dist/quill.snow.css'
 import 'react-quill/dist/quill.bubble.css'
 
+
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
   loading: () => <LoadingSpinner size="sm" message="加载编辑器..." />
@@ -16,20 +17,59 @@ export default function AddGuidePage() {
   const [title, setTitle] = useState('')
   const [token, setToken] = useState('')
   const [level, setLevel] = useState('入门')
+  const [modules, setModules] = useState<any>(null)
+  const isValidBvId = (bvId: string): boolean => {
+    const bvPattern = /^BV[0-9A-Za-z]{10}$/
+    return bvPattern.test(bvId)
+  }
 
   useEffect(() => {
     setToken(localStorage.getItem('token') || '')
+    import('quill').then((Quill) => {
+      const VideoBlot = Quill.default.import('formats/video')
+      class CustomVideoBlot extends VideoBlot {
+        static create(value: any) {
+          const node = super.create(value)
+          node.setAttribute('controls', 'true') // 添加视频控件
+          node.setAttribute('allowfullscreen', 'true') // 允许全屏
+          return node
+        }
+      }
+      Quill.default.register('formats/video', CustomVideoBlot)
+
+      setModules({
+        toolbar: {
+          container: [
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ color: [] }, { background: [] }],
+            [{ align: [] }],
+            ['link', 'image', 'video'],
+            ['clean']
+          ],
+          handlers: {
+            video: function (this: any) {
+              const bvId = prompt('请输入 Bilibili 的 BV 号：')
+              if (bvId && isValidBvId(bvId)) {
+                const range = this.quill.getSelection()
+                const iframeHtml = `
+                <div className="w-[100px] h-[100px]">
+                <iframe
+                  src="https://player.bilibili.com/player.html?bvid=${bvId}"
+                  style="width: 100%; height: 100%; border: none;"
+                  allowFullScreen
+                ></iframe>
+                </div>`
+                this.quill.clipboard.dangerouslyPasteHTML(range.index, iframeHtml)
+              } else {
+                alert('请输入有效的 Bilibili BV 号！')
+              }
+            }
+          }
+        }
+      })
+    })
   }, [])
-  const modules = {
-    toolbar: [
-      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ 'color': [] }, { 'background': [] }],
-      [{ 'align': [] }],
-      ['link', 'image'],
-      ['clean']
-    ],
-  }
 
   const saveContent = () => {
     if (!title.trim()) {

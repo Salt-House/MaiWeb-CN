@@ -42,6 +42,25 @@ body {
   }
 }
 
+.ql-container .ql-video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  /* 保持16:9宽高比 */
+  object-fit: cover;
+  /* 确保内容完全覆盖 */
+  max-width: 100%;
+  /* 最大宽度不超过容器 */
+  margin-left: auto;
+  margin-right: auto;
+  /* 水平居中 */
+  display: block;
+  /* 块级元素 */
+  border-radius: 0.5rem;
+  /* 可选的圆角 */
+}
+
+
 .animation-delay-500 {
   animation-delay: 0.5s;
 }
