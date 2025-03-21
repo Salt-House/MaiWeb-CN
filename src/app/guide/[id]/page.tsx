@@ -15,9 +15,9 @@ interface params {
 }
 
 interface author {
-    id:number,
-    username:string,
-    privileges:number
+    id: number,
+    username: string,
+    privileges: number
 }
 
 
@@ -27,28 +27,66 @@ export default function GuideDetailPage({ params }: { params: params }) {
     const [level, setLevel] = useState<string>('')
     const [id, setId] = useState<string>('')
     const [author, setAuthor] = useState<author>({
-        id:0,
-        username:'',
-        privileges:0
+        id: 0,
+        username: '',
+        privileges: 0
     })
     const [isAuthor, setIsAuthor] = useState(false)
     const [created_at, setCreated_at] = useState<string>('')
     const [isEdit, setIsEdit] = useState(false)
     const [token, setToken] = useState('')
-    const modules = {
-        toolbar: [
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ 'color': [] }, { 'background': [] }],
-            [{ 'align': [] }],
-            ['link', 'image'],
-            ['clean']
-        ],
+    const [modules, setModules] = useState<any>(null)
+    const isValidBvId = (bvId: string): boolean => {
+        const bvPattern = /^BV[0-9A-Za-z]{10}$/
+        return bvPattern.test(bvId)
     }
-
 
     useEffect(() => {
         setToken(localStorage.getItem('token') || '')
+        import('quill').then((Quill) => {
+            const VideoBlot = Quill.default.import('formats/video')
+            class CustomVideoBlot extends VideoBlot {
+                static create(value: any) {
+                    const node = super.create(value)
+                    node.setAttribute('controls', 'true') // 添加视频控件
+                    node.setAttribute('allowfullscreen', 'true') // 允许全屏
+                    return node
+                }
+            }
+            Quill.default.register('formats/video', CustomVideoBlot)
+
+            setModules({
+                toolbar: {
+                    container: [
+                        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{ color: [] }, { background: [] }],
+                        [{ align: [] }],
+                        ['link', 'image', 'video'],
+                        ['clean']
+                    ],
+                    handlers: {
+                        video: function (this: any) {
+                            const bvId = prompt('请输入 Bilibili 的 BV 号：')
+                            if (bvId && isValidBvId(bvId)) {
+                                const range = this.quill.getSelection()
+                                const iframeHtml = `
+                              <div className="w-[100px] h-[100px]">
+                              <iframe
+                                src="https://player.bilibili.com/player.html?bvid=${bvId}"
+                                style="width: 100%; height: 100%; border: none;"
+                                allowFullScreen
+                              ></iframe>
+                              </div>`
+                                this.quill.clipboard.dangerouslyPasteHTML(range.index, iframeHtml)
+                            } else {
+                                alert('请输入有效的 Bilibili BV 号！')
+                            }
+                        }
+                    }
+                }
+            })
+        })
         const myHeaders = new Headers();
         myHeaders.append("Accept", "application/json");
         const requestOptions = {
@@ -66,9 +104,9 @@ export default function GuideDetailPage({ params }: { params: params }) {
                     setLevel(data.level)
                     setId(data.id)
                     setAuthor({
-                        id:data.author.id,
-                        username:data.author.username,
-                        privileges:data.author.privileges
+                        id: data.author.id,
+                        username: data.author.username,
+                        privileges: data.author.privileges
                     })
                     console.log(data.author.id)
                     setCreated_at(data.created_at)
@@ -105,7 +143,7 @@ export default function GuideDetailPage({ params }: { params: params }) {
                 .catch((error) => console.error(error));
         }
     }, [author])
-    const changeGuide=()=> {
+    const changeGuide = () => {
         if (!title.trim()) {
             alert('请输入标题')
             return
@@ -222,8 +260,8 @@ export default function GuideDetailPage({ params }: { params: params }) {
                                 </div>
                                 {/* 判断是否为作者,如果是作者则显示编辑按钮 */}
                                 {isAuthor && (
-                                    <button 
-                                        className="px-6 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors duration-200" 
+                                    <button
+                                        className="px-6 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors duration-200"
                                         onClick={() => setIsEdit(true)}
                                     >
                                         编辑
