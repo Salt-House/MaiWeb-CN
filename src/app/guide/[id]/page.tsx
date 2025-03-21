@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import LoadingSpinner from '@/app/components/LoadingSpinner'
 import 'react-quill/dist/quill.snow.css'
+import Link from 'next/link'
+import { FaArrowLeft } from 'react-icons/fa'
 
 const ReactQuill = dynamic(() => import('react-quill'), {
     ssr: false,
@@ -14,7 +16,7 @@ interface params {
     id: string
 }
 
-interface author {
+export interface Author {
     id: number,
     username: string,
     privileges: number
@@ -26,11 +28,14 @@ export default function GuideDetailPage({ params }: { params: params }) {
     const [title, setTitle] = useState<string>('')
     const [level, setLevel] = useState<string>('')
     const [id, setId] = useState<string>('')
-    const [author, setAuthor] = useState<author>({
+    const [author, setAuthor] = useState<Author>({
         id: 0,
         username: '',
         privileges: 0
     })
+    const textstroke = {
+        textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
+    };
     const [isAuthor, setIsAuthor] = useState(false)
     const [created_at, setCreated_at] = useState<string>('')
     const [isEdit, setIsEdit] = useState(false)
@@ -193,6 +198,10 @@ export default function GuideDetailPage({ params }: { params: params }) {
     return (
         <>
             <div className='max-w-4xl mx-auto px-4 py-8'>
+                <Link href='/guide' className="inline-flex items-center text-white mb-5 hover:scale-105 transition-colors">
+                    <FaArrowLeft className="mr-2" />
+                    <span className="text-xl font-bold" style={textstroke}>返回教学列表</span>
+                </Link>
                 <div className="space-y-6">
                     {isEdit ? <>
                         <div className="max-w-4xl mx-auto px-4 py-8">
@@ -248,15 +257,8 @@ export default function GuideDetailPage({ params }: { params: params }) {
                             <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200">
                                 <h2 className="text-2xl font-bold mb-4 text-purple-800">{title}</h2>
                                 <div className="text-sm text-gray-500 mb-4 flex space-x-5">
-                                    <p>创建时间：{new Date(created_at).toLocaleString()}</p>
+                                    <p>{new Date(created_at).toLocaleString()}</p>
                                     <p>作者：{author.username}</p>
-                                </div>
-                                <div className="prose max-w-none">
-                                    <ReactQuill
-                                        value={content}
-                                        readOnly={false}
-                                        theme="bubble"
-                                    />
                                 </div>
                                 {/* 判断是否为作者,如果是作者则显示编辑按钮 */}
                                 {isAuthor && (

@@ -1,6 +1,6 @@
 'use client'
 
-import { FaTools } from "react-icons/fa"
+import { FaArrowLeft, FaArrowRight, FaTools } from "react-icons/fa"
 import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
@@ -57,14 +57,20 @@ export default function RegionPage() {
 
   return (
     <>
-      <div className="w-[900px] mx-auto flex flex-col justify-center space-y-5 items-center p-5">
-        <p className="text-3xl font-bold text-white mb-10" style={textstroke}>教学</p>
-        {guides != null ? <>
+      <div className="relative max-sm:w-[420px] w-[900px] mx-auto flex flex-col justify-center space-y-5 items-center p-5">
+        <p className="text-3xl font-bold text-white" style={textstroke}>教学</p>
+        <div className="flex justify-end items-end w-full">
+          <Link href='/guide/author' className="inline-flex items-center text-white mb-5 hover:scale-105 transition-colors">
+            <span className="text-xl font-bold" style={textstroke}>查看个人教学列表</span>
+            <FaArrowRight className="ml-2" />
+          </Link>
+        </div>
+        {guides.length > 0 ? <>
           {guides.map((guide, index) => (
             <>
-              <Link href={`/guide/${guide.id}`} key={index} className="relative w-[700px] bg-white rounded-lg shadow-lg p-6 hover:shadow-xl hover:scale-105  transition-all duration-300 ease-in-out">
-                <p className="absolute top-5 right-5 text-xl font-bold text-blue-500">{guide.level}</p>
-                <h2 className="text-2xl font-bold mb-4 text-purple-800">
+              <Link href={`/guide/${guide.id}`} key={index} className="relative max-sm:w-[420px] w-[700px] bg-white rounded-lg shadow-lg p-6 hover:shadow-xl hover:scale-105  transition-all duration-300 ease-in-out">
+                <p className="absolute bottom-5 right-5 text-xl font-bold text-blue-500">{guide.level}</p>
+                <h2 className="text-2xl max-sm:text-xl font-bold mb-4 text-purple-800">
                   {guide.title}
                 </h2>
                 <div className="text-sm flex space-x-4 text-gray-500 mb-4">
