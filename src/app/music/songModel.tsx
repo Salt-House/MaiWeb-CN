@@ -115,7 +115,7 @@ export function transferVersion(version: number): string {
     24000: '舞萌DX 2024',
   }
 
-  return versions[version as keyof typeof versions] || version.toString()
+  return versions[version as keyof typeof versions] || versions[Math.floor(version / 100) * 100 as keyof typeof versions]
 }
 
 // 乐曲种类对应颜色
