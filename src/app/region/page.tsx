@@ -93,7 +93,7 @@ export default function RegionPage() {
   return (
     <>
       <div className="flex flex-col items-center p-8 max-sm:p-4 min-h-screen">
-        <p className="text-3xl font-bold text-purple-800 mb-8 max-sm:text-2xl max-sm:mb-6" style={textstroke}>区域</p>
+        <p className="text-3xl font-bold mb-8 max-sm:text-2xl max-sm:mb-6 text-white" style={textstroke}>区域</p>
 
         {areas.length === 0 ? (
           <div className="flex items-center justify-center w-full p-12 max-sm:p-8">
