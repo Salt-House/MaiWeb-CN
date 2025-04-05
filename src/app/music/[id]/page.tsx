@@ -131,7 +131,7 @@ export default function SongDetail() {
 
           {/* 音乐播放器 */}
           <div className="mt-2 mb-6 mx-6">
-            <MusicPlayer audioUrl={audio_url} title={song.title} />
+            <MusicPlayer audioUrl={audio_url} title={song.title} songId={song.id.toString()} />
           </div>
 
           {/* 乐曲成绩 */}
