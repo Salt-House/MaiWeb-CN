@@ -76,3 +76,18 @@
         transform: translateX(-20%);
     }
 }
+
+@keyframes floatUpDown {
+    0% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-15px);
+    }
+    75% {
+        transform: translateY(15px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

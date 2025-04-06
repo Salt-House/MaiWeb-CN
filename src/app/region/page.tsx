@@ -35,7 +35,7 @@ interface Area {
 export default function RegionPage() {
   const [lang, setLang] = useState("ja");
   const [page, setPage] = useState(1);
-  const [page_size, setPageSize] = useState(100);
+  const [page_size, setPageSize] = useState(10);
   const [areas, setAreas] = useState<Area[]>([]);
   const [expandedDescriptions, setExpandedDescriptions] = useState<{ [key: string]: boolean }>({});
   const [expandedCharacter, setExpandedCharacter] = useState<{ [key: string]: boolean }>({});
@@ -108,24 +108,18 @@ export default function RegionPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-sm:gap-4 w-full max-w-7xl">
             {areas.map((area) => (
-              <div key={area.id} className="bg-white rounded-lg overflow-hidden shadow-md border border-purple-200 hover:border-purple-400 hover:shadow-lg transition-all">
+              <div key={area.id} className=" rounded-xl  transition-all">
                 {/* Area Image - 1:1 Aspect Ratio */}
-                <div className="relative w-full pt-[100%] bg-purple-100 overflow-hidden">
-                  <img
-                    src={"/img/version/" + area.id + ".png"}
-                    alt={area.name}
-                    className="absolute top-0 left-0 w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
-                    onError={(e) => {
-                      e.currentTarget.className += " p-6";
-                    }}
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-600 to-transparent p-3">
-                    <h2 className="text-2xl font-bold text-white drop-shadow-lg max-sm:text-xl">{area.name}</h2>
+                <div className="relative w-full pt-[100%]  ">
+                  <img src={"/img/version/" + area.id + ".png"} className="w-96 absolute animate-floatUpDown top-0 left-0 object-cover mx-au transition-opacity" />
+                  <div className="mx-auto w-[298px] h-[86px] bg-[url('/img/bg_name.png')] bg-no-repeat bg-cover bg-center flex items-center justify-center absolute bottom-0 left-1/2 transform -translate-x-1/2">
+                    <h1 className="text-white font-bold text-xl sm:text-2xl px-8 text-center truncate max-w-[250px]" style={textstroke}>
+                      {area.name}
+                    </h1>
                   </div>
                 </div>
                 <div className="p-5 max-sm:p-3">
                   <p className="text-purple-700 italic mb-3 max-sm:text-sm">{area.comment}</p>
-
                   {/* 描述部分 - 长文本处理 */}
                   <div>
                     <p className={`text-gray-700 mb-1 max-sm:text-sm ${!expandedDescriptions[area.id] && 'line-clamp-3'}`}>
@@ -153,27 +147,42 @@ export default function RegionPage() {
                           const characterKey = `${area.id}-char-${idx}`;
                           return (
                             <div key={idx} className="bg-purple-50 p-3 max-sm:p-2 rounded-md border border-purple-100">
-                              <div className="font-bold text-purple-800 max-sm:text-sm">{character.name}</div>
-                              <div className="text-sm text-purple-600 max-sm:text-xs">{character.team}</div>
-                              <div className="text-sm text-gray-600 mt-1 max-sm:text-xs">插画师: {character.illustrator}</div>
+                              <div className="flex flex-col">
+                                {/* 角色图标区域 */}
+                                <div className="w-full mb-2 aspect-square bg-purple-100 rounded-md overflow-hidden">
+                                  <img
+                                    src={`/img/chara/${area.id}/0${idx + 1}.png`}
+                                    alt={character.name}
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                      e.currentTarget.className += " p-4";
+                                    }}
+                                  />
+                                </div>
 
-                              {/* 角色描述 - 长文本处理 */}
-                              <div className="mt-2 max-sm:mt-1">
-                                <p className={`text-sm text-gray-700 max-sm:text-xs ${!expandedCharacter[characterKey] && 'line-clamp-2'}`}>
-                                  {character.description1}
-                                </p>
-                                {character.description1 && character.description1.length > 80 && (
-                                  <button
-                                    onClick={() => toggleCharacter(characterKey)}
-                                    className="text-purple-500 hover:text-purple-700 text-xs max-sm:text-[10px] flex items-center mt-1"
-                                  >
-                                    {expandedCharacter[characterKey] ? (
-                                      <>收起 <FaChevronUp className="ml-1" /></>
-                                    ) : (
-                                      <>展开 <FaChevronDown className="ml-1" /></>
-                                    )}
-                                  </button>
-                                )}
+                                {/* 角色信息 */}
+                                <div className="font-bold text-purple-800 max-sm:text-sm truncate">{character.name}</div>
+                                <div className="text-sm text-purple-600 max-sm:text-xs">{character.team}</div>
+                                <div className="text-sm text-gray-600 mt-1 max-sm:text-xs">插画师: {character.illustrator}</div>
+
+                                {/* 角色描述 - 长文本处理 */}
+                                <div className="mt-2 max-sm:mt-1">
+                                  <p className={`text-sm text-gray-700 max-sm:text-xs ${!expandedCharacter[characterKey] && 'line-clamp-2'}`}>
+                                    {character.description1}
+                                  </p>
+                                  {character.description1 && character.description1.length > 80 && (
+                                    <button
+                                      onClick={() => toggleCharacter(characterKey)}
+                                      className="text-purple-500 hover:text-purple-700 text-xs max-sm:text-[10px] flex items-center mt-1"
+                                    >
+                                      {expandedCharacter[characterKey] ? (
+                                        <>收起 <FaChevronUp className="ml-1" /></>
+                                      ) : (
+                                        <>展开 <FaChevronDown className="ml-1" /></>
+                                      )}
+                                    </button>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           );
