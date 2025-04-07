@@ -16,7 +16,7 @@ export enum PlayMode {
 }
 
 
-export interface PlayerContextType 
+export interface PlayerContextType {
   currentTrack: PlaylistItem | null
   playlist: PlaylistItem[]
   isPlaying: boolean
