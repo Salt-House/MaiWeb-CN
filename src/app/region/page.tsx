@@ -1,5 +1,6 @@
 'use client'
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaTools } from "react-icons/fa"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
@@ -22,7 +23,7 @@ interface AreaSong {
   movie: "string";
 }
 
-interface Area {
+export interface Area {
   id: "string";
   name: "string";
   comment: "string";
@@ -40,30 +41,10 @@ export default function RegionPage() {
   const [expandedDescriptions, setExpandedDescriptions] = useState<{ [key: string]: boolean }>({});
   const [expandedCharacter, setExpandedCharacter] = useState<{ [key: string]: boolean }>({});
   const [expandedSong, setExpandedSong] = useState<{ [key: string]: boolean }>({});
+  const [checkAreaData, setCheckAreaData] = useState<boolean>(false);
 
   const textstroke = {
     textShadow: '-1px -1px 3px rgba(108, 70, 193, 0.8), 1px -1px 3px rgba(108, 70, 193, 0.8), -1px 1px 3px rgba(108, 70, 193, 0.8), 1px 1px 3px rgba(108, 70, 193, 0.8)'
-  };
-
-  const toggleDescription = (areaId: string) => {
-    setExpandedDescriptions(prev => ({
-      ...prev,
-      [areaId]: !prev[areaId]
-    }));
-  };
-
-  const toggleCharacter = (characterKey: string) => {
-    setExpandedCharacter(prev => ({
-      ...prev,
-      [characterKey]: !prev[characterKey]
-    }));
-  };
-
-  const toggleSong = (songId: string) => {
-    setExpandedSong(prev => ({
-      ...prev,
-      [songId]: !prev[songId]
-    }));
   };
 
   const GetArea = (lang: string, page: number, page_size: number) => {
@@ -78,16 +59,58 @@ export default function RegionPage() {
       .then((result) => {
         const temp = JSON.parse(result);
         setAreas(temp);
+        localStorage.setItem('area_data', JSON.stringify(temp));
       })
       .catch((error) => console.error(error));
   }
 
-  useEffect(() => {
-    GetArea(lang, page, page_size);
-  }, [])
+  const CheckAreaData = () => {
+    const storedData = localStorage.getItem('area_data');
+    if (!storedData || storedData === '[]' || storedData === '""') {
+      return true; // 需要获取数据
+    }
+    try {
+      const parsedData = JSON.parse(storedData);
+      if (parsedData.length <= 12) {
+        return true;
+      }
+      return Array.isArray(parsedData) && parsedData.length === 0;
+    } catch (error) {
+      console.error("解析缓存的区域数据时出错:", error);
+      return true; // 解析错误，需要重新获取数据
+    }
+  }
 
   useEffect(() => {
-    console.log(areas);
+    const shouldFetchData = CheckAreaData();
+
+    if (shouldFetchData) {
+      GetArea(lang, page, page_size);
+    } else {
+      try {
+        const storedData = localStorage.getItem('area_data');
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          // 检查是否已经是数组格式
+          if (Array.isArray(parsedData)) {
+            setAreas(parsedData);
+          } else {
+            // 可能存储的是JSON字符串的字符串
+            setAreas(JSON.parse(parsedData));
+          }
+        }
+      } catch (error) {
+        console.error("解析存储的区域数据时出错:", error);
+        GetArea(lang, page, page_size); // 出错时重新获取数据
+      }
+    }
+  }, [lang, page, page_size]);
+
+  // 数据加载后的日志记录
+  useEffect(() => {
+    if (areas && areas.length > 0) {
+      console.log("区域数据已加载:", areas.length);
+    }
   }, [areas])
 
   return (
@@ -108,126 +131,19 @@ export default function RegionPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-sm:gap-4 w-full max-w-7xl">
             {areas.map((area) => (
-              <div key={area.id} className="bg-white rounded-lg overflow-hidden shadow-md border border-purple-200 hover:border-purple-400 hover:shadow-lg transition-all">
+              <Link href={`/region/${area.name}`} key={area.id} className=" rounded-xl  transition-all">
+                <div className="w-[298px] h-[86px] bg-[url('/img/bg_name.png')] bg-no-repeat bg-cover bg-center mx-auto flex items-center justify-center">
+                  <div className="w-[195px] overflow-hidden ">
+                    <h1 className={`text-white w-[195px] text-center ${area.name.length > 9 ? "animate-text-scroll-region" : ""} whitespace-nowrap font-bold text-xl sm:text-2xl`} style={textstroke}>
+                      {area.name}
+                    </h1>
+                  </div>
+                </div>
                 {/* Area Image - 1:1 Aspect Ratio */}
-                <div className="relative w-full pt-[100%] bg-purple-100 overflow-hidden">
-                  <img
-                    src={"/img/version/" + area.id + ".png"}
-                    alt={area.name}
-                    className="absolute top-0 left-0 w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
-                    onError={(e) => {
-                      e.currentTarget.className += " p-6";
-                    }}
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-600 to-transparent p-3">
-                    <h2 className="text-2xl font-bold text-white drop-shadow-lg max-sm:text-xl">{area.name}</h2>
-                  </div>
+                <div className="relative w-full flex-col items-center justify-center ">
+                  <img src={"/img/version/" + area.id + ".png"} className="mx-auto w-96 animate-floatUpDown transition-all duration-300 ease-in-out object-cover" />
                 </div>
-                <div className="p-5 max-sm:p-3">
-                  <p className="text-purple-700 italic mb-3 max-sm:text-sm">{area.comment}</p>
-
-                  {/* 描述部分 - 长文本处理 */}
-                  <div>
-                    <p className={`text-gray-700 mb-1 max-sm:text-sm ${!expandedDescriptions[area.id] && 'line-clamp-3'}`}>
-                      {area.description}
-                    </p>
-                    {area.description && area.description.length > 150 && (
-                      <button
-                        onClick={() => toggleDescription(area.id)}
-                        className="text-purple-600 hover:text-purple-800 text-sm max-sm:text-xs flex items-center mt-1"
-                      >
-                        {expandedDescriptions[area.id] ? (
-                          <>收起 <FaChevronUp className="ml-1" /></>
-                        ) : (
-                          <>展开 <FaChevronDown className="ml-1" /></>
-                        )}
-                      </button>
-                    )}
-                  </div>
-                  {/* 角色信息 */}
-                  {area.characters && area.characters.length > 0 && (
-                    <div className="mt-4 max-sm:mt-3">
-                      <h3 className="text-xl font-semibold text-purple-700 mb-2 max-sm:text-lg max-sm:mb-1">角色</h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-sm:gap-2">
-                        {area.characters.map((character, idx) => {
-                          const characterKey = `${area.id}-char-${idx}`;
-                          return (
-                            <div key={idx} className="bg-purple-50 p-3 max-sm:p-2 rounded-md border border-purple-100">
-                              <div className="font-bold text-purple-800 max-sm:text-sm">{character.name}</div>
-                              <div className="text-sm text-purple-600 max-sm:text-xs">{character.team}</div>
-                              <div className="text-sm text-gray-600 mt-1 max-sm:text-xs">插画师: {character.illustrator}</div>
-
-                              {/* 角色描述 - 长文本处理 */}
-                              <div className="mt-2 max-sm:mt-1">
-                                <p className={`text-sm text-gray-700 max-sm:text-xs ${!expandedCharacter[characterKey] && 'line-clamp-2'}`}>
-                                  {character.description1}
-                                </p>
-                                {character.description1 && character.description1.length > 80 && (
-                                  <button
-                                    onClick={() => toggleCharacter(characterKey)}
-                                    className="text-purple-500 hover:text-purple-700 text-xs max-sm:text-[10px] flex items-center mt-1"
-                                  >
-                                    {expandedCharacter[characterKey] ? (
-                                      <>收起 <FaChevronUp className="ml-1" /></>
-                                    ) : (
-                                      <>展开 <FaChevronDown className="ml-1" /></>
-                                    )}
-                                  </button>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                  {/* 歌曲信息 */}
-                  {area.songs && area.songs.length > 0 && (
-                    <div className="mt-5 max-sm:mt-3">
-                      <h3 className="text-xl font-semibold text-purple-700 mb-2 max-sm:text-lg max-sm:mb-1">歌曲</h3>
-                      <div className="space-y-2">
-                        {area.songs.map((song) => (
-                          <div key={song.id} className="bg-purple-50 p-3 max-sm:p-2 rounded-md border border-purple-100">
-                            <div className="font-bold text-purple-800 max-sm:text-sm">{song.title}</div>
-                            <div className="text-sm text-purple-600 max-sm:text-xs">艺术家: {song.artist}</div>
-                            <div className="text-sm text-gray-600 max-sm:text-xs">插画师: {song.illustrator}</div>
-
-                            {/* 歌曲描述 - 长文本处理 */}
-                            <div className="mt-1">
-                              <p className={`text-sm text-gray-700 max-sm:text-xs ${!expandedSong[song.id] && 'line-clamp-2'}`}>
-                                {song.description}
-                              </p>
-                              {song.description && song.description.length > 80 && (
-                                <button
-                                  onClick={() => toggleSong(song.id)}
-                                  className="text-purple-500 hover:text-purple-700 text-xs max-sm:text-[10px] flex items-center mt-1"
-                                >
-                                  {expandedSong[song.id] ? (
-                                    <>收起 <FaChevronUp className="ml-1" /></>
-                                  ) : (
-                                    <>展开 <FaChevronDown className="ml-1" /></>
-                                  )}
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {/* 视频展示按钮 */}
-                  {area.video_id && (
-                    <div className="mt-4 text-center max-sm:mt-3">
-                      <button
-                        className="px-4 py-2 max-sm:px-3 max-sm:py-1 max-sm:text-sm bg-purple-600 hover:bg-purple-700 text-white rounded-md transition-colors shadow-sm"
-                        onClick={() => window.open(`https://www.youtube.com/watch?v=${area.video_id}`, '_blank')}
-                      >
-                        观看区域视频
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

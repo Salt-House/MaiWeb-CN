@@ -20,6 +20,8 @@ const config: Config = {
         "volume": "volume 1s infinite",
         "leftToRight": "leftToRight 2s ease-in-out infinite",
         "text-scroll": "textScroll 5s linear infinite",
+        "text-scroll-region": "textScrollRegionName 5s linear infinite",
+        "floatUpDown":"floatUpDown 4s ease-in-out infinite",
       },
       fontFamily: {
         douyin: ['DouyinSansBold', 'sans-serif'], // 自定义字体
