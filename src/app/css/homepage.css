@@ -77,6 +77,19 @@
     }
 }
 
+
+@keyframes textScrollRegionName {
+    0% {
+        transform: translateX(-30%);
+    }
+
+    50% {
+        transform: translateX(20%);
+    }
+    100% {
+        transform: translateX(-30%);
+    }
+}
 @keyframes floatUpDown {
     0% {
         transform: translateY(0);
