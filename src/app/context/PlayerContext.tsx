@@ -15,7 +15,8 @@ export enum PlayMode {
   SINGLE = 'single'      // 单曲循环
 }
 
-export interface PlayerContextType {
+
+export interface PlayerContextType 
   currentTrack: PlaylistItem | null
   playlist: PlaylistItem[]
   isPlaying: boolean
