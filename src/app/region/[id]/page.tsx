@@ -22,6 +22,7 @@ export default function AreaDetailPage({ params }: PageProps) {
     const textstroke = {
         textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
     };
+    const [charaDetail, setCharaDetail] = useState<boolean>(false);
     const baseurl = "https://assets2.lxns.net/maimai/jacket/"
     const GetAreaDetail = () => {
         setLoading(true);
@@ -77,7 +78,7 @@ export default function AreaDetailPage({ params }: PageProps) {
                             </div>
                         </div>
                     ) : area ? (
-                        <div className="bg-white/80 backdrop-blur-md rounded-xl shadow-lg border-4 border-white p-6 transition-all duration-300 hover:shadow-xl hover:bg-white/90">
+                        <div className="rounded-xl p-6 transition-all duration-300 ">
                             <div className="flex flex-col mb-8">
                                 {/* 标题区域 */}
                                 <div className="flex flex-col mb-5 items-center">
@@ -119,19 +120,54 @@ export default function AreaDetailPage({ params }: PageProps) {
                                 {area.characters && area.characters.length > 0 && (
                                     <div className="bg-white/50 rounded-lg p-4 border-2 border-[rgb(155,244,236)] mb-6">
                                         <h2 className="text-xl font-bold mb-4 text-gray-800 border-b-2 border-gray-200 pb-2">区域角色</h2>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                        <div className="grid grid-cols-1 gap-4">
                                             {area.characters.map((character, index) => (
-                                                <div key={index} className="p-3 bg-white rounded-lg shadow hover:shadow-md transition-all duration-200 hover:scale-105">
-                                                    <div className="flex items-center space-x-2">
-                                                        <div className="w-20 h-20 overflow-hidden">
+                                                <div key={index} className="p-4 bg-white rounded-lg shadow hover:shadow-md transition-all duration-200">
+                                                    <div className="flex flex-col md:flex-row">
+                                                        {/* 角色图片 */}
+                                                        <div className="w-28 h-28 overflow-hidden rounded-lg border-2 border-purple-200 flex-shrink-0 mx-auto md:mx-0">
                                                             <img
                                                                 src={`/img/chara/${area.id}/0${index + 1}.png`}
                                                                 className="w-full h-full object-cover"
                                                                 alt={character.name || area.name}
                                                             />
                                                         </div>
-                                                        <div>
-                                                            <h3 className="font-medium text-gray-800">{character.name}</h3>
+                                                        
+                                                        {/* 角色详情 */}
+                                                        <div className="md:ml-4 mt-3 md:mt-0 flex-grow">
+                                                            <div className="flex flex-wrap items-center mb-2">
+                                                                <h3 className="font-bold text-lg text-purple-800 mr-2">{character.name}</h3>
+                                                                {character.team && (
+                                                                    <span className="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded-full">
+                                                                        {character.team}
+                                                                    </span>
+                                                                )}
+                                                                {character.illustrator && (
+                                                                    <span className="ml-auto text-xs text-gray-500">
+                                                                        插画: {character.illustrator}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            
+                                                            {/* 角色描述 */}
+                                                            {(character.description1 || character.description2) && (
+                                                                <div className="bg-gray-50 p-2 rounded-md mb-2 text-sm italic text-gray-600">
+                                                                    {character.description1 && <p>"{character.description1}"</p>}
+                                                                    {character.description2 && <p className="mt-1">"{character.description2}"</p>}
+                                                                </div>
+                                                            )}
+                                                            
+                                                            {/* 角色属性 */}
+                                                            {character.props && Object.keys(character.props).length > 0 && (
+                                                                <div className="flex flex-wrap gap-2 mt-2">
+                                                                    {Object.entries(character.props).map(([key, value]) => (
+                                                                        <div key={key} className="flex items-center bg-white border border-gray-200 rounded px-2 py-1 text-xs">
+                                                                            <span className="font-medium text-gray-700 mr-1">{key}:</span>
+                                                                            <span className="text-gray-600">{value as string}</span>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
