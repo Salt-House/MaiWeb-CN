@@ -137,7 +137,7 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
         <span className={`w-16 text-sm text-white ${bgColor} rounded-full py-1 text-center`}>{title}</span>
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="ml-2 p-1 rounded-full hover:bg-gray-200 transition-colors"
+          className="ml-2 p-1 rounded-full hover:bg-gray-200 transition-colors text-black"
           aria-label={isExpanded ? "收起" : "展开"}
         >
           {isExpanded ? <FaChevronUp size={16} /> : <FaChevronDown size={16} />}
@@ -169,7 +169,7 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
                     ) : (
                       <div className="max-sm:text-base text-lg font-medium">{getRateText(score.achievements)}</div>
                     )}
-                    <p className="max-sm:text-base text-lg font-semibold">{score.achievements ? `${score.achievements.toFixed(4)}%` : "暂无成绩"}</p>
+                    <p className="max-sm:text-base text-lg font-semibold text-black">{score.achievements ? `${score.achievements.toFixed(4)}%` : "暂无成绩"}</p>
                   </div>
 
                   {/* FC FDX */}
@@ -188,7 +188,7 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
                   </div>
 
                   {/* DX分数和DX Rating */}
-                  <div className="text-center">
+                  <div className="text-center text-black">
                     <p className="font-medium max-sm:text-sm">DX分数: {score.dx_score || "暂无"}</p>
                     <p className="font-medium max-sm:text-sm">DX Rating: {score.dx_rating || "暂无"}</p>
                   </div>

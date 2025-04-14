@@ -7,10 +7,11 @@ import { usePlayer } from '@/app/context/PlayerContext'
 interface MusicPlayerProps {
   audioUrl: string
   title?: string
+  artist?: string
   songId?: string
 }
 
-const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, songId }) => {
+const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, songId }) => {
   // 本地状态，用于非当前播放歌曲的情况
   const [localCurrentTime, setLocalCurrentTime] = useState(0)
   const [localDuration, setLocalDuration] = useState(0)
@@ -83,6 +84,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, songId }) =>
       playTrack({
         id: songId || title || 'unknown',
         title: title || '未知歌曲',
+        artist: artist || '未知艺术家',
         audioUrl,
         coverUrl: `https://assets2.lxns.net/maimai/jacket/${songId || 'default'}.png`
       })
@@ -94,6 +96,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, songId }) =>
     addToPlaylist({
       id: songId || title || 'unknown',
       title: title || '未知歌曲',
+      artist: artist || '未知艺术家',
       audioUrl,
       coverUrl: `https://assets2.lxns.net/maimai/jacket/${songId || 'default'}.png`
     })

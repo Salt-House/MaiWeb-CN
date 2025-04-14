@@ -10,6 +10,7 @@ import ScoreDetail from './scoreDetail'
 import Link from 'next/link'
 import { FaArrowLeft } from 'react-icons/fa'
 import { FaBilibili, FaArrowUpRightFromSquare } from "react-icons/fa6"
+import { data } from 'framer-motion/client'
 
 export default function SongDetail() {
   const params = useParams()
@@ -131,7 +132,7 @@ export default function SongDetail() {
 
           {/* 音乐播放器 */}
           <div className="mt-2 mb-6 mx-6">
-            <MusicPlayer audioUrl={audio_url} title={song.title} songId={song.id.toString()} />
+            <MusicPlayer audioUrl={audio_url} title={song.title} artist={song.artist} songId={song.id.toString()} />
           </div>
 
           {/* 乐曲成绩 */}
@@ -254,7 +255,7 @@ function NoteDetail({ song }: { song: Song }) {
                   >
                     {diff.level}
                   </div>
-                  <div className="max-sm:text-xs">
+                  <div className="max-sm:text-xs text-black">
                     {(diff.note_designer == "-") ? undefined : (diff.note_designer)}
                   </div>
                 </div>
@@ -282,7 +283,7 @@ function NoteDetail({ song }: { song: Song }) {
                   >
                     {diff.level}
                   </div>
-                  <div className="max-sm:text-xs">
+                  <div className="max-sm:text-xs text-black">
                     {(diff.note_designer == "-") ? undefined : (diff.note_designer)}
                   </div>
                 </div>
