@@ -5,6 +5,7 @@ import React, { createContext, useContext, useState, useEffect, useRef, ReactNod
 export interface PlaylistItem {
   id: string
   title: string
+  artist: string
   audioUrl: string
   coverUrl: string
 }

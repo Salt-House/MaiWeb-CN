@@ -26,6 +26,48 @@ export default function GlobalPlayer() {
   const [showPlaylist, setShowPlaylist] = useState(false)
   const progressBarRef = useRef<HTMLDivElement>(null)
 
+  // 设置媒体会话
+  useEffect(() => {
+    if (!currentTrack) return;
+
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: currentTrack.title,
+        artist: currentTrack.artist,
+        artwork: [
+          { src: currentTrack.coverUrl, sizes: '512x512', type: 'image/jpeg' }
+        ]
+      });
+
+      // 注册媒体会话操作处理程序
+      navigator.mediaSession.setActionHandler('play', () => togglePlay());
+      navigator.mediaSession.setActionHandler('pause', () => togglePlay());
+      navigator.mediaSession.setActionHandler('previoustrack', () => previousTrack());
+      navigator.mediaSession.setActionHandler('nexttrack', () => nextTrack());
+
+      // 更新播放状态
+      navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+    }
+  }, [currentTrack, isPlaying, togglePlay, previousTrack, nextTrack]);
+
+  // 更新媒体会话播放状态
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+    }
+  }, [isPlaying]);
+
+  // 更新媒体会话播放位置
+  useEffect(() => {
+    if ('mediaSession' in navigator && duration > 0) {
+      navigator.mediaSession.setPositionState({
+        duration: duration,
+        playbackRate: 1,
+        position: currentTime
+      });
+    }
+  }, [currentTime, duration]);
+
   // 处理进度条点击
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!progressBarRef.current) return
@@ -70,9 +112,14 @@ export default function GlobalPlayer() {
 
           {/* 标题和进度 */}
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium truncate text-gray-800">
+            <div className="text-sm font-medium truncate text-black">
               {currentTrack.title}
             </div>
+            {currentTrack.artist && (
+              <div className="text-xs truncate text-black/70 -mt-0.5 mb-0.5">
+                {currentTrack.artist}
+              </div>
+            )}
 
             {/* 进度条 */}
             <div
@@ -159,9 +206,14 @@ export default function GlobalPlayer() {
                       className="flex-1 min-w-0 cursor-pointer"
                       onClick={() => playTrack(item)}
                     >
-                      <div className="text-sm font-medium truncate">
+                      <div className="text-sm font-medium truncate text-black">
                         {item.title}
                       </div>
+                      {item.artist && (
+                        <div className="text-xs truncate text-black/70">
+                          {item.artist}
+                        </div>
+                      )}
                     </div>
                     <button
                       onClick={() => removeFromPlaylist(item.id)}
