@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { Song, getDifficultyColor, getGenreColor, transferText } from '@/app/music/songModel'
-import { FaPlus } from 'react-icons/fa'
-import { PlayerContextType, usePlayer } from '@/app/context/PlayerContext'
+import { FaPlus, FaCheck } from 'react-icons/fa'
+import { usePlayer } from '@/app/context/PlayerContext'
+import { useState } from 'react'
 
 
 interface SongListProps {
@@ -11,6 +12,8 @@ interface SongListProps {
 export default function SongList({ songs }: SongListProps) {
   // 使用usePlayer hook获取播放器上下文
   const { addToPlaylist } = usePlayer()
+  // 添加状态来跟踪哪些歌曲已被添加到播放列表
+  const [addedSongs, setAddedSongs] = useState<{ [key: string]: boolean }>({})
 
   // 根据上下文修改handleAddToPlaylist函数，确保有正确的参数
   const handleAddToPlaylist = (song: Song) => {
@@ -20,11 +23,20 @@ export default function SongList({ songs }: SongListProps) {
     const audioUrl = `https://assets2.lxns.net/maimai/music/${song.id}.mp3`
 
     addToPlaylist({
-      id: `${song.id}` || 'unknown',
-      title: song.title || '未知歌曲',
+      id: `${song.id}`,
+      title: song.title,
+      artist: song.artist,
       audioUrl,
       coverUrl: `https://assets2.lxns.net/maimai/jacket/${song.id || 'default'}.png`
     })
+
+    // 更新状态，标记该歌曲已添加
+    setAddedSongs(prev => ({ ...prev, [song.id]: true }))
+
+    // 1秒后恢复图标
+    setTimeout(() => {
+      setAddedSongs(prev => ({ ...prev, [song.id]: false }))
+    }, 1000)
   }
 
   return (
@@ -144,10 +156,10 @@ export default function SongList({ songs }: SongListProps) {
             </Link>
             <button
               onClick={() => handleAddToPlaylist(song)}
-              className="absolute left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full bg-[rgb(155,90,213)] text-white hover:bg-[rgb(135,70,193)] transition-colors"
+              className={`absolute left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full  text-white hover:bg-[rgb(135,70,193)] transition-colors ${addedSongs[song.id] ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
               title="添加到播放列表"
             >
-              <FaPlus />
+              {addedSongs[song.id] ? <FaCheck /> : <FaPlus />}
             </button>
           </div>
 

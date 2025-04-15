@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaPlus } from 'react-icons/fa'
+import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaPlus, FaCheck } from 'react-icons/fa'
 import { usePlayer } from '@/app/context/PlayerContext'
 
 interface MusicPlayerProps {
@@ -16,6 +16,9 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
   const [localCurrentTime, setLocalCurrentTime] = useState(0)
   const [localDuration, setLocalDuration] = useState(0)
   const [localIsPlaying, setLocalIsPlaying] = useState(false)
+
+  // 添加状态来跟踪是否已添加到播放列表
+  const [isAddedToPlaylist, setIsAddedToPlaylist] = useState(false)
 
   const [showVolumeControl, setShowVolumeControl] = useState(false)
   const [isDraggingVolume, setIsDraggingVolume] = useState(false)
@@ -100,6 +103,14 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
       audioUrl,
       coverUrl: `https://assets2.lxns.net/maimai/jacket/${songId || 'default'}.png`
     })
+
+    // 更新状态，标记已添加
+    setIsAddedToPlaylist(true)
+
+    // 1秒后恢复图标
+    setTimeout(() => {
+      setIsAddedToPlaylist(false)
+    }, 1000)
   }
 
   // 处理进度条点击
@@ -260,10 +271,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
       {/* 添加到播放列表按钮 */}
       <button
         onClick={handleAddToPlaylist}
-        className="w-8 h-8 flex items-center justify-center rounded-full bg-[rgb(155,90,213)] text-white hover:bg-[rgb(135,70,193)] transition-colors"
+        className={`w-8 h-8 flex items-center justify-center rounded-full text-white transition-colors ${isAddedToPlaylist ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
         title="添加到播放列表"
       >
-        <FaPlus />
+        {isAddedToPlaylist ? <FaCheck /> : <FaPlus />}
       </button>
 
       {/* 音量控制 */}

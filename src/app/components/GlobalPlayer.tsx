@@ -2,7 +2,8 @@
 
 import { usePlayer, PlaylistItem, PlayMode } from '../context/PlayerContext'
 import { useEffect, useRef, useState } from 'react'
-import { FaPlay, FaPause, FaForward, FaBackward, FaList, FaTimes, FaRedo, FaRandom } from 'react-icons/fa'
+import { FaForward, FaBackward, FaList, FaTimes, FaRedo, FaRandom } from 'react-icons/fa'
+import { FaCirclePlay, FaCirclePause } from "react-icons/fa6"
 
 export default function GlobalPlayer() {
   const {
@@ -24,6 +25,8 @@ export default function GlobalPlayer() {
   } = usePlayer()
 
   const [showPlaylist, setShowPlaylist] = useState(false)
+  // 添加最小化状态
+  const [isMinimized, setIsMinimized] = useState(false)
   const progressBarRef = useRef<HTMLDivElement>(null)
 
   // 设置媒体会话
@@ -59,12 +62,20 @@ export default function GlobalPlayer() {
 
   // 更新媒体会话播放位置
   useEffect(() => {
-    if ('mediaSession' in navigator && duration > 0) {
-      navigator.mediaSession.setPositionState({
-        duration: duration,
-        playbackRate: 1,
-        position: currentTime
-      });
+    try {
+      if ('mediaSession' in navigator && 
+          duration > 0 && 
+          isFinite(duration) && 
+          isFinite(currentTime) && 
+          currentTime >= 0) {
+        navigator.mediaSession.setPositionState({
+          duration: duration,
+          playbackRate: 1,
+          position: currentTime
+        });
+      }
+    } catch (error) {
+      console.error('设置媒体会话位置状态失败:', error);
     }
   }, [currentTime, duration]);
 
@@ -99,10 +110,15 @@ export default function GlobalPlayer() {
   return (
     <div className="fixed bottom-5 left-5 z-50">
       {/* 播放器主体 */}
-      <div className="bg-white/90 backdrop-blur-md rounded-xl shadow-lg p-3 w-72 border-2 border-[rgb(155,244,236)]">
-        <div className="flex items-center space-x-3">
-          {/* 封面 */}
-          <div className="w-12 h-12 flex-shrink-0">
+      <div className={`bg-white/90 backdrop-blur-md rounded-xl shadow-lg border-2 border-[rgb(155,244,236)] transition-all duration-300 ${isMinimized ? 'p-2' : 'p-3'}`}
+        style={{ width: isMinimized ? 'auto' : '18rem' }}>
+        <div className={`flex items-center ${isMinimized ? '' : 'space-x-3'}`}>
+          {/* 封面 - 添加点击事件切换最小化状态 */}
+          <div
+            className={`flex-shrink-0 cursor-pointer transition-all duration-300 ${isMinimized ? 'w-10 h-10' : 'w-12 h-12'}`}
+            onClick={() => setIsMinimized(!isMinimized)}
+            title={isMinimized ? "展开播放器" : "最小化播放器"}
+          >
             <img
               src={currentTrack.coverUrl}
               alt={currentTrack.title}
@@ -110,88 +126,93 @@ export default function GlobalPlayer() {
             />
           </div>
 
-          {/* 标题和进度 */}
-          <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium truncate text-black">
-              {currentTrack.title}
-            </div>
-            {currentTrack.artist && (
-              <div className="text-xs truncate text-black/70 -mt-0.5 mb-0.5">
-                {currentTrack.artist}
+          {/* 当不是最小化状态时显示的内容 */}
+          {!isMinimized && (
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-medium truncate text-black">
+                {currentTrack.title}
               </div>
-            )}
+              {currentTrack.artist && (
+                <div className="text-xs truncate text-black/70 -mt-0.5 mb-0.5">
+                  {currentTrack.artist}
+                </div>
+              )}
 
-            {/* 进度条 */}
-            <div
-              ref={progressBarRef}
-              className="w-full h-1.5 bg-gray-200 rounded-full mt-1 cursor-pointer"
-              onClick={handleProgressClick}
-            >
+              {/* 进度条 */}
               <div
-                className="h-full bg-blue-500 rounded-full"
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
-
-            {/* 时间 */}
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* 控制按钮 */}
-        <div className="flex justify-between items-center mt-2 mx-3">
-          {/* 播放模式切换按钮 */}
-          <button
-            onClick={togglePlayMode}
-            className="text-gray-700 hover:text-blue-500 transition-colors"
-            title={playMode === PlayMode.SINGLE ? "单曲循环" : "顺序播放"}
-          >
-            {playMode === PlayMode.SINGLE ? (
-              <div className="relative">
-                <FaRedo />
-                <span className="absolute text-[8px] font-bold bottom-0 right-0 transform translate-x-1/4 translate-y-1/4">1</span>
+                ref={progressBarRef}
+                className="w-full h-1.5 bg-gray-200 rounded-full mt-1 cursor-pointer"
+                onClick={handleProgressClick}
+              >
+                <div
+                  className="h-full bg-blue-500 rounded-full"
+                  style={{ width: `${progress}%` }}
+                ></div>
               </div>
-            ) : (
-              <FaRedo />
-            )}
-          </button>
 
-          {/* 其他按钮保持不变 */}
-          <button
-            onClick={previousTrack}
-            className="text-gray-700 hover:text-blue-500 transition-colors w-6 flex justify-center"
-          >
-            <FaBackward />
-          </button>
-
-          <button
-            onClick={togglePlay}
-            className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
-          >
-            {isPlaying ? <FaPause /> : <FaPlay className="ml-0.5" />}
-          </button>
-
-          <button
-            onClick={nextTrack}
-            className="text-gray-700 hover:text-blue-500 transition-colors w-6 flex justify-center"
-          >
-            <FaForward />
-          </button>
-
-          <button
-            onClick={() => setShowPlaylist(!showPlaylist)}
-            className="text-gray-700 hover:text-blue-500 transition-colors"
-          >
-            <FaList />
-          </button>
+              {/* 时间 */}
+              <div className="flex justify-between text-xs text-gray-500 mt-1">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* 播放列表 */}
-        {showPlaylist && (
+        {/* 控制按钮 - 只在非最小化状态显示 */}
+        {!isMinimized && (
+          <div className="flex justify-between items-center mt-2 mx-3">
+            {/* 播放模式切换按钮 */}
+            <button
+              onClick={togglePlayMode}
+              className="text-gray-700 hover:text-blue-500 transition-colors"
+              title={playMode === PlayMode.SINGLE ? "单曲循环" : "顺序播放"}
+            >
+              {playMode === PlayMode.SINGLE ? (
+                <div className="relative">
+                  <FaRedo />
+                  <span className="absolute text-[8px] font-bold bottom-0 right-0 transform translate-x-1/4 translate-y-1/4">1</span>
+                </div>
+              ) : (
+                <FaRedo />
+              )}
+            </button>
+
+            {/* 其他按钮保持不变 */}
+            <button
+              onClick={previousTrack}
+              className="text-gray-700 hover:text-blue-500 transition-colors w-6 flex justify-center"
+            >
+              <FaBackward />
+            </button>
+
+            <button
+              onClick={togglePlay}
+              className="w-10 h-10 flex items-center justify-center text-blue-500"
+            >
+              {isPlaying ? <FaCirclePause className="w-8 h-8" /> : <FaCirclePlay className="w-8 h-8" />}
+            </button>
+
+            <button
+              onClick={nextTrack}
+              className="text-gray-700 hover:text-blue-500 transition-colors w-6 flex justify-center"
+            >
+              <FaForward />
+            </button>
+
+            <button
+              onClick={() => setShowPlaylist(!showPlaylist)}
+              className="text-gray-700 hover:text-blue-500 transition-colors"
+            >
+              <FaList />
+            </button>
+          </div>
+        )}
+
+        {/* 播放列表 - 只在非最小化状态且显示播放列表时显示 */}
+        {!isMinimized && showPlaylist && (
           <div className="mt-3 max-h-60 overflow-y-auto bg-white rounded-lg border border-gray-200">
+            {/* 播放列表内容保持不变 */}
             {playlist.length === 0 ? (
               <div className="p-3 text-center text-gray-500">播放列表为空</div>
             ) : (
@@ -209,11 +230,6 @@ export default function GlobalPlayer() {
                       <div className="text-sm font-medium truncate text-black">
                         {item.title}
                       </div>
-                      {item.artist && (
-                        <div className="text-xs truncate text-black/70">
-                          {item.artist}
-                        </div>
-                      )}
                     </div>
                     <button
                       onClick={() => removeFromPlaylist(item.id)}
