@@ -186,7 +186,7 @@ export default function Home() {
           <div className=" flex flex-col justify-center items-center max-sm:w-[420px]">
             <div className="w-full max-w-[420px] sm:max-w-[900px] mx-auto px-4 sm:px-0 max-sm:text-2xl sm:text-4xl text-center font-bold text-white bg-clip-text text-transparent"
               style={textstroke}>
-              Welcome to Maimai.moe In China!!!<br></br>
+              Welcome to maimai.moe in China!!!<br></br>
               本站点提供以下服务功能<br></br>
               <img src="/img/handblue.png" className="h-8 sm:h-14 inline-block animate-bounce" alt="" />
               <img src="/img/handpink.png" className="h-8 sm:h-14 inline-block animate-bounce" alt="" />
