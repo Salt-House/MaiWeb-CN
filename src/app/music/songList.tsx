@@ -12,8 +12,10 @@ interface SongListProps {
 export default function SongList({ songs }: SongListProps) {
   // 使用usePlayer hook获取播放器上下文
   const { addToPlaylist } = usePlayer()
+
   // 添加状态来跟踪哪些歌曲已被添加到播放列表
   const [addedSongs, setAddedSongs] = useState<{ [key: string]: boolean }>({})
+
 
   // 根据上下文修改handleAddToPlaylist函数，确保有正确的参数
   const handleAddToPlaylist = (song: Song) => {
@@ -156,7 +158,7 @@ export default function SongList({ songs }: SongListProps) {
             </Link>
             <button
               onClick={() => handleAddToPlaylist(song)}
-              className={`absolute left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full  text-white hover:bg-[rgb(135,70,193)] transition-colors ${addedSongs[song.id] ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
+className={`absolute left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full  text-white hover:bg-[rgb(135,70,193)] transition-colors ${addedSongs[song.id] ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
               title="添加到播放列表"
             >
               {addedSongs[song.id] ? <FaCheck /> : <FaPlus />}
