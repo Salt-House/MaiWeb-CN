@@ -7,6 +7,7 @@ import UserLogin from "./components/UserLogin";
 import ClientLayout from "./components/ClientLayout";
 import { PlayerProvider } from "./context/PlayerContext";
 import GlobalPlayer from "./components/GlobalPlayer";
+import MobileNavigation from "./components/mobilenavigation";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -81,12 +82,11 @@ export default function RootLayout({
               <img src="/img/youxibi.png" className="hover:scale-105 transition-all duration-300 ease-in-out max-sm:w-10" alt="" />
               <h1 className="text-white font-bold max-sm:text-sm" style={textDonate}>请开发者打一把mai</h1>
             </Link>
-            {/* 意见反馈按钮暂时注释掉 
-            <Link href={'/tool/feedback'} className="fixed z-[5] bottom-5 left-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8">
-              <img src="/img/yijianfankui.png" className="hover:scale-105 transition-all duration-300 ease-in-out max-sm:w-10" alt="" />
+            {/* 意见反馈按钮暂时注释掉 */}
+            {/* <Link href={'/tool/feedback'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8">
+              <img src="/img/feedback.png" className="hover:scale-105 transition-all duration-300 ease-in-out max-sm:w-10" alt="" />
               <h1 className="text-white font-bold max-sm:text-sm" style={textDonate}>意见反馈</h1>
-            </Link>
-            */}
+            </Link> */}
 
             {/* BackGround Layer */}
             <div className="fixed top-0 left-0 w-full max-sm:w-[420px] h-full z-[-1] bg-[url('/img/bg_shines.png')]">
@@ -106,25 +106,12 @@ export default function RootLayout({
             </div>
             <StarMove />
             <div className="fixed w-full max-sm:w-[420px] h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div>
-            <div className="relative">
-              {/* Top Container Back */}
-              <div className="absolute inset-0 z-[-1] flex justify-center">
-                <div className="max-sm:w-[420px] w-[900px] h-[500px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain"></div>
-              </div>
-              {/* Top Container */}
-              <div className="relative z-[10] max-sm:w-[410px] max-sm:text-xl max-sm:h-14 w-[90%] max-w-[800px] bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-6 mx-auto mt-10 flex items-center max-sm:space-x-3 space-x-4 justify-center text-2xl text-white font-bold">
-                <Link href={"/"} className="sm:hidden hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>主页</Link>
-                <div className="sm:hidden">|</div>
-                <Link href={"/music"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>音乐</Link>
-                <div>|</div>
-                <Link href={"/region"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>区域</Link>
-                <div>|</div>
-                <Link href={"/tool"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>工具</Link>
-                <div>|</div>
-                <Link href={"/guide"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>教学</Link>
-              </div>
-            </div>
+
+            {/* 使用新的客户端导航组件 */}
+            <MobileNavigation textstroke={textstroke} />
+
             {children}
+
             <Link href={"/"} className="top-4 left-4 size-40 max-sm:hidden">
               <div className="fixed top-4 left-4 size-40 bg-[url('/img/moon.png')] bg-contain bg-center flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
                 <img src="/img/logo.png" className="scale-125" alt="" />
