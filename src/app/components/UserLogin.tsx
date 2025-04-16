@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { FaUser } from 'react-icons/fa'
+import Link from 'next/link'
 
 export default function UserLogin() {
   const [token, setToken] = useState("")
@@ -10,18 +11,15 @@ export default function UserLogin() {
     setToken(localStorage.getItem("token") || "")
   }, [])
 
-  const handleLogin = () => {
-    if (token == "") {
-      window.location.href = "/user"
-    } else {
-      window.location.href = "/user/profile"
-    }
-  }
+  // 根据登录状态确定跳转路径
+  const loginPath = token === "" ? "/user" : "/user/profile"
 
   return (
-    <div onClick={handleLogin} className="max-sm:hidden">
-      <div className="fixed top-4 right-4 size-44 bg-[url('/img/user.png')] bg-no-repeat bg-contain hover:scale-125 transition-all duration-300 ease-in-out">
-      </div>
+    <div className="max-sm:hidden">
+      <Link href={loginPath}>
+        <div className="fixed top-4 right-4 size-44 bg-[url('/img/user.png')] bg-no-repeat bg-contain hover:scale-125 transition-all duration-300 ease-in-out">
+        </div>
+      </Link>
     </div>
   )
 }
