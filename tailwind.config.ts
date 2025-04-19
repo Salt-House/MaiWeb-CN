@@ -13,6 +13,12 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(calc(-50% - 1rem))' }
+        },
+      },
       animation: {
         "test": "test 1s infinite",
         "moveStar": "moveStar 3s linear infinite",
@@ -22,6 +28,9 @@ const config: Config = {
         "text-scroll": "textScroll 5s linear infinite",
         "text-scroll-region": "textScrollRegionName 5s linear infinite",
         "floatUpDown":"floatUpDown 4s ease-in-out infinite",
+        'marquee': 'marquee 10s linear infinite',
+        'marqueeSlow': 'marqueeSlow 15s linear infinite',
+        'textScroll': 'textScroll 15s linear infinite',
       },
       fontFamily: {
         douyin: ['DouyinSansBold', 'sans-serif'], // 自定义字体
