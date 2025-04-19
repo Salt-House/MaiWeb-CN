@@ -15,10 +15,6 @@ export default function SongList({ songs }: SongListProps) {
   // 添加状态来跟踪哪些歌曲已被添加到播放列表
   const [addedSongs, setAddedSongs] = useState<{ [key: string]: boolean }>({})
 
-  // 添加状态来跟踪哪些歌曲已被添加到播放列表
-  const [addedSongs, setAddedSongs] = useState<{ [key: string]: boolean }>({})
-
-
   // 根据上下文修改handleAddToPlaylist函数，确保有正确的参数
   const handleAddToPlaylist = (song: Song) => {
     // 假设Song类型的对象包含id和title，但可能不包含audioUrl
