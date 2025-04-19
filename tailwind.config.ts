@@ -29,7 +29,6 @@ const config: Config = {
         "text-scroll-region": "textScrollRegionName 5s linear infinite",
         "floatUpDown":"floatUpDown 4s ease-in-out infinite",
         'marquee': 'marquee 10s linear infinite',
-        'marqueeSlow': 'marqueeSlow 15s linear infinite',
         'textScroll': 'textScroll 15s linear infinite',
       },
       fontFamily: {
