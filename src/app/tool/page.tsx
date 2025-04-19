@@ -32,6 +32,9 @@ export default function ToolPage() {
                         <div className="border-b-4 border-b-red-500 rounded-full active:border-b-0 transition-all duration-300 ">
                             <Link href={'/tool/news'} className="w-44 h-16 bg-green-500 rounded-full border-4 border-white text-center text-xl font-bold flex justify-center items-center">资讯</Link>
                         </div>
+                        <div className="border-b-4 border-b-red-500 rounded-full active:border-b-0 transition-all duration-300 ">
+                            <Link href={'/tool/collection'} className="w-44 h-16 bg-green-500 rounded-full border-4 border-white text-center text-xl font-bold flex justify-center items-center">特殊收藏品</Link>
+                        </div>
                     </div>
                 </div>
             </AnimatedComponent>
