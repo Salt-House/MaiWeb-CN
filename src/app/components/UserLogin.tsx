@@ -12,7 +12,6 @@ export default function UserLogin() {
   }, [])
 
 
-  // 根据登录状态确定跳转路径
   const loginPath = token === "" ? "/user" : "/user/profile"
 
   return (
