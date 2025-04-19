@@ -1,21 +1,31 @@
 'use client';
 
-import { useEffect, useState, ReactNode } from 'react';
 
-const AnimatedComponent = ({ children }: { children: ReactNode }) => {
-  const [isVisible, setIsVisible] = useState(false);
+import { useState, ReactNode } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-  useEffect(() => {
-    setIsVisible(true);
-    return () => {
-      setIsVisible(false); // Cleanup function to reset visibility
-    };
-  }, []);
-
+const AnimatedComponentSub = ({ children }: { children: ReactNode }) => {
   return (
-    <div className={`transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       {children}
-    </div>
+    </motion.div>
+  );
+};
+
+const AnimatedComponent = ({ children, isVisible }: { children: ReactNode; isVisible: boolean }) => {
+  return (
+    <AnimatePresence>
+      {isVisible && ( // 条件渲染
+        <AnimatedComponentSub>
+          {children}
+        </AnimatedComponentSub>
+      )}
+    </AnimatePresence>
   );
 };
 

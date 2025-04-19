@@ -1,9 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css');
 
 :root {
-  --foreground-rgb: 239, 246, 255;
   /* --background-start-rgb:133, 144, 250; */
   --background-start-rgb: 239, 246, 255;
   --background-end-rgb: 255, 255, 255;
@@ -17,17 +17,9 @@
     --background-end-rgb: 255, 255, 255;
   }
 }
-@font-face {
-  font-family: 'MapleMono';
-  src: url('/font/MapleMono-CN-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 
 body {
   color: rgb(var(--foreground-rgb));
-  font-family: 'MapleMono', monospace;
-  font-weight: 400;
   /* background: linear-gradient(
       to bottom,
       transparent,
@@ -37,15 +29,38 @@ body {
   background: linear-gradient(to bottom,
       rgba(133, 144, 250, 1) 0%,
       /* 第一段：从顶部开始，rgba 定义颜色 */
-      rgb(201, 248, 229) 50%,
+      rgb(201, 248, 229) 70%,
       /* 第二段：渐变到指定的 RGB 颜色 */
-      rgb(var(--background-start-rgb)) 70%
+      rgb(var(--background-start-rgb)) 85%,
       /* 第三段：从中间颜色渐变到变量指定的 RGB 颜色 */
-    );
+      rgb(255, 255, 255) 90%);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.ql-container .ql-video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  /* 保持16:9宽高比 */
+  object-fit: cover;
+  /* 确保内容完全覆盖 */
+  max-width: 100%;
+  /* 最大宽度不超过容器 */
+  margin-left: auto;
+  margin-right: auto;
+  /* 水平居中 */
+  display: block;
+  /* 块级元素 */
+  border-radius: 0.5rem;
+  /* 可选的圆角 */
+}
+
+
+.animation-delay-500 {
+  animation-delay: 0.5s;
 }

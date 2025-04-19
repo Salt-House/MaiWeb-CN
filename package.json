@@ -13,9 +13,13 @@
     "next": "^14.2.28",
     "react": "^18",
     "react-dom": "^18",
-    "tailwind-scrollbar-hide": "^1.1.7"
+    "react-icons": "^5.5.0",
+    "react-quill": "^2.0.0",
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "tailwindcss-text-stroke": "^0.0.5"
   },
   "devDependencies": {
+    "@types/dom-to-image": "^2.6.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
