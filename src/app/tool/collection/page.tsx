@@ -356,14 +356,12 @@ export default function CollectionPage() {
                                     <option value="">全部颜色</option>
                                     {colorOptions.slice(1).map(color => (
                                         <option key={color} value={color}>
-                                            {color === "Gold" ? "金色" :
-                                                color === "Silver" ? "银色" :
-                                                    color === "bronze" ? "铜色" :
-                                                        color === "purple" ? "紫色" :
-                                                            color === "blue" ? "蓝色" :
-                                                                color === "green" ? "绿色" :
-                                                                    color === "red" ? "红色" :
-                                                                        color === "yellow" ? "黄色" : color}
+                                            {
+                                                color === "Rainbow" ? "彩虹" :
+                                                        color === "Gold" ? "金色" :
+                                                            color === "Silver" ? "银色" :
+                                                                color === "Bronze" ? "铜色" :
+                                                                    color === "Normal" ? "普通" : color}
                                         </option>
                                     ))}
                                 </select>
