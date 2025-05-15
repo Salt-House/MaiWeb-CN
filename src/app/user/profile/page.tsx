@@ -609,9 +609,9 @@ export default function UserProfilePage() {
     <div className='w-[900px] max-sm:w-[420px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center'>
       {userdata.username == "请刷新" ?
         <>
-          <Link href={"/user"} className="text-2xl text-white">
+          <div onClick={LogOut} className="text-2xl text-white">
             返回登陆界面
-          </Link>
+          </div>
         </> :
         <>
           <div className='max-sm:w-[420px] w-[900px] flex justify-center items-center'>

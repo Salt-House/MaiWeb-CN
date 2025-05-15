@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import domtoimage from 'dom-to-image';
-import { UserProfile } from '../user/profile/page';
 import LoadingSpinner from './LoadingSpinner';
+import { UserProfile } from '../user/model';
 
 interface MusicGradeProps {
     id: number;

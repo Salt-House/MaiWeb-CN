@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import LoadingSpinner from "../../components/LoadingSpinner"
-import { UserProfile } from "@/app/user/profile/page"
+import { UserProfile } from "@/app/user/model"
 
 const ReactQuill = dynamic(() => import('react-quill'), {
     ssr: false,
