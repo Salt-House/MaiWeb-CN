@@ -129,7 +129,7 @@ export default function Home() {
     }
   }
 
-  const HomeHintNoLonger = () =>  {
+  const HomeHintNoLonger = () => {
     localStorage.setItem("homehint", '1');
     setHomehint(false);
   }
@@ -492,7 +492,7 @@ export default function Home() {
           {/* Map Play display */}
           <div className="relative w-full max-sm:w-[410px] sm:w-[900px] h-[400px] sm:h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
             <div className="absolute -top-5 flex justify-center items-center text-white font-bold text-xl sm:text-2xl" style={textstroke}>
-              全国出勤行脚图 
+              全国出勤行脚图
             </div>
             <div className="w-full sm:w-[800px] h-[350px] sm:h-[450px] p-3 sm:p-5">
               {token == '' ? (
@@ -517,82 +517,57 @@ export default function Home() {
             </div>
           </div>
 
-          {/* thanks */}
-          <div className="mt-10 max-sm:w-[420px] w-full flex flex-col justify-center items-center h-64 bg-[url('/img/bg_pc.png')]  bg-contain text-center">
-            <div className="w-28 h-12 text-2xl text-black font-bold">
-              鸣谢
+
+          {homehint && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+              <div className="relative w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
+                <button
+                  className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 transition-colors"
+                  onClick={() => setHomehint(false)}
+                >
+                  <span className="text-xl">×</span>
+                </button>
+
+                <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+                  操作指南
+                </h2>
+
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                      <span className="inline-block w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
+                      导航
+                    </h3>
+                    <p className="text-gray-600 ml-8">点击版本标记可以返回首页</p>
+                    <p className="text-gray-600 ml-8">点击牛奶进入用户中心</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                      <span className="inline-block w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
+                      关联账号
+                    </h3>
+                    <p className="text-gray-600 ml-8">绑定街机账号可以使用绝大部分功能</p>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                      <span className="inline-block w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
+                      Else
+                    </h3>
+                    <p className="text-gray-600 ml-8">注册账户用户名请在4-16字符以内</p>
+                  </div>
+                </div>
+
+                <div className="mt-8 p-4 bg-gray-50 rounded-xl">
+                  <p className="text-sm text-gray-500">
+                    提示：点击右上角的刷新按钮可以更新最新数据
+                  </p>
+                  <button className="my-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={HomeHintNoLonger}>不再提示</button>
+                </div>
+              </div>
             </div>
-            {/* First row */}
-            <div className="mb-5 flex flex-row space-x-5">
-              <a href="https://chinese-font.netlify.app/zh-cn/">
-                <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/WebChineseFontsPlan.png')] bg-no-repeat bg-contain"></div>
-              </a>
-              <a href="https://turou.fun">
-                <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/UsaginoNiku.png')] bg-no-repeat bg-contain bg-center"></div>
-              </a>
-              {/* <a href="https://maimai.turou.fun">
-                <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/MaimaiPy.png')] bg-no-repeat bg-contain bg-center"></div>
-              </a> */}
-            </div>
-            {/* Second row */}
-            <div className="flex flex-row space-x-5">
-              <div className="w-48 h-16 bg-white"></div>
-              <div className="w-48 h-16 bg-white"></div>
-            </div>
-            <div className="text-black my-2">
-              © 2024 Salt House. All rights reserved.
-            </div>
-          </div>
+          )}
         </div>
-        {homehint && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-            <div className="relative w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
-              <button
-                className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 transition-colors"
-                onClick={() => setHomehint(false)}
-              >
-                <span className="text-xl">×</span>
-              </button>
-
-              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
-                操作指南
-              </h2>
-
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                    <span className="inline-block w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
-                    导航
-                  </h3>
-                  <p className="text-gray-600 ml-8">点击版本标记可以返回首页</p>
-                  <p className="text-gray-600 ml-8">点击牛奶进入用户中心</p>
-                </div>
-
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                    <span className="inline-block w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
-                    关联账号
-                  </h3>
-                  <p className="text-gray-600 ml-8">绑定街机账号可以使用绝大部分功能</p>
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                    <span className="inline-block w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
-                    Else
-                  </h3>
-                  <p className="text-gray-600 ml-8">注册账户用户名请在4-16字符以内</p>
-                </div>
-              </div>
-
-              <div className="mt-8 p-4 bg-gray-50 rounded-xl">
-                <p className="text-sm text-gray-500">
-                  提示：点击右上角的刷新按钮可以更新最新数据
-                </p>
-                <button className="my-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={HomeHintNoLonger}>不再提示</button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </>
   )

@@ -112,6 +112,34 @@ export default function RootLayout({
 
             {children}
 
+            {/* thanks */}
+            <div className="mt-10 max-sm:w-[420px] w-full flex flex-col justify-center items-center h-64 bg-[url('/img/bg_pc.png')]  bg-contain text-center">
+              <div className="w-28 h-12 text-2xl text-black font-bold">
+                鸣谢
+              </div>
+              {/* First row */}
+              <div className="mb-5 flex flex-row space-x-5">
+                <a href="https://chinese-font.netlify.app/zh-cn/">
+                  <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/WebChineseFontsPlan.png')] bg-no-repeat bg-contain"></div>
+                </a>
+                <a href="https://turou.fun">
+                  <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/UsaginoNiku.png')] bg-no-repeat bg-contain bg-center"></div>
+                </a>
+                {/* <a href="https://maimai.turou.fun">
+                <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/MaimaiPy.png')] bg-no-repeat bg-contain bg-center"></div>
+              </a> */}
+              </div>
+              {/* Second row */}
+              <div className="flex flex-row space-x-5">
+                <a href="https://maimai.lxns.net">
+                  <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/lxns.png')] bg-no-repeat bg-contain bg-center"></div>
+                </a>
+                <div className="w-48 h-16 bg-white"></div>
+              </div>
+              <div className="text-black my-2">
+                © 2024 Salt House. All rights reserved.
+              </div>
+            </div>
             <Link href={"/"} className="top-4 left-4 size-40 max-sm:hidden">
               <div className="fixed top-4 left-4 size-40 bg-[url('/img/moon.png')] bg-contain bg-center flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
                 <img src="/img/logo.png" className="scale-125" alt="" />
@@ -122,6 +150,6 @@ export default function RootLayout({
           </ClientLayout>
         </PlayerProvider>
       </body>
-    </html>
+    </html >
   );
 }
