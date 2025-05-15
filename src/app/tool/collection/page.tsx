@@ -252,15 +252,15 @@ export default function CollectionPage() {
                     break;
                 case "Silver":
                     upHalfColorClass = "bg-[rgb(224,227,248)]"
-                    downHalfColorClass = "bg-[rgb(179,207,245)]"
+                    downHalfColorClass = "bg-[rgb(149,181,226)]"
                     borderColorClass = "border-[rgb(191,215,248)]"
                     bottomColorClass = "border-[rgb(35,53,171)]"
                     break;
                 case "Gold":
                     upHalfColorClass = "bg-[rgb(255,223,76)]"
-                    downHalfColorClass = "bg-[rgb(251,195,31)]"
+                    downHalfColorClass = "bg-[rgb(250,191,8)]"
                     borderColorClass = "border-[rgb(255,223,76)]"
-                    bottomColorClass = "border-[rgb(187,62,6)s]"
+                    bottomColorClass = "border-[rgb(187,62,6)]"
                     break;
                 case "Rainbow":
                     upHalfColorClass = "bg-gradient-to-b from-purple-400 to-pink-500"
@@ -285,13 +285,13 @@ export default function CollectionPage() {
                         </div>
                     </div>
                 </> : <>
-                    <div key={item.id} className={`relative rounded-full w-72 h-12 p-3 shadow-xl border-b-4 ${bottomColorClass} hover:shadow-2xl transition-all duration-300  flex flex-col items-center`}>
-                        {/* 修复背景部分 */}
-                        <div className={`absolute inset-0 overflow-hidden rounded-full z-[-1]`}>
+                    {/* 奖杯部分 */}
+                    <div key={item.id} className={`relative rounded-full w-72 h-12 p-3 border-b-4 ${bottomColorClass} transition-all duration-300  flex flex-col items-center`}>
+                        <div className={`absolute inset-0 overflow-hidden rounded-full `}>
                             <div className={`w-full rounded-t-full h-1/2 ${upHalfColorClass} border-t-4 border-l-4 border-r-4 ${borderColorClass}`}></div>
                             <div className={`w-full rounded-b-full h-1/2 ${downHalfColorClass} border-b-4 border-l-4 border-r-4 ${borderColorClass}`}></div>
                         </div>
-                        <div className='max-w-48 text-white font-bold' style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}>
+                        <div className='max-w-48 text-white font-bold absolute z-[2]' style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}>
                             <TextScroller text={item.name} speed={10} delay={2} />
                         </div>
                     </div>

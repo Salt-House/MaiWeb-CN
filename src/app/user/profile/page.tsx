@@ -8,39 +8,11 @@ import { useState, useEffect, use } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaGear, FaRightFromBracket, FaArrowRight } from "react-icons/fa6";
 import { IoMdPeople } from "react-icons/io";
+import { BindAccount, FunctionStatus, ThirdAccount, UserHistorySub, UserProfile } from "../model";
+import RatingHistory from "@/app/components/RatingHistory";
 
 
-interface FunctionStatus {
-  BUpdate: boolean,
-  CycleReport: boolean,
-  RatingPush: boolean,
-  AIRecommend: boolean,
-  DataShare: boolean,
-  DataAnalyse: boolean
-}
-export interface UserProfile {
-  id: string,
-  username: string,
-  email: string,
-  privileges: string,
-  mai_rating: string,
-  mai_play_count: string,
-  mai_player_name: string,
-  mai_nameplate_id: string,
-  mai_icon_id: string,
-  mai_trophy_id: string
-}
-interface ThirdAccount {
-  server: string,
-  nickname: string,
-  identifier: string,
-  from: string
-}
-interface BindAccount {
-  islxns: boolean,
-  isdivingfish: boolean,
-  isarcaed: boolean,
-}
+
 const defaultUserProfile: UserProfile = {
   id: "请刷新",
   username: "请刷新",
@@ -68,6 +40,7 @@ export default function UserProfilePage() {
   const [divingfishusername, setDivingFishUsername] = useState<string>("");
   const [divingfishpassword, setDivingFishPassword] = useState<string>("");
   const [qr_code, setQrCode] = useState<string>("");
+  const [ratingHistory, setRatingHistory] = useState<UserHistorySub[]>([]);
   let [bindaccount, setBindAccount] = useState<BindAccount>({
     islxns: false,
     isdivingfish: false,
@@ -81,58 +54,13 @@ export default function UserProfilePage() {
     DataShare: false,
     DataAnalyse: false
   })
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken != "") {
-      setToken(storedToken);
-    } else {
-      window.location.href = '/user';
-    }
-  }, []);
+
   const [link, setLink] = useState<string>("");
-  useEffect(() => {
-    for (let i = 0; i < accounts.length; i++) {
-      if (!isNaN(Number(accounts[i].identifier))) {
-        accounts[i].from = "lxns"
-        bindaccount.islxns = true
-      } else {
-        if (accounts[i].identifier.length > 10) {
-          accounts[i].from = "arcaed";
-          bindaccount.isarcaed = true;
-        } else {
-          accounts[i].from = "divingfish"
-          bindaccount.isdivingfish = true
-        }
-      }
-      console.log(accounts);
-    }
-  }, [accounts]);
-  useEffect(() => {
-    if (token != "") {
-      const myHeaders = new Headers();
-      console.log("token:", token);
-      myHeaders.append("Authorization", `Bearer ${token}`);
+  const textShadow = {
+    textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
+  }
 
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      };
 
-      fetch("https://dev.maimai.moe/api/user/me", requestOptions)
-        .then((response) => response.text())
-        .then((result) => {
-          console.log(result);
-          const data = JSON.parse(result);
-          if (data.id) {
-            setUserData(data);
-          } else {
-            setUserData(defaultUserProfile);
-          }
-        })
-        .catch((error) => console.error(error));
-      GetBindAccount();
-    }
-  }, [token])
   const GetBindAccount = () => {
     setIsLoading(true);
     const myHeaders = new Headers();
@@ -166,6 +94,7 @@ export default function UserProfilePage() {
       .catch((error) => console.error(error));
 
   }
+
   const BindLxns = () => {
     setBindIsLoading(true);
     const myHeaders = new Headers();
@@ -193,6 +122,7 @@ export default function UserProfilePage() {
       .then((result) => { })
       .catch((error) => console.error(error));
   }
+
   const BindDivifish = () => {
     setBindIsLoading(true);
     const myHeaders = new Headers();
@@ -221,6 +151,7 @@ export default function UserProfilePage() {
       .then((result) => console.log(result))
       .catch((error) => console.error(error));
   }
+
   const BindArcade = () => {
     setBindIsLoading(true);
     const myHeaders = new Headers();
@@ -297,8 +228,63 @@ export default function UserProfilePage() {
     }
   }
 
-  const textShadow = {
-    textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
+  const BindThirdAccount = (link: string) => {
+    switch (link) {
+      case 'lxns':
+        return (
+          <>
+            <AnimatedComponent isVisible={true}>
+              <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
+                {isBindLoading ? <LoadingSpinner /> : <>
+                  <h1 className="text-2xl font-bold">绑定落雪账号</h1>
+                  <h1 className="text-xl font-bold text-red-500">（请至少上传一次成绩至落雪）</h1>
+                  <input type="text" name="lxnstoken" id="" placeholder="个人token" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={lxnstoken} onChange={(e) => setLxnsToken(e.target.value)} />
+                  <a href="https://maimai.lxns.net/login" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往落雪获取token➡️</a>
+                  <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindLxns}>绑定</button>
+                  <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
+                </>}
+
+              </div>
+            </AnimatedComponent>
+          </>
+        )
+      case 'divingfish':
+        return (
+          <>
+            <AnimatedComponent isVisible={true}>
+              <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
+                {isBindLoading ? <LoadingSpinner /> : <>
+
+                  <h1 className="text-2xl font-bold">绑定水鱼账号</h1>
+                  <input type="username" name="divingfishusername" id="" placeholder="水鱼账号" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishusername} onChange={(e) => setDivingFishUsername(e.target.value)} />
+                  <input type="password" name="divingfishpassword" id="" placeholder="水鱼密码" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishpassword} onChange={(e) => setDivingFishPassword(e.target.value)} />
+                  <a href="" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往水鱼注册账号</a>
+                  <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindDivifish}>绑定</button>
+                  <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
+                </>}
+
+              </div>
+            </AnimatedComponent>
+          </>
+        )
+      case 'arcaed':
+        return (
+          <>
+            <AnimatedComponent isVisible={true}>
+              <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
+                {isBindLoading ? <LoadingSpinner /> : <>
+                  <h1 className="text-2xl font-bold">绑定街机账号</h1>
+                  <input type="username" name="divingfishusername" id="" placeholder="二维码字段" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={qr_code} onChange={(e) => setQrCode(e.target.value)} />
+                  <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindArcade}>绑定</button>
+                  <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
+                </>}
+              </div>
+            </AnimatedComponent>
+          </>
+        )
+      default:
+        return null
+    }
   }
 
   const renderContent = () => {
@@ -396,7 +382,7 @@ export default function UserProfilePage() {
                     </div> */}
                     <h1>完善中</h1>
                   </div>
-
+                  <RatingHistory />
                   <div className="flex-row flex w-full items-center justify-center mb-2 mt-5">
                     <hr className='w-full border-t-4 border-gray-300 my-5 rounded-full' />
                     <div className="whitespace-nowrap px-7 text-gray-700 font-bold text-2xl">已启用功能列表</div>
@@ -567,71 +553,65 @@ export default function UserProfilePage() {
     }
   };
 
-  const BindThirdAccount = (link: string) => {
-    switch (link) {
-      case 'lxns':
-        return (
-          <>
-            <AnimatedComponent isVisible={true}>
-              <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
-                {isBindLoading ? <LoadingSpinner /> : <>
-                  <h1 className="text-2xl font-bold">绑定落雪账号</h1>
-                  <h1 className="text-xl font-bold text-red-500">（请至少上传一次成绩至落雪）</h1>
-                  <input type="text" name="lxnstoken" id="" placeholder="个人token" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={lxnstoken} onChange={(e) => setLxnsToken(e.target.value)} />
-                  <a href="https://maimai.lxns.net/login" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往落雪获取token➡️</a>
-                  <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindLxns}>绑定</button>
-                  <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
-                </>}
-
-              </div>
-            </AnimatedComponent>
-          </>
-        )
-      case 'divingfish':
-        return (
-          <>
-            <AnimatedComponent isVisible={true}>
-              <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
-                {isBindLoading ? <LoadingSpinner /> : <>
-
-                  <h1 className="text-2xl font-bold">绑定水鱼账号</h1>
-                  <input type="username" name="divingfishusername" id="" placeholder="水鱼账号" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishusername} onChange={(e) => setDivingFishUsername(e.target.value)} />
-                  <input type="password" name="divingfishpassword" id="" placeholder="水鱼密码" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishpassword} onChange={(e) => setDivingFishPassword(e.target.value)} />
-                  <a href="" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往水鱼注册账号</a>
-                  <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindDivifish}>绑定</button>
-                  <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
-                </>}
-
-              </div>
-            </AnimatedComponent>
-          </>
-        )
-      case 'arcaed':
-        return (
-          <>
-            <AnimatedComponent isVisible={true}>
-              <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
-                {isBindLoading ? <LoadingSpinner /> : <>
-                  <h1 className="text-2xl font-bold">绑定街机账号</h1>
-                  <input type="username" name="divingfishusername" id="" placeholder="二维码字段" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={qr_code} onChange={(e) => setQrCode(e.target.value)} />
-                  <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindArcade}>绑定</button>
-                  <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
-                </>}
-              </div>
-            </AnimatedComponent>
-          </>
-        )
-      default:
-        return null
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken != "") {
+      setToken(storedToken);
+    } else {
+      window.location.href = '/user';
     }
-  }
+  }, []);
+  useEffect(() => {
+    if (token != "") {
+      const myHeaders = new Headers();
+      console.log("token:", token);
+      myHeaders.append("Authorization", `Bearer ${token}`);
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      };
+
+      fetch("https://dev.maimai.moe/api/user/me", requestOptions)
+        .then((response) => response.text())
+        .then((result) => {
+          console.log(result);
+          const data = JSON.parse(result);
+          if (data.id) {
+            setUserData(data);
+          } else {
+            setUserData(defaultUserProfile);
+          }
+        })
+        .catch((error) => console.error(error));
+      GetBindAccount();
+    }
+  }, [token])
+  useEffect(() => {
+    for (let i = 0; i < accounts.length; i++) {
+      if (!isNaN(Number(accounts[i].identifier))) {
+        accounts[i].from = "lxns"
+        bindaccount.islxns = true
+      } else {
+        if (accounts[i].identifier.length > 10) {
+          accounts[i].from = "arcaed";
+          bindaccount.isarcaed = true;
+        } else {
+          accounts[i].from = "divingfish"
+          bindaccount.isdivingfish = true
+        }
+      }
+      console.log(accounts);
+    }
+  }, [accounts]);
+
   return (
     <div className='w-[900px] max-sm:w-[420px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center'>
       {userdata.username == "请刷新" ?
         <>
-          <Link href={"/user"} className="text-2xl text-white">
+          <div onClick={LogOut} className="text-2xl text-white">
             返回登陆界面
-          </Link>
+          </div>
         </> :
         <>
           <div className='max-sm:w-[420px] w-[900px] flex justify-center items-center'>
@@ -655,7 +635,7 @@ export default function UserProfilePage() {
                   <div className="space-y-6">
                     <div className="space-y-2">
                       <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                        <span className="inline-block w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
+                        <span className=" w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
                         这里是个人信息页！
                       </h3>
                       <p className="text-gray-600 ml-8">查看个人信息、游玩数据及功能开启状态</p>
@@ -663,7 +643,7 @@ export default function UserProfilePage() {
 
                     <div className="space-y-2">
                       <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                        <span className="inline-block w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
+                        <span className=" w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
                         关联账号
                       </h3>
                       <p className="text-gray-600 ml-8">绑定第三方账号，实现数据互通</p>
@@ -674,7 +654,7 @@ export default function UserProfilePage() {
 
                     <div className="space-y-2">
                       <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                        <span className="inline-block w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
+                        <span className=" w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
                         账号 & 隐私设置
                       </h3>
                       <p className="text-gray-600 ml-8">
