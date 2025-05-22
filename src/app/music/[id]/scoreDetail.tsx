@@ -91,6 +91,7 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
           bgColor="bg-blue-500"
           chartType="standard"
           needBottomBorder={dxScores.length > 0}
+          song={song}
         />
       )}
 
@@ -102,6 +103,7 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
           bgColor="bg-orange-500"
           chartType="dx"
           needBottomBorder={false}
+          song={song}
         />
       )}
 
@@ -119,12 +121,13 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
 }
 
 // 成绩区块组件
-function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
+function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder, song }: {
   title: string,
   scores: any[],
   bgColor: string,
   chartType: string,
-  needBottomBorder: boolean
+  needBottomBorder: boolean,
+  song: Song
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -155,7 +158,11 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder }: {
                     backgroundColor: getDifficultyColor(score.level_index)
                   }}
                 >
-                  {score.level}
+                  {song.difficulties
+                    && song.difficulties[chartType as keyof typeof song.difficulties]
+                    && song.difficulties[chartType as keyof typeof song.difficulties][score.level_index]
+                    ? song.difficulties[chartType as keyof typeof song.difficulties][score.level_index].level
+                    : score.level_index}
                 </div>
               </div>
 
