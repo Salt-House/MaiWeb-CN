@@ -8,6 +8,7 @@ interface MusicGradeProps {
     song_name: string;
     level: string;
     level_index: number;
+    level_value: number
     achievements: number;
     fc: number | null;
     fs: number;
@@ -77,6 +78,7 @@ export default function ShareableImage() {
                             song_name: song.song_name,
                             level: song.level,
                             level_index: song.level_index,
+                            level_value: song.level_value,
                             achievements: song.achievements,
                             fc: song.fc,
                             fs: song.fs,
@@ -92,6 +94,7 @@ export default function ShareableImage() {
                             song_name: song.song_name,
                             level: song.level,
                             level_index: song.level_index,
+                            level_value: song.level_value,
                             achievements: song.achievements,
                             fc: song.fc,
                             fs: song.fs,
@@ -333,7 +336,7 @@ export default function ShareableImage() {
                 </div>
                 {isLoading ? <>
                     <div className='absolute z-[1000] w-full h-full bg-white/85'>
-                    <LoadingSpinner />
+                        <LoadingSpinner />
                     </div>
                 </> : <>
 
@@ -351,11 +354,12 @@ interface ShareableImageSubProps extends MusicGradeProps {
     index: number;
 }
 
-function ShareableImageSub(props: ShareableImageSubProps) {
+export function ShareableImageSub(props: ShareableImageSubProps) {
     let levelColor: string = 'bg-green-500';
     let nameColor: string = 'bg-green-500';
     let fc = null;
     let fs = null;
+    let stars = 0;
     let achievements = null;
     let textstroke: React.CSSProperties = {
         textShadow: '-1px -1px 2px rgba(128, 90, 213, 1), 1px -1px 2px rgba(128, 90, 213, 1), -1px 1px 1px rgba(128, 90, 213, 1), 1px 1px 1px rgba(128, 90, 213, 1)'
@@ -479,7 +483,7 @@ function ShareableImageSub(props: ShareableImageSubProps) {
     }
     return (
         <>
-            <div className="w-[260px] h-[110px] m-2 border-white border-2 rounded-xl">
+            <div className="w-[280px] h-[110px] m-2 border-white border-2 rounded-xl">
                 <div className='relative w-full text-white h-full border-2 border-blue-500 rounded-xl flex'>
                     <div className={`absolute z-[-2] w-full h-full ${bg}`}></div>
                     <div className='absolute z-[-1] w-full h-full'>
@@ -491,13 +495,15 @@ function ShareableImageSub(props: ShareableImageSubProps) {
                         </div>
                     </div>
                     <div className='pt-1'>
-                        <p className='w-[130px] truncate text-sm'>{props.song_name}</p>
+                        <p className={`w-[130px] truncate text-sm ${nameColor}`}>{props.song_name}</p>
                         <hr className="border-dashed" />
-                        <p className='text-sm'>{props.id} {props.dx_score}</p>
-                        <div className='text-2xl flex font-bold text-white '><p className='w-[100px] mr-1'>{props.achievements}</p><img src={`${achievements}`} className='w-[50px]' alt="" /> </div>
+                        <div className='text-2xl flex font-bold text-white '><p className='w-[100px]'>{props.achievements}</p><img src={`${achievements}`} className='w-[70px]' alt="" /> </div>
+                        <div className='text-sm flex'>
+                            <p>{props.id}/{props.dx_score}</p>
+                        </div>
                         <div className='font-bold mt-1 flex items-center text-black'>
                             <p className='w-[30px]'>#{props.index + 1}</p>
-                            <p className='w-[80px]'>{props.level}-{'>'}{props.dx_rating}</p>
+                            <p className='w-[80px]'>{props.level_value}-{'>'}{props.dx_rating}</p>
                             {fc != null ?
                                 <><img src={fc} className='w-[22px] h-[22px]' alt="" /></>
                                 : <div className='w-[15px] h-[15px] rounded-full bg-gray-500'></div>}
