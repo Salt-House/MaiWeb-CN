@@ -2,10 +2,9 @@
 
 import AnimatedComponent from "@/app/components/AnimatedComponent";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
-import MusicGrade from "@/app/components/MusicGrade";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
-import ShareableImage from "@/app/components/ShareableImage";
+import ShareableImage, { ShareableImageSub } from "@/app/components/ShareableImage";
 
 // 定义MusicGradeProps接口
 interface MusicGradeProps {
@@ -13,6 +12,7 @@ interface MusicGradeProps {
     song_name: string;
     level: string;
     level_index: number;
+    level_value:number;
     achievements: number;
     fc: number | null;
     fs: number;
@@ -131,12 +131,12 @@ export default function BestPage() {
             }
             const myHeaders = new Headers();
             myHeaders.append("accept", "application/json");
-    
+
             const requestOptions = {
                 method: "GET",
                 headers: myHeaders,
             };
-    
+
             fetch(`https://dev.maimai.moe/api/maimai/divingfish/bests?username=${nickname}`, requestOptions)
                 .then((response) => response.text())
                 .then((result) => {
@@ -163,12 +163,12 @@ export default function BestPage() {
             }
             const myHeaders = new Headers();
             myHeaders.append("accept", "application/json");
-    
+
             const requestOptions = {
                 method: "GET",
                 headers: myHeaders,
             };
-    
+
             fetch(`https://dev.maimai.moe/api/maimai/lxns/bests?friend_code=${nickname}`, requestOptions)
                 .then((response) => response.text())
                 .then((result) => {
@@ -192,7 +192,7 @@ export default function BestPage() {
             const myHeaders = new Headers();
             myHeaders.append("Accept", "application/json");
             myHeaders.append("Authorization", `Bearer ${token}`);
-    
+
             const requestOptions = {
                 method: "GET",
                 headers: myHeaders,
@@ -210,6 +210,7 @@ export default function BestPage() {
                             song_name: song.song_name,
                             level: song.level,
                             level_index: song.level_index,
+                            level_value: song.level_value,
                             achievements: song.achievements,
                             fc: song.fc,
                             fs: song.fs,
@@ -225,6 +226,7 @@ export default function BestPage() {
                             song_name: song.song_name,
                             level: song.level,
                             level_index: song.level_index,
+                            level_value: song.level_value,
                             achievements: song.achievements,
                             fc: song.fc,
                             fs: song.fs,
@@ -246,7 +248,7 @@ export default function BestPage() {
                     setIsLoading(false)
                 });
         }
-    
+
     }
 
 
@@ -319,58 +321,24 @@ export default function BestPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="relative max-sm:w-[420px] w-[900px] flex flex-row justify-center flex-wrap">
+                    <div className="relative max-sm:w-[420px] w-[1600px] flex flex-row justify-center flex-wrap">
                         {isLoading ? <LoadingSpinner /> : <>
                             {best35 && best35.length > 0 ? best35.map((song: any, index: number) => {
                                 return (
-                                    <MusicGrade
-                                        id={song.id}
-                                        song_name={song.song_name}
-                                        level={song.level}
-                                        level_index={song.level_index}
-                                        achievements={song.achievements}
-                                        fc={song.fc}
-                                        fs={song.fs}
-                                        dx_score={song.dx_score}
-                                        dx_rating={song.dx_rating}
-                                        rate={song.rate}
-                                        type={song.type} key={index}
-                                        isExpanded={expandedId === song.id}
-                                        onToggle={() => {
-                                            if (expandedId === song.id) {
-                                                setExpandedId('');
-                                            } else {
-                                                setExpandedId(song.id);
-                                            }
-                                        }} />
+                                    <ShareableImageSub key={song.id}
+                                        {...song}
+                                        index={index} />
                                 );
                             }) : <div className="">暂无数据</div>}
                         </>}
                         <hr className='w-full mx-auto  border-t-4 border-gray-400 my-5' />
-                        <div className="w-[900px] flex flex-row justify-center flex-wrap mx-auto">
+                        <div className="w-[1600px] flex flex-row justify-center flex-wrap mx-auto">
                             {isLoading ? <></> : <>
                                 {best15 && best15.map((song: any, index: number) => {
                                     return (
-                                        <MusicGrade
-                                            id={song.id}
-                                            song_name={song.song_name}
-                                            level={song.level}
-                                            level_index={song.level_index}
-                                            achievements={song.achievements}
-                                            fc={song.fc}
-                                            fs={song.fs}
-                                            dx_score={song.dx_score}
-                                            dx_rating={song.dx_rating}
-                                            rate={song.rate}
-                                            type={song.type} key={index}
-                                            isExpanded={expandedId === song.id}
-                                            onToggle={() => {
-                                                if (expandedId === song.id) {
-                                                    setExpandedId('');
-                                                } else {
-                                                    setExpandedId(song.id);
-                                                }
-                                            }} />
+                                        <ShareableImageSub key={song.id}
+                                            {...song}
+                                            index={index} />
                                     );
                                 })}
                             </>}
