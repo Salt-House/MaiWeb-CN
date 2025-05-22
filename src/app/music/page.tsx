@@ -6,7 +6,7 @@ import SongList from '@/app/music/songList'
 import LoadingSpinner from '../components/LoadingSpinner'
 import ActionButton from '../components/ActionButton'
 
-const currentVersion = "24006"
+const currentVersion = "24007"
 
 export default function MusicPage() {
   //const songs = [sampleSong, sampleSong, sampleSong, sampleSong, sampleSong, sampleSong]
