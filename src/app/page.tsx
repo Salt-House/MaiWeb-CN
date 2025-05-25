@@ -5,10 +5,9 @@ import Head from "next/head";
 import Link from "next/link"
 import { useEffect, useState } from "react";
 import ChinaMap from "./components/ChinaMap";
-import { FcClock } from "react-icons/fc";
-import NewsCard from "./components/NewsCard";
 import { FiChevronRight } from "react-icons/fi";
-
+import NewsCard from "./components/NewsCard";
+import SearchGameCenter from "./components/SearchGameCenter";
 
 interface NewsProps {
   title: string,
@@ -19,7 +18,6 @@ interface NewsProps {
   source_author: string,
   source_created_at: string
 }
-
 
 export default function Home() {
   const [news1, setNews1] = useState<NewsProps[]>([
@@ -80,19 +78,13 @@ export default function Home() {
       "source_created_at": "2025-02-24T12:08:29"
     }
   ])
-  const [latitude, setLatitude] = useState<number | undefined>(undefined);
-  const [longitude, setLongitude] = useState<number | undefined>(undefined);
   const [news3, setNews3] = useState<NewsProps[]>([])
-  const [inputValue, setInputValue] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [token, setToken] = useState('');
-  const options = ["1km", "5km", "10km"];
-  const [CardDisplay, setCardDisplay] = useState(false);
-  const [range, setRange] = useState(1);
   const [homehint, setHomehint] = useState(true);
   const textstroke = {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
   };
+
   const getNews = async (limit: number, offset: number): Promise<NewsProps[]> => {
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
@@ -113,35 +105,10 @@ export default function Home() {
     }
   }
 
-  const getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLatitude(position.coords.latitude);
-          setLongitude(position.coords.longitude);
-        },
-        (err) => {
-          console.log('Cannot get location');
-        }
-      );
-    } else {
-      console.log('Cannot get location');
-    }
-  }
 
   const HomeHintNoLonger = () => {
     localStorage.setItem("homehint", '1');
     setHomehint(false);
-  }
-  const getGameCenter = async (range: number) => {
-    const requestOptions = {
-      method: "GET",
-    };
-
-    fetch(`https://maimap.tech/api/arcades/get/nearby?lat=${latitude}&lng=${longitude}&range=${range}&sortMethod=DistanceAscending`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.error(error));
   }
 
   useEffect(() => {
@@ -170,8 +137,7 @@ export default function Home() {
   useEffect(() => {
     const news = JSON.stringify(news3);
     localStorage.setItem('mainews', news);
-  }, [news3])
-
+  }, [news3]);
 
   return (
     <>
@@ -256,7 +222,7 @@ export default function Home() {
                   <div className="text-black pl-8 pt-5">
                     <ul className="list-decimal list-inside">
                       <li>国服舞萌最新资讯</li>
-                      <li>最新最热资讯✅</li>
+                      <li>最新最热资讯✅ </li>
                       <li>未来更新爆料</li>
                       <li>联动资讯</li>
                       <li>机厅活动资讯</li>
@@ -423,71 +389,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Search Game Center */}
-          <div className="relative mb-32 max-sm:w-[410px] w-[800px] h-64 mx-auto flex flex-col justify-center items-center space-y-5 rounded-2xl overflow-visible ">
-            <div className="absolute  rounded-2xl inset-x-0 z-[-1] bg-white">
-              <div className="border-4 border-white rounded-2xl">
-                <div className="border-4 border-[rgb(113,241,229)] rounded-2xl">
-                  <div className="border-4 border-white rounded-2xl">
-                    <div className="border-4 border-[rgb(125,136,217)] rounded-2xl">
-                      <div className="w-[800px] h-64 rounded-2xl">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <img className="absolute w-48 -top-16" src="/img/logo.png" alt="" />
-            {CardDisplay ?
-              <>
-                <div className="text-2xl text-center font-bold bg-gradient-to-r from-blue-500 via-green-500 to-purple-500 bg-clip-text text-transparent">
-                  选择你的出勤机厅
-                </div>
-                <div className="border-4 border-white rounded-full">
-                  <div className="border-4 border-[rgb(113,241,229)] rounded-full ">
-                    <div className=" border-4 border-white rounded-full">
-                      <div className="w-[650px] h-24 p-4 bg-[rgb(113,241,229)] rounded-full
-                  flex justify-center items-center space-x-4 space-y- text-black text-xl">
-                        <p>从现在的位置以</p>
-                        <div className="relative w-48">
-                          <input
-                            type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onFocus={() => setIsDropdownOpen(true)} onBlur={() => setTimeout(() => setIsDropdownOpen(false), 100)} placeholder="选择范围"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-full text-black focus:outline-none"
-                          />
-                          {isDropdownOpen && (
-                            <ul className="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg max-h-40 overflow-y-auto text-black">
-                              {options.filter((option) =>
-                                option.toLowerCase().includes(inputValue.toLowerCase())
-                              ).map((option, index) => (
-                                <li key={index} onMouseDown={() => setInputValue(option)} className="px-4 py-2 cursor-pointer bg-[rgb(164,247,238)] hover:bg-gray-100">
-                                  {option}
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
-                        <p>为范围</p>
-                        <div className="border-2 border-white rounded-full hover:scale-125 transition-all duration-300">
-                          <div className="border-2 border-[rgb(113,241,229)] rounded-full">
-                            <button className="w-24 border-2 p-2 border-white rounded-full bg-[rgb(245,242,193)] hover:bg-[rgb(210,251,246)] ">
-                              查找
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </> :
-              <>
-                <div className="absolute z-[1000] h-full w-full flex items-center justify-center bg-opacity-50">
-                  <h1 className="text-xl font-bold tracking-wide">请等待机厅查询接口开放</h1>
-                </div>
-              </>
-
-            }
-
-          </div>
+          {/* 使用独立的SearchGameCenter组件 */}
+          <SearchGameCenter />
 
           {/* Map Play display */}
           <div className="relative w-full max-sm:w-[410px] sm:w-[900px] h-[400px] sm:h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
@@ -504,10 +407,10 @@ export default function Home() {
               )}
             </div>
           </div>
-          <div className="w-[900px] max-sm:mt-5 max-sm:w-[420px]  mt-2 h-20 flex mx-auto justify-center items-center space-x-4 text-white font-bold max-sm:text-xl text-2xl">
+          <div className="w-[900px] max-sm:mt-5 max-sm:w-[420px] mt-2 h-20 flex mx-auto justify-center items-center space-x-4 text-white font-bold max-sm:text-xl text-2xl">
             <div className="border-4 border-white rounded-full hover:scale-105 transition-all duration-300 ease-in-out">
               <div className="relative p-5 rounded-full bg-[#41e7d7] border-4 border-[#2ea297]">
-                <button>全国玩家行脚图<br></br><b className="absolute w-full left-0  bottom-0 text-lg text-red-500">数据不足，暂无法使用</b></button>
+                <button>全国玩家行脚图<br></br><b className="absolute w-full left-0 bottom-0 text-lg text-red-500">数据不足，暂无法使用</b></button>
               </div>
             </div>
             <div className="border-4 border-white rounded-full hover:scale-105 transition-all duration-300 ease-in-out">
@@ -535,7 +438,7 @@ export default function Home() {
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                      <span className="inline-block w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
+                      <span className=" w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
                       导航
                     </h3>
                     <p className="text-gray-600 ml-8">点击版本标记可以返回首页</p>
@@ -544,14 +447,14 @@ export default function Home() {
 
                   <div className="space-y-2">
                     <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                      <span className="inline-block w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
+                      <span className=" w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
                       关联账号
                     </h3>
                     <p className="text-gray-600 ml-8">绑定街机账号可以使用绝大部分功能</p>
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                      <span className="inline-block w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
+                      <span className=" w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
                       Else
                     </h3>
                     <p className="text-gray-600 ml-8">注册账户用户名请在4-16字符以内</p>
@@ -569,6 +472,26 @@ export default function Home() {
           )}
         </div>
       </div>
+
+      <style jsx global>{`
+        .arcade-results::-webkit-scrollbar {
+          width: 6px;
+        }
+        
+        .arcade-results::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 10px;
+        }
+        
+        .arcade-results::-webkit-scrollbar-thumb {
+          background: rgb(113,241,229);
+          border-radius: 10px;
+        }
+        
+        .arcade-results::-webkit-scrollbar-thumb:hover {
+          background: rgb(125,136,217);
+        }
+      `}</style>
     </>
   )
 }
