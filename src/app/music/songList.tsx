@@ -43,7 +43,7 @@ export default function SongList({ songs }: SongListProps) {
     <div className="flex-col w-full max-sm:mt-5 justify-center items-center p-4 space-y-1 ">
       {songs.map((song, index) => (
         <>
-          <div className='relative'>
+          <div id='clickDetail' className='relative'>
             <Link
               href={`/music/${song.id}`}
               key={song.id}
@@ -155,6 +155,7 @@ export default function SongList({ songs }: SongListProps) {
               </div>
             </Link>
             <button
+            id='addMusicPlay'
               onClick={() => handleAddToPlaylist(song)}
 
 className={`absolute left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full  text-white hover:bg-[rgb(135,70,193)] transition-colors ${addedSongs[song.id] ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}

@@ -108,7 +108,7 @@ export default function GlobalPlayer() {
   }
 
   return (
-    <div className="fixed bottom-5 left-5 z-50">
+    <div id='musicPlayer' className="fixed bottom-5 left-5 z-50">
       {/* 播放器主体 */}
       <div className={`bg-white/90 backdrop-blur-md rounded-xl shadow-lg border-2 border-[rgb(155,244,236)] transition-all duration-300 ${isMinimized ? 'p-2' : 'p-3'}`}
         style={{ width: isMinimized ? 'auto' : '18rem' }}>

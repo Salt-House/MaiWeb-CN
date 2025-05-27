@@ -5,6 +5,9 @@ import { Song } from "@/app/music/songModel"
 import SongList from '@/app/music/songList'
 import LoadingSpinner from '../components/LoadingSpinner'
 import ActionButton from '../components/ActionButton'
+import type { Step } from 'react-joyride';
+import Guide from '../components/Guide'
+
 
 const currentVersion = "24007"
 
@@ -18,6 +21,21 @@ export default function MusicPage() {
   const [filteredUrl, setFilteredUrl] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [hasMore, setHasMore] = useState(false)
+  const [run, setRun] = useState(true)
+  const steps: Step[] = [
+    {
+      target: '#filter-select',
+      content: '选择乐曲分类',
+    },
+    {
+      target: '#clickDetail',
+      content: '点击乐曲查看详情',
+    },
+    {
+      target: '#addMusicPlay',
+      content: '点击添加到播放列表',
+    }
+  ]
 
   const textstroke = {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
@@ -69,27 +87,6 @@ export default function MusicPage() {
       setLoading(false)
     }
   }, [])
-  // useEffect(() => {
-  //   //MARK: - 临时方案：获取全部乐曲分数数据
-  //   const storedToken = localStorage.getItem('token');
-  //   const myHeaders = new Headers();
-  //   myHeaders.append("Accept", "application/json");
-  //   myHeaders.append("Authorization", `Bearer ${storedToken}`);
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: myHeaders,
-  //   };
-  //   fetch("https://dev.maimai.moe/api/maimai/maiweb/scores", requestOptions)
-  //     .then((response) => response.text())
-  //     .then((result) => {
-  //       console.log("获取分数成功" + result)
-  //       localStorage.setItem('scores', result)
-  //     })
-  //     .catch((error) => {
-  //       console.log("获取分数失败" + error)
-  //     });
-  // }, [])
-
 
   // MARK: - 主视图
   return (
@@ -116,7 +113,9 @@ export default function MusicPage() {
 
     `}</style>
       {/*Top Search Options Bar*/}
-      <div className="relative flex flex-col justify-center items-center mt-10 mb-16 text-black ">
+      <Guide steps={steps} run={run} autoStart={true} />
+
+      <div id='filter-select' className="relative flex flex-col justify-center items-center mt-10 mb-16 text-black ">
         <div className="border-4 border-white bg-white rounded-2xl">
           <div
             className="max-sm:w-[400px] w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
@@ -400,7 +399,7 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
                     className="w-2/3 flex items-center justify-center overflow-hidden border-r-4 max-sm:pb-1 pt-1 border-[rgb(155,244,236)] cursor-pointer text-black"
                     onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
                   >
-                    <p className={`${versions[index].length>6 ? 'max-sm:animate-text-scroll':''}`}>{versions[index]}</p>
+                    <p className={`${versions[index].length > 6 ? 'max-sm:animate-text-scroll' : ''}`}>{versions[index]}</p>
                   </div>
                   <div
                     className="w-1/3 flex items-center max-sm:pb-1 justify-center text-2xl cursor-pointer text-black"

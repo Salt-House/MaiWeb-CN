@@ -55,6 +55,7 @@ export default function UserProfilePage() {
     DataAnalyse: false
   })
 
+
   const [link, setLink] = useState<string>("");
   const textShadow = {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
@@ -432,8 +433,8 @@ export default function UserProfilePage() {
                     <div className="whitespace-nowrap px-7 text-gray-700 font-bold text-2xl">账号设置</div>
                     <hr className='w-full border-t-4 border-gray-300 my-5 rounded-full' />
                   </div>
-                  <div className="flex flex-col justify-center m-6 mx-16 mb-16 space-y-8">
-                    <button className="inline-flex items-center justify-between rounded-2xl bg-blue-500 p-3 px-4 text-white font-bold w-full" onClick={() => setActiveSection('关联账号')}>
+                  <div id="settings" className="flex flex-col justify-center m-6 mx-16 mb-16 space-y-8">
+                    <button  className="inline-flex items-center justify-between rounded-2xl bg-blue-500 p-3 px-4 text-white font-bold w-full" onClick={() => setActiveSection('关联账号')}>
                       <div className="flex items-center">
                         <FaGear className="mr-2" />
                         账号设置
