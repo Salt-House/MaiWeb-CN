@@ -3,11 +3,13 @@
 import { Chilanka } from "next/font/google";
 import Head from "next/head";
 import Link from "next/link"
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import ChinaMap from "./components/ChinaMap";
 import { FiChevronRight } from "react-icons/fi";
 import NewsCard from "./components/NewsCard";
 import SearchGameCenter from "./components/SearchGameCenter";
+import Guide from "./components/Guide";
+import type { Step } from 'react-joyride';
 
 interface NewsProps {
   title: string,
@@ -80,10 +82,55 @@ export default function Home() {
   ])
   const [news3, setNews3] = useState<NewsProps[]>([])
   const [token, setToken] = useState('');
-  const [homehint, setHomehint] = useState(true);
   const textstroke = {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
   };
+  const [run, setRun] = useState(false);
+
+  const steps: Step[] = [
+    // {
+    //   target: '#music',
+    //   content: '点击这里可以查看乐曲信息（包括成绩），铺面确认，乐曲播放等功能',
+    // },
+    // {
+    //   target: '#region',
+    //   content: '点击这里可以查看舞萌区域信息，区域伙伴，区域跑图等功能',
+    // },
+    // {
+    //   target: '#tool',
+    //   content: '点击这里可以查看舞萌工具，卷王工具，成绩工具等功能',
+    // },
+    // {
+    //   target: '#guide',
+    //   content: '点击这里可以查看舞萌教学，机厅教学等功能',
+    // },
+    // {
+    //   target: '#funDetail',
+    //   content: '这里可以查看我们已完成的功能和正在开发中的功能',
+    // },
+    // {
+    //   target: '#news',
+    //   content: '在这里可以查看最新的舞萌资讯',
+    // },
+    // {
+    //   target: '#searchGameCenter',
+    //   content: '在这里可以搜索机厅信息',
+    // },
+    {
+      target: '#playmap',
+      content: '在这里可以查看全国行脚图，点亮你的行脚地图！',
+    },
+      {
+        target: '#user',
+        content: '点击这里可以登录或注册账号，进入用户页面（不要问为什么是牛奶）',
+        disableScrolling: false,
+      },
+    {
+      target: '#musicPlayer',
+      content: '全局舞萌音乐播放器',
+      disableScrolling: false,
+    }
+  ];
 
   const getNews = async (limit: number, offset: number): Promise<NewsProps[]> => {
     const myHeaders = new Headers();
@@ -105,12 +152,6 @@ export default function Home() {
     }
   }
 
-
-  const HomeHintNoLonger = () => {
-    localStorage.setItem("homehint", '1');
-    setHomehint(false);
-  }
-
   useEffect(() => {
     const now = new Date();
     const hours = now.getUTCHours() + 8; // Convert to East 8th timezone
@@ -124,15 +165,10 @@ export default function Home() {
     if (localStorage.getItem('token') == '0') {
       localStorage.removeItem('token');
     }
-    if (localStorage.getItem('homehint') == null) {
-      localStorage.setItem('homehint', '0');
-    }
-    if (localStorage.getItem('homehint') == '0') {
-      setHomehint(true);
-    } else {
-      setHomehint(false);
-    }
+    // 设置为浏览器环境，并启用引导
+    setRun(true);
   }, []);
+
 
   useEffect(() => {
     const news = JSON.stringify(news3);
@@ -144,12 +180,14 @@ export default function Home() {
       <div className="w-full overflow-hidden">
         {/* Main Layer */}
         <div className="relative w-full max-sm:w-[420px]">
+          {/* 使用抽离的 Guide 组件 */}
+          <Guide steps={steps} run={run} autoStart={true} />
 
           {/* Control */}
           <div className="max-sm:h-[40px] w-[200px] h-[100px]"></div>
 
           {/* Welcome to Home page */}
-          <div className=" flex flex-col justify-center items-center max-sm:w-[420px]">
+          <div id="funDetail" className=" flex flex-col justify-center items-center max-sm:w-[420px]">
             <div className="w-full max-w-[420px] sm:max-w-[900px] mx-auto px-4 sm:px-0 max-sm:text-2xl sm:text-4xl text-center font-bold text-white bg-clip-text text-transparent"
               style={textstroke}>
               Welcome to maimai.moe in China!!!<br></br>
@@ -333,7 +371,7 @@ export default function Home() {
           </div>
 
           {/* News */}
-          <div className="w-full max-w-[420px] sm:max-w-[1200px] mx-auto px-4 sm:px-5 text-white mb-8">
+          <div id="news" className="w-full max-w-[420px] sm:max-w-[1200px] mx-auto px-4 sm:px-5 text-white mb-8">
             <div className="flex justify-center items-center text-center text-white font-bold text-3xl mb-10" style={textstroke}>
               — 舞萌相关资讯 —
             </div>
@@ -393,7 +431,7 @@ export default function Home() {
           <SearchGameCenter />
 
           {/* Map Play display */}
-          <div className="relative w-full max-sm:w-[410px] sm:w-[900px] h-[400px] sm:h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
+          <div id="playmap" className="relative w-full max-sm:w-[410px] sm:w-[900px] h-[400px] sm:h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
             <div className="absolute -top-5 flex justify-center items-center text-white font-bold text-xl sm:text-2xl" style={textstroke}>
               全国出勤行脚图
             </div>
@@ -421,77 +459,10 @@ export default function Home() {
           </div>
 
 
-          {homehint && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-              <div className="relative w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
-                <button
-                  className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 transition-colors"
-                  onClick={() => setHomehint(false)}
-                >
-                  <span className="text-xl">×</span>
-                </button>
 
-                <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
-                  操作指南
-                </h2>
-
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                      <span className=" w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
-                      导航
-                    </h3>
-                    <p className="text-gray-600 ml-8">点击版本标记可以返回首页</p>
-                    <p className="text-gray-600 ml-8">点击牛奶进入用户中心</p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                      <span className=" w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
-                      关联账号
-                    </h3>
-                    <p className="text-gray-600 ml-8">绑定街机账号可以使用绝大部分功能</p>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                      <span className=" w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
-                      Else
-                    </h3>
-                    <p className="text-gray-600 ml-8">注册账户用户名请在4-16字符以内</p>
-                  </div>
-                </div>
-
-                <div className="mt-8 p-4 bg-gray-50 rounded-xl">
-                  <p className="text-sm text-gray-500">
-                    提示：点击右上角的刷新按钮可以更新最新数据
-                  </p>
-                  <button className="my-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={HomeHintNoLonger}>不再提示</button>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
-      <style jsx global>{`
-        .arcade-results::-webkit-scrollbar {
-          width: 6px;
-        }
-        
-        .arcade-results::-webkit-scrollbar-track {
-          background: #f1f1f1;
-          border-radius: 10px;
-        }
-        
-        .arcade-results::-webkit-scrollbar-thumb {
-          background: rgb(113,241,229);
-          border-radius: 10px;
-        }
-        
-        .arcade-results::-webkit-scrollbar-thumb:hover {
-          background: rgb(125,136,217);
-        }
-      `}</style>
     </>
   )
 }

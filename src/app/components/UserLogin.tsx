@@ -17,7 +17,7 @@ export default function UserLogin() {
   return (
     <div className="max-sm:hidden">
       <Link href={loginPath}>
-        <div className="fixed top-4 right-4 size-44 bg-[url('/img/user.png')] bg-no-repeat bg-contain hover:scale-125 transition-all duration-300 ease-in-out">
+        <div id="user" className="fixed top-4 right-4 size-44 bg-[url('/img/user.png')] bg-no-repeat bg-contain hover:scale-125 transition-all duration-300 ease-in-out">
         </div>
       </Link>
     </div>

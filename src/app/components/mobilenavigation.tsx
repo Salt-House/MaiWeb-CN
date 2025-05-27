@@ -71,13 +71,13 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
 
         {/* 桌面端导航链接 */}
         <div className="hidden sm:flex items-center max-sm:space-x-3 space-x-4 justify-center text-2xl text-white font-bold">
-          <Link href={"/music"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>音乐</Link>
+          <Link id="music" href={"/music"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>音乐</Link>
           <div>|</div>
-          <Link href={"/region"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>区域</Link>
+          <Link id="region" href={"/region"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>区域</Link>
           <div>|</div>
-          <Link href={"/tool"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>工具</Link>
+          <Link id="tool" href={"/tool"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>工具</Link>
           <div>|</div>
-          <Link href={"/guide"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>教学</Link>
+          <Link id="guide" href={"/guide"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>教学</Link>
         </div>
 
         {/* 移动端右侧用户头像 */}
