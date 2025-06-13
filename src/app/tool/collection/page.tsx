@@ -216,7 +216,7 @@ export default function CollectionPage() {
 
         // 调用loadData函数，传递当前活动标签和搜索参数
         loadData(activeTab, {
-            name: searchTerm,  // 从状态中获取的搜索关键词
+            keywords: searchTerm,  // 从状态中获取的搜索关键词
             color: searchColor, // 从状态中获取的颜色筛选条件（仅对奖杯有效）
             genre: searchGenre // 从状态中获取的区域筛选条件（仅对名牌和背景有效）
         });
@@ -286,12 +286,12 @@ export default function CollectionPage() {
                     </div>
                 </> : <>
                     {/* 奖杯部分 */}
-                    <div key={item.id} className={`relative rounded-full w-72 h-12 p-3 border-b-4 ${bottomColorClass} transition-all duration-300  flex flex-col items-center`}>
+                    <div key={item.id} className={`relative rounded-full max-sm:w-44 w-72 h-12 p-3 border-b-4 ${bottomColorClass} transition-all duration-300  flex flex-col items-center`}>
                         <div className={`absolute inset-0 overflow-hidden rounded-full `}>
                             <div className={`w-full rounded-t-full h-1/2 ${upHalfColorClass} border-t-4 border-l-4 border-r-4 ${borderColorClass}`}></div>
                             <div className={`w-full rounded-b-full h-1/2 ${downHalfColorClass} border-b-4 border-l-4 border-r-4 ${borderColorClass}`}></div>
                         </div>
-                        <div className='max-w-48 text-white font-bold absolute z-[2]' style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}>
+                        <div className='max-w-40 text-white font-bold absolute z-[2]' style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}>
                             <TextScroller text={item.name} speed={10} delay={2} />
                         </div>
                     </div>

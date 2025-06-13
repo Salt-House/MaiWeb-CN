@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import dynamic from 'next/dynamic';
-import { type Step, type CallBackProps, EVENTS } from 'react-joyride';
+import {type Step, type CallBackProps, EVENTS, STATUS} from 'react-joyride';
 
 // 动态导入 Joyride 组件，禁用 SSR
 const Joyride = dynamic(() => import('react-joyride'), {
@@ -15,28 +15,22 @@ interface GuideProps {
     autoStart?: boolean;
 }
 
-const Guide = ({ steps, run = false, autoStart = true }: GuideProps) => {
+const Guide = ({steps, autoStart = true}: GuideProps) => {
     const [isRunning, setIsRunning] = useState(false);
     const [isBrowser, setIsBrowser] = useState(false);
-
-    // 延迟启动引导的逻辑
-    useEffect(() => {
-        if (run && autoStart) {
-            const timer = setTimeout(() => {
-                setIsRunning(true);
-            }, 800); // 0.8秒延迟
-
-            return () => clearTimeout(timer); // 清理定时器
-        }
-    }, [run, autoStart]);
+    const [stepIndex, setStepIndex] = useState(0);
+    const [run, setRun] = useState(true);
 
     useEffect(() => {
-        setIsBrowser(true);
-        // 如果设置了自动启动，则在浏览器环境下自动运行引导
-        if (autoStart) {
-            setIsRunning(run);
+        const hideTour = localStorage.getItem('hideTour');
+        if (hideTour !== 'true') {
+            setRun(true);
+            setStepIndex(0);
+            setIsBrowser(true);
+            setIsRunning(true);
         }
-    }, [autoStart, run]);
+    }, []);
+
 
 
     const updateCustomSpotlight = (targetElement: HTMLElement | null) => {
@@ -52,7 +46,9 @@ const Guide = ({ steps, run = false, autoStart = true }: GuideProps) => {
     };
 
     const handleJoyrideCallback = (data: CallBackProps) => {
-        const { action, index, step, type } = data;
+        const {action, index, step, type, status} = data;
+
+        // 处理自定义 spotlight 更新
         if (type === EVENTS.STEP_AFTER || type === EVENTS.TARGET_NOT_FOUND) {
             let targetElement: HTMLElement | null = null;
 
@@ -65,6 +61,20 @@ const Guide = ({ steps, run = false, autoStart = true }: GuideProps) => {
             if (targetElement) {
                 updateCustomSpotlight(targetElement);
             }
+
+            // 👉 控制 stepIndex 手动推进
+            if (action === 'prev') {
+                setStepIndex(index - 1);
+            } else {
+                setStepIndex(index + 1);
+            }
+        }
+
+        // 处理 tour 结束
+        if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+            setRun(false);
+            setStepIndex(0);
+            localStorage.setItem('hideTour', 'true'); // 👈 加这个
         }
     };
 
@@ -77,8 +87,8 @@ const Guide = ({ steps, run = false, autoStart = true }: GuideProps) => {
             run={isRunning}
             continuous={true}
             showSkipButton={true}
+            stepIndex={stepIndex}
             showProgress={true}
-            debug={true}
             locale={{
                 back: '上一步',
                 close: '关闭',

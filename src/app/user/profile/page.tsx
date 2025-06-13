@@ -434,7 +434,7 @@ export default function UserProfilePage() {
                     <hr className='w-full border-t-4 border-gray-300 my-5 rounded-full' />
                   </div>
                   <div id="settings" className="flex flex-col justify-center m-6 mx-16 mb-16 space-y-8">
-                    <button  className="inline-flex items-center justify-between rounded-2xl bg-blue-500 p-3 px-4 text-white font-bold w-full" onClick={() => setActiveSection('关联账号')}>
+                    <button className="inline-flex items-center justify-between rounded-2xl bg-blue-500 p-3 px-4 text-white font-bold w-full" onClick={() => setActiveSection('关联账号')}>
                       <div className="flex items-center">
                         <FaGear className="mr-2" />
                         账号设置
@@ -607,11 +607,21 @@ export default function UserProfilePage() {
   }, [accounts]);
 
   return (
-    <div className='w-[900px] max-sm:w-[420px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center'>
+    <div className='w-[900px] max-sm:w-[420px] min-h-[400px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center'>
       {userdata.username == "请刷新" ?
         <>
-          <div onClick={LogOut} className="text-2xl text-white">
-            返回登陆界面
+          <div className="flex flex-col text-center text-xl text-white">
+            <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 py-2 px-4 rounded-xl shadow-lg mb-4">
+              <span className="text-3xl">🤯</span>
+              <h1 className="text-2xl font-bold text-white tracking-wide">5s内无跳转表明登录状态已过期</h1>
+            </div>
+            <button
+              onClick={LogOut}
+              className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-red-500 to-pink-600 p-2 px-5 text-white font-bold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 border-white/30"
+            >
+              <FaRightFromBracket className="mr-2" />
+              返回重新登录
+            </button>
           </div>
         </> :
         <>

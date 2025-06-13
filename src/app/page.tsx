@@ -1,7 +1,5 @@
 'use client'
 
-import { Chilanka } from "next/font/google";
-import Head from "next/head";
 import Link from "next/link"
 import { SetStateAction, useEffect, useState } from "react";
 import ChinaMap from "./components/ChinaMap";
@@ -9,7 +7,8 @@ import { FiChevronRight } from "react-icons/fi";
 import NewsCard from "./components/NewsCard";
 import SearchGameCenter from "./components/SearchGameCenter";
 import Guide from "./components/Guide";
-import type { Step } from 'react-joyride';
+import { Step } from "react-joyride";
+import TokenChecker from "./hooks/TokenChecker";
 
 interface NewsProps {
   title: string,
@@ -81,50 +80,50 @@ export default function Home() {
     }
   ])
   const [news3, setNews3] = useState<NewsProps[]>([])
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState<string>("")
   const textstroke = {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
   };
-  const [run, setRun] = useState(false);
 
   const steps: Step[] = [
-    // {
-    //   target: '#music',
-    //   content: '点击这里可以查看乐曲信息（包括成绩），铺面确认，乐曲播放等功能',
-    // },
-    // {
-    //   target: '#region',
-    //   content: '点击这里可以查看舞萌区域信息，区域伙伴，区域跑图等功能',
-    // },
-    // {
-    //   target: '#tool',
-    //   content: '点击这里可以查看舞萌工具，卷王工具，成绩工具等功能',
-    // },
-    // {
-    //   target: '#guide',
-    //   content: '点击这里可以查看舞萌教学，机厅教学等功能',
-    // },
-    // {
-    //   target: '#funDetail',
-    //   content: '这里可以查看我们已完成的功能和正在开发中的功能',
-    // },
-    // {
-    //   target: '#news',
-    //   content: '在这里可以查看最新的舞萌资讯',
-    // },
-    // {
-    //   target: '#searchGameCenter',
-    //   content: '在这里可以搜索机厅信息',
-    // },
+    {
+      target: '#music',
+      content: '点击这里可以查看乐曲信息（包括成绩），铺面确认，乐曲播放等功能',
+      disableBeacon: true
+    },
+    {
+      target: '#region',
+      content: '点击这里可以查看舞萌区域信息，区域伙伴，区域跑图等功能',
+    },
+    {
+      target: '#tool',
+      content: '点击这里可以查看舞萌工具，卷王工具，成绩工具等功能',
+    },
+    {
+      target: '#guide',
+      content: '点击这里可以查看舞萌教学，机厅教学等功能',
+    },
+    {
+      target: '#funDetail',
+      content: '这里可以查看我们已完成的功能和正在开发中的功能',
+    },
+    {
+      target: '#news',
+      content: '在这里可以查看最新的舞萌资讯',
+    },
+    {
+      target: '#searchGameCenter',
+      content: '在这里可以搜索机厅信息',
+    },
     {
       target: '#playmap',
       content: '在这里可以查看全国行脚图，点亮你的行脚地图！',
     },
-      {
-        target: '#user',
-        content: '点击这里可以登录或注册账号，进入用户页面（不要问为什么是牛奶）',
-        disableScrolling: false,
-      },
+    {
+      target: '#user',
+      content: '点击这里可以登录或注册账号，进入用户页面（不要问为什么是牛奶）',
+      disableScrolling: false,
+    },
     {
       target: '#musicPlayer',
       content: '全局舞萌音乐播放器',
@@ -142,7 +141,7 @@ export default function Home() {
     };
 
     try {
-      const response = await fetch(`https://dev.maimai.moe/api//maimai/maiweb/news?limit=${limit}&offset=${offset}`, requestOptions);
+      const response = await fetch(`https://dev.maimai.moe/api/maimai/maiweb/news?limit=${limit}&offset=${offset}`, requestOptions);
       const result = await response.text();
       const data = JSON.parse(result);
       return data;
@@ -165,13 +164,12 @@ export default function Home() {
     if (localStorage.getItem('token') == '0') {
       localStorage.removeItem('token');
     }
-    // 设置为浏览器环境，并启用引导
-    setRun(true);
   }, []);
 
 
+
   useEffect(() => {
-    const news = JSON.stringify(news3);
+    const news = JSON.stringify(news3)
     localStorage.setItem('mainews', news);
   }, [news3]);
 
@@ -181,11 +179,13 @@ export default function Home() {
         {/* Main Layer */}
         <div className="relative w-full max-sm:w-[420px]">
           {/* 使用抽离的 Guide 组件 */}
-          <Guide steps={steps} run={run} autoStart={true} />
-
+          <Guide steps={steps} autoStart={true} />
           {/* Control */}
-          <div className="max-sm:h-[40px] w-[200px] h-[100px]"></div>
 
+          <div className="max-sm:h-[40px] w-[200px] h-[100px]"></div>
+          <div className="mx-auto w-44 h-12 font-bold text-xl text-center">
+            {token == "" ? <div> 🔴无登陆状态</div> : <TokenChecker token={token} />}
+          </div>
           {/* Welcome to Home page */}
           <div id="funDetail" className=" flex flex-col justify-center items-center max-sm:w-[420px]">
             <div className="w-full max-w-[420px] sm:max-w-[900px] mx-auto px-4 sm:px-0 max-sm:text-2xl sm:text-4xl text-center font-bold text-white bg-clip-text text-transparent"
@@ -431,7 +431,7 @@ export default function Home() {
           <SearchGameCenter />
 
           {/* Map Play display */}
-          <div id="playmap" className="relative w-full max-sm:w-[410px] sm:w-[900px] h-[400px] sm:h-[500px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
+          <div id="playmap" className="relative w-full max-sm:w-[390px] sm:w-[900px] h-[400px] sm:h-[480px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
             <div className="absolute -top-5 flex justify-center items-center text-white font-bold text-xl sm:text-2xl" style={textstroke}>
               全国出勤行脚图
             </div>
@@ -457,8 +457,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-
 
         </div>
       </div>

@@ -25,7 +25,7 @@ export default function ToolPage() {
             <AnimatedComponent isVisible={true}>
                 <div className="max-sm:w-[420px] w-[800px] h-[600px] mx-auto p-2 space-y-2 flex flex-col justify-center items-center">
                     <h1 className="text-3xl max-sm:text-2xl max-sm:mb-2 font-bold text-white" style={textstroke}>欢迎来到Maimai.moe 工具页面</h1>
-                    <div className="flex space-x-5 text-white">
+                    <div className="flex max-sm:flex-col max-sm:space-y-5 sm:space-x-5 text-white">
                         <div className="border-b-4 border-b-red-500 rounded-full active:border-b-0 transition-all duration-300 ">
                             <Link href={'/tool/best'} className="w-44 h-16 bg-green-500 rounded-full border-4 border-white text-center text-xl font-bold flex justify-center items-center">Best50</Link>
                         </div>
