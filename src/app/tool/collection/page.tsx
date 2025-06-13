@@ -268,36 +268,77 @@ export default function CollectionPage() {
                     break;
             }
         }
-        return (
-            <>
-                {type != "trophy" ? <>
-                    <div key={item.id} className={`relative rounded-full p-3 shadow-sm hover:shadow-md transition-all duration-300 border border-purple-100 hover:border-purple-300 flex flex-col items-center`}>
+        switch (type) {
+            case 'frame':
+                return (
+                    <div
+                        key={item.id}
+                        className="relative rounded-lg shadow-sm h-28 aspect-[1080/452] bg-no-repeat bg-contain hover:shadow-md transition-all duration-300 overflow-hidden"
+                        style={{ backgroundImage: `url(https://static.maimai.moe/UI_Frame_${item.id}.png)` }}
+                    >
+                        {/* 毛玻璃 + 文字层 */}
+                        <div className="absolute inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
+                            <p className="text-center text-sm font-bold tracking-widest text-black">{item.name}</p>
+                        </div>
+                    </div>
+                );
 
+            case 'trophy':
+                return (
+                    <div
+                        key={item.id}
+                        className={`relative rounded-full max-sm:w-44 w-72 h-12 p-3 border-b-4 ${bottomColorClass} transition-all duration-300 flex flex-col items-center`}
+                    >
+                        <div className="absolute inset-0 overflow-hidden rounded-full">
+                            <div className={`w-full rounded-t-full h-1/2 ${upHalfColorClass} border-t-4 border-l-4 border-r-4 ${borderColorClass}`} />
+                            <div className={`w-full rounded-b-full h-1/2 ${downHalfColorClass} border-b-4 border-l-4 border-r-4 ${borderColorClass}`} />
+                        </div>
+                        <div
+                            className="max-w-40 text-white font-bold absolute z-[2]"
+                            style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}
+                        >
+                            <TextScroller text={item.name} speed={10} delay={2} />
+                        </div>
+                    </div>
+                );
+
+            case 'nameplate':
+                return (
+                    <div
+                        key={item.id}
+                        className="relative rounded-lg shadow-sm h-12 aspect-[724/120] bg-no-repeat bg-contain hover:shadow-md transition-all duration-300 overflow-hidden"
+                        style={{
+                            backgroundImage: `url(https://static.maimai.moe/UI_Plate_${item.id.toString().padStart(6, '0')}.png)`
+                        }}
+                    >
+                        {/* 毛玻璃 + 文字层 */}
+                        <div className="absolute inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
+                            <p className="text-center text-sm font-bold tracking-widest text-black">
+                                {item.name}
+                            </p>
+                        </div>
+                    </div>
+                );
+
+            default:
+                return (
+                    <div
+                        key={item.id}
+                        className="relative rounded-full p-3 shadow-sm hover:shadow-md transition-all duration-300 border border-purple-100 hover:border-purple-300 flex flex-col items-center"
+                    >
                         <div className="flex flex-col items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-2">
                             <img
                                 src={`${baseUrl}/${type}/${item.id}.png`}
                                 alt={item.name}
                                 className="object-contain size-15 mt-2"
                             />
-                            <p className=" text-center text-sm leading-tight w-96 ">
+                            <p className="text-center text-sm leading-tight w-96">
                                 {item.name}
                             </p>
                         </div>
                     </div>
-                </> : <>
-                    {/* 奖杯部分 */}
-                    <div key={item.id} className={`relative rounded-full max-sm:w-44 w-72 h-12 p-3 border-b-4 ${bottomColorClass} transition-all duration-300  flex flex-col items-center`}>
-                        <div className={`absolute inset-0 overflow-hidden rounded-full `}>
-                            <div className={`w-full rounded-t-full h-1/2 ${upHalfColorClass} border-t-4 border-l-4 border-r-4 ${borderColorClass}`}></div>
-                            <div className={`w-full rounded-b-full h-1/2 ${downHalfColorClass} border-b-4 border-l-4 border-r-4 ${borderColorClass}`}></div>
-                        </div>
-                        <div className='max-w-40 text-white font-bold absolute z-[2]' style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}>
-                            <TextScroller text={item.name} speed={10} delay={2} />
-                        </div>
-                    </div>
-                </>
-                }
-            </>)
+                );
+        }
     };
 
     return (
@@ -358,10 +399,10 @@ export default function CollectionPage() {
                                         <option key={color} value={color}>
                                             {
                                                 color === "Rainbow" ? "彩虹" :
-                                                        color === "Gold" ? "金色" :
-                                                            color === "Silver" ? "银色" :
-                                                                color === "Bronze" ? "铜色" :
-                                                                    color === "Normal" ? "普通" : color}
+                                                    color === "Gold" ? "金色" :
+                                                        color === "Silver" ? "银色" :
+                                                            color === "Bronze" ? "铜色" :
+                                                                color === "Normal" ? "普通" : color}
                                         </option>
                                     ))}
                                 </select>
@@ -473,7 +514,7 @@ export default function CollectionPage() {
                             </div>
                         ) : (
                             <>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 place-items-center gap-3 gap-x-1">
                                     {MaiBackGround.map((item) => renderItem(item, "frame"))}
                                 </div>
 
