@@ -100,10 +100,6 @@ export default function Home() {
       content: '点击这里可以查看舞萌工具，卷王工具，成绩工具等功能',
     },
     {
-      target: '#guide',
-      content: '点击这里可以查看舞萌教学，机厅教学等功能',
-    },
-    {
       target: '#funDetail',
       content: '这里可以查看我们已完成的功能和正在开发中的功能',
     },
@@ -126,7 +122,7 @@ export default function Home() {
     },
     {
       target: '#musicPlayer',
-      content: '全局舞萌音乐播放器',
+      content: '全局舞萌音乐播放器,点击乐曲封面可以最小化播放器',
       disableScrolling: false,
     }
   ];
@@ -173,6 +169,32 @@ export default function Home() {
     localStorage.setItem('mainews', news);
   }, [news3]);
 
+  const SvgStrokedText = ({ text, strokeColor = "#000", strokeWidth = 2, fill = "#fff", fontSize = 32 }: {
+    text: string;
+    strokeColor?: string;
+    strokeWidth?: number;
+    fill?: string;
+    fontSize?: number;
+  }) => (
+    <svg width="100%" height="auto">
+      <text
+        x="50%"
+        y="50%"
+        dominantBaseline="middle"
+        textAnchor="middle"
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        fill={fill}
+        fontSize={fontSize}
+        fontWeight="bold"
+        style={{ paintOrder: "stroke" }}
+      >
+        {text}
+      </text>
+    </svg>
+  );
+
+
   return (
     <>
       <div className="w-full overflow-hidden">
@@ -184,6 +206,13 @@ export default function Home() {
 
           <div className="max-sm:h-[40px] w-[200px] h-[100px]"></div>
           <div className="mx-auto w-44 h-12 font-bold text-xl text-center">
+            <SvgStrokedText
+              text="你好 Maimai"
+              strokeColor="#000"
+              strokeWidth={2}
+              fill="#fff"
+              fontSize={48}
+            />
             {token == "" ? <div> 🔴无登陆状态</div> : <TokenChecker token={token} />}
           </div>
           {/* Welcome to Home page */}

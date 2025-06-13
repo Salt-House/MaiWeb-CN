@@ -137,13 +137,13 @@ export default function RatingHistory() {
                         type: 'slider',
                         show: true,
                         xAxisIndex: 0,
-                        start: 80,
+                        start: 90,
                         end: 100
                     },
                     {
                         type: 'inside',
                         xAxisIndex: 0,
-                        start: 80,
+                        start: 90,
                         end: 100
                     }
                 ],
@@ -157,8 +157,8 @@ export default function RatingHistory() {
                 yAxis: {
                     type: 'value',
                     name: 'Rating',
-                    min:0,
-                    max:16431,
+                    min: 0,
+                    max: 16431,
                     nameLocation: 'middle',
                     nameGap: 30
                 },
@@ -176,10 +176,25 @@ export default function RatingHistory() {
                             color: '#FF5722'
                         },
                         markPoint: {
+                            symbol: 'pin', // 标记的图形类型，也可以是 'circle', 'rect', 'image://' 等
+                            symbolSize: 50, // 图形大小
                             data: [
-                                { type: 'max', name: '最高分' },
-                                { type: 'min', name: '最低分' }
-                            ]
+                                {
+                                    type: 'max',
+                                    name: '最高分',
+                                    itemStyle: {
+                                        color: '#f56c6c' // 标记颜色（红色）
+                                    },
+                                    label: {
+                                        show: true,
+                                        formatter: '最高分: {@[1]}', // 显示数值
+                                        color: '#fff',
+                                        fontWeight: 'bold',
+                                        backgroundColor: '#f56c6c',
+                                        padding: [2, 6],
+                                        borderRadius: 4,
+                                    }
+                                }]
                         }
                     }
                 ],

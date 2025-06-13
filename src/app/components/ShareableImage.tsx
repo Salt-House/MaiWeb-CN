@@ -92,11 +92,12 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
             break;
         case 4:
             levelColor = 'bg-purple-500';
-            nameColor = 'text-purple-500';
+            nameColor = 'text-white';
+            
             textstroke = {
                 textShadow: '-2px -2px 2px rgba(255, 255, 255, 1), 2px -2px 2px rgba(255, 255, 255, 1), -2px 2px 2px rgba(255, 255, 255, 1), 2px 2px 2px rgba(255, 255, 255, 1)'
             };
-            bg = "bg-white";
+            bg = "bg-[rgb(211,172,250)]";
             break;
     }
     switch (props.fc) {
