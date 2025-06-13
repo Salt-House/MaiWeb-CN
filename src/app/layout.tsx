@@ -113,28 +113,43 @@ export default function RootLayout({
             {children}
 
             {/* thanks */}
-            <div className="mt-10 max-sm:w-[420px] w-full flex flex-col justify-center items-center h-64 bg-[url('/img/bg_pc.png')]  bg-contain text-center">
+            <div className="mt-10 max-sm:w-[420px] flex flex-col justify-center items-center h-64 max-sm:bg-none bg-[url('/img/bg_pc.png')]  bg-contain text-center">
               <div className="w-28 h-12 text-2xl text-black font-bold">
                 鸣谢
               </div>
-              {/* First row */}
-              <div className="mb-5 flex flex-row space-x-5">
-                <a href="https://chinese-font.netlify.app/zh-cn/">
-                  <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/WebChineseFontsPlan.png')] bg-no-repeat bg-contain"></div>
-                </a>
-                <a href="https://turou.fun">
-                  <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/UsaginoNiku.png')] bg-no-repeat bg-contain bg-center"></div>
-                </a>
-                {/* <a href="https://maimai.turou.fun">
-                <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/MaimaiPy.png')] bg-no-repeat bg-contain bg-center"></div>
-              </a> */}
-              </div>
-              {/* Second row */}
-              <div className="flex flex-row space-x-5">
-                <a href="https://maimai.lxns.net">
-                  <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/lxns.png')] bg-no-repeat bg-contain bg-center"></div>
-                </a>
-                <div className="w-48 h-16 bg-white"></div>
+              <div className="w-full overflow-auto ">
+                {/* First row */}
+                <div className="mb-5 flex flex-row justify-center space-x-5">
+                  <a href="https://chinese-font.netlify.app/zh-cn/">
+                    <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/WebChineseFontsPlan.png')] bg-no-repeat bg-contain"></div>
+                  </a>
+                  <a href="https://turou.fun">
+                    <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/UsaginoNiku.png')] bg-no-repeat bg-contain bg-center"></div>
+                  </a>
+                  <a href="https://afdian.com/a/divingfish">
+                    <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/Divingfish.png')] bg-no-repeat bg-contain bg-center"></div>
+                  </a>
+
+                </div>
+                {/* Second row */}
+                <div className="flex flex-row justify-center space-x-5 ">
+                  <a href="https://maimai.lxns.net">
+                    <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/lxns.png')] bg-no-repeat bg-contain bg-center"></div>
+                  </a>
+                  <a href="https://github.com/120MF/MaiMap">
+                    <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/Maimap.png')] bg-no-repeat bg-contain bg-center"></div>
+                  </a>
+                  <a href="https://github.com/Salt-House/MaiWeb-CN" className="group">
+                    <div className="w-48 h-16 bg-gradient-to-r from-purple-500/90 to-pink-500/90 flex items-center justify-center rounded-lg shadow-md border-2 border-white/20 transition-transform group-hover:scale-105">
+                      <div className="flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" className="group-hover:animate-pulse">
+                          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg>
+                        <span className="text-white font-bold">请给我们点个⭐</span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
               </div>
               <div className="text-black my-2">
                 © 2024 Salt House. All rights reserved.

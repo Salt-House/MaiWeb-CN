@@ -130,13 +130,13 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
             >
               工具
             </Link>
-            <Link
-              href={"/guide"}
-              className="p-4 text-blue-500 font-bold hover:bg-blue-50"
-              onClick={() => setShowMobileMenu(false)}
-            >
-              教学
-            </Link>
+            {/*<Link*/}
+            {/*  href={"/guide"}*/}
+            {/*  className="p-4 text-blue-500 font-bold hover:bg-blue-50"*/}
+            {/*  onClick={() => setShowMobileMenu(false)}*/}
+            {/*>*/}
+            {/*  教学*/}
+            {/*</Link>*/}
           </div>
         </div>
       )}

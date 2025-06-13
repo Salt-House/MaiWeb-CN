@@ -9,7 +9,7 @@ import type { Step } from 'react-joyride';
 import Guide from '../components/Guide'
 
 
-const currentVersion = "24007"
+const currentVersion = "25000"
 
 export default function MusicPage() {
   //const songs = [sampleSong, sampleSong, sampleSong, sampleSong, sampleSong, sampleSong]

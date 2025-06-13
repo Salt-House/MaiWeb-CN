@@ -2,9 +2,10 @@
 
 import AnimatedComponent from "@/app/components/AnimatedComponent";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
+import { ShareableImageSub } from "@/app/components/ShareableImage";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
-import ShareableImage, { ShareableImageSub } from "@/app/components/ShareableImage";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 // 定义MusicGradeProps接口
 interface MusicGradeProps {
@@ -12,7 +13,7 @@ interface MusicGradeProps {
     song_name: string;
     level: string;
     level_index: number;
-    level_value:number;
+    level_value: number;
     achievements: number;
     fc: number | null;
     fs: number;
@@ -142,13 +143,45 @@ export default function BestPage() {
                 .then((result) => {
                     localStorage.setItem('best', result)
                     const data = JSON.parse(result);
-                    if (data.rating) {
-                        setBest35(data.scores_b35)
-                        setBest15(data.scores_b15)
-                        setRating15(Math.ceil(data.rating_b15))
-                        setRating35(Math.ceil(data.rating_b35))
-                        setIsLoading(false)
-                    }
+                    console.log(data)
+                    Array.isArray(data.b15_scores) && data.b15_scores.forEach((song: any, index: number) => {
+                        ArcaedGradeB15.push({
+                            id: Number(song.song_id),
+                            song_name: song.song_name,
+                            level: song.level,
+                            level_index: song.level_index,
+                            level_value: song.level_value,
+                            achievements: song.achievements,
+                            fc: song.fc,
+                            fs: song.fs,
+                            dx_score: song.dx_score,
+                            dx_rating: song.dx_rating,
+                            rate: song.rate,
+                            type: song.type
+                        })
+                    })
+                    Array.isArray(data.b35_scores) && data.b35_scores.forEach((song: any, index: number) => {
+                        ArcaedGradeB35.push({
+                            id: Number(song.song_id),
+                            song_name: song.song_name,
+                            level: song.level,
+                            level_index: song.level_index,
+                            level_value: song.level_value,
+                            achievements: song.achievements,
+                            fc: song.fc,
+                            fs: song.fs,
+                            dx_score: song.dx_score,
+                            dx_rating: song.dx_rating,
+                            rate: song.rate,
+                            type: song.type
+                        })
+                    })
+                    console.log(data)
+                    setBest35(ArcaedGradeB35)
+                    setBest15(ArcaedGradeB15)
+                    setRating15(Math.ceil(data.b15_rating))
+                    setRating35(Math.ceil(data.b35_rating))
+                    setIsLoading(false)
                 })
                 .catch((error) => {
                     console.error(error)
@@ -174,13 +207,45 @@ export default function BestPage() {
                 .then((result) => {
                     localStorage.setItem('best', result)
                     const data = JSON.parse(result);
-                    if (data.rating) {
-                        setBest35(data.scores_b35)
-                        setBest15(data.scores_b15)
-                        setRating15(Math.ceil(data.rating_b15))
-                        setRating35(Math.ceil(data.rating_b35))
-                        setIsLoading(false)
-                    }
+                    console.log(data)
+                    Array.isArray(data.b15_scores) && data.b15_scores.forEach((song: any, index: number) => {
+                        ArcaedGradeB15.push({
+                            id: Number(song.song_id),
+                            song_name: song.song_name,
+                            level: song.level,
+                            level_index: song.level_index,
+                            level_value: song.level_value,
+                            achievements: song.achievements,
+                            fc: song.fc,
+                            fs: song.fs,
+                            dx_score: song.dx_score,
+                            dx_rating: song.dx_rating,
+                            rate: song.rate,
+                            type: song.type
+                        })
+                    })
+                    Array.isArray(data.b35_scores) && data.b35_scores.forEach((song: any, index: number) => {
+                        ArcaedGradeB35.push({
+                            id: Number(song.song_id),
+                            song_name: song.song_name,
+                            level: song.level,
+                            level_index: song.level_index,
+                            level_value: song.level_value,
+                            achievements: song.achievements,
+                            fc: song.fc,
+                            fs: song.fs,
+                            dx_score: song.dx_score,
+                            dx_rating: song.dx_rating,
+                            rate: song.rate,
+                            type: song.type
+                        })
+                    })
+                    console.log(data)
+                    setBest35(ArcaedGradeB35)
+                    setBest15(ArcaedGradeB15)
+                    setRating15(Math.ceil(data.b15_rating))
+                    setRating35(Math.ceil(data.b35_rating))
+                    setIsLoading(false)
                 })
                 .catch((error) => {
                     console.error(error)
@@ -256,8 +321,8 @@ export default function BestPage() {
         <>
             <AnimatedComponent isVisible={true}>
 
-                <div className="relative max-sm:w-[420px] w-[900px] p-5 flex flex-col justify-center items-center mx-auto">
-                    <div className="mb-8 max-sm:w-[420px] w-full max-w-[900px] space-y-4">
+                <div className="relative max-sm:w-[400px] w-[900px] p-5 flex flex-col justify-center items-center mx-auto">
+                    <div className="mb-8 max-sm:w-[400px] w-full max-w-[900px] space-y-4">
                         {/* 标题区域 */}
                         <h1 className="text-3xl font-bold text-center bg-clip-text text-white" style={textstroke}>
                             Best 50 查询
@@ -321,32 +386,44 @@ export default function BestPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="relative max-sm:w-[420px] w-[1600px] flex flex-row justify-center flex-wrap">
-                        {isLoading ? <LoadingSpinner /> : <>
-                            {best35 && best35.length > 0 ? best35.map((song: any, index: number) => {
-                                return (
-                                    <ShareableImageSub key={song.id}
-                                        {...song}
-                                        index={index} />
-                                );
-                            }) : <div className="">暂无数据</div>}
-                        </>}
-                        <hr className='w-full mx-auto  border-t-4 border-gray-400 my-5' />
-                        <div className="w-[1600px] flex flex-row justify-center flex-wrap mx-auto">
-                            {isLoading ? <></> : <>
-                                {best15 && best15.map((song: any, index: number) => {
-                                    return (
-                                        <ShareableImageSub key={song.id}
-                                            {...song}
-                                            index={index} />
-                                    );
-                                })}
-                            </>}
-                        </div>
-                    </div>
-                    <ShareableImage />
-
+                    <TransformWrapper
+                        limitToBounds={false}
+                        minScale={0.1}
+                        maxScale={10}
+                    >
+                        {() => (
+                            <TransformComponent>
+                                <div className="relative max-sm:w-[420px] w-[1600px] max-sm:grid max-sm:grid-cols-5 max-sm:gap-x-[300px] flex flex-row justify-center sm:flex-wrap">
+                                    {isLoading ? <LoadingSpinner /> : <>
+                                        {best35 && best35.length > 0 ? best35.map((song: any, index: number) => {
+                                            return (
+                                                <ShareableImageSub key={song.id}
+                                                    {...song}
+                                                    index={index} />
+                                            );
+                                        }) : <div className="">暂无数据</div>}
+                                    </>}
+                                    <hr className='w-full mx-auto  border-t-4 border-gray-400 my-5' />
+                                </div>
+                                <div className="relative max-sm:w-[420px] w-[1600px] max-sm:grid max-sm:grid-cols-5 max-sm:gap-x-[300px] flex flex-row justify-center sm:flex-wrap">
+                                    {isLoading ? <></> : <>
+                                        {best15 && best15.map((song: any, index: number) => {
+                                            return (
+                                                <ShareableImageSub key={song.id}
+                                                    {...song}
+                                                    index={index} />
+                                            );
+                                        })}
+                                    </>}
+                                </div>
+                            </TransformComponent>
+                        )}
+                    </TransformWrapper>
                 </div>
+
+
+
+
 
             </AnimatedComponent>
         </>
