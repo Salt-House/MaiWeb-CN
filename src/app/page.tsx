@@ -169,30 +169,6 @@ export default function Home() {
     localStorage.setItem('mainews', news);
   }, [news3]);
 
-  const SvgStrokedText = ({ text, strokeColor = "#000", strokeWidth = 2, fill = "#fff", fontSize = 32 }: {
-    text: string;
-    strokeColor?: string;
-    strokeWidth?: number;
-    fill?: string;
-    fontSize?: number;
-  }) => (
-    <svg width="100%" height="auto">
-      <text
-        x="50%"
-        y="50%"
-        dominantBaseline="middle"
-        textAnchor="middle"
-        stroke={strokeColor}
-        strokeWidth={strokeWidth}
-        fill={fill}
-        fontSize={fontSize}
-        fontWeight="bold"
-        style={{ paintOrder: "stroke" }}
-      >
-        {text}
-      </text>
-    </svg>
-  );
 
 
   return (
@@ -201,18 +177,12 @@ export default function Home() {
         {/* Main Layer */}
         <div className="relative w-full max-sm:w-[420px]">
           {/* 使用抽离的 Guide 组件 */}
-          <Guide steps={steps} autoStart={true} />
+          <Guide steps={steps} autoStart={true} mark={"hometour"} />
           {/* Control */}
 
           <div className="max-sm:h-[40px] w-[200px] h-[100px]"></div>
           <div className="mx-auto w-44 h-12 font-bold text-xl text-center">
-            <SvgStrokedText
-              text="你好 Maimai"
-              strokeColor="#000"
-              strokeWidth={2}
-              fill="#fff"
-              fontSize={48}
-            />
+            
             {token == "" ? <div> 🔴无登陆状态</div> : <TokenChecker token={token} />}
           </div>
           {/* Welcome to Home page */}

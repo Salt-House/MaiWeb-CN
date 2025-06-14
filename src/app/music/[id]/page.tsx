@@ -119,7 +119,7 @@ export default function SongDetail() {
   return (
     <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
 
-      <div className="max-sm:w-[420px] w-[900px] flex justify-start mb-2">
+      <div className="max-sm:w-[390px] w-[900px] flex justify-start mb-2">
 
         <Link href='/music' className="inline-flex items-center text-white hover:scale-105 transition-colors m-3">
           <FaArrowLeft className="mr-2 size-5" />
@@ -127,7 +127,7 @@ export default function SongDetail() {
         </Link>
       </div>
       <div className="border-4 border-white bg-white rounded-2xl">
-        <div className="max-sm:w-[420px] w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-[rgb(155,244,236)]">
+        <div className="max-sm:w-[390px] w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-[rgb(155,244,236)]">
           <SongInfo song={song} />
 
           {/* 音乐播放器 */}

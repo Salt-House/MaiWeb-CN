@@ -48,6 +48,30 @@ const SearchGameCenter = () => {
     const [resultError, setResultError] = useState("");
 
     // 初始化获取位置信息
+    const getLocation = () => {
+        if (!navigator.geolocation) {
+            console.error("浏览器不支持地理定位");
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setSearchGameCenter((prev) => ({
+                    ...prev,
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                }));
+            },
+            (error) => {
+                console.error("定位失败", error);
+            },
+            {
+                enableHighAccuracy: true, // 启用高精度
+                timeout: 10000,           // 10秒超时
+                maximumAge: 0,            // 不使用缓存位置
+            }
+        );
+    };
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -211,6 +235,17 @@ const SearchGameCenter = () => {
                                 onChange={(e) => setSearchGameCenter(prev => ({ ...prev, name: e.target.value }))}
                             />
                         </div>
+
+                        <button
+                            onClick={getLocation}
+                            className="flex items-center justify-center h-11 w-11 rounded-full bg-gradient-to-r from-[rgb(245,242,193)] to-[rgb(164,247,238)] border-2 border-[rgb(113,241,229)] hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+                            title="获取我的位置"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[rgb(80,60,150)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
 
@@ -252,7 +287,7 @@ const SearchGameCenter = () => {
                 ) : (
                     <div className="flex items-center gap-1 text-sm text-gray-500 mb-2">
                         <FcClock />
-                        <span>未您的位置信息</span>
+                        <span>未获取到您的位置信息</span>
                     </div>
                 )}
 
