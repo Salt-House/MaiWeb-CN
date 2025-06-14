@@ -20,6 +20,7 @@ export default function ToolPage() {
 
     }, [token])
 
+
     return (
         <>
             <AnimatedComponent isVisible={true}>

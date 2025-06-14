@@ -10,6 +10,7 @@ import { FaGear, FaRightFromBracket, FaArrowRight } from "react-icons/fa6";
 import { IoMdPeople } from "react-icons/io";
 import { BindAccount, FunctionStatus, ThirdAccount, UserHistorySub, UserProfile } from "../model";
 import RatingHistory from "@/app/components/RatingHistory";
+import SvgStrokedText from "@/app/components/SvgStrokedText";
 
 
 
@@ -316,7 +317,7 @@ export default function UserProfilePage() {
                   </div>
 
 
-                  <div className='max-sm:w-[380px] max-sm:p-0 w-full p-4 flex flex-row items-center bg-no-repeat bg-contain bg-center rounded-xl border-2 border-[#e0e0e0] shadow-md' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
+                  <div className='max-sm:w-[380px] max-sm:p-0 w-full p-4 flex flex-row items-center bg-no-repeat sm:bg-contain max-sm:bg-cover bg-center rounded-xl border-2 border-[#e0e0e0] shadow-md' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
                     {/* 左侧头像 */}
                     <div className='flex justify-center items-center mr-4' >
                       {token == null || userdata.mai_icon_id == null ?
@@ -332,10 +333,18 @@ export default function UserProfilePage() {
                       {/* Rating值 */}
                       <div className='flex items-center'>
                         <span className="relative bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-clip">
-                          <span className="text-sm font-semibold text-gray-700 mr-2">Rating:</span>
-                          <span className="font-bold text-purple-700">{userdata.mai_rating}</span>
+                          <SvgStrokedText
+                            text={`Rating: ${userdata.mai_rating}`}
+                            strokeColor="#9334e9"
+                            strokeWidth={5}
+                            fill="#fff"
+                            fontSize={65}
+                            width="120"
+                            height="25"
+                          />
                           <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent z-0"></div>
                         </span>
+                       
                       </div>
 
                       {/* 姓名框 */}

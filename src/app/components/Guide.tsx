@@ -13,16 +13,17 @@ interface GuideProps {
     steps: Step[];
     run?: boolean;
     autoStart?: boolean;
+    mark:string;
 }
 
-const Guide = ({steps, autoStart = true}: GuideProps) => {
+const Guide = ({steps, autoStart = true,mark}: GuideProps) => {
     const [isRunning, setIsRunning] = useState(false);
     const [isBrowser, setIsBrowser] = useState(false);
     const [stepIndex, setStepIndex] = useState(0);
     const [run, setRun] = useState(true);
 
     useEffect(() => {
-        const hideTour = localStorage.getItem('hideTour');
+        const hideTour = localStorage.getItem(mark);
         if (hideTour !== 'true') {
             setRun(true);
             setStepIndex(0);
@@ -74,7 +75,7 @@ const Guide = ({steps, autoStart = true}: GuideProps) => {
         if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
             setRun(false);
             setStepIndex(0);
-            localStorage.setItem('hideTour', 'true'); // 👈 加这个
+            localStorage.setItem(mark, 'true'); // 👈 加这个
         }
     };
 

@@ -26,6 +26,7 @@ export default function MusicPage() {
     {
       target: '#filter-select',
       content: '选择乐曲分类',
+      disableBeacon: true
     },
     {
       target: '#clickDetail',
@@ -113,9 +114,10 @@ export default function MusicPage() {
 
     `}</style>
       {/*Top Search Options Bar*/}
-      <Guide steps={steps} run={run} autoStart={true} />
 
       <div id='filter-select' className="relative flex flex-col justify-center items-center mt-10 mb-16 text-black ">
+        <Guide steps={steps} autoStart={true} mark={"musictour"} />
+
         <div className="border-4 border-white bg-white rounded-2xl">
           <div
             className="max-sm:w-[400px] w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">

@@ -1,6 +1,7 @@
 'use client'
 
 import LoadingSpinner from '@/app/components/LoadingSpinner'
+import SvgStrokedText from '@/app/components/SvgStrokedText'
 import TextScroller from '@/app/components/TextScroller'
 import { useEffect, useState } from 'react'
 
@@ -278,7 +279,15 @@ export default function CollectionPage() {
                     >
                         {/* 毛玻璃 + 文字层 */}
                         <div className="absolute inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
-                            <p className="text-center text-sm font-bold tracking-widest text-black">{item.name}</p>
+                            <SvgStrokedText
+                                text={item.name}
+                                strokeColor="#9334e9"
+                                strokeWidth={3}
+                                fill="#fff"
+                                fontSize={18}
+                                width="200"
+                                height="100"
+                            />
                         </div>
                     </div>
                 );
@@ -313,9 +322,15 @@ export default function CollectionPage() {
                     >
                         {/* 毛玻璃 + 文字层 */}
                         <div className="absolute inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
-                            <p className="text-center text-sm font-bold tracking-widest text-black">
-                                {item.name}
-                            </p>
+                            <SvgStrokedText
+                                text={item.name}
+                                strokeColor="#9334e9"
+                                strokeWidth={3}
+                                fill="#fff"
+                                fontSize={18}
+                                width="200"
+                                height="100"
+                            />
                         </div>
                     </div>
                 );
