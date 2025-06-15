@@ -112,12 +112,12 @@ export default function RootLayout({
 
             {children}
 
-            {/* thanks */}
-            <div className="mt-10 max-sm:w-[420px] flex flex-col justify-center items-center h-64 max-sm:bg-none bg-[url('/img/bg_pc.png')]  bg-contain text-center">
-              <div className="w-28 h-12 text-2xl text-black font-bold">
-                鸣谢
-              </div>
-              <div className="w-full overflow-auto ">
+            <div className=" overflow-x-auto ">
+              {/* thanks */}
+              <div className="mt-10 max-sm:min-w-[600px] flex flex-col justify-center items-center h-64 max-sm:bg-none bg-[url('/img/bg_pc.png')]  bg-contain text-center">
+                <div className="w-28 h-12 text-2xl text-black font-bold">
+                  鸣谢
+                </div>
                 {/* First row */}
                 <div className="mb-5 flex flex-row justify-center space-x-5">
                   <a href="https://chinese-font.netlify.app/zh-cn/">
@@ -134,7 +134,7 @@ export default function RootLayout({
                 {/* Second row */}
                 <div className="flex flex-row justify-center space-x-5 ">
                   <a href="https://maimai.lxns.net">
-                    <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/lxns.png')] bg-no-repeat bg-contain bg-center"></div>
+                    <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/Lxns.png')] bg-no-repeat bg-contain bg-center"></div>
                   </a>
                   <a href="https://github.com/120MF/MaiMap">
                     <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/Maimap.png')] bg-no-repeat bg-contain bg-center"></div>
@@ -150,11 +150,12 @@ export default function RootLayout({
                     </div>
                   </a>
                 </div>
-              </div>
-              <div className="text-black my-2">
-                © 2024 Salt House. All rights reserved.
+                <div className="text-black my-2">
+                  © 2024 Salt House. All rights reserved.
+                </div>
               </div>
             </div>
+
             <Link href={"/"} className="top-4 left-4 size-40 max-sm:hidden">
               <div className="fixed top-4 left-4 size-40 bg-[url('/img/moon.png')] bg-contain bg-center flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
                 <img src="/img/logo.png" className="scale-125" alt="" />

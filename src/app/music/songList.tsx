@@ -44,9 +44,11 @@ export default function SongList({ songs }: SongListProps) {
       {songs.map((song, index) => (
         <>
           <div id='clickDetail' className='relative'>
-            <Link
-              href={`/music/${song.id}`}
+            <a
+              href={`https://dev.maimai.moe/music/${song.id}`}
               key={song.id}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => localStorage.setItem(`song_${song.id}`, JSON.stringify(song))}
             >
               <div className="flex h-44 max-sm:h-32 max-sm:mx-auto bg-white px-4 max-sm:px-2 max-sm:mb-16 py-2 space-x-8 max-sm:space-x-2 cursor-pointer duration-300">
@@ -153,12 +155,12 @@ export default function SongList({ songs }: SongListProps) {
                   }
                 </div>
               </div>
-            </Link>
+            </a>
             <button
-            id='addMusicPlay'
+              id='addMusicPlay'
               onClick={() => handleAddToPlaylist(song)}
 
-className={`absolute left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full  text-white hover:bg-[rgb(135,70,193)] transition-colors ${addedSongs[song.id] ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
+              className={`absolute left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full  text-white hover:bg-[rgb(135,70,193)] transition-colors ${addedSongs[song.id] ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
 
               title="添加到播放列表"
             >

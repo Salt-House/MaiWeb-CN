@@ -143,10 +143,9 @@ export default function BestPage() {
                 .then((result) => {
                     localStorage.setItem('best', result)
                     const data = JSON.parse(result);
-                    console.log(data)
-                    Array.isArray(data.b15_scores) && data.b15_scores.forEach((song: any, index: number) => {
+                    Array.isArray(data.scores_b15) && data.scores_b15.forEach((song: any, index: number) => {
                         ArcaedGradeB15.push({
-                            id: Number(song.song_id),
+                            id: Number(song.id),
                             song_name: song.song_name,
                             level: song.level,
                             level_index: song.level_index,
@@ -160,9 +159,9 @@ export default function BestPage() {
                             type: song.type
                         })
                     })
-                    Array.isArray(data.b35_scores) && data.b35_scores.forEach((song: any, index: number) => {
+                    Array.isArray(data.scores_b35) && data.scores_b35.forEach((song: any, index: number) => {
                         ArcaedGradeB35.push({
-                            id: Number(song.song_id),
+                            id: Number(song.id),
                             song_name: song.song_name,
                             level: song.level,
                             level_index: song.level_index,
@@ -179,8 +178,8 @@ export default function BestPage() {
                     console.log(data)
                     setBest35(ArcaedGradeB35)
                     setBest15(ArcaedGradeB15)
-                    setRating15(Math.ceil(data.b15_rating))
-                    setRating35(Math.ceil(data.b35_rating))
+                    setRating15(Math.ceil(data.rating_b15))
+                    setRating35(Math.ceil(data.rating_b35))
                     setIsLoading(false)
                 })
                 .catch((error) => {
@@ -207,10 +206,9 @@ export default function BestPage() {
                 .then((result) => {
                     localStorage.setItem('best', result)
                     const data = JSON.parse(result);
-                    console.log(data)
-                    Array.isArray(data.b15_scores) && data.b15_scores.forEach((song: any, index: number) => {
+                    Array.isArray(data.scores_b15) && data.scores_b15.forEach((song: any, index: number) => {
                         ArcaedGradeB15.push({
-                            id: Number(song.song_id),
+                            id: Number(song.id),
                             song_name: song.song_name,
                             level: song.level,
                             level_index: song.level_index,
@@ -224,14 +222,14 @@ export default function BestPage() {
                             type: song.type
                         })
                     })
-                    Array.isArray(data.b35_scores) && data.b35_scores.forEach((song: any, index: number) => {
+                    Array.isArray(data.scores_b35) && data.scores_b35.forEach((song: any, index: number) => {
                         ArcaedGradeB35.push({
-                            id: Number(song.song_id),
+                            id: Number(song.id),
                             song_name: song.song_name,
                             level: song.level,
                             level_index: song.level_index,
                             level_value: song.level_value,
-                            achievements: song.achievements,
+                            achievements:(song.achievements).split('.')[1],
                             fc: song.fc,
                             fs: song.fs,
                             dx_score: song.dx_score,
@@ -243,8 +241,8 @@ export default function BestPage() {
                     console.log(data)
                     setBest35(ArcaedGradeB35)
                     setBest15(ArcaedGradeB15)
-                    setRating15(Math.ceil(data.b15_rating))
-                    setRating35(Math.ceil(data.b35_rating))
+                    setRating15(Math.ceil(data.rating_b15))
+                    setRating35(Math.ceil(data.rating_b35))
                     setIsLoading(false)
                 })
                 .catch((error) => {
