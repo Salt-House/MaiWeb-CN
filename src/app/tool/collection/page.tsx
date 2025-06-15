@@ -274,11 +274,11 @@ export default function CollectionPage() {
                 return (
                     <div
                         key={item.id}
-                        className="relative rounded-lg shadow-sm h-28 aspect-[1080/452] bg-no-repeat bg-contain hover:shadow-md transition-all duration-300 overflow-hidden"
+                        className="relative rounded-lg shadow-sm max-sm:h-16 h-28 aspect-[1080/452] bg-no-repeat bg-contain hover:shadow-md transition-all duration-300 overflow-hidden"
                         style={{ backgroundImage: `url(https://static.maimai.moe/UI_Frame_${item.id}.png)` }}
                     >
                         {/* 毛玻璃 + 文字层 */}
-                        <div className="absolute inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
+                        <div className="absolute max-sm:hidden inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
                             <SvgStrokedText
                                 text={item.name}
                                 strokeColor="#9334e9"
@@ -287,6 +287,17 @@ export default function CollectionPage() {
                                 fontSize={18}
                                 width="200"
                                 height="100"
+                            />
+                        </div>
+                        <div className="absolute sm:hidden inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
+                            <SvgStrokedText
+                                text={item.name}
+                                strokeColor="#9334e9"
+                                strokeWidth={3}
+                                fill="#fff"
+                                fontSize={18}
+                                width="120"
+                                height="60"
                             />
                         </div>
                     </div>
@@ -559,7 +570,7 @@ export default function CollectionPage() {
                             </div>
                         ) : (
                             <>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                                <div className="grid max-sm:grid-cols-1 sm:grid-cols-3 md:grid-cols-4 place-items-center gap-3">
                                     {namePlates.map((item) => renderItem(item, "nameplate"))}
                                 </div>
 
