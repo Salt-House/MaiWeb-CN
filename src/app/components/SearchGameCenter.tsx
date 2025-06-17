@@ -40,7 +40,7 @@ const SearchGameCenter = () => {
         range: 3000,
         sort: 'distance',
         page_index: 1,
-        page_size: 10,
+        page_size: 50,
     });
     const [arcadeResults, setArcadeResults] = useState<Arcade[]>([]);
     const [isLoading, setIsLoading] = useState(false);
