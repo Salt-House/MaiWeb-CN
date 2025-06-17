@@ -137,8 +137,8 @@ export default function BestPage() {
                 method: "GET",
                 headers: myHeaders,
             };
-
-            fetch(`https://dev.maimai.moe/api/maimai/divingfish/bests?username=${nickname}`, requestOptions)
+            const firstWord = nickname.split(" ")[0];
+            fetch(`https://dev.maimai.moe/api/maimai/divingfish/bests?username=${firstWord}`, requestOptions)
                 .then((response) => response.text())
                 .then((result) => {
                     localStorage.setItem('best', result)
@@ -229,7 +229,7 @@ export default function BestPage() {
                             level: song.level,
                             level_index: song.level_index,
                             level_value: song.level_value,
-                            achievements:(song.achievements).split('.')[1],
+                            achievements: (song.achievements).split('.')[1],
                             fc: song.fc,
                             fs: song.fs,
                             dx_score: song.dx_score,
