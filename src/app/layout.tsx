@@ -9,6 +9,7 @@ import { PlayerProvider } from "./context/PlayerContext";
 import GlobalPlayer from "./components/GlobalPlayer";
 import MobileNavigation from "./components/mobilenavigation";
 import Notice from "./components/Notice";
+import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -67,6 +68,7 @@ export default function RootLayout({
   const textDonate = {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
   };
+
 
   return (
     <html lang="en">
@@ -166,7 +168,7 @@ export default function RootLayout({
             <GlobalPlayer />
           </ClientLayout>
         </PlayerProvider>
-        <Notice message={"你好"} isVisible={false} />
+        <Notice type="warning" />
       </body>
     </html >
   );
