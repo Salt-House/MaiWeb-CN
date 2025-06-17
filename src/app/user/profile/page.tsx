@@ -603,7 +603,7 @@ export default function UserProfilePage() {
         accounts[i].from = "lxns"
         bindaccount.islxns = true
       } else {
-        if (accounts[i].identifier.length > 10) {
+        if (accounts[i].identifier.length > 40) {
           accounts[i].from = "arcaed";
           bindaccount.isarcaed = true;
         } else {
