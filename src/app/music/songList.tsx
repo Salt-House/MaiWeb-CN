@@ -92,15 +92,18 @@ export default function SongList({ songs }: SongListProps) {
                           <span className="w-16 max-sm:w-12 max-sm:text-xs text-sm text-white bg-blue-500 rounded-full py-1 mr-2 max-sm:mr-1">标准</span>
                           <div className="flex space-x-2 max-sm:space-x-1">
                             {song.difficulties.standard.map((diff, idx) => (
-                              <div
-                                key={idx}
-                                className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
-                                style={{
-                                  backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
-                                }}
-                              >
-                                {diff.level}
-                              </div>
+                              <>
+                                <div
+                                  key={idx}
+                                  className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                                  style={{
+                                    backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
+                                  }}
+                                >
+                                  {diff.level}
+                                </div>
+                                <h1>{diff.level_value}</h1>
+                              </>
                             ))}
                           </div>
                         </div>
@@ -112,15 +115,19 @@ export default function SongList({ songs }: SongListProps) {
                           <span className="w-16 max-sm:w-12 max-sm:text-xs text-sm text-white bg-orange-500 rounded-full py-1 mr-2 max-sm:mr-1">DX</span>
                           <div className="flex space-x-2 max-sm:space-x-1">
                             {song.difficulties.dx.map((diff, idx) => (
-                              <div
-                                key={idx}
-                                className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
-                                style={{
-                                  backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
-                                }}
-                              >
-                                {diff.level}
-                              </div>
+                              <>
+                                <div key={idx} className='flex flex-col'>
+                                  <div
+                                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                                    style={{
+                                      backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
+                                    }}
+                                  >
+                                    {diff.level}
+                                  </div>
+                                  <h1>{diff.level_value}</h1>
+                                </div>
+                              </>
                             ))}
                           </div>
                         </div>

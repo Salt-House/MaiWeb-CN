@@ -79,7 +79,7 @@ export default function CollectionPage() {
     const pageSize = 30;
 
     // 颜色选项
-    const colorOptions = ["", "Gold", "Silver", "bronze", "purple", "blue", "green", "red", "yellow"];
+    const colorOptions = ["", "Gold", "Silver"];
     const genreOptions = ["デフォルト", "オリジナルちほー", "maimaiシリーズ", "イベントちほー", "実績"];
 
 
@@ -427,7 +427,7 @@ export default function CollectionPage() {
                                                 color === "Rainbow" ? "彩虹" :
                                                     color === "Gold" ? "金色" :
                                                         color === "Silver" ? "银色" :
-                                                            color === "Bronze" ? "铜色" :
+                                                            color === "bronze" ? "铜色" :
                                                                 color === "Normal" ? "普通" : color}
                                         </option>
                                     ))}
