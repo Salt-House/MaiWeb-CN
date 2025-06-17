@@ -128,12 +128,8 @@ export default function Home() {
   ];
 
   const getNews = async (limit: number, offset: number): Promise<NewsProps[]> => {
-    const myHeaders = new Headers();
-    myHeaders.append("Accept", "application/json");
-
     const requestOptions = {
       method: "GET",
-      headers: myHeaders,
     };
 
     try {
