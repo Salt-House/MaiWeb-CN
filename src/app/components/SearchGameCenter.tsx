@@ -139,21 +139,15 @@ const SearchGameCenter = () => {
         const name = encodeURIComponent(target.arcade_name); // 编码避免中文或特殊字符问题
         let url = '';
 
-        if (/iphone|ipad|macintosh/.test(ua)) {
-            // iOS / macOS：使用 Apple Maps
-            url = `http://maps.apple.com/?daddr=${target.arcade_lat},${target.arcade_lng}&q=${target.arcade_name}`;
-        } else if (/android/.test(ua)) {
-            // Android：尝试打开高德地图 App
-            url = `androidamap://navi?sourceApplication=yourapp&lat=${target.arcade_lat}&lon=${target.arcade_lng}&dev=0&style=2&poiname=${name}`;
 
-            // 回退策略：5秒后跳转到高德地图网页版
-            setTimeout(() => {
-                window.location.href = `https://uri.amap.com/navigation?to=${target.arcade_lng},${target.arcade_lat},${name}&mode=car&policy=1`;
-            }, 500);
-        } else {
-            // 桌面或未知系统：使用 Google Maps 网页导航
-            url = `https://www.google.com/maps/dir/?api=1&destination=${target.arcade_lat},${target.arcade_lng}&destination_place_id=${name}`;
-        }
+        // Android：尝试打开高德地图 App
+        url = `androidamap://navi?sourceApplication=yourapp&lat=${target.arcade_lat}&lon=${target.arcade_lng}&dev=0&style=2&poiname=${name}`;
+
+        // 回退策略：5秒后跳转到高德地图网页版
+        setTimeout(() => {
+            window.location.href = `https://uri.amap.com/navigation?to=${target.arcade_lng},${target.arcade_lat},${name}&mode=car&policy=1`;
+        }, 500);
+
 
         window.location.href = url;
     };

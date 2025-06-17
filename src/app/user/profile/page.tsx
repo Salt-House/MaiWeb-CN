@@ -260,7 +260,7 @@ export default function UserProfilePage() {
                   <h1 className="text-2xl font-bold">绑定水鱼账号</h1>
                   <input type="username" name="divingfishusername" id="" placeholder="水鱼账号" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishusername} onChange={(e) => setDivingFishUsername(e.target.value)} />
                   <input type="password" name="divingfishpassword" id="" placeholder="水鱼密码" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishpassword} onChange={(e) => setDivingFishPassword(e.target.value)} />
-                  <a href="" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往水鱼注册账号</a>
+                  <a href="https://www.diving-fish.com/maimaidx/prober/" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往水鱼注册账号</a>
                   <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindDivifish}>绑定</button>
                   <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
                 </>}
