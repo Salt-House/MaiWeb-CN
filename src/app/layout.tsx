@@ -8,6 +8,7 @@ import ClientLayout from "./components/ClientLayout";
 import { PlayerProvider } from "./context/PlayerContext";
 import GlobalPlayer from "./components/GlobalPlayer";
 import MobileNavigation from "./components/mobilenavigation";
+import Notice from "./components/Notice";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -165,6 +166,7 @@ export default function RootLayout({
             <GlobalPlayer />
           </ClientLayout>
         </PlayerProvider>
+        <Notice message={"你好"} isVisible={false} />
       </body>
     </html >
   );
