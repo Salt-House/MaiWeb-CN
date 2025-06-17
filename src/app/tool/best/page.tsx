@@ -98,7 +98,7 @@ export default function BestPage() {
                         if (!isNaN(Number(account.identifier))) {
                             from = "lxns";
                         } else {
-                            if (account.identifier.length > 10) {
+                            if (account.identifier.length > 40) {
                                 from = "maiweb";
                             } else {
                                 from = "divingfish";
