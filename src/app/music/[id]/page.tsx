@@ -117,17 +117,17 @@ export default function SongDetail() {
   }
 
   return (
-    <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
+    <div className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-16">
 
-      <div className="max-sm:w-[390px] w-[900px] flex justify-start mb-2">
+      <div className="max-sm:w-[90%] w-[900px] flex justify-start mb-2">
 
         <Link href='/music' className="inline-flex items-center text-white hover:scale-105 transition-colors m-3">
           <FaArrowLeft className="mr-2 size-5" />
           <span className="text-xl font-bold" style={textShadow}>返回音乐列表</span>
         </Link>
       </div>
-      <div className="border-4 border-white bg-white rounded-2xl">
-        <div className="max-sm:w-[390px] w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-[rgb(155,244,236)]">
+      <div className="border-4 max-sm:w-[90%] border-white bg-white rounded-2xl">
+        <div className="max-sm:w-full w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-[rgb(155,244,236)]">
           <SongInfo song={song} />
 
           {/* 音乐播放器 */}
@@ -137,17 +137,17 @@ export default function SongDetail() {
 
           {/* 乐曲成绩 */}
           <div className="flex flex-row space-x-6 justify-center items-center">
-            <div className="w-2/5 max-sm:w-2/6 h-1 rounded-full bg-gray-300" />
-            <div className="text-gray-700 font-bold text-xl">乐曲成绩</div>
-            <div className="w-2/5 max-sm:w-2/6 h-1 rounded-full bg-gray-300" />
+            <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
+            <div className="text-gray-700 max-sm:w-[40%] font-bold text-xl">乐曲成绩</div>
+            <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
           </div>
           <ScoreDetail song={song} scores={scores} />
 
           {/* 谱面详情 */}
           <div className="flex flex-row space-x-6 justify-center items-center">
-            <div className="w-2/5 max-sm:w-2/6 h-1 rounded-full bg-gray-300" />
-            <div className="text-gray-700 font-bold text-xl">谱面详情</div>
-            <div className="w-2/5 max-sm:w-2/6 h-1 rounded-full bg-gray-300" />
+            <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
+            <div className="text-gray-700 max-sm:w-[40%] font-bold text-xl">谱面详情</div>
+            <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
           </div>
           <NoteDetail song={song} />
         </div>
@@ -175,17 +175,17 @@ function SongInfo({ song }: { song: Song }) {
         </div>
 
         {/* 右侧信息 */}
-        <div className="flex-1 flex-col flex-shrink-0">
+        <div className="flex-1 max-sm:w-[90%] flex-col sm:flex-shrink-0">
           <h1 className="text-3xl font-bold mb-4 ml-1 text-left text-black">{song.title}</h1>
-          <div className="flex-1 space-y-3 text-left">
+          <div className="sm:flex-1 space-y-3 text-left">
             <h2
-              className="inline-flex px-5 py-1 mb-1.5 truncate rounded-full text-white border-2"
+              className="text-center max-sm:w-[90%] px-5 py-1 mb-1.5 truncate rounded-full text-white border-2"
               style={{
                 backgroundColor: getGenreColor(song.genre).bg,
                 borderColor: getGenreColor(song.genre).border
               }}
             >
-              {transferText(song.genre)} | {song.genre}
+              {transferText(song.genre)}
               {/* {song.genre} */}
             </h2>
             <div className="space-y-2.5 text-left">

@@ -40,10 +40,10 @@ export default function SongList({ songs }: SongListProps) {
   }
 
   return (
-    <div className="flex-col w-full max-sm:mt-5 justify-center items-center p-4 space-y-1 ">
+    <div className="flex-col w-full max-sm:mt-5 max-sm:px-2 justify-center items-center p-4 ">
       {songs.map((song, index) => (
         <>
-          <div id='clickDetail' className='relative'>
+          <div id='clickDetail' className='relative mb-10 border-b-4'>
             <a
               href={`https://dev.maimai.moe/music/${song.id}`}
               key={song.id}
@@ -51,9 +51,9 @@ export default function SongList({ songs }: SongListProps) {
               rel="noopener noreferrer"
               onClick={() => localStorage.setItem(`song_${song.id}`, JSON.stringify(song))}
             >
-              <div className="flex h-44 max-sm:h-32 max-sm:mx-auto bg-white px-4 max-sm:px-2 max-sm:mb-16 py-2 space-x-8 max-sm:space-x-2 cursor-pointer duration-300">
+              <div className="flex h-44 max-sm:h-28 max-sm:mx-auto bg-white px-4 max-sm:px-0 max-sm:mb-16 py-2 space-x-8 max-sm:space-x-2 cursor-pointer duration-300">
                 {/* 左侧曲绘封面 */}
-                <div className="max-sm:size-28 w-36 h-36 flex-shrink-0">
+                <div className="max-sm:size-24 w-36 h-36 flex-shrink-0">
                   <img
                     src={`https://assets2.lxns.net/maimai/jacket/${song.id}.png`}
                     alt={song.title}
@@ -93,16 +93,18 @@ export default function SongList({ songs }: SongListProps) {
                           <div className="flex space-x-2 max-sm:space-x-1">
                             {song.difficulties.standard.map((diff, idx) => (
                               <>
-                                <div
-                                  key={idx}
-                                  className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
-                                  style={{
-                                    backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
-                                  }}
-                                >
-                                  {diff.level}
+                                <div key={idx} className='flex flex-col'>
+                                  <div
+                                    key={idx}
+                                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                                    style={{
+                                      backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
+                                    }}
+                                  >
+                                    {diff.level}
+                                  </div>
+                                  <h1>{diff.level_value}</h1>
                                 </div>
-                                <h1>{diff.level_value}</h1>
                               </>
                             ))}
                           </div>
@@ -113,7 +115,7 @@ export default function SongList({ songs }: SongListProps) {
                       {song.difficulties.dx.length > 0 && (
                         <div className="flex items-center">
                           <span className="w-16 max-sm:w-12 max-sm:text-xs text-sm text-white bg-orange-500 rounded-full py-1 mr-2 max-sm:mr-1">DX</span>
-                          <div className="flex space-x-2 max-sm:space-x-1">
+                          <div className="flex flex-row space-x-2 max-sm:space-x-1">
                             {song.difficulties.dx.map((diff, idx) => (
                               <>
                                 <div key={idx} className='flex flex-col'>
@@ -157,12 +159,11 @@ export default function SongList({ songs }: SongListProps) {
                     </div>
                   </div>
                   {index < songs.length - 1 && <div className="flex justify-center mx-1">
-                    <div className="w-full mt-2 h-1 rounded-full bg-gray-300" />
                   </div>
                   }
                 </div>
               </div>
-            </a>
+            </a >
             <button
               id='addMusicPlay'
               onClick={() => handleAddToPlaylist(song)}
@@ -176,7 +177,8 @@ export default function SongList({ songs }: SongListProps) {
           </div>
 
         </>
-      ))}
-    </div>
+      ))
+      }
+    </div >
   )
 }

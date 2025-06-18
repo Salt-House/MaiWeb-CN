@@ -92,9 +92,9 @@ export default function RootLayout({
             </Link> */}
 
             {/* BackGround Layer */}
-            <div className="fixed top-0 left-0 w-full max-sm:w-[420px] h-full z-[-1] bg-[url('/img/bg_shines.png')]">
+            <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-1] bg-[url('/img/bg_shines.png')]">
             </div>
-            <div className="fixed top-0 left-0 w-full max-sm:w-[420px] h-full z-[-2]">
+            <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-2]">
               <div className="w-[10px] h-[200px]">
               </div>
               <div className="flex justify-center max-sm:hidden max-md:hidden max-lg:hidden max-xl:hidden">
@@ -108,7 +108,7 @@ export default function RootLayout({
               </div>
             </div>
             <StarMove />
-            <div className="fixed w-full max-sm:w-[420px] h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div>
+            <div className="fixed w-full max-sm:w-full h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div>
 
             {/* 使用新的客户端导航组件 */}
             <MobileNavigation textstroke={textstroke} />

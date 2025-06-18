@@ -156,7 +156,6 @@ export default function RatingHistory() {
                 },
                 yAxis: {
                     type: 'value',
-                    name: 'Rating',
                     min: 0,
                     max: 16431,
                     nameLocation: 'middle',

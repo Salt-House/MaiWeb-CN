@@ -156,7 +156,7 @@ const SearchGameCenter = () => {
     return (
         <>
             {/* Search Game Center - 机厅搜索区域 */}
-            <div id="searchGameCenter" className="relative my-10 max-sm:w-[390px] w-[800px] mx-auto flex flex-col justify-center items-center rounded-2xl overflow-visible">
+            <div id="searchGameCenter" className="relative my-10 max-sm:w-[90%] w-[800px] mx-auto flex flex-col justify-center items-center rounded-2xl overflow-visible">
                 {/* 多层边框背景 - 保持原设计风格 */}
                 <div className="absolute rounded-2xl inset-x-0 inset-y-0 z-[-1] bg-white">
                     <div className="border-4 border-white rounded-2xl">

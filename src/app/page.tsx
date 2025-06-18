@@ -171,18 +171,18 @@ export default function Home() {
     <>
       <div className="w-full overflow-hidden">
         {/* Main Layer */}
-        <div className="relative w-full max-sm:w-[420px]">
+        <div className="relative w-full">
           {/* 使用抽离的 Guide 组件 */}
           <Guide steps={steps} autoStart={true} mark={"hometour"} />
           {/* Control */}
 
           <div className="max-sm:h-[40px] w-[200px] h-[100px]"></div>
           <div className="mx-auto w-44 h-12 font-bold text-xl text-center">
-            
+
             {token == "" ? <div> 🔴无登陆状态</div> : <TokenChecker token={token} />}
           </div>
           {/* Welcome to Home page */}
-          <div id="funDetail" className=" flex flex-col justify-center items-center max-sm:w-[420px]">
+          <div id="funDetail" className=" flex flex-col justify-center items-center max-sm:w-full">
             <div className="w-full max-w-[420px] sm:max-w-[900px] mx-auto px-4 sm:px-0 max-sm:text-2xl sm:text-4xl text-center font-bold text-white bg-clip-text text-transparent"
               style={textstroke}>
               Welcome to maimai.moe in China!!!<br></br>
@@ -265,7 +265,7 @@ export default function Home() {
               </div>
             </div>
             {/* 移动端 */}
-            <div className="w-full max-w-[900px] sm:hidden max-sm:w-[420px] mt-5 sm:mt-10 px-4 sm:px-0 mx-auto">
+            <div className="w-full max-w-[900px] sm:hidden max-sm:w-full mt-5 sm:mt-10 px-4 sm:px-0 mx-auto">
               <div className="relative">
                 <div className="max-sm:overflow-x-auto pl-10 max-sm:scroll-smooth max-sm:snap-x max-sm:snap-mandatory">
                   <div className="flex max-sm:w-max sm:flex-row sm:flex-wrap justify-start sm:justify-center items-center gap-4">
@@ -366,7 +366,7 @@ export default function Home() {
           </div>
 
           {/* News */}
-          <div id="news" className="w-full max-w-[420px] sm:max-w-[1200px] mx-auto px-4 sm:px-5 text-white mb-8">
+          <div id="news" className="w-full max-sm:w-[90%] sm:max-w-[1200px] mx-auto px-4 sm:px-5 text-white mb-8">
             <div className="flex justify-center items-center text-center text-white font-bold text-3xl mb-10" style={textstroke}>
               — 舞萌相关资讯 —
             </div>
@@ -426,7 +426,7 @@ export default function Home() {
           <SearchGameCenter />
 
           {/* Map Play display */}
-          <div id="playmap" className="relative w-full max-sm:w-[390px] sm:w-[900px] h-[400px] sm:h-[480px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
+          <div id="playmap" className="relative w-full max-sm:w-[90%] sm:w-[900px] h-[400px] sm:h-[480px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl">
             <div className="absolute -top-5 flex justify-center items-center text-white font-bold text-xl sm:text-2xl" style={textstroke}>
               全国出勤行脚图
             </div>
@@ -440,19 +440,6 @@ export default function Home() {
               )}
             </div>
           </div>
-          <div className="w-[900px] max-sm:mt-5 max-sm:w-[420px] mt-2 h-20 flex mx-auto justify-center items-center space-x-4 text-white font-bold max-sm:text-xl text-2xl">
-            <div className="border-4 border-white rounded-full hover:scale-105 transition-all duration-300 ease-in-out">
-              <div className="relative p-5 rounded-full bg-[#41e7d7] border-4 border-[#2ea297]">
-                <button>全国玩家行脚图<br></br><b className="absolute w-full left-0 bottom-0 text-lg text-red-500">数据不足，暂无法使用</b></button>
-              </div>
-            </div>
-            <div className="border-4 border-white rounded-full hover:scale-105 transition-all duration-300 ease-in-out">
-              <div className="p-5 rounded-full bg-[rgb(48,182,244)] border-4 border-[#2692c3]">
-                <button>个人玩家行脚图</button>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
 

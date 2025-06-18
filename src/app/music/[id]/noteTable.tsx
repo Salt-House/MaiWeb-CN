@@ -25,7 +25,7 @@ export default function NoteTable({ song, chartType }: { song: Song, chartType: 
 
   return (
     <div className="overflow-x-scroll">
-      <table className="w-full mt-4 border-collapse rounded-lg overflow-hidden shadow-md">
+      <table className="w-full text-black mt-4 border-collapse rounded-lg overflow-hidden shadow-md">
         <thead>
           <tr className="bg-gradient-to-r from-blue-50 to-indigo-50">
             <th className="py-3 px-4 text-left text-sm font-medium text-gray-700 border-b-2 border-blue-200">难度</th>

@@ -54,11 +54,11 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
     <div className="relative">
       {/* Top Container Back */}
       <div className="absolute inset-0 z-[-1] flex justify-center">
-        <div className="max-sm:w-[420px] w-[900px] h-[500px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain"></div>
+        <div className="max-sm:w-full w-[900px] h-[500px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain"></div>
       </div>
 
       {/* 导航栏 */}
-      <div className="relative z-[10] max-sm:w-[410px] max-sm:text-xl max-sm:h-14 w-[90%] max-w-[800px] bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-6 mx-auto mt-10 flex items-center justify-between sm:justify-center">
+      <div className="relative z-[10] max-sm:w-[90%] max-sm:text-xl max-sm:h-14 w-[90%] max-w-[800px] bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-6 mx-auto mt-10 flex items-center justify-between sm:justify-center">
         {/* 移动端汉堡菜单按钮 */}
         <div className="sm:hidden flex items-center">
           <button
