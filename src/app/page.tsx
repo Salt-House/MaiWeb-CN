@@ -179,7 +179,7 @@ export default function Home() {
           <div className="max-sm:h-[40px] w-[200px] h-[100px]"></div>
           <div className="mx-auto w-44 h-12 font-bold text-xl text-center">
 
-            {token == "" ? <div> 🔴无登陆状态</div> : <TokenChecker token={token} />}
+            {token == "" ? <div> 🔴无登陆状态</div> : <TokenChecker />}
           </div>
           {/* Welcome to Home page */}
           <div id="funDetail" className=" flex flex-col justify-center items-center max-sm:w-full">
