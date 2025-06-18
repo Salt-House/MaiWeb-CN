@@ -11,6 +11,8 @@ import Link from 'next/link'
 import { FaArrowLeft } from 'react-icons/fa'
 import { FaBilibili, FaArrowUpRightFromSquare } from "react-icons/fa6"
 import { data } from 'framer-motion/client'
+import { Step } from 'react-joyride'
+import Guide from '@/app/components/Guide'
 
 export default function SongDetail() {
   const params = useParams()
@@ -18,6 +20,14 @@ export default function SongDetail() {
   const [scores, setScores] = useState<SongScoreProps[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const steps: Step[] = [
+    {
+      target: '#note',
+      content: '这里您可以左右滚动查看',
+      disableBeacon: true
+    },
+
+  ]
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
@@ -118,7 +128,7 @@ export default function SongDetail() {
 
   return (
     <div className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-16">
-
+      <Guide steps={steps} mark='notetour'/>
       <div className="max-sm:w-[90%] w-[900px] flex justify-start mb-2">
 
         <Link href='/music' className="inline-flex items-center text-white hover:scale-105 transition-colors m-3">
@@ -149,7 +159,7 @@ export default function SongDetail() {
             <div className="text-gray-700 max-sm:w-[40%] font-bold text-xl">谱面详情</div>
             <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
           </div>
-          <NoteDetail song={song} />
+          <NoteDetail  song={song} />
         </div>
       </div>
     </div>
@@ -237,7 +247,7 @@ function SongInfo({ song }: { song: Song }) {
 
 function NoteDetail({ song }: { song: Song }) {
   return (
-    <div className="flex flex-col space-y-4 max-sm:space-y-2 max-sm:mx-2 m-6">
+    <div id='note' className="flex flex-col space-y-4 max-sm:space-y-2 max-sm:mx-2 m-6">
       {/* Standard谱面 */}
       {song.difficulties?.standard?.length > 0 && (
         <>
