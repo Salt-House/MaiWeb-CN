@@ -319,8 +319,8 @@ export default function BestPage() {
         <>
             <AnimatedComponent isVisible={true}>
 
-                <div className="relative max-sm:w-[400px] w-[900px] p-5 flex flex-col justify-center items-center mx-auto">
-                    <div className="mb-8 max-sm:w-[400px] w-full max-w-[900px] space-y-4">
+                <div className="relative max-sm:w-[90%] w-[900px] p-5 flex flex-col justify-center items-center mx-auto">
+                    <div className="mb-8 max-sm:w-full w-full max-w-[900px] space-y-4">
                         {/* 标题区域 */}
                         <h1 className="text-3xl font-bold text-center bg-clip-text text-white" style={textstroke}>
                             Best 50 查询

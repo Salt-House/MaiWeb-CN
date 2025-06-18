@@ -236,7 +236,7 @@ export default function UserProfilePage() {
         return (
           <>
             <AnimatedComponent isVisible={true}>
-              <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
+              <div className="relative size-96 max-sm:size-72 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                 {isBindLoading ? <LoadingSpinner /> : <>
                   <h1 className="text-2xl font-bold">绑定落雪账号</h1>
                   <h1 className="text-xl font-bold text-red-500">（请至少上传一次成绩至落雪）</h1>
@@ -254,7 +254,7 @@ export default function UserProfilePage() {
         return (
           <>
             <AnimatedComponent isVisible={true}>
-              <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
+              <div className="relative size-96 max-sm:size-72 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                 {isBindLoading ? <LoadingSpinner /> : <>
 
                   <h1 className="text-2xl font-bold">绑定水鱼账号</h1>
@@ -273,7 +273,7 @@ export default function UserProfilePage() {
         return (
           <>
             <AnimatedComponent isVisible={true}>
-              <div className="relative size-96 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
+              <div className="relative size-96 max-sm:size-72 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                 {isBindLoading ? <LoadingSpinner /> : <>
                   <h1 className="text-2xl font-bold">绑定街机账号</h1>
                   <input type="username" name="divingfishusername" id="" placeholder="二维码字段" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={qr_code} onChange={(e) => setQrCode(e.target.value)} />
@@ -293,9 +293,9 @@ export default function UserProfilePage() {
     switch (activeSection) {
       case '基本信息':
         return (
-          <div className="relative flex flex-col justify-center items-center mb-16 overflow-clip">
+          <div className="relative max-sm:w-full flex flex-col justify-center items-center mb-16 overflow-clip">
             <div className="border-4 border-white bg-white rounded-2xl">
-              <div className="relative max-sm:w-[400px] w-[900px] max-sm:px-2 bg-white/85 rounded-2xl px-10 flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black">
+              <div className="relative sm:w-[900px] max-sm:px-2 bg-white/85 rounded-2xl px-10 flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black">
                 {isLoading ? <LoadingSpinner /> : <>
                   <div className="my-12">
                     <div className="text-white text-4xl font-bold" style={textShadow}>
@@ -317,7 +317,7 @@ export default function UserProfilePage() {
                   </div>
 
 
-                  <div className='max-sm:w-[380px] max-sm:p-0 w-full p-4 flex flex-row items-center bg-no-repeat sm:bg-contain max-sm:bg-cover bg-center rounded-xl border-2 border-[#e0e0e0] shadow-md' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
+                  <div className='max-sm:w-full max-sm:p-0 w-full p-4 flex flex-row items-center bg-no-repeat sm:bg-contain max-sm:bg-cover bg-center rounded-xl border-2 border-[#e0e0e0] shadow-md' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
                     {/* 左侧头像 */}
                     <div className='flex justify-center items-center mr-4' >
                       {token == null || userdata.mai_icon_id == null ?
@@ -332,7 +332,7 @@ export default function UserProfilePage() {
 
                       {/* Rating值 */}
                       <div className='flex items-center'>
-                        <span className="relative bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-clip">
+                        <span className="relative max-sm:hidden bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-clip">
                           <SvgStrokedText
                             text={`Rating: ${userdata.mai_rating}`}
                             strokeColor="#9334e9"
@@ -342,29 +342,49 @@ export default function UserProfilePage() {
                             width="120"
                             height="25"
                           />
+
                           <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent z-0"></div>
                         </span>
-                       
+                        <span className="relative sm:hidden bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-clip">
+                          <SvgStrokedText
+                            text={`Rating: ${userdata.mai_rating}`}
+                            strokeColor="#9334e9"
+                            strokeWidth={5}
+                            fill="#fff"
+                            fontSize={65}
+                            width="120"
+                            height="25"
+                          />
+
+                          <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent z-0"></div>
+                        </span>
+
                       </div>
 
                       {/* 姓名框 */}
                       <div className='flex text-xl font-bold tracking-wider w-full'>
-                        <span className="bg-white pl-2 pr-2 py-0.5 rounded-lg border-2 border-gray-300 shadow-sm text-left w-64 truncate">
+                        <span className="bg-white max-sm:hidden pl-2 pr-2 py-0.5 rounded-lg border-2 border-gray-300 shadow-sm text-left w-64 truncate">
+                          {userdata.username}
+                        </span>
+                        <span className="bg-white sm:hidden pl-2 pr-2 py-0.5 rounded-lg border-2 border-gray-300 shadow-sm text-left w-64 max-sm:w-36  truncate">
                           {userdata.username}
                         </span>
                       </div>
 
                       {/* 称号 */}
                       <div className='flex justify-start w-full'>
-                        <span className='inline-block bg-gradient-to-b from-gray-100 via-gray-300 to-gray-100 px-4 py-0 rounded-3xl border-2 border-gray-400 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.8)] text-center text-gray-700 italic text-sm w-64 truncate'>
+                        <span className='inline-block max-sm:hidden bg-gradient-to-b from-gray-100 via-gray-300 to-gray-100 px-4 py-0 rounded-3xl border-2 border-gray-400 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.8)] text-center text-gray-700 italic text-sm w-64 truncate'>
                           欢迎来到 maimai.moe!
                         </span>
                       </div>
                     </div>
                   </div>
+                  <span className='inline-block sm:hidden max-sm:mx-auto max-sm:mt-2 bg-gradient-to-b from-gray-100 via-gray-300 to-gray-100 px-4 py-0 rounded-3xl border-2 border-gray-400 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.8)] text-center text-gray-700 italic text-sm w-64 truncate'>
+                    欢迎来到 maimai.moe!
+                  </span>
 
                   <div className="flex justify-end m-3 space-x-4">
-                    <button className="inline-flex items-center rounded-2xl bg-blue-500 transition-colors p-1 px-4 text-white font-bold" onClick={() => setShowGuide(true)}>使用指南</button>
+                    <button className="inline-flex items-center rounded-2xl bg-blue-500 transition-colors p-1 px-4 text-white font-bold max-sm:text-sm" onClick={() => setShowGuide(true)}>使用指南</button>
                     <button className="inline-flex items-center rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>
                   </div>
 
@@ -477,20 +497,20 @@ export default function UserProfilePage() {
       case '关联账号':
         return (
           <>
-            <div className=" max-sm:w-[400px] relative flex flex-col justify-center items-center mb-16">
-              <div className="max-sm:w-[400px] w-[900px] flex justify-start mb-2">
+            <div className=" max-sm:w-full relative flex flex-col justify-center items-center mb-16">
+              <div className="max-sm:w-full sm:w-[900px] flex justify-start mb-2">
                 <button className="inline-flex items-center text-white hover:scale-105 transition-colors m-3" onClick={() => setActiveSection('基本信息')}>
                   <FaArrowLeft className="mr-2 size-5" />
                   <span className="text-xl font-bold" style={textShadow}>返回个人主页</span>
                 </button>
               </div>
-              <div className="border-4 border-white rounded-2xl">
-                <div className="relative max-sm:w-[400px] max-sm:px-0 w-[900px] bg-white/85 rounded-2xl px-10 flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black min-h-96">
+              <div className="border-4 max-sm:w-full border-white rounded-2xl">
+                <div className="relative max-sm:w-full max-sm:px-0 sm:w-[900px] bg-white/85 rounded-2xl px-10 flex flex-col text-center border-4 border-[rgb(155,244,236)] text-black min-h-96">
                   {isLoading ? <LoadingSpinner /> : <>
                     <div className="flex-row flex w-full items-center justify-center mb-2 mt-5">
-                      <hr className='w-full border-t-4 border-gray-300 my-5 rounded-full' />
-                      <div className="whitespace-nowrap px-7 text-gray-700 font-bold text-2xl">关联第三方账号</div>
-                      <hr className='w-full border-t-4 border-gray-300 my-5 rounded-full' />
+                      <hr className='w-full max-sm:hidden border-t-4 border-gray-300 my-5 rounded-full' />
+                      <div className="whitespace-nowra  p px-7 text-gray-700 font-bold text-2xl">关联第三方账号</div>
+                      <hr className='w-full max-sm:hidden border-t-4 border-gray-300 my-5 rounded-full' />
                     </div>
                     <div className='w-full flex flex-col justify-center items-center space-y-5 my-10'>
                       <div className='w-6/12 flex flex-row justify-between'><b>落雪:</b><button className={`ml-2 rounded-2xl ${bindaccount.islxns ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`} onClick={() => setLink('lxns')}>{bindaccount.islxns ? '已绑定' : '未绑定'}</button></div>
@@ -616,7 +636,7 @@ export default function UserProfilePage() {
   }, [accounts]);
 
   return (
-    <div className='w-[900px] max-sm:w-[420px] min-h-[400px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center'>
+    <div className='w-[900px] max-sm:w-full min-h-[400px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center'>
       {userdata.username == "请刷新" ?
         <>
           <div className="flex flex-col text-center text-xl text-white">
@@ -634,13 +654,13 @@ export default function UserProfilePage() {
           </div>
         </> :
         <>
-          <div className='max-sm:w-[420px] w-[900px] flex justify-center items-center'>
+          <div className='max-sm:w-[90%] sm:w-[900px] flex justify-center items-center'>
             {renderContent()}
           </div>
           {showGuide && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
               <AnimatedComponent isVisible={true}>
-                <div className="relative max-sm:w-[420px] w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
+                <div className="relative max-sm:w-[90%] w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
                   <button
                     className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 transition-colors"
                     onClick={() => setShowGuide(false)}
