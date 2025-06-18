@@ -33,7 +33,7 @@ export default function TokenChecker({ token }: TokenCheckerProps) {
 
                 }
             } catch (error) {
-                setStatusMessage("网络错误，无法验证登录状态。");
+                setStatusMessage("网络错误，无法验证登录状态。错误详情"+ error);
                 setIsLoading(false);
 
             }

@@ -113,6 +113,7 @@ export function transferVersion(version: number): string {
     22000: '舞萌DX 2022',
     23000: '舞萌DX 2023',
     24000: '舞萌DX 2024',
+    25000: '舞萌DX 2025',
   }
 
   return versions[version as keyof typeof versions] || versions[Math.floor(version / 100) * 100 as keyof typeof versions]
