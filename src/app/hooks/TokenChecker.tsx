@@ -22,7 +22,8 @@ export default function TokenChecker({ token }: TokenCheckerProps) {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
-                    credentials: "include"
+                    credentials: "include",
+                    mode: "cors"
                 });
 
                 if (response.status !== 200) {
@@ -34,7 +35,6 @@ export default function TokenChecker({ token }: TokenCheckerProps) {
 
                 }
             } catch (error) {
-                setStatusMessage("网络错误，无法验证登录状态。错误详情"+ error);
                 setIsLoading(false);
 
             }
