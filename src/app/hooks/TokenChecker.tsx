@@ -2,16 +2,21 @@
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-type TokenCheckerProps = {
-    token: any;
-};
+
 
 /**
  * 自动检查 token 是否有效，并返回提示信息
  */
-export default function TokenChecker({ token }: TokenCheckerProps) {
+export default function TokenChecker() {
     const [statusMessage, setStatusMessage] = useState<string>("验证登陆状态中");
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [token, setToken] = useState<string>("");
+    useEffect(() => {
+        let temp =  localStorage.getItem("token");
+        if (temp) {
+            setToken(temp);
+        }
+    }, []);
 
     useEffect(() => {
         if (!token) return;
@@ -35,8 +40,8 @@ export default function TokenChecker({ token }: TokenCheckerProps) {
 
                 }
             } catch (error) {
+                setStatusMessage("");
                 setIsLoading(false);
-
             }
         };
         checkToken();
