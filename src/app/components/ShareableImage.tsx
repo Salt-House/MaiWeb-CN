@@ -184,7 +184,7 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
                         <hr className="border-dashed" />
                         <div className={`text-2xl flex font-bold ${nameColor}`}><p className='w-[100px]'>{props.achievements}</p><img src={`${achievements}`} className='w-[70px]' alt="" /> </div>
                         <div className='text-sm flex'>
-                            <p>{props.dx_score}/{props.dx_score}</p>
+                            <p>DxScore: {props.dx_score}</p>
                         </div>
                         <div className='font-bold mt-1 flex items-center text-black'>
                             <p className='w-[30px]'>#{props.index + 1}</p>
