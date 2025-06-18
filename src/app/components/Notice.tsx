@@ -15,7 +15,7 @@ const Notice: React.FC<NoticeProps> = ({
 }) => {
     const [token, setToken] = useState<string>("");
     const [isVisible, setIsVisible] = useState(true);
-    const [string, setString] = useState<string>("");
+    const [string, setString] = useState<string>("暂无通知");
 
 
     // 不同类型通知的样式

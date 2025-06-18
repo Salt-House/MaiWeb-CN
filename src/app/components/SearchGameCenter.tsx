@@ -353,7 +353,7 @@ const SearchGameCenter = () => {
                                                     <div className="flex-1">
                                                         <div className="flex items-center">
                                                             <FaCircle className={`mr-2 text-xs ${arcade.arcade_dead ? 'text-gray-400' : 'text-green-500'}`} />
-                                                            <h3 className="font-bold text-lg">{arcade.arcade_name}</h3>
+                                                            <h3 className="font-bold text-black text-lg">{arcade.arcade_name}</h3>
                                                             {arcade.arcade_dead && (
                                                                 <span className="ml-2 px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-xs">
                                                                     已关闭
