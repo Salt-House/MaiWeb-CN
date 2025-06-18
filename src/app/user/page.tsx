@@ -93,7 +93,7 @@ export default function UserPage() {
       })
       .catch((error) => {
         console.error(error);
-        alert("登录请求失败，请重试");
+        alert("登录请求失败，请重试.错误详情: " + error);
       });
   }
 
