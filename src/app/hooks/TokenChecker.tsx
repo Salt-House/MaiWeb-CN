@@ -22,6 +22,7 @@ export default function TokenChecker({ token }: TokenCheckerProps) {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    credentials: "include"
                 });
 
                 if (response.status !== 200) {
