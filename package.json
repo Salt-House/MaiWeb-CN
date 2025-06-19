@@ -34,5 +34,18 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
-  }
+  },
+  "description": "乌蒙大象中文玩家站",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Salt-House/MaiWeb-CN.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Salt-House/MaiWeb-CN/issues"
+  },
+  "homepage": "https://github.com/Salt-House/MaiWeb-CN#readme"
 }
