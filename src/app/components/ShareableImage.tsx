@@ -68,7 +68,7 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
             break;
         case 1:
             levelColor = 'bg-yellow-500';
-            nameColor = 'text-yellow-500';
+            nameColor = 'text-white';
             textstroke = {
                 textShadow: '-2px -2px 4px rgba(234, 179, 8, 1), 2px -2px 4px rgba(234, 179, 8, 1), -2px 2px 2px rgba(234, 179, 8, 1), 2px 2px 2px rgba(234, 179, 8, 1)'
             };
@@ -76,7 +76,7 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
             break;
         case 2:
             levelColor = 'bg-red-500';
-            nameColor = 'text-red-500';
+            nameColor = 'text-white';
             textstroke = {
                 textShadow: '-2px -2px 4px rgba(239, 68, 68, 1), 2px -2px 4px rgba(239, 68, 68, 1), -2px 2px 2px rgba(239, 68, 68, 1), 2px 2px 2px rgba(239, 68, 68, 1)'
             };
