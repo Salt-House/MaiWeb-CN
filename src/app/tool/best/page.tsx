@@ -403,7 +403,7 @@ export default function BestPage() {
                     </div>
                     <TransformWrapper
                         limitToBounds={false}
-                        minScale={0.1}
+                        minScale={0.3}
                         maxScale={10}
                     >
                         {() => (
