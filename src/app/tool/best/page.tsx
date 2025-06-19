@@ -315,7 +315,8 @@ export default function BestPage() {
         }
 
     }
-
+    const [canControl, setCanControl] = useState(true);
+    const [isMinimized, setIsMinimized] = useState(false);
     const steps: Step[] = [
         {
             target: '#b50control',
@@ -400,8 +401,44 @@ export default function BestPage() {
                                 </div>
                             </div>
                         </div>
+
                     </div>
+                    <div className={`fixed bottom-48 right-5 z-[5] transition-transform duration-300 ease-in-out ${isMinimized ? 'translate-x-[calc(100%-2rem)]' : 'translate-x-0'
+                        }`}>
+                        <button
+                            className="px-4 py-2 bg-white/90 hover:bg-white border border-gray-200 hover:border-gray-300 rounded-lg shadow-lg hover:shadow-xl text-gray-700 hover:text-gray-900 font-medium text-sm backdrop-blur-sm transition-all duration-200 ease-in-out active:scale-95 whitespace-nowrap"
+                            onClick={() => setCanControl(!canControl)}
+                        >
+                            <span className="flex items-center gap-2">
+                                <span className={`w-2 h-2 rounded-full transition-colors duration-200 ${canControl ? 'bg-red-500' : 'bg-green-500'
+                                    }`}></span>
+                                <span className={`transition-all duration-300 ${isMinimized ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'
+                                    }`}>
+                                    {canControl ? "禁用缩放以滚动页面" : "启用缩放"}
+                                </span>
+                            </span>
+                        </button>
+
+                        {/* 最小化/展开切换按钮 */}
+                        <button
+                            className="absolute -left-8 top-1/2 -translate-y-1/2 w-6 h-8 bg-white/90 hover:bg-white border border-gray-200 hover:border-gray-300 rounded-l-lg shadow-lg backdrop-blur-sm transition-all duration-200 ease-in-out hover:shadow-xl active:scale-95 flex items-center justify-center"
+                            onClick={() => setIsMinimized(!isMinimized)}
+                            title={isMinimized ? "展开控制面板" : "收起控制面板"}
+                        >
+                            <svg
+                                className={`w-3 h-3 text-gray-600 transition-transform duration-300 ${isMinimized ? 'rotate-180' : ''
+                                    }`}
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                    </div>
+
                     <TransformWrapper
+                        disabled={!canControl}
                         limitToBounds={false}
                         minScale={0.3}
                         maxScale={10}
