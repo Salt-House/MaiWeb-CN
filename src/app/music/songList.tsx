@@ -7,13 +7,15 @@ import { useState } from 'react'
 
 interface SongListProps {
   songs: Song[]
+  currentCategory?: string // 添加一个可选的currentCategory属性
 }
 
-export default function SongList({ songs }: SongListProps) {
+export default function SongList({ songs, currentCategory = '最近添加' }: SongListProps) {
   // 使用usePlayer hook获取播放器上下文
   const { addToPlaylist } = usePlayer()
   // 添加状态来跟踪哪些歌曲已被添加到播放列表
-  const [addedSongs, setAddedSongs] = useState<{ [key: string]: boolean }>({})
+  const [addedSongs, setAddedSongs] = useState<{ [key: string]: boolean }>({})  // 添加状态来跟踪当前显示模式：等级或具体定数
+  const [displayMode, setDisplayMode] = useState<'level' | 'level_value'>('level')
 
   // 根据上下文修改handleAddToPlaylist函数，确保有正确的参数
   const handleAddToPlaylist = (song: Song) => {
@@ -40,10 +42,29 @@ export default function SongList({ songs }: SongListProps) {
   }
 
   return (
-    <div className="flex-col w-full max-sm:mt-5 max-sm:px-2 justify-center items-center p-4 ">
+    <div className="flex-col w-full max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
+      <div className="flex max-sm:flex-col max-sm:items-start justify-between items-center mb-6 px-4 max-sm:px-1">
+        <div className="text-lg font-medium max-sm:mb-3">
+          当前分类：{currentCategory} {/* 显示传入的当前分类名称 */}
+        </div>
+        <div className="flex bg-[rgb(158,175,238)] p-1 rounded-full overflow-hidden w-64 max-sm:w-40 max-sm:mb-5 max-sm:h-9">
+          <button
+            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === 'level' ? 'bg-white shadow-md text-[rgb(158,175,238)] font-medium' : 'text-white'}`}
+            onClick={() => setDisplayMode('level')}
+          >
+            等级
+          </button>
+          <button
+            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === 'level_value' ? 'bg-white shadow-md text-[rgb(158,175,238)] font-medium' : 'text-white'}`}
+            onClick={() => setDisplayMode('level_value')}
+          >
+            定数
+          </button>
+        </div>
+      </div>
       {songs.map((song, index) => (
         <>
-          <div id='clickDetail' className='relative mb-10 border-b-4'>
+          <div id='clickDetail' className='relative mb-10'>
             <a
               href={`https://dev.maimai.moe/music/${song.id}`}
               key={song.id}
@@ -51,7 +72,7 @@ export default function SongList({ songs }: SongListProps) {
               rel="noopener noreferrer"
               onClick={() => localStorage.setItem(`song_${song.id}`, JSON.stringify(song))}
             >
-              <div className="flex h-44 max-sm:h-28 max-sm:mx-auto bg-white px-4 max-sm:px-0 max-sm:mb-16 py-2 space-x-8 max-sm:space-x-2 cursor-pointer duration-300">
+              <div className="flex h-36 max-sm:h-28 max-sm:mx-auto bg-white px-4 max-sm:px-0 max-sm:mb-16 py-2 space-x-8 max-sm:space-x-2 cursor-pointer duration-300">
                 {/* 左侧曲绘封面 */}
                 <div className="max-sm:size-24 w-36 h-36 flex-shrink-0">
                   <img
@@ -101,9 +122,8 @@ export default function SongList({ songs }: SongListProps) {
                                       backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
                                     }}
                                   >
-                                    {diff.level}
+                                    {displayMode === 'level' ? diff.level : (Number.isInteger(diff.level_value) ? `${diff.level_value}.0` : diff.level_value)}
                                   </div>
-                                  <h1>{diff.level_value}</h1>
                                 </div>
                               </>
                             ))}
@@ -125,9 +145,9 @@ export default function SongList({ songs }: SongListProps) {
                                       backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
                                     }}
                                   >
-                                    {diff.level}
+                                    {displayMode === 'level' ? diff.level : (Number.isInteger(diff.level_value) ? `${diff.level_value}.0` : diff.level_value)}
                                   </div>
-                                  <h1>{diff.level_value}</h1>
+                                  {/* 移除单独显示的定数值 */}
                                 </div>
                               </>
                             ))}
@@ -159,6 +179,7 @@ export default function SongList({ songs }: SongListProps) {
                     </div>
                   </div>
                   {index < songs.length - 1 && <div className="flex justify-center mx-1">
+                    <div className="w-full h-0.5 rounded-full bg-gray-300" />
                   </div>
                   }
                 </div>
@@ -167,9 +188,7 @@ export default function SongList({ songs }: SongListProps) {
             <button
               id='addMusicPlay'
               onClick={() => handleAddToPlaylist(song)}
-
               className={`absolute left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full  text-white hover:bg-[rgb(135,70,193)] transition-colors ${addedSongs[song.id] ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
-
               title="添加到播放列表"
             >
               {addedSongs[song.id] ? <FaCheck /> : <FaPlus />}

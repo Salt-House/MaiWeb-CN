@@ -12,12 +12,40 @@ import Guide from '../components/Guide'
 
 const currentVersion = "25000"
 
+const versions: (keyof typeof versionIds)[] = ["maimai", "GreeN", "ORANGE ", "PiNK", "MURASAKi ", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024", "舞萌DX 2025"]
+const versionIds = {
+  'maimai': 10000,
+  'GreeN': 12000,
+  'ORANGE ': 14000,
+  'PiNK': 16000,
+  'MURASAKi ': 18000,
+  'MiLK': 19000,
+  'FiNALE': 19900,
+  '舞萌DX': 20000,
+  '舞萌DX 2021': 21000,
+  '舞萌DX 2022': 22000,
+  '舞萌DX 2023': 23000,
+  '舞萌DX 2024': 24000,
+  '舞萌DX 2025': 25000,
+}
+const versionsPlus: (keyof typeof versionsPlusIds)[] = ["MAIMAI_PLUS", "MAIMAI_GREEN_PLUS", "MAIMAI_ORANGE_PLUS", "MAIMAI_PINK_PLUS", "MAIMAI_MURASAKI_PLUS", "MAIMAI_MILK_PLUS"]
+const versionsPlusIds = {
+  'MAIMAI_PLUS': 11000,
+  'MAIMAI_GREEN_PLUS': 13000,
+  'MAIMAI_ORANGE_PLUS': 15000,
+  'MAIMAI_PINK_PLUS': 17000,
+  'MAIMAI_MURASAKI_PLUS': 18500,
+  'MAIMAI_MILK_PLUS': 19500,
+}
+
 export default function MusicPage() {
   //const songs = [sampleSong, sampleSong, sampleSong, sampleSong, sampleSong, sampleSong]
   const [songs, setSongs] = useState<Song[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedOption, setSelectedOption] = useState('category')
+  // 添加一个状态来跟踪当前选择的分类名称
+  const [currentCategory, setCurrentCategory] = useState<string>('最近更新')
 
   const [filteredUrl, setFilteredUrl] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
@@ -50,6 +78,38 @@ export default function MusicPage() {
 
   const getSongs = useCallback(async (filteredUrl: string, page: number = 1) => {
     setFilteredUrl(filteredUrl)
+
+    // 根据filteredUrl设置当前分类名称
+    if (filteredUrl.includes('version=') && filteredUrl.includes(currentVersion)) {
+      setCurrentCategory('最近更新')
+    } else if (filteredUrl.includes('genre=POPSアニメ')) {
+      setCurrentCategory('流行&动漫')
+    } else if (filteredUrl.includes('genre=niconicoボーカロイド')) {
+      setCurrentCategory('niconico&VOCALOID')
+    } else if (filteredUrl.includes('genre=東方Project')) {
+      setCurrentCategory('东方Project')
+    } else if (filteredUrl.includes('genre=ゲームバラエティ')) {
+      setCurrentCategory('其他游戏')
+    } else if (filteredUrl.includes('genre=maimai')) {
+      setCurrentCategory('舞萌')
+    } else if (filteredUrl.includes('genre=オンゲキCHUNITHM')) {
+      setCurrentCategory('音击&中二')
+    } else if (filteredUrl.includes('type=utage')) {
+      setCurrentCategory('宴会场')
+    } else if (filteredUrl.includes('level=')) {
+      const level = filteredUrl.split('level=')[1].split('&')[0]
+      setCurrentCategory(`等级 ${decodeURIComponent(level)}`)
+    } else if (filteredUrl.includes('versions=')) {
+      const versionId = filteredUrl.split('versions=')[1].split('&')[0]
+      const version = Object.entries(versionIds).find(([_, id]) => id.toString() === versionId)?.[0] ||
+        Object.entries(versionsPlusIds).find(([_, id]) => id.toString() === versionId)?.[0]
+      setCurrentCategory(version || '未知版本')
+    } else if (filteredUrl.includes('keywords=')) {
+      const keyword = filteredUrl.split('keywords=')[1].split('&')[0]
+      setCurrentCategory(`搜索: ${decodeURIComponent(keyword)}`)
+    } else {
+      setCurrentCategory('最近更新')
+    }
 
     const baseUrl = 'https://dev.maimai.moe/api/maimai/songs?'
     const url = `${baseUrl}${filteredUrl}&page=${page}&page_size=100`
@@ -198,7 +258,7 @@ export default function MusicPage() {
                     <div>{`没有找到相关乐曲……{{(>_<)}}`}</div>
                   </>
                 ) : (
-                  <SongList songs={songs} />
+                  <SongList songs={songs} currentCategory={currentCategory} />
                 )
               )}
             </div>
@@ -346,7 +406,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
             <span >VOCALOID</span>
           </div>
         </div>
-         <div
+        <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[120px] max-sm:h-10 w-44 h-16 border-4 border-[#7f2bb6] rounded-full bg-[rgb(159,54,227)] flex justify-center items-center font-bold cursor-pointer"
@@ -388,7 +448,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
             音击&中二
           </div>
         </div>
-         <div
+        <div
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(179,46,121)] rounded-full bg-[rgb(220,56,184)] flex justify-center items-center font-bold cursor-pointer"
@@ -454,58 +514,29 @@ function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
 }
 
 function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
-  const versions: (keyof typeof versionIds)[] = ["maimai", "GreeN", "ORANGE ", "PiNK", "MURASAKi ", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024"]
-  const versionIds = {
-    'maimai': 10000,
-    'GreeN': 12000,
-    'ORANGE ': 14000,
-    'PiNK': 16000,
-    'MURASAKi ': 18000,
-    'MiLK': 19000,
-    'FiNALE': 19900,
-    '舞萌DX': 20000,
-    '舞萌DX 2021': 21000,
-    '舞萌DX 2022': 22000,
-    '舞萌DX 2023': 23000,
-    '舞萌DX 2024': 24000,
-  }
-  const versionsPlus: (keyof typeof versionsPlusIds)[] = ["MAIMAI_PLUS", "MAIMAI_GREEN_PLUS", "MAIMAI_ORANGE_PLUS", "MAIMAI_PINK_PLUS", "MAIMAI_MURASAKI_PLUS", "MAIMAI_MILK_PLUS"]
-  const versionsPlusIds = {
-    'MAIMAI_PLUS': 11000,
-    'MAIMAI_GREEN_PLUS': 13000,
-    'MAIMAI_ORANGE_PLUS': 15000,
-    'MAIMAI_PINK_PLUS': 17000,
-    'MAIMAI_MURASAKI_PLUS': 18500,
-    'MAIMAI_MILK_PLUS': 19500,
-  }
-
   return (
     <>
       <div className="h-[172px] max-sm:w-full max-sm:pb-2 max-sm:text-sm max-w-[1200px] mx-auto">
-        <div className="grid grid-cols-4 grid-rows-3 gap-4 max-sm:grid-cols-3 max-sm:grid-rows-4 max-sm:gap-2 max-sm:px-1 h-full w-full">
+        <div className="grid grid-cols-5 grid-rows-3 gap-4 max-sm:grid-cols-3 max-sm:grid-rows-5 max-sm:gap-2 max-sm:px-1 h-full w-full">
           {[...Array(versions.length)].map((_, index) => (
             <div key={index} className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border-4 border-[rgb(155,244,236)]">
               {index < 6 ? (
                 <div className="flex w-full h-full">
                   <div
                     className="w-2/3 flex items-center justify-center overflow-hidden border-r-4 max-sm:pb-1 pt-1 border-[rgb(155,244,236)] cursor-pointer text-black"
-                    onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
-                  >
+                    onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}>
                     <p className={`${versions[index].length > 6 ? 'max-sm:animate-text-scroll' : ''}`}>{versions[index]}</p>
                   </div>
                   <div
                     className="w-1/3 flex items-center max-sm:pb-1 justify-center text-2xl cursor-pointer text-black"
-                    onClick={() => getSongs(`versions=${versionsPlusIds[versionsPlus[index]]}`)}
-                  >
+                    onClick={() => getSongs(`versions=${versionsPlusIds[versionsPlus[index]]}`)}>
                     +
                   </div>
                 </div>
               ) : (
-
                 <div
                   className="max-sm:px-0 px-7 py-2 mt-1 cursor-pointer text-black"
-                  onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}
-                >
+                  onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}>
                   {versions[index]}
                 </div>
               )}

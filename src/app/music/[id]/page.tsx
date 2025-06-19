@@ -128,7 +128,7 @@ export default function SongDetail() {
 
   return (
     <div className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-16">
-      <Guide steps={steps} mark='notetour'/>
+      <Guide steps={steps} mark='notetour' />
       <div className="max-sm:w-[90%] w-[900px] flex justify-start mb-2">
 
         <Link href='/music' className="inline-flex items-center text-white hover:scale-105 transition-colors m-3">
@@ -159,7 +159,7 @@ export default function SongDetail() {
             <div className="text-gray-700 max-sm:w-[40%] font-bold text-xl">谱面详情</div>
             <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
           </div>
-          <NoteDetail  song={song} />
+          <NoteDetail song={song} />
         </div>
       </div>
     </div>
@@ -188,8 +188,8 @@ function SongInfo({ song }: { song: Song }) {
         <div className="flex-1 max-sm:w-[90%] flex-col sm:flex-shrink-0">
           <h1 className="text-3xl font-bold mb-4 ml-1 text-left text-black">{song.title}</h1>
           <div className="sm:flex-1 space-y-3 text-left">
-            <h2
-              className="text-center max-sm:w-[90%] px-5 py-1 mb-1.5 truncate rounded-full text-white border-2"
+            <div
+              className="text-center px-5 py-1 mb-1.5 rounded-full text-white border-2 w-fit"
               style={{
                 backgroundColor: getGenreColor(song.genre).bg,
                 borderColor: getGenreColor(song.genre).border
@@ -197,8 +197,19 @@ function SongInfo({ song }: { song: Song }) {
             >
               {transferText(song.genre)}
               {/* {song.genre} */}
-            </h2>
+            </div>
             <div className="space-y-2.5 text-left">
+              <div className="flex flex-row space-x-4">
+                <h2 className='text-black'>id: {song.id}</h2>
+                {/* <a
+                  href="https://maimai.lxns.net"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:text-blue-700 underline cursor-pointer"
+                >
+                  关于落雪?
+                </a> */}
+              </div>
               <h2 className='text-black'>Artist: {song.artist}</h2>
               <div className="flex flex-row space-x-4 items-center">
                 <div className="space-y-2.5">
@@ -212,17 +223,6 @@ function SongInfo({ song }: { song: Song }) {
                 )}
               </div>
               <h2 className='text-black'>所属区域: {song.map ?? "无"}</h2>
-              <div className="flex flex-row space-x-4">
-                <h2 className='text-black'>落雪id: {song.id}</h2>
-                <a
-                  href="https://maimai.lxns.net"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-700 underline cursor-pointer"
-                >
-                  关于落雪?
-                </a>
-              </div>
               <div className="flex flex-row space-x-4">
                 <div className="flex rounded-xl border-2 border-[#00a1d6] overflow-hidden">
                   <a
