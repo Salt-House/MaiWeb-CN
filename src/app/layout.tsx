@@ -129,7 +129,7 @@ export default function RootLayout({
                   <a href="https://turou.fun">
                     <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/UsaginoNiku.png')] bg-no-repeat bg-contain bg-center"></div>
                   </a>
-                  <a href="https://afdian.com/a/divingfish">
+                  <a href="https://www.diving-fish.com/maimaidx/prober/">
                     <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/Divingfish.png')] bg-no-repeat bg-contain bg-center"></div>
                   </a>
 
