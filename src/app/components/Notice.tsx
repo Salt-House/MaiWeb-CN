@@ -14,7 +14,7 @@ const Notice: React.FC<NoticeProps> = ({
     duration,
 }) => {
     const [token, setToken] = useState<string>("");
-    const [isVisible, setIsVisible] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
     const [string, setString] = useState<string>("暂无通知");
 
 
@@ -58,6 +58,7 @@ const Notice: React.FC<NoticeProps> = ({
                     if (data?.id) {
                         if (data.id <= 72) {
                             setString("如果您需要从神秘二维码更新B50到水鱼，请重新绑定水鱼账号");
+                            setIsVisible(true);
                         }
                     } else {
                         setString("你好");
@@ -66,6 +67,12 @@ const Notice: React.FC<NoticeProps> = ({
                 .catch(error => console.log('error', error));
         }
     }, [token])
+
+    useEffect(() => {
+        if (string == "暂无通知" || string == "你好") {
+            setIsVisible(false);
+        }
+    }, [string]);
 
     return (
         <AnimatePresence>
