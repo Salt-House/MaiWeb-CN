@@ -6,6 +6,7 @@ import ActionButton from "@/app/components/ActionButton"
 import LoadingSpinner from "@/app/components/LoadingSpinner"
 import NewsCard from "@/app/components/NewsCard"
 import { FaCalendarAlt, FaUser, FaLink } from 'react-icons/fa'
+import axios from "axios"
 
 interface NewsProps {
   title: string,
@@ -25,25 +26,20 @@ export default function NewsPage() {
   const textShadow = { textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)' }
 
   const getNews = async (limit: number, offset: number): Promise<NewsProps[]> => {
-    const myHeaders = new Headers();
-    myHeaders.append("Accept", "application/json");
-
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-    };
-
     try {
-      const response = await fetch(`https://dev.maimai.moe/api/maimai/maiweb/news?limit=${limit}&offset=${offset}`, requestOptions);
-      const result = await response.text();
-      const data = JSON.parse(result);
+      const response = await axios.get(`https://dev.maimai.moe/api/maimai/maiweb/news`, {
+        params: { limit, offset }
+      });
+
+      // 如果 response.data 已经是对象数组，就不需要再 JSON.parse
+      const data: NewsProps[] = response.data;
       console.log("获取到新闻数量:", data.length);
       return data;
     } catch (error) {
-      console.error(error);
+      console.error("获取新闻出错:", error);
       return [];
     }
-  }
+  };
 
   useEffect(() => {
     setIsLoading(true)
