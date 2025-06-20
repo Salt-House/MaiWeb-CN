@@ -139,7 +139,14 @@ export default function BestPage() {
                 method: "GET",
                 headers: myHeaders,
             };
-            const firstWord = nickname.split(" ")[0];
+            let firstWord = "";
+            let tmp = nickname.split(" ");
+
+            if (tmp.length > 2) {
+                firstWord = tmp.slice(0, tmp.length - 1).join(" ");
+            } else {
+                firstWord = tmp[0];
+            }
             fetch(`https://dev.maimai.moe/api/maimai/divingfish/bests?username=${firstWord}`, requestOptions)
                 .then((response) => response.text())
                 .then((result) => {
