@@ -12,7 +12,7 @@ import Guide from '../components/Guide'
 
 const currentVersion = "25000"
 
-const versions: (keyof typeof versionIds)[] = ["maimai", "GreeN", "ORANGE ", "PiNK", "MURASAKi ", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024", "舞萌DX 2025"]
+const version: (keyof typeof versionIds)[] = ["maimai", "GreeN", "ORANGE ", "PiNK", "MURASAKi ", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024", "舞萌DX 2025"]
 const versionIds = {
   'maimai': 10000,
   'GreeN': 12000,
@@ -28,8 +28,8 @@ const versionIds = {
   '舞萌DX 2024': 24000,
   '舞萌DX 2025': 25000,
 }
-const versionsPlus: (keyof typeof versionsPlusIds)[] = ["MAIMAI_PLUS", "MAIMAI_GREEN_PLUS", "MAIMAI_ORANGE_PLUS", "MAIMAI_PINK_PLUS", "MAIMAI_MURASAKI_PLUS", "MAIMAI_MILK_PLUS"]
-const versionsPlusIds = {
+const versionPlus: (keyof typeof versionPlusIds)[] = ["MAIMAI_PLUS", "MAIMAI_GREEN_PLUS", "MAIMAI_ORANGE_PLUS", "MAIMAI_PINK_PLUS", "MAIMAI_MURASAKI_PLUS", "MAIMAI_MILK_PLUS"]
+const versionPlusIds = {
   'MAIMAI_PLUS': 11000,
   'MAIMAI_GREEN_PLUS': 13000,
   'MAIMAI_ORANGE_PLUS': 15000,
@@ -99,10 +99,10 @@ export default function MusicPage() {
     } else if (filteredUrl.includes('level=')) {
       const level = filteredUrl.split('level=')[1].split('&')[0]
       setCurrentCategory(`等级 ${decodeURIComponent(level)}`)
-    } else if (filteredUrl.includes('versions=')) {
-      const versionId = filteredUrl.split('versions=')[1].split('&')[0]
+    } else if (filteredUrl.includes('version=')) {
+      const versionId = filteredUrl.split('version=')[1].split('&')[0]
       const version = Object.entries(versionIds).find(([_, id]) => id.toString() === versionId)?.[0] ||
-        Object.entries(versionsPlusIds).find(([_, id]) => id.toString() === versionId)?.[0]
+        Object.entries(versionPlusIds).find(([_, id]) => id.toString() === versionId)?.[0]
       setCurrentCategory(version || '未知版本')
     } else if (filteredUrl.includes('keywords=')) {
       const keyword = filteredUrl.split('keywords=')[1].split('&')[0]
@@ -518,26 +518,26 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
     <>
       <div className="h-[172px] max-sm:w-full max-sm:pb-2 max-sm:text-sm max-w-[1200px] mx-auto">
         <div className="grid grid-cols-5 grid-rows-3 gap-4 max-sm:grid-cols-3 max-sm:grid-rows-5 max-sm:gap-2 max-sm:px-1 h-full w-full">
-          {[...Array(versions.length)].map((_, index) => (
+          {[...Array(version.length)].map((_, index) => (
             <div key={index} className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border-4 border-[rgb(155,244,236)]">
               {index < 6 ? (
                 <div className="flex w-full h-full">
                   <div
                     className="w-2/3 flex items-center justify-center overflow-hidden border-r-4 max-sm:pb-1 pt-1 border-[rgb(155,244,236)] cursor-pointer text-black"
-                    onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}>
-                    <p className={`${versions[index].length > 6 ? 'max-sm:animate-text-scroll' : ''}`}>{versions[index]}</p>
+                    onClick={() => getSongs(`version=${versionIds[version[index]]}`)}>
+                    <p className={`${version[index].length > 6 ? 'max-sm:animate-text-scroll' : ''}`}>{version[index]}</p>
                   </div>
                   <div
                     className="w-1/3 flex items-center max-sm:pb-1 justify-center text-2xl cursor-pointer text-black"
-                    onClick={() => getSongs(`versions=${versionsPlusIds[versionsPlus[index]]}`)}>
+                    onClick={() => getSongs(`version=${versionPlusIds[versionPlus[index]]}`)}>
                     +
                   </div>
                 </div>
               ) : (
                 <div
                   className="max-sm:px-0 px-7 py-2 mt-1 cursor-pointer text-black"
-                  onClick={() => getSongs(`versions=${versionIds[versions[index]]}`)}>
-                  {versions[index]}
+                  onClick={() => getSongs(`version=${versionIds[version[index]]}`)}>
+                  {version[index]}
                 </div>
               )}
             </div>
