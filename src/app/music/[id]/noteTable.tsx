@@ -63,7 +63,7 @@ export default function NoteTable({ song, chartType }: { song: Song, chartType: 
                     <span className="text-gray-400">-</span> :
                     diff.touch_num}
                 </td>
-                <td className="py-3 px-4 text-center text-gray-700">{diff.break_num}</td>
+                <td className="py-3 px-4 text-center text-gray-700">{chartType == 'standard' ? `${diff.touch_num}` : `${diff.break_num}`}</td>
                 <td className="py-3 px-4 text-center font-medium">{getTotalNotes(diff)}</td>
               </tr>
             );
