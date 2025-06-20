@@ -515,35 +515,33 @@ function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<voi
 
 function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
   return (
-    <>
-      <div className="h-[172px] max-sm:w-full max-sm:pb-2 max-sm:text-sm max-w-[1200px] mx-auto">
-        <div className="grid grid-cols-5 grid-rows-3 gap-4 max-sm:grid-cols-3 max-sm:grid-rows-5 max-sm:gap-2 max-sm:px-1 h-full w-full">
-          {[...Array(version.length)].map((_, index) => (
-            <div key={index} className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border-4 border-[rgb(155,244,236)]">
-              {index < 6 ? (
-                <div className="flex w-full h-full">
-                  <div
-                    className="w-2/3 flex items-center justify-center overflow-hidden border-r-4 max-sm:pb-1 pt-1 border-[rgb(155,244,236)] cursor-pointer text-black"
-                    onClick={() => getSongs(`version=${versionIds[version[index]]}`)}>
-                    <p className={`${version[index].length > 6 ? 'max-sm:animate-text-scroll' : ''}`}>{version[index]}</p>
-                  </div>
-                  <div
-                    className="w-1/3 flex items-center max-sm:pb-1 justify-center text-2xl cursor-pointer text-black"
-                    onClick={() => getSongs(`version=${versionPlusIds[versionPlus[index]]}`)}>
-                    +
-                  </div>
-                </div>
-              ) : (
+    <div className="h-[172px] max-sm:w-full max-sm:pb-2 max-sm:text-sm max-w-[1200px] mx-auto">
+      <div className="grid grid-cols-5 grid-rows-3 gap-4 max-sm:grid-cols-3 max-sm:grid-rows-5 max-sm:gap-2 max-sm:px-1 h-full w-full">
+        {[...Array(version.length)].map((_, index) => (
+          <div key={index} className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border-4 border-[rgb(155,244,236)]">
+            {index < 6 ? (
+              <div className="flex w-full h-full">
                 <div
-                  className="max-sm:px-0 px-7 py-2 mt-1 cursor-pointer text-black"
+                  className="w-2/3 flex items-center justify-center overflow-hidden border-r-4 max-sm:pb-1 pt-1 border-[rgb(155,244,236)] cursor-pointer text-black"
                   onClick={() => getSongs(`version=${versionIds[version[index]]}`)}>
-                  {version[index]}
+                  <p className={`${version[index].length > 6 ? 'max-sm:animate-text-scroll' : ''}`}>{version[index]}</p>
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
+                <div
+                  className="w-1/3 flex items-center max-sm:pb-1 justify-center text-2xl cursor-pointer text-black"
+                  onClick={() => getSongs(`version=${versionPlusIds[versionPlus[index]]}`)}>
+                  +
+                </div>
+              </div>
+            ) : (
+              <div
+                className="max-sm:px-0 px-7 py-2 mt-1 cursor-pointer text-black"
+                onClick={() => getSongs(`version=${versionIds[version[index]]}`)}>
+                {version[index]}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
-    </>
+    </div>
   )
 }
