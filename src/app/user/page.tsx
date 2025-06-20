@@ -49,7 +49,6 @@ export default function UserPage() {
       })
       .then((result) => console.log(result))
       .catch((error) => {
-        alert("Register 失败")
         alert(error)
       });
 
