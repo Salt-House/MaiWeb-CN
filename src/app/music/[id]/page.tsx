@@ -168,7 +168,7 @@ export default function SongDetail() {
 
 function SongInfo({ song }: { song: Song }) {
   return (
-    <div className="container mx-auto px-4 mb-6">
+    <div className="container mx-auto px-4 my-6">
       <div className="flex max-sm:flex-col max-sm:justify-center max-sm:items-center space-x-8 mt-2">
         {/* 左侧曲绘 */}
         <div className="w-64 flex-shrink-0 ml-2">
