@@ -46,7 +46,7 @@ const SearchGameCenter = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [showResults, setShowResults] = useState(false);
     const [resultError, setResultError] = useState("");
-
+;
     // 初始化获取位置信息
     const getLocation = () => {
         if (!navigator.geolocation) {
@@ -73,18 +73,7 @@ const SearchGameCenter = () => {
         );
     };
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                setSearchGameCenter((prev) => ({
-                    ...prev,
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                }));
-            },
-            (error) => {
-                console.error("定位失败", error);
-            }
-        );
+        getLocation();
     }, []); // 仅在组件挂载时执行一次 
 
     // 格式化日期
@@ -209,8 +198,6 @@ const SearchGameCenter = () => {
                                 onChange={(e) => setSearchGameCenter(prev => ({ ...prev, sort: e.target.value }))}
                             >
                                 <option value="distance">按距离排序</option>
-                                <option value="name">按名称排序</option>
-                                <option value="popularity">按热门程度</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-gradient-to-r from-transparent to-[rgb(164,247,238)]">
                                 <svg className="h-4 w-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -337,71 +324,72 @@ const SearchGameCenter = () => {
                                 </div>
                             ) : (
                                 <div className="max-h-[400px] overflow-y-auto pr-1 arcade-results">
-                                    {arcadeResults.map((arcade, index) => (
-                                        <motion.div
-                                            key={arcade.arcade_id || index}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: index * 0.1 }}
-                                            className="mb-3 last:mb-0"
-                                        >
-                                            <div className={`bg-gradient-to-r ${arcade.arcade_dead ? 'from-gray-100 to-gray-200' : 'from-[rgb(245,242,193)]/30 to-[rgb(164,247,238)]/30'} 
+                                    {arcadeResults.sort((a, b) => (a.distance || Infinity) - (b.distance || Infinity))
+                                        .map((arcade, index) => (
+                                            <motion.div
+                                                key={arcade.arcade_id || index}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: index * 0.1 }}
+                                                className="mb-3 last:mb-0"
+                                            >
+                                                <div className={`bg-gradient-to-r ${arcade.arcade_dead ? 'from-gray-100 to-gray-200' : 'from-[rgb(245,242,193)]/30 to-[rgb(164,247,238)]/30'} 
                         rounded-xl p-3 hover:shadow-md transition-all duration-300 border-2 
                         ${arcade.arcade_dead ? 'border-gray-300' : 'border-[rgb(113,241,229)]'}`}
-                                            >
-                                                <div className="flex justify-between items-start">
-                                                    <div className="flex-1">
-                                                        <div className="flex items-center">
-                                                            <FaCircle className={`mr-2 text-xs ${arcade.arcade_dead ? 'text-gray-400' : 'text-green-500'}`} />
-                                                            <h3 className="font-bold text-black text-lg">{arcade.arcade_name}</h3>
-                                                            {arcade.arcade_dead && (
-                                                                <span className="ml-2 px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-xs">
-                                                                    已关闭
+                                                >
+                                                    <div className="flex justify-between items-start">
+                                                        <div className="flex-1">
+                                                            <div className="flex items-center">
+                                                                <FaCircle className={`mr-2 text-xs ${arcade.arcade_dead ? 'text-gray-400' : 'text-green-500'}`} />
+                                                                <h3 className="font-bold text-black text-lg">{arcade.arcade_name}</h3>
+                                                                {arcade.arcade_dead && (
+                                                                    <span className="ml-2 px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-xs">
+                                                                        已关闭
+                                                                    </span>
+                                                                )}
+                                                            </div>
+
+                                                            <div className="flex items-center text-gray-600 mt-2">
+                                                                <FaMapMarkerAlt className="mr-1 text-[rgb(125,136,217)]" />
+                                                                <p className="text-sm line-clamp-2">{arcade.arcade_address}</p>
+                                                            </div>
+
+                                                            <div className="mt-2 flex flex-wrap gap-2">
+                                                                {arcade.arcade_count && (
+                                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                                                        机台数: {arcade.arcade_count}
+                                                                    </span>
+                                                                )}
+                                                                {arcade.arcade_cost !== null && (
+                                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                                        单次: {arcade.arcade_cost}元
+                                                                    </span>
+                                                                )}
+                                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                                                    <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                                    </svg>
+                                                                    更新: {formatDate(arcade.created_at.toString())}
                                                                 </span>
-                                                            )}
+                                                            </div>
                                                         </div>
 
-                                                        <div className="flex items-center text-gray-600 mt-2">
-                                                            <FaMapMarkerAlt className="mr-1 text-[rgb(125,136,217)]" />
-                                                            <p className="text-sm line-clamp-2">{arcade.arcade_address}</p>
-                                                        </div>
-
-                                                        <div className="mt-2 flex flex-wrap gap-2">
-                                                            {arcade.arcade_count && (
-                                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                                                                    机台数: {arcade.arcade_count}
-                                                                </span>
-                                                            )}
-                                                            {arcade.arcade_cost !== null && (
-                                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                                                    单次: {arcade.arcade_cost}元
-                                                                </span>
-                                                            )}
-                                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                                                <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                        <div className="ml-2 flex flex-col items-center">
+                                                            <button className="p-2 rounded-full bg-[rgb(113,241,229)] hover:bg-[rgb(113,241,229)]/70 transition-colors" onClick={() => handleNavigation(arcade)}>
+                                                                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                                                                 </svg>
-                                                                更新: {formatDate(arcade.created_at.toString())}
-                                                            </span>
+                                                            </button>
+                                                            {arcade.distance && (
+                                                                <>
+                                                                    <p className="font-bold">{arcade.distance.toFixed(0)}米</p>
+                                                                </>
+                                                            )}
                                                         </div>
-                                                    </div>
-
-                                                    <div className="ml-2 flex flex-col items-center">
-                                                        <button className="p-2 rounded-full bg-[rgb(113,241,229)] hover:bg-[rgb(113,241,229)]/70 transition-colors" onClick={() => handleNavigation(arcade)}>
-                                                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                                                            </svg>
-                                                        </button>
-                                                        {arcade.distance && (
-                                                            <>
-                                                                <p className="font-bold">{arcade.distance.toFixed(0)}米</p>
-                                                            </>
-                                                        )}
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </motion.div>
-                                    ))}
+                                            </motion.div>
+                                        ))}
                                 </div>
                             )}
 
