@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IoMdClose } from 'react-icons/io';
 import { IoInformationCircle } from 'react-icons/io5';
+import { ThirdAccount } from '../user/model';
 
 interface NoticeProps {
     type?: 'info' | 'success' | 'warning' | 'error';
@@ -16,6 +17,9 @@ const Notice: React.FC<NoticeProps> = ({
     const [token, setToken] = useState<string>("");
     const [isVisible, setIsVisible] = useState(false);
     const [string, setString] = useState<string>("暂无通知");
+    const [divingbug, setDivingBug] = useState<boolean>(false);
+    const [accounts, setAccounts] = useState<ThirdAccount[]>([])
+    let displaylist: string[] = [];
 
 
     // 不同类型通知的样式
@@ -65,8 +69,17 @@ const Notice: React.FC<NoticeProps> = ({
                     }
                 })
                 .catch(error => console.log('error', error));
+
+            GetBindAccount();
+
         }
+
+
     }, [token])
+
+    useEffect(() => {
+        displaylist.push("暂无通知");
+    },[divingbug])
 
     useEffect(() => {
         if (string == "暂无通知" || string == "你好") {
@@ -74,6 +87,52 @@ const Notice: React.FC<NoticeProps> = ({
         }
     }, [string]);
 
+
+    const GetBindAccount = () => {
+        const myHeaders = new Headers();
+        myHeaders.append("accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+        };
+        console.log("start fetch bind account")
+        fetch("https://dev.maimai.moe/api/maimai/maiweb/accounts", requestOptions)
+            .then((response) => response.text())
+            .then((result) => {
+                console.log("get data")
+                const data = JSON.parse(result)
+                if (data[0].server) {
+                    const updatedAccounts = data.map((account: any) => {
+                        let from = "";
+                        if (!isNaN(Number(account.identifier))) {
+                            from = "lxns";
+                        } else {
+                            if (account.identifier.length > 40) {
+                                from = "maiweb";
+                            } else {
+                                if (account.identifier.split(" ").length>2){
+                                    setDivingBug(true);
+                                }
+                                from = "divingfish";
+                            }
+                        }
+                        return {
+                            server: account.server,
+                            nickname: account.nickname,
+                            identifier: account.identifier,
+                            from: from
+                        };
+                    });
+                    setAccounts(updatedAccounts);
+                }
+                console.log(data)
+            })
+            .catch((error) => {
+                console.error(error)
+            });
+    }
     return (
         <AnimatePresence>
             {isVisible && (
