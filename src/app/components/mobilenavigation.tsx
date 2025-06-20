@@ -76,6 +76,8 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
           <Link id="region" href={"/region"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>区域</Link>
           <div>|</div>
           <Link id="tool" href={"/tool"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>工具</Link>
+          <div>|</div>
+          <Link id="tool" href={"/qa"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>常见问题</Link>
           {/* <div>|</div> */}
           {/* <Link id="guide" href={"/guide"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>教学</Link> */}
         </div>
@@ -129,6 +131,13 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
               onClick={() => setShowMobileMenu(false)}
             >
               工具
+            </Link>
+             <Link
+              href={"/qa"}
+              className="p-4 text-blue-500 font-bold border-b border-gray-200 hover:bg-blue-50"
+              onClick={() => setShowMobileMenu(false)}
+            >
+              常见问题
             </Link>
             {/*<Link*/}
             {/*  href={"/guide"}*/}
