@@ -168,7 +168,7 @@ export default function SongDetail() {
 
 function SongInfo({ song }: { song: Song }) {
   return (
-    <div className="container mx-auto pt-4 pl-4 pr-4 mb-6">
+    <div className="container mx-auto px-4 mb-6">
       <div className="flex max-sm:flex-col max-sm:justify-center max-sm:items-center space-x-8 mt-2">
         {/* 左侧曲绘 */}
         <div className="w-64 flex-shrink-0 ml-2">
@@ -239,6 +239,23 @@ function SongInfo({ song }: { song: Song }) {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className='text-left mx-5 mt-5'>
+        <div className="font-medium">乐曲别名:</div>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {song.aliases && song.aliases.length > 0 ? (
+            song.aliases.map((alias, index) => (
+              <span
+                key={index}
+                className="bg-[rgb(69,197,255)] text-white px-3 py-1 rounded-full text-sm font-medium shadow-sm"
+              >
+                {alias}
+              </span>
+            ))
+          ) : (
+            <span className="text-gray-500">暂无别名</span>
+          )}
         </div>
       </div>
     </div>
