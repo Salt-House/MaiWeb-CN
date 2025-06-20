@@ -26,12 +26,6 @@ const qaData: QAItem[] = [
   },
   {
     id: 3,
-    question: "支持哪些支付方式？",
-    answer: "我们支持支付宝、微信支付、银联卡支付以及国际信用卡（Visa、MasterCard）。所有支付都采用SSL加密，确保您的资金安全。",
-    category: "支付相关"
-  },
-  {
-    id: 4,
     question: "如何联系技术支持？",
     answer: "您可以通过以下方式联系技术支持：1) 闲聊群反馈：734304941；2) 联系开发者：2544733927；3) 发送邮件：e2544733@outlook.com",
     category: "客服支持"
