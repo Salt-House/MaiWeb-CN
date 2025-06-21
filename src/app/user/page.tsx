@@ -44,21 +44,14 @@ export default function UserPage() {
         console.log(`Status Code: ${statusCode}`);
         if (statusCode == 201) {
           alert("Register Success")
-          setIsLoading(false);
+          window.location.href = '/user';
+        } else {
+          alert("Register 失败")
           window.location.href = '/user';
         }
       })
-      .then((result) => {
-        console.log(result)
-        alert(result)
-        setIsLoading(false);
-        window.location.href = '/user';
-      })
-      .catch((error) => {
-        alert(error)
-        setIsLoading(false);
-      });
-    setIsLoading(false);
+      .then((result) => console.log(result))
+      .catch((error) => alert(error));
 
   }
   const Login = () => {
