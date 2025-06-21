@@ -48,50 +48,34 @@ const SearchGameCenter = () => {
     const [resultError, setResultError] = useState("");
     ;
     // 初始化获取位置信息
-    // const getLocation = () => {
-    //     if (!navigator.geolocation) {
-    //         console.error("浏览器不支持地理定位");
-    //         return;
-    //     }
-
-    //     navigator.geolocation.getCurrentPosition(
-    //         (position) => {
-    //             setSearchGameCenter((prev) => ({
-    //                 ...prev,
-    //                 lat: position.coords.latitude,
-    //                 lng: position.coords.longitude,
-    //             }));
-    //         },
-    //         (error) => {
-    //             console.error("定位失败", error);
-    //         },
-    //         {
-    //             enableHighAccuracy: true, // 启用高精度
-    //             timeout: 10000,           // 10秒超时
-    //             maximumAge: 0,            // 不使用缓存位置
-    //         }
-    //     );
-    // };
-    const getLocationByIP = async () => {
-        try {
-            // 这里用一个免费的 IP 地理位置服务 API
-            const response = await fetch('https://ipapi.co/json/');
-            if (!response.ok) throw new Error('获取 IP 位置失败');
-            const data = await response.json();
-            const { latitude, longitude } = data;
-
-            setSearchGameCenter((prev) => ({
-                ...prev,
-                lat: latitude,
-                lng: longitude,
-            }));
-        } catch (error) {
-            console.error('IP 定位失败', error);
+    const getLocation = () => {
+        if (!navigator.geolocation) {
+            console.error("浏览器不支持地理定位");
+            return;
         }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setSearchGameCenter((prev) => ({
+                    ...prev,
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                }));
+            },
+            (error) => {
+                console.error("定位失败", error);
+            },
+            {
+                enableHighAccuracy: true, // 启用高精度
+                timeout: 10000,           // 10秒超时
+                maximumAge: 0,            // 不使用缓存位置
+            }
+        );
     };
 
+
     useEffect(() => {
-        getLocationByIP();
+        getLocation();
     }, []); // 仅在组件挂载时执行一次 
 
     // 格式化日期
@@ -236,7 +220,7 @@ const SearchGameCenter = () => {
                         </div>
 
                         <button
-                            onClick={getLocationByIP}
+                            onClick={getLocation}
                             className="flex items-center justify-center h-11 w-11 rounded-full bg-gradient-to-r from-[rgb(245,242,193)] to-[rgb(164,247,238)] border-2 border-[rgb(113,241,229)] hover:shadow-lg transform hover:scale-105 transition-all duration-300"
                             title="获取我的位置"
                         >
