@@ -278,7 +278,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
 
   return (
     <div className="w-full bg-white rounded-lg shadow-md p-3 flex flex-col md:flex-row md:items-center md:space-x-4 space-y-3 md:space-y-0 border-2 border-[rgb(155,244,236)]">
-      {/* 进度条 - 在移动端放在第一行 */}
+      {/* 移动端进度条 */}
       <div className="w-full md:hidden my-2">
         <div className="flex items-center space-x-4">
           <span className="text-xs text-gray-500">{formatTime(currentTime)}</span>
@@ -320,7 +320,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
           </button>
         </div>
 
-        {/* 桌面端的进度条 - 只在桌面端显示 */}
+        {/* 桌面端的进度条*/}
         <div className="hidden md:block flex-1 mx-4">
           <div className="flex items-center space-x-4">
             <span className="text-xs text-gray-500">{formatTime(currentTime)}</span>
@@ -351,7 +351,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
         </div>
 
         {/* 右侧按钮组 */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2">
           {/* 下载按钮 */}
           <DownloadButton
             url={audioUrl}
@@ -373,7 +373,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
           <div className="relative">
             <button
               onClick={() => setShowVolumeControl(!showVolumeControl)}
-              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+              className="w-8 h-8 flex items-center justify-center rounded-full text-black hover:bg-gray-100"
             >
               {globalVolume === 0 ? <FaVolumeMute /> : <FaVolumeUp />}
             </button>

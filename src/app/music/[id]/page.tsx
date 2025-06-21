@@ -185,7 +185,7 @@ function SongInfo({ song }: { song: Song }) {
         </div>
 
         {/* 右侧信息 */}
-        <div className="flex-1 max-sm:w-[90%] flex-col sm:flex-shrink-0">
+        <div className="flex-1 max-sm:w-[90%] flex-col sm:flex-shrink-0 max-sm:mt-4">
           <h1 className="text-3xl font-bold mb-4 ml-1 text-left text-black">{song.title}</h1>
           <div className="sm:flex-1 space-y-3 text-left">
             <div
@@ -244,7 +244,7 @@ function SongInfo({ song }: { song: Song }) {
         </div>
       </div>
       <div className='text-left mx-5 mt-5'>
-        <div className="font-medium">乐曲别名:</div>
+        <div className="font-medium text-black">乐曲别名:</div>
         <div className="flex flex-wrap gap-2 mt-2">
           {song.aliases && song.aliases.length > 0 ? (
             song.aliases.map((alias, index) => (
