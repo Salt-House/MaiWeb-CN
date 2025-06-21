@@ -26,28 +26,40 @@ const qaData: QAItem[] = [
   },
   {
     id: 3,
+    question: "我应该如何选择绑定账号",
+    answer: `目前绑定水鱼和落雪的账号，仅支持查询成绩与B50。如果您想使用其他功能均需要神秘二维码。`,
+    category: "账户相关"
+  },
+  {
+    id: 4,
+    question: "我已经绑定落雪和神秘二维码，为什么不能自动更新",
+    answer: `由于落雪查分器的限制，落雪账户在第一次使用时必须手动上传一次成绩，之后才能自动更新。`,
+    category: "账户相关"
+  },
+  {
+    id: 5,
     question: "如何联系技术支持？",
     answer: "您可以通过以下方式联系技术支持：1) 闲聊群反馈：734304941；2) 联系开发者：2544733927；3) 发送邮件：e2544733@outlook.com",
     category: "客服支持"
   }
 ];
 
-const categories = ["全部", "账户相关","客服支持"];
+const categories = ["全部", "账户相关", "客服支持"];
 
 export default function QAPage() {
   const [expandedItems, setExpandedItems] = useState<number[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("全部");
 
   const toggleExpanded = (id: number) => {
-    setExpandedItems(prev => 
-      prev.includes(id) 
+    setExpandedItems(prev =>
+      prev.includes(id)
         ? prev.filter(item => item !== id)
         : [...prev, id]
     );
   };
 
-  const filteredQA = selectedCategory === "全部" 
-    ? qaData 
+  const filteredQA = selectedCategory === "全部"
+    ? qaData
     : qaData.filter(item => item.category === selectedCategory);
 
   return (
@@ -69,11 +81,10 @@ export default function QAPage() {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 rounded-full transition-all duration-200 font-medium ${
-                selectedCategory === category
+              className={`px-6 py-2 rounded-full transition-all duration-200 font-medium ${selectedCategory === category
                   ? 'bg-blue-600 text-white shadow-lg transform scale-105'
                   : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-md'
-              }`}
+                }`}
             >
               {category}
             </button>
@@ -112,7 +123,7 @@ export default function QAPage() {
                     </div>
                   </div>
                 </button>
-                
+
                 {expandedItems.includes(item.id) && (
                   <div className="px-6 pb-5">
                     <div className="border-t border-gray-100 pt-4">
