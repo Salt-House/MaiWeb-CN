@@ -86,7 +86,7 @@ export default function RootLayout({
               <h1 className="text-white font-bold max-sm:text-sm" style={textDonate}>请开发者打一把mai</h1>
             </Link> */}
             {/* 意见反馈按钮暂时注释掉 */}
-            {/* <Link href={'/tool/feedback'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8">
+            {/* <Link href={'/qa/feedback'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8">
               <img src="/img/feedback.png" className="hover:scale-105 transition-all duration-300 ease-in-out max-sm:w-10" alt="" />
               <h1 className="text-white font-bold max-sm:text-sm" style={textDonate}>意见反馈</h1>
             </Link> */}
