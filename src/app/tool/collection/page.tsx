@@ -83,6 +83,39 @@ export default function CollectionPage() {
     const genreOptions = ["デフォルト", "オリジナルちほー", "maimaiシリーズ", "イベントちほー", "実績"];
 
 
+    const [previewImage, setPreviewImage] = useState<{
+        url: string;
+        name: string;
+        type: string;
+    } | null>(null);
+
+
+    const openImagePreview = (item: any, type: string) => {
+        let imageUrl = '';
+        switch (type) {
+            case 'frame':
+                imageUrl = `https://static.maimai.moe/UI_Frame_${item.id}.png`;
+                break;
+            case 'nameplate':
+                imageUrl = `https://static.maimai.moe/UI_Plate_${item.id.toString().padStart(6, '0')}.png`;
+                break;
+            case 'icon':
+                imageUrl = `${baseUrl}/${type}/${item.id}.png`;
+                break;
+        }
+
+        setPreviewImage({
+            url: imageUrl,
+            name: item.name,
+            type: type
+        });
+    };
+
+    const closeImagePreview = () => {
+        setPreviewImage(null);
+    };
+
+
     // 加载数据函数
     const loadData = async (type: string, searchParams: Record<string, string> = {}, append: boolean = false) => {
         setIsSearching(true);
@@ -275,7 +308,9 @@ export default function CollectionPage() {
                     <div
                         key={item.id}
                         className="relative rounded-lg shadow-sm max-sm:h-16 h-28 aspect-[1080/452] bg-no-repeat bg-contain hover:shadow-md transition-all duration-300 overflow-hidden"
-                        style={{ backgroundImage: `url(https://static.maimai.moe/UI_Frame_${item.id}.png)` }}
+                        style={{ backgroundImage: `url(https://static.maimai.moe/UI_Frame_${item.id}.png)` }
+                        }
+                        onClick={() => openImagePreview(item, 'frame')}
                     >
                         {/* 毛玻璃 + 文字层 */}
                         <div className="absolute max-sm:hidden inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
@@ -300,6 +335,11 @@ export default function CollectionPage() {
                                 height="60"
                             />
                         </div>
+                        <div className="absolute top-2 right-2 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white drop-shadow-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                            </svg>
+                        </div>
                     </div>
                 );
 
@@ -308,6 +348,7 @@ export default function CollectionPage() {
                     <div
                         key={item.id}
                         className={`relative rounded-full max-sm:w-44 w-72 h-12 p-3 border-b-4 ${bottomColorClass} transition-all duration-300 flex flex-col items-center`}
+                        onClick={() => openImagePreview(item, 'trophy')}
                     >
                         <div className="absolute inset-0 overflow-hidden rounded-full">
                             <div className={`w-full rounded-t-full h-1/2 ${upHalfColorClass} border-t-4 border-l-4 border-r-4 ${borderColorClass}`} />
@@ -330,6 +371,7 @@ export default function CollectionPage() {
                         style={{
                             backgroundImage: `url(https://static.maimai.moe/UI_Plate_${item.id.toString().padStart(6, '0')}.png)`
                         }}
+                        onClick={() => openImagePreview(item, 'nameplate')}
                     >
                         {/* 毛玻璃 + 文字层 */}
                         <div className="absolute inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
@@ -621,6 +663,74 @@ export default function CollectionPage() {
                     </div>
                 )}
             </div>
+            {previewImage && (
+                <div
+                    className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4"
+                    onClick={closeImagePreview}
+                >
+                    <div
+                        className="relative max-w-4xl max-h-full bg-white rounded-lg overflow-hidden shadow-2xl"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* 关闭按钮 */}
+                        <button
+                            onClick={closeImagePreview}
+                            className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-70 transition-all duration-200"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+
+                        {/* 图片内容 */}
+                        <div className="p-6">
+                            <h3 className="text-xl font-bold text-purple-800 mb-4 text-center">
+                                {previewImage.name}
+                            </h3>
+
+                            <div className="flex justify-center">
+                                {previewImage.type === 'frame' && (
+                                    <img
+                                        src={previewImage.url}
+                                        alt={previewImage.name}
+                                        className="max-w-full max-h-96 object-contain rounded-lg shadow-lg"
+                                        style={{ aspectRatio: '1080/452' }}
+                                    />
+                                )}
+                                {previewImage.type === 'nameplate' && (
+                                    <img
+                                        src={previewImage.url}
+                                        alt={previewImage.name}
+                                        className="max-w-full max-h-32 object-contain rounded-lg shadow-lg"
+                                        style={{ aspectRatio: '724/120' }}
+                                    />
+                                )}
+
+                                {previewImage.type === 'icon' && (
+                                    <img
+                                        src={previewImage.url}
+                                        alt={previewImage.name}
+                                        className="max-w-full max-h-96 object-contain rounded-lg shadow-lg w-64 h-64"
+                                    />
+                                )}
+                            </div>
+
+                            {/* 图片信息 */}
+                            <div className="mt-4 text-center text-gray-600">
+                                <p className="text-sm">
+                                    类型: {
+                                        previewImage.type === 'frame' ? '游戏背景' :
+                                            previewImage.type === 'nameplate' ? '玩家名牌' :
+                                                previewImage.type === 'icon' ? '玩家头像' : '未知'
+                                    }
+                                </p>
+                                <p className="text-xs mt-1 opacity-75">点击背景或按ESC键关闭</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }
