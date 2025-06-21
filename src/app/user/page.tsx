@@ -85,7 +85,9 @@ export default function UserPage() {
             sessionStorage.setItem('token', data.access_token);
             window.location.href = '/user/profile';
           } catch (error) {
-            console.error('存储 token 失败:', error);
+            console.error('存储 token 失败:', error
+              
+            );
             alert('登录状态保存失败，请检查浏览器设置');
           }
         } else {

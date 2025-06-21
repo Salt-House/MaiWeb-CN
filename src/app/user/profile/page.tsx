@@ -385,9 +385,8 @@ export default function UserProfilePage() {
 
                   <div className="flex justify-end m-3 space-x-4">
                     <button className="inline-flex items-center rounded-2xl bg-blue-500 transition-colors p-1 px-4 text-white font-bold max-sm:text-sm" onClick={() => setShowGuide(true)}>使用指南</button>
-                    <button className="inline-flex items-center rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>
+                      <button className="inline-flex items-center rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>
                   </div>
-
                   <div className="flex-row flex w-full items-center justify-center mb-2 mt-5">
                     <hr className='w-full border-t-4 border-gray-300 my-5 rounded-full' />
                     <div className="whitespace-nowrap px-7 text-gray-700 font-bold text-2xl">游玩信息</div>
@@ -688,7 +687,7 @@ export default function UserProfilePage() {
                       </h3>
                       <p className="text-gray-600 ml-8">绑定第三方账号，实现数据互通</p>
                       <i className="text-gray-600 ml-8 text-sm">注:推荐绑定Arcaed账号</i>
-                      <p className="text-gray-600 ml-8">在绑定账号后请点击<button className="my-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>导入数据</p>
+                      <p className="text-gray-600 ml-8">在绑定账号后请点击<button className="my-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>导入数据(一天只有两次手动更新次数)</p>
 
                     </div>
 
