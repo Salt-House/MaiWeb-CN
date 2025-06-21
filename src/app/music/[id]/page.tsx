@@ -13,7 +13,6 @@ import { FaBilibili, FaArrowUpRightFromSquare } from "react-icons/fa6"
 import { data } from 'framer-motion/client'
 import { Step } from 'react-joyride'
 import Guide from '@/app/components/Guide'
-import DownloadButton from '@/app/components/button/DownloadButton'
 
 export default function SongDetail() {
   const params = useParams()
@@ -237,8 +236,8 @@ function SongInfo({ song }: { song: Song }) {
                     {/* <FaArrowUpRightFromSquare className='ml-2' /> */}
                   </a>
                 </div>
-                <DownloadButton url={`https://assets2.lxns.net/maimai/music/${song.id}.mp3`} filename={`${song.title}.mp3`} children={"下载音频"} onDownloadStart={() => console.log('开始下载')}
-  onError={(error) => alert('下载失败')}/>
+                {/* <DownloadButton url={`https://assets2.lxns.net/maimai/music/${song.id}.mp3`} filename={`${song.title}.mp3`} children={"下载音频"} onDownloadStart={() => console.log('开始下载')}
+                  onError={(error) => alert('下载失败')} /> */}
               </div>
             </div>
           </div>

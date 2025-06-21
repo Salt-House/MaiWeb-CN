@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaPlus, FaCheck } from 'react-icons/fa'
+import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaPlus, FaCheck, FaDownload } from 'react-icons/fa'
 import { usePlayer } from '@/app/context/PlayerContext'
+import DownloadButton from '@/app/components/button/DownloadButton'
 
 interface MusicPlayerProps {
   audioUrl: string
@@ -19,6 +20,8 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
 
   // 添加状态来跟踪是否已添加到播放列表
   const [isAddedToPlaylist, setIsAddedToPlaylist] = useState(false)
+  // 添加下载状态
+  const [isDownloading, setIsDownloading] = useState(false)
 
   const [showVolumeControl, setShowVolumeControl] = useState(false)
   const [isDraggingVolume, setIsDraggingVolume] = useState(false)
@@ -111,6 +114,51 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
     setTimeout(() => {
       setIsAddedToPlaylist(false)
     }, 1000)
+  }
+
+  // 处理下载
+  const handleDownload = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (isDownloading) return
+
+    try {
+      setIsDownloading(true)
+      console.log('开始下载')
+
+      // 使用 fetch 获取文件数据
+      const response = await fetch(audioUrl)
+      if (!response.ok) throw new Error('下载失败')
+
+      const blob = await response.blob()
+      const downloadUrl = URL.createObjectURL(blob)
+
+      // 创建临时链接元素
+      const link = document.createElement('a')
+      link.href = downloadUrl
+
+      // 设置文件名
+      const filename = `${title || 'music'}.mp3`
+      link.download = filename
+
+      // 设置链接不可见并添加到文档
+      link.style.display = 'none'
+      document.body.appendChild(link)
+
+      // 触发下载
+      link.click()
+
+      // 清理临时元素和 URL 对象
+      document.body.removeChild(link)
+      URL.revokeObjectURL(downloadUrl)
+
+    } catch (error) {
+      console.error('下载失败:', error)
+      alert('下载失败')
+    } finally {
+      setIsDownloading(false)
+    }
   }
 
   // 处理进度条点击
@@ -229,17 +277,9 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
   const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-md p-3 flex items-center space-x-4 border-2 border-[rgb(155,244,236)]">
-      {/* 播放/暂停按钮 */}
-      <button
-        onClick={handleTogglePlay}
-        className="w-10 h-10 flex items-center justify-center rounded-full bg-[rgb(69,197,255)] text-white hover:bg-[rgb(55,180,235)] transition-colors"
-      >
-        {displayIsPlaying ? <FaPause /> : <FaPlay className="ml-1" />}
-      </button>
-
-      {/* 进度条 */}
-      <div className="flex-1">
+    <div className="w-full bg-white rounded-lg shadow-md p-3 flex flex-col md:flex-row md:items-center md:space-x-4 space-y-3 md:space-y-0 border-2 border-[rgb(155,244,236)]">
+      {/* 进度条 - 在移动端放在第一行 */}
+      <div className="w-full md:hidden my-2">
         <div className="flex items-center space-x-4">
           <span className="text-xs text-gray-500">{formatTime(currentTime)}</span>
           <div
@@ -268,47 +308,101 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
         </div>
       </div>
 
-      {/* 添加到播放列表按钮 */}
-      <button
-        onClick={handleAddToPlaylist}
-        className={`w-8 h-8 flex items-center justify-center rounded-full text-white transition-colors ${isAddedToPlaylist ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
-        title="添加到播放列表"
-      >
-        {isAddedToPlaylist ? <FaCheck /> : <FaPlus />}
-      </button>
+      {/* 控制按钮行 - 在移动端是第二行，两端对齐 */}
+      <div className="flex w-full justify-between items-center">
+        <div className="flex items-center">
+          {/* 播放/暂停按钮 - 始终居左 */}
+          <button
+            onClick={handleTogglePlay}
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-[rgb(69,197,255)] text-white hover:bg-[rgb(55,180,235)] transition-colors"
+          >
+            {displayIsPlaying ? <FaPause /> : <FaPlay className="ml-1" />}
+          </button>
+        </div>
 
-      {/* 音量控制 */}
-      <div className="relative">
-        <button
-          onClick={() => setShowVolumeControl(!showVolumeControl)}
-          className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-        >
-          {globalVolume === 0 ? <FaVolumeMute /> : <FaVolumeUp />}
-        </button>
-
-        {showVolumeControl && (
-          <div className="absolute bottom-full right-0 mb-2 p-2 bg-white rounded-full shadow-lg border border-gray-300">
+        {/* 桌面端的进度条 - 只在桌面端显示 */}
+        <div className="hidden md:block flex-1 mx-4">
+          <div className="flex items-center space-x-4">
+            <span className="text-xs text-gray-500">{formatTime(currentTime)}</span>
             <div
-              ref={volumeBarRef}
-              className="w-1 h-20 bg-gray-300 rounded-full cursor-pointer relative mx-auto my-1"
-              onClick={handleVolumeChange}
+              ref={progressBarRef}
+              className="flex-1 h-2 bg-gray-200 rounded-full cursor-pointer relative"
+              onClick={handleProgressChange}
             >
               <div
-                className="absolute bottom-0 left-0 w-full bg-[rgb(69,197,255)] rounded-full"
-                style={{ height: `${globalVolume * 100}%` }}
+                className="absolute top-0 left-0 h-full bg-[rgb(69,197,255)] rounded-full"
+                style={{ width: `${progressPercentage}%` }}
               ></div>
 
               <div
-                ref={volumeKnobRef}
-                className="absolute w-4 h-4 bg-white border-2 border-[rgb(69,197,255)] rounded-full -left-1.5 transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
-                style={{ bottom: `${globalVolume * 100}%`, transform: 'translateY(50%)' }}
-                onMouseDown={startVolumeDrag}
-                onMouseOver={() => volumeKnobRef.current?.classList.add('scale-110')}
-                onMouseOut={() => volumeKnobRef.current?.classList.remove('scale-110')}
+                ref={progressKnobRef}
+                className="absolute top-1/2 w-4 h-4 bg-white border-2 border-[rgb(69,197,255)] rounded-full transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
+                style={{
+                  left: `${progressPercentage}%`,
+                  transform: 'translate(-50%, -50%)'
+                }}
+                onMouseDown={startProgressDrag}
+                onMouseOver={() => progressKnobRef.current?.classList.add('scale-110')}
+                onMouseOut={() => progressKnobRef.current?.classList.remove('scale-110')}
               ></div>
             </div>
+            <span className="text-xs text-gray-500">{formatTime(duration)}</span>
           </div>
-        )}
+        </div>
+
+        {/* 右侧按钮组 */}
+        <div className="flex items-center space-x-3">
+          {/* 下载按钮 */}
+          <DownloadButton
+            url={audioUrl}
+            filename={`${title || 'music'}.mp3`}
+            onDownloadStart={() => console.log('开始下载')}
+            onError={(error) => console.error('下载失败', error)}
+          />
+
+          {/* 添加到播放列表按钮 */}
+          <button
+            onClick={handleAddToPlaylist}
+            className={`w-8 h-8 flex items-center justify-center rounded-full text-white transition-colors ${isAddedToPlaylist ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
+            title="添加到播放列表"
+          >
+            {isAddedToPlaylist ? <FaCheck /> : <FaPlus />}
+          </button>
+
+          {/* 音量控制 */}
+          <div className="relative">
+            <button
+              onClick={() => setShowVolumeControl(!showVolumeControl)}
+              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+            >
+              {globalVolume === 0 ? <FaVolumeMute /> : <FaVolumeUp />}
+            </button>
+
+            {showVolumeControl && (
+              <div className="absolute bottom-full right-0 mb-2 p-2 bg-white rounded-full shadow-lg border border-gray-300">
+                <div
+                  ref={volumeBarRef}
+                  className="w-1 h-20 bg-gray-300 rounded-full cursor-pointer relative mx-auto my-1"
+                  onClick={handleVolumeChange}
+                >
+                  <div
+                    className="absolute bottom-0 left-0 w-full bg-[rgb(69,197,255)] rounded-full"
+                    style={{ height: `${globalVolume * 100}%` }}
+                  ></div>
+
+                  <div
+                    ref={volumeKnobRef}
+                    className="absolute w-4 h-4 bg-white border-2 border-[rgb(69,197,255)] rounded-full -left-1.5 transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
+                    style={{ bottom: `${globalVolume * 100}%`, transform: 'translateY(50%)' }}
+                    onMouseDown={startVolumeDrag}
+                    onMouseOver={() => volumeKnobRef.current?.classList.add('scale-110')}
+                    onMouseOut={() => volumeKnobRef.current?.classList.remove('scale-110')}
+                  ></div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )
