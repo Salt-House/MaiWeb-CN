@@ -8,11 +8,11 @@ import LoadingSpinner from "../components/LoadingSpinner";
  * 自动检查 token 是否有效，并返回提示信息
  */
 export default function TokenChecker() {
-    const [statusMessage, setStatusMessage] = useState<string>("验证登陆状态中");
+    const [statusMessage, setStatusMessage] = useState<string>("验证登录状态中");
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [token, setToken] = useState<string>("");
     useEffect(() => {
-        let temp =  localStorage.getItem("token");
+        let temp = localStorage.getItem("token");
         if (temp) {
             setToken(temp);
         }
@@ -32,10 +32,10 @@ export default function TokenChecker() {
                 });
 
                 if (response.status !== 200) {
-                    setStatusMessage("您的登陆凭证已过期或者尚未登陆。");
+                    setStatusMessage("您的登录凭证已过期或者尚未登录。");
                     setIsLoading(false);
                 } else {
-                    setStatusMessage("已登陆");
+                    setStatusMessage("已登录");
                     setIsLoading(false);
 
                 }
