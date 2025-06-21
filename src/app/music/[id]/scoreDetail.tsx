@@ -61,7 +61,7 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
 
   const storedToken = localStorage.getItem('token');
   if (!storedToken) {
-    return <div className="text-center py-4">登录以查看个人乐曲成绩</div>
+    return <div className="text-center py-4 text-black">登录以查看个人乐曲成绩</div>
   }
 
   if (loading && !hasAttemptedLoad) {

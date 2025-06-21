@@ -44,7 +44,7 @@ export default function SongList({ songs, currentCategory = '最近添加' }: So
   return (
     <div className="flex-col w-full max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
       <div className="flex max-sm:flex-col max-sm:items-start justify-between items-center mb-6 px-4 max-sm:px-1">
-        <div className="text-lg font-medium max-sm:mb-3">
+        <div className="text-lg font-medium max-sm:mb-3 text-black">
           当前分类：{currentCategory} {/* 显示传入的当前分类名称 */}
         </div>
         <div className="flex bg-[rgb(158,175,238)] p-1 rounded-full overflow-hidden w-64 max-sm:w-40 max-sm:mb-5 max-sm:h-9">
@@ -64,7 +64,7 @@ export default function SongList({ songs, currentCategory = '最近添加' }: So
       </div>
       {songs.map((song, index) => (
         <>
-          <div id='clickDetail' className='relative mb-10'>
+          <div id='clickDetail' className='relative mb-10 max-sm:mb-1'>
             <a
               href={`https://dev.maimai.moe/music/${song.id}`}
               key={song.id}
@@ -72,7 +72,7 @@ export default function SongList({ songs, currentCategory = '最近添加' }: So
               rel="noopener noreferrer"
               onClick={() => localStorage.setItem(`song_${song.id}`, JSON.stringify(song))}
             >
-              <div className="flex h-36 max-sm:h-28 max-sm:mx-auto bg-white px-4 max-sm:px-0 max-sm:mb-16 py-2 space-x-8 max-sm:space-x-2 cursor-pointer duration-300">
+              <div className="flex h-36 max-sm:h-auto max-sm:flex-row max-sm:items-start max-sm:mx-auto bg-white px-4 max-sm:px-2 py-2 space-x-8 max-sm:space-x-2 cursor-pointer duration-300">
                 {/* 左侧曲绘封面 */}
                 <div className="max-sm:size-24 w-36 h-36 flex-shrink-0">
                   <img
@@ -82,10 +82,9 @@ export default function SongList({ songs, currentCategory = '最近添加' }: So
                   />
                 </div>
 
-
                 {/* 右侧歌曲信息 */}
-                <div className="sm:flex-1 flex flex-col max-sm:h-28 h-40 max-sm:ml-0 ml-2 justify-center min-w-0">
-                  <div className="sm:flex-1 flex max-sm:flex-col max-sm:h-36 h-40 max-sm:ml-0 ml-2 justify-center">
+                <div className="sm:flex-1 flex flex-col max-sm:h-auto h-40 justify-center min-w-0 max-sm:flex-1 pl-2 max-sm:pl-3">
+                  <div className="sm:flex-1 flex max-sm:flex-col max-sm:h-auto h-40 justify-center">
                     {/* 歌曲信息 */}
                     <div className="sm:flex-1 flex flex-col items-start min-w-0">
                       <h2
@@ -97,16 +96,16 @@ export default function SongList({ songs, currentCategory = '最近添加' }: So
                       >
                         {transferText(song.genre)}
                       </h2>
-                      <h2 className="text-2xl max-sm:text-base max-sm:w-[220px] max-sm:my-1 text-black font-bold my-3 truncate max-w-full">
+                      <h2 className="text-2xl max-sm:text-left max-sm:text-base max-sm:w-full text-black font-bold my-3 max-sm:my-1 truncate max-w-full">
                         {song.title}
                       </h2>
                       <div className="text-gray-600 self-start w-full max-sm:text-xs">
-                        <p className="text-left truncate max-sm:w-[120px]">Artist: {song.artist}</p>
-                        <p className="text-left truncate max-sm:w-[120px]">BPM: {song.bpm}</p>
+                        <p className="text-left truncate">Artist: {song.artist}</p>
+                        <p className="text-left truncate">BPM: {song.bpm}</p>
                       </div>
                     </div>
                     {/* 难度等级 */}
-                    <div className="flex flex-col space-y-2 max-sm:space-y-1 mb-2 justify-center">
+                    <div className="flex flex-col space-y-2 max-sm:space-y-1 mb-2 justify-center max-sm:mt-2 max-sm:w-full">
                       {/* Standard谱面 */}
                       {song.difficulties.standard.length > 0 && (
                         <div className="flex items-center">
@@ -178,7 +177,7 @@ export default function SongList({ songs, currentCategory = '最近添加' }: So
                       )}
                     </div>
                   </div>
-                  {index < songs.length - 1 && <div className="flex justify-center mx-1">
+                  {index < songs.length - 1 && <div className="flex justify-center mx-1 max-sm:mt-2">
                     <div className="w-full h-0.5 rounded-full bg-gray-300" />
                   </div>
                   }
@@ -188,7 +187,7 @@ export default function SongList({ songs, currentCategory = '最近添加' }: So
             <button
               id='addMusicPlay'
               onClick={() => handleAddToPlaylist(song)}
-              className={`absolute left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full  text-white hover:bg-[rgb(135,70,193)] transition-colors ${addedSongs[song.id] ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
+              className={`absolute max-sm:-left-1 max-sm:-top-1 left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full text-white hover:bg-[rgb(135,70,193)] transition-colors ${addedSongs[song.id] ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
               title="添加到播放列表"
             >
               {addedSongs[song.id] ? <FaCheck /> : <FaPlus />}
