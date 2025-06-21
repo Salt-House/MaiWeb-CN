@@ -82,9 +82,9 @@ export default function NewDetailPage() {
             <FaArrowLeft className="mr-2" />
             <span className="text-xl font-bold" style={textShadow}>返回资讯列表</span>
           </Link>
-          <div className="text-3xl font-bold text-white" style={textShadow}>
+          {/* <div className="text-3xl font-bold text-white" style={textShadow}>
             资讯详情
-          </div>
+          </div> */}
           <div className="w-[150px]"></div>
         </div>
 
