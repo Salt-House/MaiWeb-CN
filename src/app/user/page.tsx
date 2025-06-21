@@ -45,12 +45,12 @@ export default function UserPage() {
         if (statusCode == 201) {
           alert("Register Success")
           window.location.href = '/user';
-        } else {
-          alert("Register 失败")
-          window.location.href = '/user';
-        }
+        } 
       })
-      .then((result) => console.log(result))
+      .then((result) => {
+        alert("Register 失败")
+        console.log(result)
+      })
       .catch((error) => alert(error));
 
   }
