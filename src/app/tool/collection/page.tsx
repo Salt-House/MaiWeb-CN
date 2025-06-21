@@ -347,8 +347,7 @@ export default function CollectionPage() {
                 return (
                     <div
                         key={item.id}
-                        className={`relative rounded-full max-sm:w-44 w-72 h-12 p-3 border-b-4 ${bottomColorClass} transition-all duration-300 flex flex-col items-center`}
-                        onClick={() => openImagePreview(item, 'trophy')}
+                        className={`relative rounded-full max-sm:w-40 w-72 h-12 p-3 border-b-4 ${bottomColorClass} transition-all duration-300 flex flex-col items-center`}
                     >
                         <div className="absolute inset-0 overflow-hidden rounded-full">
                             <div className={`w-full rounded-t-full h-1/2 ${upHalfColorClass} border-t-4 border-l-4 border-r-4 ${borderColorClass}`} />
@@ -393,6 +392,7 @@ export default function CollectionPage() {
                     <div
                         key={item.id}
                         className="relative rounded-full p-3 shadow-sm hover:shadow-md transition-all duration-300 border border-purple-100 hover:border-purple-300 flex flex-col items-center"
+                        onClick={() => openImagePreview(item, 'icon')}
                     >
                         <div className="flex flex-col items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-2">
                             <img
@@ -719,11 +719,12 @@ export default function CollectionPage() {
                             <div className="mt-4 text-center text-gray-600">
                                 <p className="text-sm">
                                     类型: {
-                                        previewImage.type === 'frame' ? '游戏背景' :
-                                            previewImage.type === 'nameplate' ? '玩家名牌' :
-                                                previewImage.type === 'icon' ? '玩家头像' : '未知'
+                                        previewImage.type === 'frame' ? '背景框' :
+                                            previewImage.type === 'nameplate' ? '姓名框' :
+                                                previewImage.type === 'icon' ? '玩家头像' : '称号'
                                     }
                                 </p>
+                                <p className='text-xs mt-1 opacity-75 text-red-500'>获取条件正在收集当中，如果您愿意提供相关数据<br></br>请通过邮件联系我们e2544733@outlook.com</p>
                                 <p className="text-xs mt-1 opacity-75">点击背景或按ESC键关闭</p>
                             </div>
                         </div>
