@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-interface DownLoadButtonProps {
+interface DownloadButtonProps {
   url: string;
   filename?: string;
   children?: React.ReactNode;
@@ -11,7 +11,7 @@ interface DownLoadButtonProps {
   onError?: (error: Error) => void;
 }
 
-const DownLoadButton: React.FC<DownLoadButtonProps> = ({
+const DownloadButton: React.FC<DownloadButtonProps> = ({
   url,
   filename,
   children = '下载',
@@ -91,4 +91,4 @@ const DownLoadButton: React.FC<DownLoadButtonProps> = ({
   );
 };
 
-export default DownLoadButton;
+export default DownloadButton;

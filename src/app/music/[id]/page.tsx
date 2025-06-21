@@ -13,7 +13,7 @@ import { FaBilibili, FaArrowUpRightFromSquare } from "react-icons/fa6"
 import { data } from 'framer-motion/client'
 import { Step } from 'react-joyride'
 import Guide from '@/app/components/Guide'
-import DownloadButton from '@/app/components/button/DownLoadButton'
+import DownloadButton from '@/app/components/button/DownloadButton'
 
 export default function SongDetail() {
   const params = useParams()
