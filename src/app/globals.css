@@ -27,13 +27,13 @@ body {
     )
     rgb(var(--background-start-rgb)); */
   background: linear-gradient(to bottom,
-      rgba(133, 144, 250, 1) 0%,
+      rgb(150,183,255) 0%,
       /* 第一段：从顶部开始，rgba 定义颜色 */
-      rgb(201, 248, 229) 70%,
+      rgb(237,175,250) 40%,
       /* 第二段：渐变到指定的 RGB 颜色 */
-      rgb(var(--background-start-rgb)) 85%,
+      rgb(255,213,207) 85%,
       /* 第三段：从中间颜色渐变到变量指定的 RGB 颜色 */
-      rgb(255, 255, 255) 90%);
+      rgb(255, 255, 255) 100%);
 }
 
 @layer utilities {
