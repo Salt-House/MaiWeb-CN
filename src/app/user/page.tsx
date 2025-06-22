@@ -39,13 +39,16 @@ export default function UserPage() {
     };
 
     fetch("https://dev.maimai.moe/api/auth/register", requestOptions)
-      .then((response) => {
+      .then(async (response) => {
         const statusCode = response.status;
+        const data = await response.json();
         console.log(`Status Code: ${statusCode}`);
         if (statusCode == 201) {
           alert("Register Success")
           window.location.href = '/user';
-        } 
+        } else {
+          throw new Error(data.message+"该报错仅会在邮箱或用户名其中一个以上已注册的时候存在" || "注册失败，请稍后再试。");
+        }
       })
       .then((result) => {
         alert("Register 失败")
@@ -86,7 +89,7 @@ export default function UserPage() {
             window.location.href = '/user/profile';
           } catch (error) {
             console.error('存储 token 失败:', error
-              
+
             );
             alert('登录状态保存失败，请检查浏览器设置');
           }

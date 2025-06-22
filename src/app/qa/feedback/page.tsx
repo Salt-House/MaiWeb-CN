@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 export default function FeedbackPage() {
   const [formData, setFormData] = useState({
-    type: 'bug',
+    category: 'bug',
     title: '',
     description: '',
     contact: '',
@@ -12,6 +12,7 @@ export default function FeedbackPage() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -21,20 +22,58 @@ export default function FeedbackPage() {
     }))
   }
 
+  const sendmail = async () => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      "category": formData.category,
+      "title": formData.title,
+      "desc": formData.description,
+      "priority": formData.priority,
+      "contact": formData.contact
+    });
+
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+    };
+
+    try {
+      const response = await fetch("https://dev.maimai.moe/email/sendbug", requestOptions);
+      const result = await response.text();
+      
+      if (response.ok) {
+        console.log('反馈提交成功:', result);
+        return true;
+      } else {
+        throw new Error(result || '提交失败');
+      }
+    } catch (error) {
+      console.error('提交错误:', error);
+      throw error;
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
-    // 模拟提交延迟
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    setSubmitted(true)
-    setIsSubmitting(false)
+    setSubmitError('')
+
+    try {
+      await sendmail()
+      setSubmitted(true)
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : '提交失败，请稍后重试')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md mx-auto">
           <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -48,7 +87,7 @@ export default function FeedbackPage() {
               onClick={() => {
                 setSubmitted(false)
                 setFormData({
-                  type: 'bug',
+                  category: 'bug',
                   title: '',
                   description: '',
                   contact: '',
@@ -79,7 +118,7 @@ export default function FeedbackPage() {
           <div className="px-8 py-6 bg-gradient-to-r from-blue-600 to-indigo-600">
             <h2 className="text-xl font-semibold text-white">填写反馈信息</h2>
           </div>
-          
+
           <form onSubmit={handleSubmit} className="p-8 space-y-6">
             {/* 问题类型 */}
             <div>
@@ -88,7 +127,7 @@ export default function FeedbackPage() {
               </label>
               <select
                 name="type"
-                value={formData.type}
+                value={formData.category}
                 onChange={handleInputChange}
                 required
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -153,11 +192,10 @@ export default function FeedbackPage() {
                       onChange={handleInputChange}
                       className="sr-only"
                     />
-                    <div className={`px-4 py-2 rounded-lg border-2 transition-all ${
-                      formData.priority === priority.value 
-                        ? priority.color 
-                        : 'text-gray-500 bg-gray-50 border-gray-200 hover:bg-gray-100'
-                    }`}>
+                    <div className={`px-4 py-2 rounded-lg border-2 transition-all ${formData.priority === priority.value
+                      ? priority.color
+                      : 'text-gray-500 bg-gray-50 border-gray-200 hover:bg-gray-100'
+                      }`}>
                       {priority.label}
                     </div>
                   </label>
@@ -182,18 +220,25 @@ export default function FeedbackPage() {
 
             {/* 提交按钮 */}
             <div className="pt-4">
+              {submitError && (
+                <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 text-red-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span className="text-red-700 text-sm">{submitError}</span>
+                  </div>
+                </div>
+              )}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-6 rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-6 rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] disabled:hover:scale-100"
               >
                 {isSubmitting ? (
                   <div className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    提交中...
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
+                    正在提交反馈...
                   </div>
                 ) : (
                   '提交反馈'

@@ -25,6 +25,7 @@
     "react-quill": "^2.0.0",
     "react-zoom-pan-pinch": "^3.7.0",
     "reactour": "^1.19.4",
+    "resend": "^4.6.0",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-text-stroke": "^0.0.5"
   },
