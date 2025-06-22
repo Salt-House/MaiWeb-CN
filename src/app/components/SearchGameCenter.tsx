@@ -335,14 +335,14 @@ const SearchGameCenter = () => {
                                                 transition={{ delay: index * 0.1 }}
                                                 className="mb-3 last:mb-0"
                                             >
-                                                <div className={`bg-gradient-to-r  'from-[rgb(245,242,193)]/30 to-[rgb(164,247,238)]/30' 
+                                                <div className={`bg-gradient-to-r from-[rgb(245,242,193)]/30 to-[rgb(164,247,238)]/30 
                         rounded-xl p-3 hover:shadow-md transition-all duration-300 border-2 
-                        'border-[rgb(113,241,229)]'`}
+                        border-[rgb(113,241,229)]`}
                                                 >
                                                     <div className="flex justify-between items-start">
                                                         <div className="flex-1">
                                                             <div className="flex items-center">
-                                                                <FaCircle className={`mr-2 text-xs 'text-green-500'}`}/>
+                                                                <FaCircle className={`mr-2 text-xs text-green-500}`} />
                                                                 <h3 className="font-bold text-black text-lg">{arcade.arcade_name}</h3>
                                                             </div>
 
