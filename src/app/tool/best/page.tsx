@@ -34,8 +34,6 @@ interface ThirdAccount {
 
 
 
-
-
 export default function BestPage() {
     const [best35, setBest35] = useState<any>()
     const [best15, setBest15] = useState<any>()
