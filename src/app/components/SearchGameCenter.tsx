@@ -287,7 +287,7 @@ const SearchGameCenter = () => {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="max-sm:w-[410px] w-[800px] mx-auto mb-20"
+                        className="max-sm:w-[90%] w-[800px] mx-auto mb-20"
                     >
                         <div className="bg-white rounded-2xl p-4 shadow-lg border-4 border-[rgb(113,241,229)]">
                             <div className="flex justify-between items-center mb-4">
