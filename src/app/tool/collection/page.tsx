@@ -487,7 +487,7 @@ export default function CollectionPage() {
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                                     >
                                         <option value="">全部区域</option>
-                                        {genreOptions.map(genre => (
+                                        {/* {genreOptions.map(genre => (
                                             <option key={genre} value={genre}>
                                                 {genre === "デフォルト" ? "默认" :
                                                     genre === "オリジナルちほー" ? "原创区域" :
@@ -495,7 +495,7 @@ export default function CollectionPage() {
                                                             genre === "イベントちほー" ? "活动区域" :
                                                                 genre === "実績" ? "成就" : genre}
                                             </option>
-                                        ))}
+                                        ))} */}
                                     </select>
                                 </div>
                             </>
