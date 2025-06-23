@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 export default function FeedbackPage() {
   const [formData, setFormData] = useState({
-    category: 'bug',
+    category: '',
     title: '',
     description: '',
     contact: '',
@@ -87,7 +87,7 @@ export default function FeedbackPage() {
               onClick={() => {
                 setSubmitted(false)
                 setFormData({
-                  category: 'bug',
+                  category: '',
                   title: '',
                   description: '',
                   contact: '',
@@ -126,7 +126,7 @@ export default function FeedbackPage() {
                 问题类型 <span className="text-red-500">*</span>
               </label>
               <select
-                name="type"
+                name="category"
                 value={formData.category}
                 onChange={handleInputChange}
                 required
