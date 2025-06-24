@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import ChinaMap from '../components/ChinaMap';
 import { redirect } from 'next/dist/server/api-utils';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { FaArrowLeft } from 'react-icons/fa';
 
 
 export default function UserPage() {
@@ -47,7 +48,7 @@ export default function UserPage() {
           alert("Register Success")
           window.location.href = '/user';
         } else {
-          throw new Error(data.message+"该报错仅会在邮箱或用户名其中一个以上已注册的时候存在" || "注册失败，请稍后再试。");
+          throw new Error(data.message + "该报错仅会在「邮箱」或「用户名」其中一个以上已注册时存在" || "注册失败，请稍后再试。");
         }
       })
       .then((result) => {
@@ -94,12 +95,14 @@ export default function UserPage() {
             alert('登录状态保存失败，请检查浏览器设置');
           }
         } else {
-          alert("登录失败")
+          alert("登录失败，请重试")
+          setIsLoading(false);
         }
       })
       .catch((error) => {
         console.error(error);
-        alert("登录请求失败，请重试.错误详情: " + error);
+        alert("登录请求失败，请重试。错误详情: " + error);
+        setIsLoading(false);
       });
   }
 
@@ -128,18 +131,24 @@ export default function UserPage() {
       <div className="max-sm:w-full w-[900px] mt-20  mx-auto relative flex justify-center">
         <div className=' max-sm:w-[90%] w-[450px] h-[600px] bg-[rgb(239,246,255)] rounded-2xl flex flex-row border-4 border-white'>
           {/* 舞萌萌登录与注册 */}
-          <div className={`h-full bg-blue-500 max-sm:w-full p-5 rounded-2xl transition-all duration-300 ease-in-out w-[450px] border-l-4 border-white shadow-lg`}>
+          <div className={`h-full bg-blue-500 max-sm:w-full p-5 rounded-2xl transition-all duration-300 ease-in-out w-[450px] border-l-4 border-white shadow-lg relative`}>
             {isHovered ?
               <>
                 {register ?
                   <>
                     <div className='h-full flex flex-col p-2 justify-center items-center space-y-2'>
+                      <button
+                        className="flex items-center text-white font-medium hover:text-gray-200 transition-colors absolute top-4 left-4"
+                        onClick={() => setRegister(false)}
+                      >
+                        <FaArrowLeft className="mr-1" /> 返回登录
+                      </button>
                       <img src="/img/logo.png" className='w-48' alt="" />
                       <h1 className='text-2xl font-bold'>舞萌萌账号注册</h1>
                       {isLoading ? <LoadingSpinner /> : <>
-                        <input type="username" id="username" placeholder='username请在4-16以内' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={username} onChange={(e) => setUsername(e.target.value)} />
-                        <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={password} onChange={(e) => setPassword(e.target.value)} />
-                        <input type="email" id="email" placeholder='email' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <input type="username" id="username" placeholder='username (4-16位)' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-md' value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-md' value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <input type="email" id="email" placeholder='email' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-md' value={email} onChange={(e) => setEmail(e.target.value)} />
                         <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold' onClick={Register}>注册</button>
                       </>}
                     </div>
@@ -149,8 +158,8 @@ export default function UserPage() {
                       <img src="/img/logo.png" className='w-48' alt="" />
                       <h1 className='text-2xl font-bold'>舞萌萌账号登录</h1>
                       {isLoading ? <LoadingSpinner /> : <>
-                        <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={username} onChange={(e) => setUsername(e.target.value)} />
-                        <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-sm focus:scale-105' value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-md' value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-md' value={password} onChange={(e) => setPassword(e.target.value)} />
                         <div className='flex flex-row space-x-5'>
                           <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={Login}>登录</button>
                           <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={() => { setRegister(true) }}>注册</button>
