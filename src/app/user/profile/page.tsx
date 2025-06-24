@@ -385,7 +385,7 @@ export default function UserProfilePage() {
 
                   <div className="flex justify-end m-3 space-x-4">
                     <button className="inline-flex items-center rounded-2xl bg-blue-500 transition-colors p-1 px-4 text-white font-bold max-sm:text-sm" onClick={() => setShowGuide(true)}>使用指南</button>
-                      <button className="inline-flex items-center rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>
+                    <button className="inline-flex items-center rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>
                   </div>
                   <div className="flex-row flex w-full items-center justify-center mb-2 mt-5">
                     <hr className='w-full border-t-4 border-gray-300 my-5 rounded-full' />
