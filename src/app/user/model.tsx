@@ -19,7 +19,8 @@ export interface UserProfile {
   mai_player_name: string,
   mai_nameplate_id: string,
   mai_icon_id: string,
-  mai_trophy_id: string
+  mai_trophy_id: string,
+  mai_frame_id: string
 }
 export interface ThirdAccount {
   server: string,

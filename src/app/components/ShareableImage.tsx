@@ -19,18 +19,6 @@ interface MusicGradeProps {
 }
 
 
-const defaultUserProfile: UserProfile = {
-    id: "请刷新",
-    username: "请刷新",
-    email: "请刷新",
-    privileges: "basic",
-    mai_rating: "0",
-    mai_play_count: "0",
-    mai_player_name: "Player 1",
-    mai_nameplate_id: "1",
-    mai_icon_id: "1",
-    mai_trophy_id: "1",
-};
 let baseUrl = "https://assets2.lxns.net/maimai"
 
 
@@ -188,7 +176,7 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
                         </div>
                         <div className='font-bold mt-1 flex items-center text-black'>
                             <p className='w-[30px]'>#{props.index + 1}</p>
-                            <p className='w-[80px]'>{props.level_value}-{'>'}{props.dx_rating}</p>
+                            <p className='w-[80px] text-sm'>{props.level_value}-{'>'}{props.dx_rating}</p>
                             {fc != null ?
                                 <><img src={fc} className='w-[22px] h-[22px]' alt="" /></>
                                 : <div className='w-[15px] h-[15px] rounded-full bg-gray-500'></div>}
