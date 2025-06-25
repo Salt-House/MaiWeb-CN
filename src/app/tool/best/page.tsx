@@ -4,6 +4,7 @@ import AnimatedComponent from "@/app/components/AnimatedComponent";
 import Guide from "@/app/components/Guide";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { ShareableImageSub } from "@/app/components/ShareableImage";
+import { UserProfile } from "@/app/user/model";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import { Step } from "react-joyride";
@@ -47,6 +48,7 @@ export default function BestPage() {
     const [accounts, setAccounts] = useState<ThirdAccount[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [expandedId, setExpandedId] = useState<string | null>(null);
+    const [user, setUser] = useState<UserProfile>();
 
     const textstroke = {
         textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
@@ -65,6 +67,22 @@ export default function BestPage() {
     useEffect(() => {
         if (token) {
             GetBindAccount()
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", `Bearer ${token}`);
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+            };
+
+            fetch("https://dev.maimai.moe/api/user/me", requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    const data = JSON.parse(result);
+                    setUser(data);
+                    console.log(data)
+                })
+                .catch(error => console.log('error', error));
         }
     }, [token])
     useEffect(() => {
@@ -75,6 +93,7 @@ export default function BestPage() {
     useEffect(() => {
         GetBest50()
     }, [nowFrom])
+
 
     const GetBindAccount = () => {
         setIsLoading(true)
@@ -335,6 +354,46 @@ export default function BestPage() {
 
     ]
 
+    const ShareBest = () => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "category": "b50",
+            "b35_songs": best35,
+            "135_songs": best15,
+            "b15_rating": 0,
+            "b35_rating": 0,
+            "user": {
+                "username": user?.username,
+                "mai_play_name": user?.mai_player_name,
+                "mai_nameplate_id": user?.mai_nameplate_id || 11,
+                "mai_icon_id": user?.mai_icon_id || 101,
+                "mai_trophy_id": user?.mai_trophy_id || 101,
+                "mai_frame_id": user?.mai_frame_id || 350051,
+            },
+        });
+        console.log(raw)
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+        };
+
+        fetch("http://localhost:33043/best-song-list", requestOptions)
+            .then(response => response.blob())
+            .then(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "best_song_list.png"; // 下载的文件名
+                a.click();
+                URL.revokeObjectURL(url);
+            })
+            .catch(error => console.log('error', error));
+    }
+
 
     return (
         <>
@@ -396,7 +455,12 @@ export default function BestPage() {
                                     >
                                         手动更新数据
                                     </button>
-
+                                    {/* <button
+                                        onClick={ShareBest}
+                                        className="px-6 py-2 rounded-xl bg-gradient-to-r from-green-500/80 to-teal-500/80 text-white text-sm font-medium hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+                                    >
+                                        下载B50
+                                    </button> */}
                                     <div className="px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm">
                                         <span className="text-white/90 text-sm">Rating:</span>
                                         <span className="ml-2 font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">
