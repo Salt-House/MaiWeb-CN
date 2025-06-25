@@ -34,6 +34,7 @@ const defaultUserProfile: UserProfile = {
     mai_nameplate_id: "1",
     mai_icon_id: "1",
     mai_trophy_id: "1",
+    mai_frame_id: ""
 };
 
 export default function RegionPage() {

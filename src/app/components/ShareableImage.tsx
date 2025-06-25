@@ -19,18 +19,6 @@ interface MusicGradeProps {
 }
 
 
-const defaultUserProfile: UserProfile = {
-    id: "请刷新",
-    username: "请刷新",
-    email: "请刷新",
-    privileges: "basic",
-    mai_rating: "0",
-    mai_play_count: "0",
-    mai_player_name: "Player 1",
-    mai_nameplate_id: "1",
-    mai_icon_id: "1",
-    mai_trophy_id: "1",
-};
 let baseUrl = "https://assets2.lxns.net/maimai"
 
 
