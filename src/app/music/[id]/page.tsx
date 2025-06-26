@@ -21,7 +21,7 @@ export default function SongDetail() {
   const [song, setSong] = useState<Song | null>(null)
   const [scores, setScores] = useState<SongScoreProps[]>([])
   const [loading, setLoading] = useState(true)
-  const [category, setCategory] = useState<string>("DX")
+  const [category, setCategory] = useState<string>("dx")
   const [error, setError] = useState<string | null>(null)
   const [buttonStatus, setButtonStatus] = useState<boolean>(false)
   const steps: Step[] = [
