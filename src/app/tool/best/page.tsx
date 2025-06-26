@@ -1,6 +1,7 @@
 'use client'
 
 import AnimatedComponent from "@/app/components/AnimatedComponent";
+import { Button } from "@/app/components/button";
 import Guide from "@/app/components/Guide";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { ShareableImageSub } from "@/app/components/ShareableImage";
@@ -49,6 +50,7 @@ export default function BestPage() {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [expandedId, setExpandedId] = useState<string | null>(null);
     const [user, setUser] = useState<UserProfile>();
+    const [buttonStatus, setButtonStatus] = useState<boolean>(false);
 
     const textstroke = {
         textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
@@ -357,6 +359,7 @@ export default function BestPage() {
     const ShareBest = () => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        setButtonStatus(true)
 
         var raw = JSON.stringify({
             "category": "b50",
@@ -381,9 +384,10 @@ export default function BestPage() {
             body: raw,
         };
 
-        fetch("http://localhost:33043/best-song-list", requestOptions)
+        fetch("https://dev.maimai.moe/email/best-song-list", requestOptions)
             .then(response => response.blob())
             .then(blob => {
+                setButtonStatus(false)
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
@@ -455,12 +459,7 @@ export default function BestPage() {
                                     >
                                         手动更新数据
                                     </button>
-                                    {/* <button
-                                        onClick={ShareBest}
-                                        className="px-6 py-2 rounded-xl bg-gradient-to-r from-green-500/80 to-teal-500/80 text-white text-sm font-medium hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
-                                    >
-                                        下载B50
-                                    </button> */}
+                                    <Button onClick={ShareBest} variant="accent" loading={buttonStatus}>下载B50</Button>
                                     <div className="px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm">
                                         <span className="text-white/90 text-sm">Rating:</span>
                                         <span className="ml-2 font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">
