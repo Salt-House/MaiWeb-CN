@@ -13,13 +13,17 @@ import { FaBilibili, FaArrowUpRightFromSquare } from "react-icons/fa6"
 import { data } from 'framer-motion/client'
 import { Step } from 'react-joyride'
 import Guide from '@/app/components/Guide'
+import { Button } from '@/app/components/button'
+
 
 export default function SongDetail() {
   const params = useParams()
   const [song, setSong] = useState<Song | null>(null)
   const [scores, setScores] = useState<SongScoreProps[]>([])
   const [loading, setLoading] = useState(true)
+  const [category, setCategory] = useState<string>("DX")
   const [error, setError] = useState<string | null>(null)
+  const [buttonStatus, setButtonStatus] = useState<boolean>(false)
   const steps: Step[] = [
     {
       target: '#note',
@@ -28,6 +32,57 @@ export default function SongDetail() {
     },
 
   ]
+  const DownSongGrade = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    if (song != null) {
+      setButtonStatus(true)
+      let temp = song?.aliases.slice(0, 5)
+      let aliasesStr = ""
+      for (let i in temp) {
+        aliasesStr += temp[i] + "  "
+      }
+
+      var raw = JSON.stringify({
+        "song": {
+          "id": song?.id,
+          "title": song?.title,
+          "artist": song?.artist,
+          "genre": song?.genre,
+          "bpm": song?.bpm,
+          "map": song?.map,
+          "version": transferVersion(song.version),
+          "aliases": aliasesStr,
+          "category": category,
+          "scores": scores
+            .filter((item) => item.type === category)
+            .sort((a, b) => a.level_index - b.level_index)
+        }
+      });
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+      };
+
+      fetch("https://dev.maimai.moe/email/song-achievements", requestOptions)
+        .then(response => response.blob())
+        .then(blob => {
+          setButtonStatus(false)
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "best_song_list.png"; // 下载的文件名
+          a.click();
+          URL.revokeObjectURL(url);
+        })
+        .catch(error => console.log('error', error));
+    } else {
+      alert("歌曲信息未加载，请稍后再试")
+    }
+
+  }
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
@@ -151,6 +206,12 @@ export default function SongDetail() {
             <div className="text-gray-700 max-sm:w-[40%] font-bold text-xl">乐曲成绩</div>
             <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
           </div>
+          <div className='mx-auto flex juceify-center items-center space-x-4 mb-4'>
+            <Button onClick={DownSongGrade} variant="accent" loading={buttonStatus}>下载{category}谱面成绩图</Button>
+            <Button onClick={()=>setCategory("dx")} >选择DX谱面</Button>
+            <Button onClick={()=>setCategory("standard")} >选择标准谱面</Button>
+            <Button onClick={()=>setCategory("utage")} >选择宴谱面</Button>
+          </div>
           <ScoreDetail song={song} scores={scores} />
 
           {/* 谱面详情 */}
@@ -236,8 +297,6 @@ function SongInfo({ song }: { song: Song }) {
                     {/* <FaArrowUpRightFromSquare className='ml-2' /> */}
                   </a>
                 </div>
-                {/* <DownloadButton url={`https://assets2.lxns.net/maimai/music/${song.id}.mp3`} filename={`${song.title}.mp3`} children={"下载音频"} onDownloadStart={() => console.log('开始下载')}
-                  onError={(error) => alert('下载失败')} /> */}
               </div>
             </div>
           </div>
