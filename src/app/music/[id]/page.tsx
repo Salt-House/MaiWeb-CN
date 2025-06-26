@@ -206,11 +206,17 @@ export default function SongDetail() {
             <div className="text-gray-700 max-sm:w-[40%] font-bold text-xl">乐曲成绩</div>
             <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
           </div>
-          <div className='mx-auto flex juceify-center items-center space-x-4 mb-4'>
+          <div className="w-[90%] mx-auto flex items-center justify-center space-y-2 space-x-4 mb-4">
             <Button onClick={DownSongGrade} variant="accent" loading={buttonStatus}>下载{category}谱面成绩图</Button>
-            <Button onClick={()=>setCategory("dx")} >选择DX谱面</Button>
-            <Button onClick={()=>setCategory("standard")} >选择标准谱面</Button>
-            <Button onClick={()=>setCategory("utage")} >选择宴谱面</Button>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="px-4 py-2 rounded-md border border-gray-300 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+            >
+              <option value="dx">选择DX谱面</option>
+              <option value="standard">选择标准谱面</option>
+              <option value="utage">选择宴谱面</option>
+            </select>
           </div>
           <ScoreDetail song={song} scores={scores} />
 
