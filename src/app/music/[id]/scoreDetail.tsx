@@ -73,7 +73,7 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
   }
 
   if ((!scoreData || scoreData.length === 0) && hasAttemptedLoad) {
-    return <div className="text-center py-12">暂无该歌曲的分数数据，快去打一把吧！</div>
+    return <div className="text-center py-12 text-black">暂无该歌曲的分数数据，快去打一把吧！</div>
   }
 
   // 按照类型分组
