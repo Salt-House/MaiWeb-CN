@@ -231,7 +231,7 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder, son
           {category === chartType.toLowerCase() && (
             <button
               onClick={() => onDownload()}
-              className={`text-sm text-white ${bgColor} rounded-full py-1 text-center flex items-center justify-center ${buttonLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-opacity-80'}`}
+              className={`h-7 w-7 text-white ${bgColor} rounded-full mx-2 text-center flex items-center justify-center ${buttonLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-opacity-80'}`}
               disabled={buttonLoading}
             >
               {buttonLoading ? <span className="inline-block">...</span> : <FaDownload size={14} />}
