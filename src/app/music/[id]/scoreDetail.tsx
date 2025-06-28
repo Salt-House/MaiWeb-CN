@@ -216,15 +216,14 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder, son
           </button>
         </div>
         {category === chartType.toLowerCase() && (
-          <Button
-            onClick={() => onDownload}
-            variant="outline"
-            size="sm"
-            loading={buttonStatus}
-            className={`${bgColor} text-white border-white hover:bg-opacity-80 hover:border-white`}
+          <button
+            onClick={() => onDownload()}
+            className={`w-auto px-2 text-sm text-white ${bgColor} rounded-full py-1 text-center ${buttonStatus ? 'opacity-70 cursor-not-allowed' : 'hover:bg-opacity-80'}`}
+            disabled={buttonStatus}
           >
             下载{title}成绩图
-          </Button>
+            {buttonStatus && <span className="ml-1 inline-block animate-spin">⟳</span>}
+          </button>
         )}
       </div>
 
