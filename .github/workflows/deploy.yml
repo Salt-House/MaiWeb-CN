@@ -3,8 +3,8 @@ name: Deploy on Push to dev
 on:
   push:
     branches:
-      - dev  # 当 dev 分支收到推送时触发
-  workflow_dispatch:  # 允许手动触发
+      - dev
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -14,12 +14,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Print the ref value (for debugging)
-        run: |
-          echo "The ref is: $GITHUB_REF"
-
       - name: Trigger Webhook for Deployment
         run: |
-          curl -X POST https://dev.maimai.moe/dev/webhook/front \
+          set -e
+          JSON=$(jq -n --arg ref "$GITHUB_REF" --arg repo "$GITHUB_REPOSITORY" '{ref: $ref, repository: $repo}')
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X POST ${{ secrets.WEBHOOK_URL }} \
             -H "Content-Type: application/json" \
-            -d '{"ref": "${{ github.ref }}", "repository": "${{ github.repository }}"}'
+            -d "$JSON")
+          if [ "$response" != "200" ]; then
+            echo "部署失败，状态码: $response"
+            exit 1
+          fi
