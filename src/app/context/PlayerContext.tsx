@@ -226,18 +226,41 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const removeFromPlaylist = (id: string) => {
-    setPlaylist(prev => prev.filter(item => item.id !== id))
+    // 检查是否是当前播放的曲目
+    const isCurrentTrack = currentTrack && currentTrack.id === id;
 
-    // 如果移除的是当前播放的曲目，切换到下一首
-    if (currentTrack && currentTrack.id === id) {
-      const currentIndex = playlist.findIndex(item => item.id === id)
-      if (currentIndex < playlist.length - 1) {
-        setCurrentTrack(playlist[currentIndex + 1])
-      } else if (playlist.length > 1) {
-        setCurrentTrack(playlist[0])
+    // 获取当前索引和更新后的播放列表
+    const currentIndex = playlist.findIndex(item => item.id === id);
+    const updatedPlaylist = playlist.filter(item => item.id !== id);
+
+    // 更新播放列表状态
+    setPlaylist(updatedPlaylist);
+
+    // 如果删除的是当前播放的曲目
+    if (isCurrentTrack) {
+      // 停止当前音频播放
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+      }
+
+      // 如果更新后的播放列表不为空，切换到新的曲目
+      if (updatedPlaylist.length > 0) {
+        // 确定下一首要播放的歌曲索引
+        let nextIndex = currentIndex;
+        // 如果删除的是最后一首，则播放第一首
+        if (nextIndex >= updatedPlaylist.length) {
+          nextIndex = 0;
+        }
+
+        // 设置新的当前曲目
+        setCurrentTrack(updatedPlaylist[nextIndex]);
+        // 保持播放状态
+        setIsPlaying(true);
       } else {
-        setCurrentTrack(null)
-        setIsPlaying(false)
+        // 如果播放列表为空，清除当前曲目并停止播放
+        setCurrentTrack(null);
+        setIsPlaying(false);
       }
     }
   }
