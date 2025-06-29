@@ -17,10 +17,10 @@ export interface UserProfile {
   mai_rating: string,
   mai_play_count: string,
   mai_player_name: string,
-  mai_nameplate_id: string,
-  mai_icon_id: string,
-  mai_trophy_id: string,
-  mai_frame_id: string
+  mai_nameplate_id: number | null,
+  mai_icon_id: number | null,
+  mai_trophy_id: number | null,
+  mai_frame_id: number | null
 }
 export interface ThirdAccount {
   server: string,

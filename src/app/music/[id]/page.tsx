@@ -39,7 +39,6 @@ export default function SongDetail() {
         // 先检查 localStorage 是否有歌曲信息
         const songData = localStorage.getItem(`song_${params.id}`)
         if (songData) {
-          console.log('从localStorage获取数据:' + songData)
           const parsedData = JSON.parse(songData)
           setSong(parsedData)
           setLoading(false)

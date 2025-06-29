@@ -22,10 +22,10 @@ const defaultUserProfile: UserProfile = {
   mai_rating: "0",
   mai_play_count: "0",
   mai_player_name: "Player 1",
-  mai_nameplate_id: "1",
-  mai_icon_id: "1",
-  mai_trophy_id: "1",
-  mai_frame_id: ""
+  mai_nameplate_id: 1,
+  mai_icon_id: 1,
+  mai_trophy_id: 1,
+  mai_frame_id: null
 };
 
 let baseUrl = "https://assets2.lxns.net/maimai"
@@ -318,13 +318,17 @@ export default function UserProfilePage() {
                   </div>
 
 
-                  <div className='max-sm:w-full max-sm:p-0 w-full p-4 flex flex-row items-center bg-no-repeat sm:bg-contain max-sm:bg-cover bg-center rounded-xl border-2 border-[#e0e0e0] shadow-md' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : { backgroundImage: `url(${baseUrl}/plate/301.png)` }}>
+                  <div className='max-sm:w-full max-sm:p-0 w-full p-4 flex flex-row items-center bg-no-repeat sm:bg-contain max-sm:bg-cover bg-center rounded-xl border-2 border-[#e0e0e0] shadow-md' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : {
+                    backgroundImage:userdata?.mai_nameplate_id
+                      ? `url(src="https://static.maimai.moe/UI_Plate_"${userdata.mai_nameplate_id.toString().padStart(6, '0')}.png)`
+                      : 'url(https://static.maimai.moe/UI_Plate_000101.png)'
+                  }}>
                     {/* 左侧头像 */}
                     <div className='flex justify-center items-center mr-4' >
                       {token == null || userdata.mai_icon_id == null ?
                         <img src={baseUrl + '/icon/1.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
                         :
-                        <img src={baseUrl + '/icon/' + userdata.mai_icon_id + '.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
+                        <img src={baseUrl + '/icon/' + userdata.mai_icon_id.toString() + '.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
                       }
                     </div>
 

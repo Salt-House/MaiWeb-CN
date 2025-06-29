@@ -31,10 +31,10 @@ const defaultUserProfile: UserProfile = {
     mai_rating: "0",
     mai_play_count: "0",
     mai_player_name: "Player 1",
-    mai_nameplate_id: "1",
-    mai_icon_id: "1",
-    mai_trophy_id: "1",
-    mai_frame_id: ""
+    mai_nameplate_id: 1,
+    mai_icon_id: 1,
+    mai_trophy_id: 1,
+    mai_frame_id: null
 };
 
 export default function RegionPage() {
