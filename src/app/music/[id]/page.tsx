@@ -21,7 +21,6 @@ export default function SongDetail() {
   const [song, setSong] = useState<Song | null>(null)
   const [scores, setScores] = useState<SongScoreProps[]>([])
   const [loading, setLoading] = useState(true)
-  const [category, setCategory] = useState<string>("dx")
   const [error, setError] = useState<string | null>(null)
   const [buttonStatus, setButtonStatus] = useState<boolean>(false)
   const steps: Step[] = [
@@ -30,59 +29,7 @@ export default function SongDetail() {
       content: '这里您可以左右滚动查看',
       disableBeacon: true
     },
-
   ]
-  const DownSongGrade = () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    if (song != null) {
-      setButtonStatus(true)
-      let temp = song?.aliases.slice(0, 5)
-      let aliasesStr = ""
-      for (let i in temp) {
-        aliasesStr += temp[i] + "  "
-      }
-
-      var raw = JSON.stringify({
-        "song": {
-          "id": song?.id,
-          "title": song?.title,
-          "artist": song?.artist,
-          "genre": song?.genre,
-          "bpm": song?.bpm,
-          "map": song?.map,
-          "version": transferVersion(song.version),
-          "aliases": aliasesStr,
-          "category": category,
-          "scores": scores
-            .filter((item) => item.type === category)
-            .sort((a, b) => a.level_index - b.level_index)
-        }
-      });
-
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-      };
-
-      fetch("https://dev.maimai.moe/email/song-achievements", requestOptions)
-        .then(response => response.blob())
-        .then(blob => {
-          setButtonStatus(false)
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "best_song_list.png"; // 下载的文件名
-          a.click();
-          URL.revokeObjectURL(url);
-        })
-        .catch(error => console.log('error', error));
-    } else {
-      alert("歌曲信息未加载，请稍后再试")
-    }
-
-  }
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
@@ -205,18 +152,6 @@ export default function SongDetail() {
             <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
             <div className="text-gray-700 max-sm:w-[40%] font-bold text-xl">乐曲成绩</div>
             <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
-          </div>
-          <div className="w-[90%] mx-auto flex items-center justify-center space-y-2 space-x-4 mb-4">
-            <Button onClick={DownSongGrade} variant="accent" loading={buttonStatus}>下载{category}谱面成绩图</Button>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="px-4 py-2 rounded-md border border-gray-300 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-            >
-              <option value="dx">选择DX谱面</option>
-              <option value="standard">选择标准谱面</option>
-              <option value="utage">选择宴谱面</option>
-            </select>
           </div>
           <ScoreDetail song={song} scores={scores} />
 

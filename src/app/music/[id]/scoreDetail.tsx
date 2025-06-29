@@ -1,13 +1,89 @@
 import { useEffect, useState } from 'react'
 import { Song, getDifficultyColor, SongScoreProps, ChartType } from "../songModel"
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
+import { FaChevronDown, FaChevronUp, FaDownload } from 'react-icons/fa'
 import LoadingSpinner from '@/app/components/LoadingSpinner'
+import { Button } from '@/app/components/button'
 
 
 export default function ScoreDetail({ song, scores }: { song: Song, scores?: SongScoreProps[] }) {
   const [loading, setLoading] = useState(true)
   const [scoreData, setScoreData] = useState<SongScoreProps[]>([])
   const [hasAttemptedLoad, setHasAttemptedLoad] = useState(false)
+  const [category, setCategory] = useState<string>("dx")
+  const [standardButtonLoading, setStandardButtonLoading] = useState<boolean>(false)
+  const [dxButtonLoading, setDxButtonLoading] = useState<boolean>(false)
+
+  // 下载成绩图函数
+  const downloadSongGrade = (chartType: string) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    if (song != null) {
+      // 根据谱面类型设置对应的按钮状态
+      if (chartType === "standard") {
+        setStandardButtonLoading(true);
+      } else if (chartType === "dx") {
+        setDxButtonLoading(true);
+      }
+
+      let temp = song?.aliases.slice(0, 5)
+      let aliasesStr = ""
+      for (let i in temp) {
+        aliasesStr += temp[i] + "  "
+      }
+
+      var raw = JSON.stringify({
+        "song": {
+          "id": song?.id,
+          "title": song?.title,
+          "artist": song?.artist,
+          "genre": song?.genre,
+          "bpm": song?.bpm,
+          "map": song?.map,
+          "version": song.version,
+          "aliases": aliasesStr,
+          "category": chartType,
+          "scores": scoreData
+            .filter((item) => item.type === chartType)
+            .sort((a, b) => a.level_index - b.level_index)
+        }
+      });
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+      };
+
+      fetch("https://dev.maimai.moe/email/song-achievements", requestOptions)
+        .then(response => response.blob())
+        .then(blob => {
+          // 根据谱面类型重置对应的按钮状态
+          if (chartType === "standard") {
+            setStandardButtonLoading(false);
+          } else if (chartType === "dx") {
+            setDxButtonLoading(false);
+          }
+
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `${song.title} ${chartType}成绩.png`; // 下载的文件名
+          a.click();
+          URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+          console.log('error', error);
+          // 出错时也要重置按钮状态
+          if (chartType === "standard") {
+            setStandardButtonLoading(false);
+          } else if (chartType === "dx") {
+            setDxButtonLoading(false);
+          }
+        });
+    } else {
+      alert("歌曲信息未加载，请稍后再试")
+    }
+  }
 
   useEffect(() => {
     // 重置状态，避免切换歌曲时显示上一首歌的数据
@@ -73,7 +149,7 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
   }
 
   if ((!scoreData || scoreData.length === 0) && hasAttemptedLoad) {
-    return <div className="text-center py-12">暂无该歌曲的分数数据，快去打一把吧！</div>
+    return <div className="text-center py-12 text-black">暂无该歌曲的分数数据，快去打一把吧！</div>
   }
 
   // 按照类型分组
@@ -92,6 +168,9 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
           chartType="standard"
           needBottomBorder={dxScores.length > 0}
           song={song}
+          onDownload={() => downloadSongGrade("standard")}
+          buttonLoading={standardButtonLoading}
+          category="standard"
         />
       )}
 
@@ -104,6 +183,9 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
           chartType="dx"
           needBottomBorder={false}
           song={song}
+          onDownload={() => downloadSongGrade("dx")}
+          buttonLoading={dxButtonLoading}
+          category="dx"
         />
       )}
 
@@ -114,6 +196,10 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
           scores={utageScores}
           bgColor="bg-[rgb(220,56,184)]"
           chartType="utage"
+          song={song}
+          onDownload={() => downloadSongGrade("utage")}
+          buttonLoading={utageButtonLoading}
+          category="utage"
         />
       )} */}
     </div>
@@ -121,13 +207,16 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
 }
 
 // 成绩区块组件
-function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder, song }: {
+function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder, song, onDownload, buttonLoading, category }: {
   title: string,
   scores: any[],
   bgColor: string,
   chartType: string,
   needBottomBorder: boolean,
-  song: Song
+  song: Song,
+  onDownload: () => void,
+  buttonLoading: boolean,
+  category: string
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -136,16 +225,28 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder, son
 
   return (
     <div className="mb-6">
-      <div className="flex items-center mb-3">
-        <span className={`w-16 text-sm text-white ${bgColor} rounded-full py-1 text-center`}>{title}</span>
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="ml-2 p-1 rounded-full hover:bg-gray-200 transition-colors text-black"
-          aria-label={isExpanded ? "收起" : "展开"}
-        >
-          {isExpanded ? <FaChevronUp size={16} /> : <FaChevronDown size={16} />}
-        </button>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center">
+          <span className={`w-16 text-sm text-white ${bgColor} rounded-full py-1 text-center`}>{title}</span>
+          {category === chartType.toLowerCase() && (
+            <button
+              onClick={() => onDownload()}
+              className={`h-7 w-7 text-white ${bgColor} rounded-full mx-2 text-center flex items-center justify-center ${buttonLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-opacity-80'}`}
+              disabled={buttonLoading}
+            >
+              {buttonLoading ? <span className="inline-block">...</span> : <FaDownload size={14} />}
+            </button>
+          )}
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="ml-2 p-1 rounded-full hover:bg-gray-200 transition-colors text-black"
+            aria-label={isExpanded ? "收起" : "展开"}
+          >
+            {isExpanded ? <FaChevronUp size={16} /> : <FaChevronDown size={16} />}
+          </button>
+        </div>
       </div>
+
       {isExpanded && (
         <div className="space-y-4 mx-2">
           {sortedScores.map((score: any, index: number) => (
