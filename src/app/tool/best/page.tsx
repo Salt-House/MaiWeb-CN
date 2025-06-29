@@ -370,10 +370,11 @@ export default function BestPage() {
             "user": {
                 "username": user?.username,
                 "mai_play_name": user?.mai_player_name,
-                "mai_nameplate_id": user?.mai_nameplate_id || 11,
+                "mai_nameplate_id": ((user?.mai_nameplate_id ?? 11).toString().padStart(6, '0')) || 11,
                 "mai_icon_id": user?.mai_icon_id || 101,
                 "mai_trophy_id": user?.mai_trophy_id || 101,
                 "mai_frame_id": user?.mai_frame_id || 350051,
+                
             },
         });
         console.log(raw)

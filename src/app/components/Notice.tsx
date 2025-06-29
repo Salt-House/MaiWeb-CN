@@ -10,17 +10,17 @@ interface NoticeProps {
     duration?: number; // 自动关闭的时间（毫秒），如不设置则不自动关闭
 }
 
+
 const Notice: React.FC<NoticeProps> = ({
     type = 'info',
     duration,
 }) => {
     const [token, setToken] = useState<string>("");
     const [isVisible, setIsVisible] = useState(false);
-    const [string, setString] = useState<string>("暂无通知");
-    const [divingbug, setDivingBug] = useState<boolean>(false);
+    const [string, setString] = useState<string>("");
     const [accounts, setAccounts] = useState<ThirdAccount[]>([])
-    let displaylist: string[] = [];
-
+    const [notice,setNotice] = useState<string[]>([]);
+    let notice_index = 0;
 
     // 不同类型通知的样式
     const typeStyles = {
@@ -37,6 +37,17 @@ const Notice: React.FC<NoticeProps> = ({
         warning: <IoInformationCircle className="h-5 w-5 text-yellow-500" />,
         error: <IoInformationCircle className="h-5 w-5 text-red-500" />,
     };
+
+    const NextNotice = () =>{
+        if (notice.length > 0 ){
+            setString(notice[notice_index]);
+            setNotice(notice.slice(1));
+            notice_index++;
+        }else{
+            setIsVisible(false);
+        }
+    }
+
 
     useEffect(() => {
         let temp = localStorage.getItem("token");
@@ -78,11 +89,7 @@ const Notice: React.FC<NoticeProps> = ({
     }, [token])
 
     useEffect(() => {
-        displaylist.push("暂无通知");
-    },[divingbug])
-
-    useEffect(() => {
-        if (string == "暂无通知" || string == "你好") {
+        if (string == "暂无通知" || string == "你好" || string == "") {
             setIsVisible(false);
         }
     }, [string]);
@@ -112,9 +119,6 @@ const Notice: React.FC<NoticeProps> = ({
                             if (account.identifier.length > 40) {
                                 from = "maiweb";
                             } else {
-                                if (account.identifier.split(" ").length>2){
-                                    setDivingBug(true);
-                                }
                                 from = "divingfish";
                             }
                         }

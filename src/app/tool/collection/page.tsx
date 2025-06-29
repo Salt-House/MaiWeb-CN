@@ -29,6 +29,11 @@ interface Trophie {
     color: string,
 }
 
+interface SetCollectionProps{
+    type: string,
+    id: number,
+}
+
 let baseUrl = "https://assets2.lxns.net/maimai"
 
 // 统一的数据获取函数
@@ -82,6 +87,9 @@ export default function CollectionPage() {
     const colorOptions = ["", "Gold", "Silver"];
     const genreOptions = ["デフォルト", "オリジナルちほー", "maimaiシリーズ", "イベントちほー", "実績"];
 
+    const SetColletion = (type: string, data: any[]) => {
+
+    }
 
     const [previewImage, setPreviewImage] = useState<{
         url: string;
