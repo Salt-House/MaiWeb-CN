@@ -2,12 +2,15 @@
 
 
 import { useState, useEffect, useCallback } from 'react'
-import { Song } from "@/app/music/songModel"
+import { Song, transferVersion } from "@/app/music/songModel"
 import SongList from '@/app/music/songList'
 import LoadingSpinner from '../components/LoadingSpinner'
 import ActionButton from '../components/ActionButton'
 import type { Step } from 'react-joyride';
 import Guide from '../components/Guide'
+import { FaFilter, FaTimes } from 'react-icons/fa'
+import { AnimatePresence, motion } from 'framer-motion'
+import Notice from '../components/Notice'
 
 
 const currentVersion = "25000"
@@ -38,11 +41,17 @@ const versionPlusIds = {
   'MAIMAI_MILK_PLUS': 19500,
 }
 
+const Options = [
+  { label: "最新歌曲在前", value: "desc" },
+  { label: "最老歌曲在前", value: "dsc" },
+]
+
 export default function MusicPage() {
   //const songs = [sampleSong, sampleSong, sampleSong, sampleSong, sampleSong, sampleSong]
   const [songs, setSongs] = useState<Song[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [advancedSearchDisplay, setAdvancedSearchDisplay] = useState(false)
   const [selectedOption, setSelectedOption] = useState('category')
   // 添加一个状态来跟踪当前选择的分类名称
   const [currentCategory, setCurrentCategory] = useState<string>('最近更新')
@@ -50,7 +59,6 @@ export default function MusicPage() {
   const [filteredUrl, setFilteredUrl] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [hasMore, setHasMore] = useState(false)
-  const [run, setRun] = useState(true)
   const steps: Step[] = [
     {
       target: '#filter-select',
@@ -78,7 +86,7 @@ export default function MusicPage() {
 
   const getSongs = useCallback(async (filteredUrl: string, page: number = 1) => {
     setFilteredUrl(filteredUrl)
-
+    setLoading(true)
     // 根据filteredUrl设置当前分类名称
     if (filteredUrl.includes('version=') && filteredUrl.includes(currentVersion)) {
       setCurrentCategory('最近更新')
@@ -92,7 +100,7 @@ export default function MusicPage() {
       setCurrentCategory('其他游戏')
     } else if (filteredUrl.includes('genre=maimai')) {
       setCurrentCategory('舞萌')
-    } else if (filteredUrl.includes('genre=オンゲキCHUNITHM')) {
+    } else if (filteredUrl.includes('genre= オンゲキCHUNITHM')) {
       setCurrentCategory('音击&中二')
     } else if (filteredUrl.includes('type=utage')) {
       setCurrentCategory('宴会场')
@@ -176,10 +184,9 @@ export default function MusicPage() {
     `}</style>
       {/*Top Search Options Bar*/}
 
-      <div id='filter-select' className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-16 text-black ">
+      <div id='filter-select' className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-24 text-black ">
         <Guide steps={steps} autoStart={true} mark={"musictour"} />
-
-        <div className="border-4 border-white max-sm:w-[90%] bg-white rounded-2xl">
+        <div className="border-4 relative border-white max-sm:w-[90%] bg-white rounded-2xl">
           <div
             className="w-[900px] max-sm:w-full max-sm:h-96 mx-auto h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
             <div className="absolute -top-4 w-48 max-sm:h-10 h-20 text-3xl font-bold text-white" style={textstroke}>
@@ -224,7 +231,6 @@ export default function MusicPage() {
               {selectedOption === 'level' && <LevelBar getSongs={getSongs} />}
               {selectedOption === 'version' && <VersionBar getSongs={getSongs} />}
             </div>
-
             {/* AnimateVolume */}
             <div className="absolute -bottom-8 flex space-x-2">
               <div className="w-2 h-8 bg-[#5ac0b6] animate-volume"></div>
@@ -237,12 +243,44 @@ export default function MusicPage() {
               <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.7s]"></div>
               <div className="w-2 h-8 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.8s]"></div>
             </div>
+            <AnimatePresence mode="wait">
+              {!advancedSearchDisplay && (
+                <>
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="max-sm:w-[90%] absolute sm:right-0 max-sm:-right-24 -bottom-20 mx-auto "
+                  >
+                    <button className=" aspect-[324/157]  sm:h-28 max-sm:h-24 transition-all duration-300 ease-in-out hover:brightness-110 bg-no-repeat bg-contain bg-[url('/img/refine_btn.png')]"
+                      onClick={() => setAdvancedSearchDisplay(!advancedSearchDisplay)}>
+                      <h1 className='text-xl font-bold text-white relative top-4 -left-4 '>打开高级搜索</h1>
+                    </button>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
           </div>
         </div>
-      </div>
+        <AnimatePresence mode="wait">
+          {advancedSearchDisplay && (
+            <>
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="max-sm:w-[90%] sm:w-[900px] relative -bottom-5 mx-auto "
+              >
+                <AdvancedSearchBar getSongs={getSongs} close={() => setAdvancedSearchDisplay(false)} currentCategory={setCurrentCategory} />
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </div >
 
-
-      <div className='max-sm:mx-auto max-sm:w-full  mt-10 mb-32'>
+      <div className='max-sm:mx-auto max-sm:w-full mb-32'>
         {/*Music Cards*/}
         <div className="relative max-sm:w-[90%] max-sm:mx-auto flex flex-col justify-center items-center">
           <div className="border-4 max-sm:w-full border-white bg-white rounded-2xl">
@@ -293,7 +331,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)] cursor-pointer"
-            onClick={() => getSongs(`version=${currentVersion}`)}
+            onClick={() => getSongs(`versions=${currentVersion}`)}
           >
             最近更新
           </div>
@@ -380,7 +418,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)] cursor-pointer"
-            onClick={() => getSongs(`version=${currentVersion}`)}
+            onClick={() => getSongs(`versions=${currentVersion}`)}
           >
             最近更新
           </div>
@@ -523,19 +561,19 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
               <div className="flex w-full h-full">
                 <div
                   className="w-2/3 flex items-center justify-center overflow-hidden border-r-4 max-sm:pb-1 pt-1 border-[rgb(155,244,236)] cursor-pointer text-black"
-                  onClick={() => getSongs(`version=${versionIds[version[index]]}`)}>
+                  onClick={() => getSongs(`versions=${versionIds[version[index]]}`)}>
                   <p className={`${version[index].length > 6 ? 'max-sm:animate-text-scroll' : ''}`}>{version[index]}</p>
                 </div>
                 <div
                   className="w-1/3 flex items-center max-sm:pb-1 justify-center text-2xl cursor-pointer text-black"
-                  onClick={() => getSongs(`version=${versionPlusIds[versionPlus[index]]}`)}>
+                  onClick={() => getSongs(`versions=${versionPlusIds[versionPlus[index]]}`)}>
                   +
                 </div>
               </div>
             ) : (
               <div
                 className="max-sm:px-0 px-7 py-2 mt-1 cursor-pointer text-black"
-                onClick={() => getSongs(`version=${versionIds[version[index]]}`)}>
+                onClick={() => getSongs(`versions=${versionIds[version[index]]}`)}>
                 {version[index]}
               </div>
             )}
@@ -545,3 +583,192 @@ function VersionBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<v
     </div>
   )
 }
+
+
+// 在 VersionBar 函数后添加新的 AdvancedSearchBar 组件
+
+function AdvancedSearchBar({ getSongs, close, currentCategory }: { getSongs: (filteredUrl: string) => Promise<void>, close: () => void, currentCategory: React.Dispatch<React.SetStateAction<string>> }) {
+  const [searchKeyword, setSearchKeyword] = useState('')
+  const [selectedGenre, setSelectedGenre] = useState('')
+  const [selectedLevel, setSelectedLevel] = useState('')
+  const [selectedVersion, setSelectedVersion] = useState('')
+  const [isExpanded, setIsExpanded] = useState(false)
+  let str = ""
+
+
+  const genres = [
+    { value: '', label: '全部类型' },
+    { value: 'POPSアニメ', label: '流行&动漫' },
+    { value: 'niconicoボーカロイド', label: 'niconico&VOCALOID' },
+    { value: '東方Project', label: '东方Project' },
+    { value: 'ゲームバラエティ', label: '其他游戏' },
+    { value: 'maimai', label: '舞萌' },
+    { value: 'オンゲキCHUNITHM', label: '音击&中二' },
+  ]
+
+  const levels = [
+    { value: '', label: '全部等级' },
+    ...['1', '2', '3', '4', '5', '6', '7', '7+', '8', '8+', '9', '9+', '10', '10+', '11', '11+', '12', '12+', '13', '13+', '14', '14+', '15'].map(level => ({
+      value: level,
+      label: `等级 ${level}`
+    }))
+  ]
+
+  const versions = [
+    { value: '', label: '全部版本' },
+    ...version.map((v, index) => ({
+      value: versionIds[v],
+      label: v
+    })),
+    ...versionPlus.map((v, index) => ({
+      value: versionPlusIds[v],
+      label: v
+    }))
+  ]
+
+  const handleSearch = () => {
+    const params = []
+
+    if (searchKeyword.trim()) {
+      params.push(`keywords=${encodeURIComponent(searchKeyword.trim())}`)
+    }
+    if (selectedGenre) {
+      params.push(`genre=${selectedGenre}`)
+    }
+    if (selectedLevel) {
+      params.push(`level=${encodeURIComponent(selectedLevel)}`)
+    }
+    if (selectedVersion) {
+      params.push(`versions=${selectedVersion}`)
+    }
+
+    const queryString = params.length > 0 ? params.join('&') : `versions${currentVersion}`
+    console.log('查询字符串:', queryString) // 调试日志
+    getSongs(queryString)
+
+  }
+
+  useEffect(() => {
+    str = ""
+    if (searchKeyword.trim()) {
+      str += (`关键词: ${searchKeyword.trim()} `)
+    }
+    if (selectedGenre) {
+      str += (`类型: ${selectedGenre} `)
+    }
+    if (selectedLevel) {
+      str += (`等级: ${selectedLevel} `)
+    }
+    if (selectedVersion) {
+      str += (`版本: ${transferVersion(Number(selectedVersion))} `)
+    }
+    handleSearch()
+    currentCategory(str)
+
+  }, [searchKeyword, selectedGenre, selectedLevel, selectedVersion])
+
+  const handleReset = () => {
+    setSearchKeyword('')
+    setSelectedGenre('')
+    setSelectedLevel('')
+    setSelectedVersion('')
+    getSongs(`versions=${currentVersion}`)
+  }
+
+  return (
+    <div className="w-full  mx-auto bg-white rounded-2xl p-6 shadow-lg">
+      {/* 主搜索行 */}
+      <div className="flex flex-row justify-center items-center max-sm:flex-col max-sm:space-y-3 space-x-4 max-sm:space-x-0 mb-4">
+        {/* 关键词搜索 */}
+        <div className="flex-1 h-12 bg-white border-4 border-blue-700 rounded-full flex flex-row justify-center items-center shadow-md shadow-gray-500">
+          <div className="flex w-full h-full overflow-hidden">
+            <div className="w-1/4 bg-blue-700 flex items-center justify-center border-r-4 border-blue-700" style={{ borderTopLeftRadius: '1rem', borderBottomLeftRadius: '1rem' }}>
+              <div className="text-white text-sm">关键词</div>
+            </div>
+            <div className="w-3/4 flex items-center justify-center">
+              <input
+                type="text"
+                placeholder="乐曲名/别名/作曲家"
+                className="w-[90%] h-9 bg-transparent text-black placeholder-gray-500 focus:outline-none"
+                value={searchKeyword}
+                onChange={(e) => { setSearchKeyword(e.target.value);handleSearch()}}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-center space-x-4">
+          <button
+            onClick={handleReset}
+            className="px-8 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition-colors shadow-md hover:shadow-lg font-bold"
+          >
+            🔄 重置
+          </button>
+          <button
+            onClick={close}
+            className="size-12 bg-[url('/img/close.png')] bg-no-repeat bg-contain text-white rounded-full hover:brightness-110 transition-colors shadow-md hover:shadow-lg font-bold"
+          >
+          </button>
+        </div>
+
+      </div>
+      {/* 高级筛选选项 */}
+      <div className={`overflow-hidden transition-all duration-500 ease-in-out max-h-96 opacity-100`}>
+        <div className="bg-white border-4 border-[rgb(155,244,236)] rounded-2xl p-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* 乐曲类型 */}
+            <div className="flex flex-col">
+              <label className="text-sm font-bold text-gray-700 mb-2">乐曲类型</label>
+              <select
+                className="w-full h-10 px-3 bg-white border-2 border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-black"
+                value={selectedGenre}
+                onChange={(e) => { setSelectedGenre(e.target.value); }}
+              >
+                {genres.map((genre) => (
+                  <option key={genre.value} value={genre.value}>
+                    {genre.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* 等级 */}
+            <div className="flex flex-col">
+              <label className="text-sm font-bold text-gray-700 mb-2">等级</label>
+              <select
+                className="w-full h-10 px-3 bg-white border-2 border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-black"
+                value={selectedLevel}
+                onChange={(e) => { setSelectedLevel(e.target.value); }}
+              >
+                {levels.map((level) => (
+                  <option key={level.value} value={level.value}>
+                    {level.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* 版本 */}
+            <div className="flex flex-col">
+              <label className="text-sm font-bold text-gray-700 mb-2">版本</label>
+              <select
+                className="w-full h-10 px-3 bg-white border-2 border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 text-black"
+                value={selectedVersion}
+                onChange={(e) => { setSelectedVersion(e.target.value); }}
+              >
+                {versions.map((version) => (
+                  <option key={version.value} value={version.value}>
+                    {version.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* 操作按钮 */}
+
+        </div>
+      </div>
+    </div>
+  )
+}
+

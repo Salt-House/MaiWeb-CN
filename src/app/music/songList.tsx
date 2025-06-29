@@ -2,21 +2,24 @@ import Link from 'next/link'
 import { Song, getDifficultyColor, getGenreColor, transferText } from '@/app/music/songModel'
 import { FaPlus, FaCheck } from 'react-icons/fa'
 import { usePlayer } from '@/app/context/PlayerContext'
-import { useState } from 'react'
+import { use, useEffect, useState } from 'react'
 
 
 interface SongListProps {
   songs: Song[]
+  ordination?: 'desc' | 'dsc'
   currentCategory?: string // 添加一个可选的currentCategory属性
 }
 
-export default function SongList({ songs, currentCategory = '最近添加' }: SongListProps) {
+export default function SongList({ songs, currentCategory = '最近添加',ordination = 'desc' }: SongListProps) {
   // 使用usePlayer hook获取播放器上下文
   const { addToPlaylist } = usePlayer()
   // 添加状态来跟踪哪些歌曲已被添加到播放列表
   const [addedSongs, setAddedSongs] = useState<{ [key: string]: boolean }>({})  // 添加状态来跟踪当前显示模式：等级或具体定数
   const [displayMode, setDisplayMode] = useState<'level' | 'level_value'>('level')
+  const [order, setOrder] = useState<'desc' | 'dsc'>(ordination)
 
+  const [orderSongs, setOrderSongs] = useState<Song[]>([])
   // 根据上下文修改handleAddToPlaylist函数，确保有正确的参数
   const handleAddToPlaylist = (song: Song) => {
     // 假设Song类型的对象包含id和title，但可能不包含audioUrl
@@ -41,6 +44,19 @@ export default function SongList({ songs, currentCategory = '最近添加' }: So
     }, 1000)
   }
 
+  useEffect(() => {
+    switch (ordination){
+      case 'desc':
+        setOrderSongs([...songs].sort((a, b) => b.version - a.version))
+        break;
+      case 'dsc':
+        setOrderSongs([...songs].sort((a, b) => a.version - b.version))
+        break;
+      default:
+        setOrderSongs(songs)
+    }
+  },[ordination,songs])
+
   return (
     <div className="flex-col w-full max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
       <div className="flex max-sm:flex-col max-sm:items-start justify-between items-center mb-6 px-4 max-sm:px-1">
@@ -62,7 +78,7 @@ export default function SongList({ songs, currentCategory = '最近添加' }: So
           </button>
         </div>
       </div>
-      {songs.map((song, index) => (
+      {orderSongs.map((song, index) => (
         <>
           <div id='clickDetail' className='relative mb-10 max-sm:mb-1'>
             <a
@@ -193,7 +209,6 @@ export default function SongList({ songs, currentCategory = '最近添加' }: So
               {addedSongs[song.id] ? <FaCheck /> : <FaPlus />}
             </button>
           </div>
-
         </>
       ))
       }
