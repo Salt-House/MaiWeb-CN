@@ -56,7 +56,7 @@ export interface RateCurve {
 
 export interface SongScoreProps {
   id: string,
-  song_name: string,
+  title: string,
   level: string,
   level_index: number,
   achievements: number,
