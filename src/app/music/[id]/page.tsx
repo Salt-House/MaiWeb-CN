@@ -58,7 +58,7 @@ export default function SongDetail() {
 
     const fetchLatestData = async () => {
       try {
-        const url = `https://dev.maimai.moe/api/maimai/maiweb/songs?id=${params.id}`
+        const url = `https://dev.maimai.moe/api/maimai/maiweb/minfo?id=${params.id}`
         const response = await fetch(
           url, {
           method: 'GET',

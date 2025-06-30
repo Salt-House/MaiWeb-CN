@@ -295,9 +295,9 @@ export default function BestPage() {
                     localStorage.setItem('best', result)
                     const data = JSON.parse(result);
                     // 检查data是否为数组并且有数据
-                    Array.isArray(data.b15_scores) && data.b15_scores.forEach((song: any, index: number) => {
+                    Array.isArray(data.scores_b15) && data.scores_b15.forEach((song: any, index: number) => {
                         ArcaedGradeB15.push({
-                            id: Number(song.song_id),
+                            id: Number(song.id),
                             title: song.title,
                             level: song.level,
                             level_index: song.level_index,
@@ -311,9 +311,9 @@ export default function BestPage() {
                             type: song.type
                         })
                     })
-                    Array.isArray(data.b35_scores) && data.b35_scores.forEach((song: any, index: number) => {
+                    Array.isArray(data.scores_b35) && data.scores_b35.forEach((song: any, index: number) => {
                         ArcaedGradeB35.push({
-                            id: Number(song.song_id),
+                            id: Number(song.id),
                             title: song.title,
                             level: song.level,
                             level_index: song.level_index,
@@ -330,8 +330,8 @@ export default function BestPage() {
                     console.log(data)
                     setBest35(ArcaedGradeB35)
                     setBest15(ArcaedGradeB15)
-                    setRating15(Math.ceil(data.b15_rating))
-                    setRating35(Math.ceil(data.b35_rating))
+                    setRating15(Math.ceil(data.rating_b15))
+                    setRating35(Math.ceil(data.rating_b35))
                     setIsLoading(false)
                 })
                 .catch((error) => {
@@ -365,8 +365,8 @@ export default function BestPage() {
             "category": "b50",
             "b35_songs": best35,
             "135_songs": best15,
-            "b15_rating": 0,
-            "b35_rating": 0,
+            "rating_b15": 0,
+            "rating_b35": 0,
             "user": {
                 "username": user?.username,
                 "mai_play_name": user?.mai_player_name,
