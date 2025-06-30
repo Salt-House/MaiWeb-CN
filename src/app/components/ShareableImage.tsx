@@ -5,7 +5,7 @@ import { UserProfile } from '../user/model';
 
 interface MusicGradeProps {
     id: number;
-    song_name: string;
+    title: string;
     level: string;
     level_index: number;
     level_value: number
@@ -81,7 +81,7 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
         case 4:
             levelColor = 'bg-purple-500';
             nameColor = 'text-white';
-            
+
             textstroke = {
                 textShadow: '-2px -2px 2px rgba(255, 255, 255, 1), 2px -2px 2px rgba(255, 255, 255, 1), -2px 2px 2px rgba(255, 255, 255, 1), 2px 2px 2px rgba(255, 255, 255, 1)'
             };
@@ -164,11 +164,11 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
                     </div>
                     <div className='m-1 rounded-2xl border-white border-4'>
                         <div className=' border-4 rounded-xl bg-blue-500 border-blue-500'>
-                            <img className="size-20 rounded-xl" src={`${baseUrl}/jacket/${props.id}.png`} crossOrigin="anonymous" alt={props.song_name} />
+                            <img className="size-20 rounded-xl" src={`${baseUrl}/jacket/${props.id}.png`} crossOrigin="anonymous" alt={props.title} />
                         </div>
                     </div>
                     <div className='pt-1'>
-                        <p className={`w-[130px] truncate text-sm ${nameColor}`}>{props.song_name}</p>
+                        <p className={`w-[130px] truncate text-sm ${nameColor}`}>{props.title}</p>
                         <hr className="border-dashed" />
                         <div className={`text-2xl flex font-bold ${nameColor}`}><p className='w-[100px]'>{props.achievements}</p><img src={`${achievements}`} className='w-[70px]' alt="" /> </div>
                         <div className='text-sm flex'>

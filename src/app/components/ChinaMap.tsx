@@ -3,11 +3,10 @@ import * as echarts from "echarts";
 import chinaGeoJson from "./china.json"; // 导入中国 GeoJSON 数据文件
 
 interface UserRegionData {
-  user_id: string;
   region_id: string;
   region_name: string;
   play_count: number;
-  updated_at: string;
+  created_at: string;
 }
 
 const ChinaMap = () => {

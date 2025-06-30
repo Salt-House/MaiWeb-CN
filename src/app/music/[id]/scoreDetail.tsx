@@ -108,7 +108,7 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
 
       try {
         const response = await fetch(
-          `https://dev.maimai.moe/api/maimai/maiweb/scores?song_id=${song.id}`, {
+          `https://dev.maimai.moe/api/maimai/maiweb/minfo?id=${song.id}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
