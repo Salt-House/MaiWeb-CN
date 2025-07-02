@@ -32,7 +32,6 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
   const progressKnobRef = useRef<HTMLDivElement | null>(null)
   // 为移动端音量控制添加单独的ref
   const mobileVolumeBarRef = useRef<HTMLDivElement | null>(null)
-  const mobileVolumeKnobRef = useRef<HTMLDivElement | null>(null)
   const localAudioRef = useRef<HTMLAudioElement | null>(null)
 
   // 使用全局播放器上下文
@@ -187,7 +186,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
     }
   }
 
-  // 处理音量变化
+  // 处理音量变化 - 桌面端垂直音量条
   const handleVolumeChange = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!volumeBarRef.current) return
 
@@ -204,7 +203,24 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
     }
   }
 
-  // 音量拖动
+  // 处理音量变化 - 移动端水平音量条
+  const handleMobileVolumeChange = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!mobileVolumeBarRef.current) return
+
+    const volumeBar = mobileVolumeBarRef.current
+    const rect = volumeBar.getBoundingClientRect()
+    const offsetX = e.clientX - rect.left
+    const newVolume = Math.max(0, Math.min(1, offsetX / rect.width))
+
+    setGlobalVolume(newVolume)
+
+    // 同时更新本地音频的音量
+    if (localAudioRef.current) {
+      localAudioRef.current.volume = newVolume
+    }
+  }
+
+  // 音量拖动 - 桌面端
   const startVolumeDrag = (e: React.MouseEvent) => {
     setIsDraggingVolume(true)
     handleVolumeChange(e as React.MouseEvent<HTMLDivElement>)
@@ -218,6 +234,42 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
       const newVolume = Math.max(0, Math.min(1, offsetY / rect.height))
 
       setGlobalVolume(newVolume)
+
+      // 同时更新本地音频的音量
+      if (localAudioRef.current) {
+        localAudioRef.current.volume = newVolume
+      }
+    }
+
+    const onMouseUp = () => {
+      setIsDraggingVolume(false)
+      document.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('mouseup', onMouseUp)
+    }
+
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseup', onMouseUp)
+  }
+
+  // 音量拖动 - 移动端
+  const startMobileVolumeDrag = (e: React.MouseEvent) => {
+    setIsDraggingVolume(true)
+    handleMobileVolumeChange(e as React.MouseEvent<HTMLDivElement>)
+
+    function onMouseMove(e: MouseEvent) {
+      if (!mobileVolumeBarRef.current) return
+
+      const volumeBar = mobileVolumeBarRef.current
+      const rect = volumeBar.getBoundingClientRect()
+      const offsetX = e.clientX - rect.left
+      const newVolume = Math.max(0, Math.min(1, offsetX / rect.width))
+
+      setGlobalVolume(newVolume)
+
+      // 同时更新本地音频的音量
+      if (localAudioRef.current) {
+        localAudioRef.current.volume = newVolume
+      }
     }
 
     const onMouseUp = () => {
@@ -257,49 +309,6 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
 
     const onMouseUp = () => {
       setIsDraggingProgress(false)
-      document.removeEventListener('mousemove', onMouseMove)
-      document.removeEventListener('mouseup', onMouseUp)
-    }
-
-    document.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('mouseup', onMouseUp)
-  }
-
-  // 处理移动端音量变化
-  const handleMobileVolumeChange = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!mobileVolumeBarRef.current) return
-
-    const volumeBar = mobileVolumeBarRef.current
-    const rect = volumeBar.getBoundingClientRect()
-    const offsetX = e.clientX - rect.left
-    const newVolume = Math.max(0, Math.min(1, offsetX / rect.width))
-
-    setGlobalVolume(newVolume)
-
-    // 同时更新本地音频的音量
-    if (localAudioRef.current) {
-      localAudioRef.current.volume = newVolume
-    }
-  }
-
-  // 移动端音量拖动
-  const startMobileVolumeDrag = (e: React.MouseEvent) => {
-    setIsDraggingVolume(true)
-    handleMobileVolumeChange(e as React.MouseEvent<HTMLDivElement>)
-
-    function onMouseMove(e: MouseEvent) {
-      if (!mobileVolumeBarRef.current) return
-
-      const volumeBar = mobileVolumeBarRef.current
-      const rect = volumeBar.getBoundingClientRect()
-      const offsetX = e.clientX - rect.left
-      const newVolume = Math.max(0, Math.min(1, offsetX / rect.width))
-
-      setGlobalVolume(newVolume)
-    }
-
-    const onMouseUp = () => {
-      setIsDraggingVolume(false)
       document.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('mouseup', onMouseUp)
     }
@@ -462,7 +471,6 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
                     ></div>
 
                     <div
-                      ref={mobileVolumeKnobRef}
                       className="absolute top-1/2 w-4 h-4 bg-white border-2 border-[rgb(69,197,255)] rounded-full transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
                       style={{ left: `${globalVolume * 100}%`, transform: 'translate(-50%, -50%)' }}
                       onMouseDown={startMobileVolumeDrag}
