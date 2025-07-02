@@ -87,9 +87,6 @@ export default function CollectionPage() {
     const colorOptions = ["", "Gold", "Silver"];
     const genreOptions = ["デフォルト", "オリジナルちほー", "maimaiシリーズ", "イベントちほー", "実績"];
 
-    const SetColletion = (type: string, data: any[]) => {
-
-    }
 
     const [previewImage, setPreviewImage] = useState<{
         url: string;
