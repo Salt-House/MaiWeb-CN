@@ -393,14 +393,14 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
                       style={{ height: `${globalVolume * 100}%` }}
                     ></div>
 
-                    <div
+                    {/* <div
                       ref={volumeKnobRef}
                       className="absolute w-4 h-4 bg-white border-2 border-[rgb(69,197,255)] rounded-full -left-1.5 transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
                       style={{ bottom: `${globalVolume * 100}%`, transform: 'translateY(50%)' }}
                       onMouseDown={startVolumeDrag}
                       onMouseOver={() => volumeKnobRef.current?.classList.add('scale-110')}
                       onMouseOut={() => volumeKnobRef.current?.classList.remove('scale-110')}
-                    ></div>
+                    ></div> */}
                   </div>
                 </div>
 
