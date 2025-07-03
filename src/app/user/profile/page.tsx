@@ -328,7 +328,7 @@ export default function UserProfilePage() {
                       {token == null || userdata.mai_icon_id == null ?
                         <img src={baseUrl + '/icon/1.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
                         :
-                        <img src={baseUrl + '/icon/' + userdata.mai_icon_id.toString() + '.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
+                        <img src={"https://static.maimai.moe/UI_Icon_"+ userdata.mai_icon_id.toString().padStart(6,"0") + '.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
                       }
                     </div>
 
