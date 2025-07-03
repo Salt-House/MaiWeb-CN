@@ -105,7 +105,7 @@ export default function MusicPage() {
       setCurrentCategory('其他游戏')
     } else if (filteredUrl.includes('genre=maimai')) {
       setCurrentCategory('舞萌')
-    } else if (filteredUrl.includes('genre= オンゲキCHUNITHM')) {
+    } else if (filteredUrl.includes('genre=オンゲキCHUNITHM')) {
       setCurrentCategory('音击&中二')
     } else if (filteredUrl.includes('type=utage')) {
       setCurrentCategory('宴会场')
@@ -121,7 +121,7 @@ export default function MusicPage() {
       const keyword = filteredUrl.split('keywords=')[1].split('&')[0]
       setCurrentCategory(`搜索: ${decodeURIComponent(keyword)}`)
     } else {
-      setLoadingMore(true) // 加载更多时使用单独的状态
+      setLoadingMore(true)
     }
 
     const baseUrl = 'https://dev.maimai.moe/api/maimai/songs?'
@@ -151,17 +151,17 @@ export default function MusicPage() {
       } else {
         setSongs(prev => [...prev, ...data])
       }
-      console.log(data);
+      console.log(data)
       //console.log(url)
       setHasMore(data.length === 100)
       setCurrentPage(page)
-      setLoading(false);
-      setLoadingMore(false); // 无论成功与否，都重置loadingMore状态
+      setLoading(false)
+      setLoadingMore(false)
     } catch (err) {
       console.error('获取数据错误:', err)
       setError(err instanceof Error ? err.message : '获取数据失败')
       setLoading(false)
-      setLoadingMore(false) // 无论成功与否，都重置loadingMore状态
+      setLoadingMore(false)
     }
   }, [])
 
