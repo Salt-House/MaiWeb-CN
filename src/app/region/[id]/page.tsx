@@ -5,6 +5,7 @@ import { Area } from "../page";
 import Link from "next/link";
 import { FaArrowLeft, FaLocationDot } from "react-icons/fa6";
 import { FiExternalLink } from "react-icons/fi";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 interface PageProps {
     params: {
@@ -64,12 +65,7 @@ export default function AreaDetailPage({ params }: PageProps) {
             {/* 主内容区域 */}
             <div className="w-full max-w-[900px] mx-auto mt-10 max-sm:mt-6">
                 {loading ? (
-                    <div className="flex justify-center items-center h-96">
-                        <div className="flex flex-col items-center">
-                            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-purple-500"></div>
-                            <p className="mt-4 text-gray-600 font-medium">加载中...</p>
-                        </div>
-                    </div>
+                    <LoadingSpinner size="md" />
                 ) : area ? (
                     <div className="rounded-xl p-6 transition-all duration-300">
                         {/* 标题 */}
@@ -163,16 +159,26 @@ export default function AreaDetailPage({ params }: PageProps) {
                                 <h2 className="text-xl font-bold mb-4 text-gray-800 border-b-2 border-gray-200 pb-2">区域歌曲</h2>
                                 <div className="grid grid-cols-1 gap-3">
                                     {area.songs.map((song, index) => (
-                                        <div key={index} className="flex flex-col sm:flex-row items-center p-3 bg-white rounded-lg hover:bg-gray-50 transition-all duration-200 max-sm:text-center">
-                                            <img src={`${baseurl}${song.id}.png`} className="w-24 h-24 mb-2 sm:mb-0 sm:mr-8" alt="" />
-                                            <div className="flex-grow">
-                                                <h3 className="font-medium text-gray-800">{song.title}</h3>
-                                                <p className="text-sm text-gray-500">{song.artist || "未知艺术家"}</p>
+                                        <div key={index} className="flex flex-col bg-white rounded-lg hover:bg-gray-50 transition-all duration-200">
+                                            <div className="flex flex-col sm:flex-row items-center p-3 max-sm:text-center">
+                                                <img src={`${baseurl}${song.id}.png`} className="w-24 h-24 mb-2 sm:mb-0 sm:mr-8" alt="" />
+                                                <div className="flex-grow">
+                                                    <h3 className="font-medium text-gray-800">{song.title}</h3>
+                                                    <p className="text-sm text-gray-500">{song.artist || "未知艺术家"}</p>
+                                                </div>
+                                                <Link href={`/music/${song.id}`} className="flex items-center text-blue-500 hover:text-blue-600 mt-2 sm:mt-0">
+                                                    <span className="text-sm mr-1">详情</span>
+                                                    <FiExternalLink />
+                                                </Link>
                                             </div>
-                                            <Link href={`/music/${song.id}`} className="flex items-center text-blue-500 hover:text-blue-600 mt-2 sm:mt-0">
-                                                <span className="text-sm mr-1">详情</span>
-                                                <FiExternalLink />
-                                            </Link>
+                                            {song.description && (
+                                                <>
+                                                    <div className="border-t border-gray-200 mx-3"></div>
+                                                    <div className="p-3 text-sm text-gray-600">
+                                                        {song.description}
+                                                    </div>
+                                                </>
+                                            )}
                                         </div>
                                     ))}
                                 </div>

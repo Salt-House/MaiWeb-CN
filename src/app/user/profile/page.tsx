@@ -151,7 +151,7 @@ export default function UserProfilePage() {
 
         }
       })
-      .then((result) => console.log(result))
+      // .then((result) => console.log(result))
       .catch((error) => console.error(error));
   }
 
@@ -178,7 +178,7 @@ export default function UserProfilePage() {
           setBindIsLoading(false);
         }
       })
-      .then((result) => console.log(result))
+      // .then((result) => console.log(result))
       .catch((error) => console.error(error));
   }
 
@@ -319,7 +319,7 @@ export default function UserProfilePage() {
 
 
                   <div className='max-sm:w-full max-sm:p-0 w-full p-4 flex flex-row items-center bg-no-repeat sm:bg-contain max-sm:bg-cover bg-center rounded-xl border-2 border-[#e0e0e0] shadow-md' style={token == null ? { backgroundImage: `url(${baseUrl}/plate/1.png)` } : {
-                    backgroundImage:userdata?.mai_nameplate_id
+                    backgroundImage: userdata?.mai_nameplate_id
                       ? `url(src="https://static.maimai.moe/UI_Plate_"${userdata.mai_nameplate_id.toString().padStart(6, '0')}.png)`
                       : 'url(https://static.maimai.moe/UI_Plate_000101.png)'
                   }}>
@@ -328,7 +328,7 @@ export default function UserProfilePage() {
                       {token == null || userdata.mai_icon_id == null ?
                         <img src={baseUrl + '/icon/1.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
                         :
-                        <img src={"https://static.maimai.moe/UI_Icon_"+ userdata.mai_icon_id.toString().padStart(6,"0") + '.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
+                        <img src={"https://static.maimai.moe/UI_Icon_" + userdata.mai_icon_id.toString().padStart(6, "0") + '.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
                       }
                     </div>
 
@@ -513,7 +513,7 @@ export default function UserProfilePage() {
                   {isLoading ? <LoadingSpinner /> : <>
                     <div className="flex-row flex w-full items-center justify-center mb-2 mt-5">
                       <hr className='w-full max-sm:hidden border-t-4 border-gray-300 my-5 rounded-full' />
-                      <div className="whitespace-nowra  p px-7 text-gray-700 font-bold text-2xl">关联第三方账号</div>
+                      <div className="whitespace-nowrap px-7 text-gray-700 font-bold text-2xl">关联第三方账号</div>
                       <hr className='w-full max-sm:hidden border-t-4 border-gray-300 my-5 rounded-full' />
                     </div>
                     <div className='w-full flex flex-col justify-center items-center space-y-5 my-10'>
@@ -598,7 +598,7 @@ export default function UserProfilePage() {
   useEffect(() => {
     if (token != "") {
       const myHeaders = new Headers();
-      console.log("token:", token);
+      // console.log("token:", token);
       myHeaders.append("Authorization", `Bearer ${token}`);
 
       const requestOptions = {
@@ -609,7 +609,7 @@ export default function UserProfilePage() {
       fetch("https://dev.maimai.moe/api/user/me", requestOptions)
         .then((response) => response.text())
         .then((result) => {
-          console.log(result);
+          // console.log(result);
           const data = JSON.parse(result);
           if (data.id) {
             setUserData(data);
@@ -635,7 +635,7 @@ export default function UserProfilePage() {
           bindaccount.isdivingfish = true
         }
       }
-      console.log(accounts);
+      // console.log(accounts);
     }
   }, [accounts]);
 
