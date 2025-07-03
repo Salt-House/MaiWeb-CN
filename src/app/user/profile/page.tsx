@@ -151,7 +151,7 @@ export default function UserProfilePage() {
 
         }
       })
-      .then((result) => console.log(result))
+      // .then((result) => console.log(result))
       .catch((error) => console.error(error));
   }
 
@@ -178,7 +178,7 @@ export default function UserProfilePage() {
           setBindIsLoading(false);
         }
       })
-      .then((result) => console.log(result))
+      // .then((result) => console.log(result))
       .catch((error) => console.error(error));
   }
 
@@ -328,7 +328,7 @@ export default function UserProfilePage() {
                       {token == null || userdata.mai_icon_id == null ?
                         <img src={baseUrl + '/icon/1.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
                         :
-                        <img src={"https://static.maimai.moe/UI_Icon_"+ userdata.mai_icon_id.toString().padStart(6,"0") + '.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
+                        <img src={"https://static.maimai.moe/UI_Icon_" + userdata.mai_icon_id.toString().padStart(6, "0") + '.png'} className='size-24 rounded-lg border-2 border-gray-300 shadow-lg' alt="用户头像" />
                       }
                     </div>
 
@@ -598,7 +598,7 @@ export default function UserProfilePage() {
   useEffect(() => {
     if (token != "") {
       const myHeaders = new Headers();
-      console.log("token:", token);
+      // console.log("token:", token);
       myHeaders.append("Authorization", `Bearer ${token}`);
 
       const requestOptions = {
@@ -609,7 +609,7 @@ export default function UserProfilePage() {
       fetch("https://dev.maimai.moe/api/user/me", requestOptions)
         .then((response) => response.text())
         .then((result) => {
-          console.log(result);
+          // console.log(result);
           const data = JSON.parse(result);
           if (data.id) {
             setUserData(data);
@@ -635,7 +635,7 @@ export default function UserProfilePage() {
           bindaccount.isdivingfish = true
         }
       }
-      console.log(accounts);
+      // console.log(accounts);
     }
   }, [accounts]);
 

@@ -645,7 +645,7 @@ function AdvancedSearchBar({ getSongs, close, currentCategory }: { getSongs: (fi
     }
 
     const queryString = params.length > 0 ? params.join('&') : `versions${currentVersion}`
-    console.log('查询字符串:', queryString) // 调试日志
+    // console.log('查询字符串:', queryString) // 调试日志
     getSongs(queryString)
 
   }
