@@ -79,7 +79,7 @@ export default function MusicPage() {
     textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
   };
 
-  const defaultUrl = `version=${currentVersion}`
+  const defaultUrl = `versions=${currentVersion}`
   useEffect(() => {
     getSongs(defaultUrl)
   }, [])
@@ -88,7 +88,7 @@ export default function MusicPage() {
     setFilteredUrl(filteredUrl)
     setLoading(true)
     // 根据filteredUrl设置当前分类名称
-    if (filteredUrl.includes('versions=') && filteredUrl.includes(currentVersion)) {
+    if (filteredUrl.includes('version=') && filteredUrl.includes(currentVersion)) {
       setCurrentCategory('最近更新')
     } else if (filteredUrl.includes('genre=POPSアニメ')) {
       setCurrentCategory('流行&动漫')
@@ -107,8 +107,8 @@ export default function MusicPage() {
     } else if (filteredUrl.includes('level=')) {
       const level = filteredUrl.split('level=')[1].split('&')[0]
       setCurrentCategory(`等级 ${decodeURIComponent(level)}`)
-    } else if (filteredUrl.includes('version=')) {
-      const versionId = filteredUrl.split('version=')[1].split('&')[0]
+    } else if (filteredUrl.includes('versions=')) {
+      const versionId = filteredUrl.split('versions=')[1].split('&')[0]
       const version = Object.entries(versionIds).find(([_, id]) => id.toString() === versionId)?.[0] ||
         Object.entries(versionPlusIds).find(([_, id]) => id.toString() === versionId)?.[0]
       setCurrentCategory(version || '未知版本')
