@@ -294,7 +294,7 @@ export default function MusicPage() {
           <div className="border-4 max-sm:w-full border-white bg-white rounded-2xl">
             <div className="max-sm:w-full max-sm:pt-4 w-[900px] min-h-60 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
               {loading ? (
-                <LoadingSpinner size='sm' message="加载中..." description="正在获取乐曲数据" />
+                <SongList songs={songs} currentCategory={currentCategory} loading={true} />
               ) : error ? (
                 <div>错误: {error}</div>
               ) : (
@@ -304,7 +304,7 @@ export default function MusicPage() {
                     <div>{`没有找到相关乐曲……{{(>_<)}}`}</div>
                   </>
                 ) : (
-                  <SongList songs={songs} currentCategory={currentCategory} />
+                  <SongList songs={songs} currentCategory={currentCategory} loading={false} />
                 )
               )}
             </div>
