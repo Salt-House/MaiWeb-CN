@@ -50,6 +50,7 @@ export default function MusicPage() {
   //const songs = [sampleSong, sampleSong, sampleSong, sampleSong, sampleSong, sampleSong]
   const [songs, setSongs] = useState<Song[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false) // 新增加载更多状态
   const [error, setError] = useState<string | null>(null)
   const [advancedSearchDisplay, setAdvancedSearchDisplay] = useState(false)
   const [selectedOption, setSelectedOption] = useState('category')
@@ -86,7 +87,11 @@ export default function MusicPage() {
 
   const getSongs = useCallback(async (filteredUrl: string, page: number = 1) => {
     setFilteredUrl(filteredUrl)
-    setLoading(true)
+    if (page == 1) {
+      setLoading(true)
+    } else {
+      setLoadingMore(true)
+    }
     // 根据filteredUrl设置当前分类名称
     if (filteredUrl.includes(`versions=${currentVersion}`)) {
       setCurrentCategory('最近更新')
@@ -116,7 +121,7 @@ export default function MusicPage() {
       const keyword = filteredUrl.split('keywords=')[1].split('&')[0]
       setCurrentCategory(`搜索: ${decodeURIComponent(keyword)}`)
     } else {
-      setCurrentCategory('最近更新')
+      setLoadingMore(true) // 加载更多时使用单独的状态
     }
 
     const baseUrl = 'https://dev.maimai.moe/api/maimai/songs?'
@@ -151,10 +156,12 @@ export default function MusicPage() {
       setHasMore(data.length === 100)
       setCurrentPage(page)
       setLoading(false);
+      setLoadingMore(false); // 无论成功与否，都重置loadingMore状态
     } catch (err) {
       console.error('获取数据错误:', err)
       setError(err instanceof Error ? err.message : '获取数据失败')
       setLoading(false)
+      setLoadingMore(false) // 无论成功与否，都重置loadingMore状态
     }
   }, [])
 
@@ -287,7 +294,7 @@ export default function MusicPage() {
           <div className="border-4 max-sm:w-full border-white bg-white rounded-2xl">
             <div className="max-sm:w-full max-sm:pt-4 w-[900px] min-h-60 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
               {loading ? (
-                <LoadingSpinner size='sm' message="加载中..." description="正在获取乐曲数据" />
+                <SongList songs={songs} currentCategory={currentCategory} loading={true} />
               ) : error ? (
                 <div>错误: {error}</div>
               ) : (
@@ -297,7 +304,7 @@ export default function MusicPage() {
                     <div>{`没有找到相关乐曲……{{(>_<)}}`}</div>
                   </>
                 ) : (
-                  <SongList songs={songs} currentCategory={currentCategory} />
+                  <SongList songs={songs} currentCategory={currentCategory} loading={false} />
                 )
               )}
             </div>
@@ -308,7 +315,13 @@ export default function MusicPage() {
           <div className="flex space-x-4">
             {hasMore && (
               <ActionButton onClick={() => getSongs(filteredUrl, currentPage + 1)}>
-                加载更多
+                {loadingMore ? (
+                  <div className="flex items-center">
+                    <span className="ml-2">加载中...</span>
+                  </div>
+                ) : (
+                  "加载更多"
+                )}
               </ActionButton>
             )}
             {/* <ActionButton onClick={() => {
