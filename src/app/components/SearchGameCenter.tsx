@@ -149,8 +149,8 @@ const SearchGameCenter = () => {
             {/* Search Game Center - 机厅搜索区域 */}
             <div id="searchGameCenter" className="relative my-10 max-sm:w-[90%] w-[800px] mx-auto flex flex-col justify-center items-center rounded-2xl overflow-visible">
                 {/* 多层边框背景 - 保持原设计风格 */}
-                <div className="absolute rounded-2xl inset-x-0 inset-y-0 z-[-1] bg-white">
-                    <div className="border-4 border-white rounded-2xl">
+                <div className="absolute rounded-2xl inset-x-0 inset-y-0 z-[-1] bg-white border-4 border-[rgb(113,241,229)]">
+                    {/* <div className="border-4 border-white rounded-2xl">
                         <div className="border-4 border-[rgb(113,241,229)] rounded-2xl">
                             <div className="border-4 border-white rounded-2xl">
                                 <div className="border-4 border-[rgb(125,136,217)] rounded-2xl">
@@ -158,7 +158,7 @@ const SearchGameCenter = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Logo元素 */}
@@ -166,7 +166,7 @@ const SearchGameCenter = () => {
 
                 {/* 标题 */}
                 <div className="text-2xl text-center font-bold bg-gradient-to-r from-blue-500 via-green-500 to-purple-500 bg-clip-text text-transparent mt-6">
-                    查找附近的游戏机厅
+                    查找附近的机厅
                 </div>
 
                 {/* 搜索表单 */}
@@ -378,9 +378,7 @@ const SearchGameCenter = () => {
                                                                 </svg>
                                                             </button>
                                                             {arcade.distance && (
-                                                                <>
-                                                                    <p className="font-bold">{arcade.distance.toFixed(0)}米</p>
-                                                                </>
+                                                                <p className="font-bold mt-1">{(arcade.distance / 1000).toFixed(2)} km</p>
                                                             )}
                                                         </div>
                                                     </div>
