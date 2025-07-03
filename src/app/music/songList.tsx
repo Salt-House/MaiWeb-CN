@@ -61,7 +61,7 @@ export default function SongList({ songs, currentCategory = '最近添加', ordi
     <div className="flex-col w-full max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
       <div className="flex max-sm:flex-col max-sm:items-start justify-between items-center mb-6 px-4 max-sm:px-1">
         <div className="text-lg font-medium max-sm:mb-3 text-black">
-          当前分类：{currentCategory} {/* 显示传入的当前分类名称 */}
+          当前分类：{currentCategory}
         </div>
         <div className="flex bg-[rgb(158,175,238)] p-1 rounded-full overflow-hidden w-64 max-sm:w-40 max-sm:mb-5 max-sm:h-9">
           <button
@@ -162,7 +162,6 @@ export default function SongList({ songs, currentCategory = '最近添加', ordi
                                   >
                                     {displayMode === 'level' ? diff.level : (Number.isInteger(diff.level_value) ? `${diff.level_value}.0` : diff.level_value)}
                                   </div>
-                                  {/* 移除单独显示的定数值 */}
                                 </div>
                               </>
                             ))}
