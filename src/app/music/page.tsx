@@ -50,6 +50,7 @@ export default function MusicPage() {
   //const songs = [sampleSong, sampleSong, sampleSong, sampleSong, sampleSong, sampleSong]
   const [songs, setSongs] = useState<Song[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false) // 新增加载更多状态
   const [error, setError] = useState<string | null>(null)
   const [advancedSearchDisplay, setAdvancedSearchDisplay] = useState(false)
   const [selectedOption, setSelectedOption] = useState('category')
@@ -86,7 +87,11 @@ export default function MusicPage() {
 
   const getSongs = useCallback(async (filteredUrl: string, page: number = 1) => {
     setFilteredUrl(filteredUrl)
-    setLoading(true)
+    if (page == 1) {
+      setLoading(true)
+    } else {
+      setLoadingMore(true)
+    }
     // 根据filteredUrl设置当前分类名称
     if (filteredUrl.includes(`versions=${currentVersion}`)) {
       setCurrentCategory('最近更新')
@@ -116,7 +121,7 @@ export default function MusicPage() {
       const keyword = filteredUrl.split('keywords=')[1].split('&')[0]
       setCurrentCategory(`搜索: ${decodeURIComponent(keyword)}`)
     } else {
-      setCurrentCategory('最近更新')
+      setLoadingMore(true) // 加载更多时使用单独的状态
     }
 
     const baseUrl = 'https://dev.maimai.moe/api/maimai/songs?'
@@ -151,10 +156,12 @@ export default function MusicPage() {
       setHasMore(data.length === 100)
       setCurrentPage(page)
       setLoading(false);
+      setLoadingMore(false); // 无论成功与否，都重置loadingMore状态
     } catch (err) {
       console.error('获取数据错误:', err)
       setError(err instanceof Error ? err.message : '获取数据失败')
       setLoading(false)
+      setLoadingMore(false) // 无论成功与否，都重置loadingMore状态
     }
   }, [])
 
@@ -308,7 +315,13 @@ export default function MusicPage() {
           <div className="flex space-x-4">
             {hasMore && (
               <ActionButton onClick={() => getSongs(filteredUrl, currentPage + 1)}>
-                加载更多
+                {loadingMore ? (
+                  <div className="flex items-center">
+                    <span className="ml-2">加载中...</span>
+                  </div>
+                ) : (
+                  "加载更多"
+                )}
               </ActionButton>
             )}
             {/* <ActionButton onClick={() => {
