@@ -88,7 +88,7 @@ export default function MusicPage() {
     setFilteredUrl(filteredUrl)
     setLoading(true)
     // 根据filteredUrl设置当前分类名称
-    if (filteredUrl.includes('version=') && filteredUrl.includes(currentVersion)) {
+    if (filteredUrl.includes('versions=') && filteredUrl.includes(currentVersion)) {
       setCurrentCategory('最近更新')
     } else if (filteredUrl.includes('genre=POPSアニメ')) {
       setCurrentCategory('流行&动漫')

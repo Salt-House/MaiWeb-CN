@@ -87,9 +87,6 @@ export default function CollectionPage() {
     const colorOptions = ["", "Gold", "Silver"];
     const genreOptions = ["デフォルト", "オリジナルちほー", "maimaiシリーズ", "イベントちほー", "実績"];
 
-    const SetColletion = (type: string, data: any[]) => {
-
-    }
 
     const [previewImage, setPreviewImage] = useState<{
         url: string;
@@ -274,39 +271,23 @@ export default function CollectionPage() {
 
     // 渲染收藏品项目
     const renderItem = (item: any, type: string) => {
-        let upHalfColorClass = ""
-        let downHalfColorClass = ""
-        let borderColorClass = ""
-        let bottomColorClass = ""
+        let bg_trophy = "";
         if (item.color) {
             switch (item.color) {
                 case "Normal":
-                    upHalfColorClass = "bg-[rgb(237,237,237)]"
-                    downHalfColorClass = "bg-[rgb(218,218,218)]"
-                    borderColorClass = "border-[rgb(189,189,189)]"
-                    bottomColorClass = "border-[rgb(92,93,102)]"
+                   bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Normal.png')]"
                     break;
                 case "Bronze":
-                    upHalfColorClass = "bg-[rgb(218,218,218)]"
-                    downHalfColorClass = "bg-[rgb(221,114,62)]"
-                    borderColorClass = "border-[rgb(221,114,62)]"
-                    bottomColorClass = "border-[rgb(172,120,98)]"
+                   bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Bronze.png')]"
                     break;
                 case "Silver":
-                    upHalfColorClass = "bg-[rgb(224,227,248)]"
-                    downHalfColorClass = "bg-[rgb(149,181,226)]"
-                    borderColorClass = "border-[rgb(191,215,248)]"
-                    bottomColorClass = "border-[rgb(35,53,171)]"
+                   bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Silver.png')]"
                     break;
                 case "Gold":
-                    upHalfColorClass = "bg-[rgb(255,223,76)]"
-                    downHalfColorClass = "bg-[rgb(250,191,8)]"
-                    borderColorClass = "border-[rgb(255,223,76)]"
-                    bottomColorClass = "border-[rgb(187,62,6)]"
+                   bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Gold.png')]"
                     break;
                 case "Rainbow":
-                    upHalfColorClass = "bg-gradient-to-b from-purple-400 to-pink-500"
-                    downHalfColorClass = "bg-gradient-to-b from-blue-400 to-green-500"
+                   bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Rainbow.png')]"
                     break;
             }
         }
@@ -355,14 +336,10 @@ export default function CollectionPage() {
                 return (
                     <div
                         key={item.id}
-                        className={`relative rounded-full max-sm:w-40 w-72 h-12 p-3 border-b-4 ${bottomColorClass} transition-all duration-300 flex flex-col items-center`}
+                        className={`relative rounded-full ${bg_trophy} bg-no-repeat bg-contain w-72 mx-auto aspect-[272/29] transition-all duration-300 flex flex-col items-center justify-center`}
                     >
-                        <div className="absolute inset-0 overflow-hidden rounded-full">
-                            <div className={`w-full rounded-t-full h-1/2 ${upHalfColorClass} border-t-4 border-l-4 border-r-4 ${borderColorClass}`} />
-                            <div className={`w-full rounded-b-full h-1/2 ${downHalfColorClass} border-b-4 border-l-4 border-r-4 ${borderColorClass}`} />
-                        </div>
                         <div
-                            className="max-w-40 text-white font-bold absolute z-[2]"
+                            className="max-w-40 text-white text-sm  font-bold "
                             style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}
                         >
                             <TextScroller text={item.name} speed={10} delay={2} />
@@ -650,7 +627,7 @@ export default function CollectionPage() {
                             </div>
                         ) : (
                             <>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-3">
                                     {Trophies.map((item) => renderItem(item, "trophy"))}
                                 </div>
 
