@@ -88,7 +88,7 @@ export default function MusicPage() {
     setFilteredUrl(filteredUrl)
     setLoading(true)
     // 根据filteredUrl设置当前分类名称
-    if (filteredUrl.includes('version=') && filteredUrl.includes(currentVersion)) {
+    if (filteredUrl.includes(`versions=${currentVersion}`)) {
       setCurrentCategory('最近更新')
     } else if (filteredUrl.includes('genre=POPSアニメ')) {
       setCurrentCategory('流行&动漫')
@@ -180,10 +180,9 @@ export default function MusicPage() {
           color: black; /* 失去焦点时被选中选项的文本颜色 */
           background-color: white; /* 失去焦点时被选中选项的背景颜色 */
         }
+      `}</style>
 
-    `}</style>
       {/*Top Search Options Bar*/}
-
       <div id='filter-select' className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-24 text-black ">
         <Guide steps={steps} autoStart={true} mark={"musictour"} />
         <div className="border-4 relative border-white max-sm:w-[90%] bg-white rounded-2xl">
@@ -255,7 +254,7 @@ export default function MusicPage() {
                   >
                     <button className=" aspect-[324/157]  sm:h-28 max-sm:h-24 transition-all duration-300 ease-in-out hover:brightness-110 bg-no-repeat bg-contain bg-[url('/img/refine_btn.png')]"
                       onClick={() => setAdvancedSearchDisplay(!advancedSearchDisplay)}>
-                      <h1 className='text-xl font-bold text-white relative top-4 -left-4 '>打开高级搜索</h1>
+                      <h1 className='text-xl font-bold text-white relative top-4 -left-4 '>高级搜索</h1>
                     </button>
                   </motion.div>
                 </>
@@ -273,7 +272,9 @@ export default function MusicPage() {
                 transition={{ duration: 0.3 }}
                 className="max-sm:w-[90%] sm:w-[900px] relative -bottom-5 mx-auto "
               >
-                <AdvancedSearchBar getSongs={getSongs} close={() => setAdvancedSearchDisplay(false)} currentCategory={setCurrentCategory} />
+                <AdvancedSearchBar getSongs={getSongs}
+                  close={() => setAdvancedSearchDisplay(false)}
+                  currentCategory={setCurrentCategory} />
               </motion.div>
             </>
           )}
@@ -593,6 +594,7 @@ function AdvancedSearchBar({ getSongs, close, currentCategory }: { getSongs: (fi
   const [selectedLevel, setSelectedLevel] = useState('')
   const [selectedVersion, setSelectedVersion] = useState('')
   const [isExpanded, setIsExpanded] = useState(false)
+  const [isInitialRender, setIsInitialRender] = useState(true)
   let str = ""
 
 
@@ -649,6 +651,12 @@ function AdvancedSearchBar({ getSongs, close, currentCategory }: { getSongs: (fi
   }
 
   useEffect(() => {
+    // 跳过首次渲染时的执行
+    if (isInitialRender) {
+      setIsInitialRender(false)
+      return
+    }
+
     str = ""
     if (searchKeyword.trim()) {
       str += (`关键词: ${searchKeyword.trim()} `)
@@ -691,7 +699,7 @@ function AdvancedSearchBar({ getSongs, close, currentCategory }: { getSongs: (fi
                 placeholder="乐曲名/别名/作曲家"
                 className="w-[90%] h-9 bg-transparent text-black placeholder-gray-500 focus:outline-none"
                 value={searchKeyword}
-                onChange={(e) => { setSearchKeyword(e.target.value);handleSearch()}}
+                onChange={(e) => { setSearchKeyword(e.target.value); handleSearch() }}
               />
             </div>
           </div>

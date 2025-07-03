@@ -8,10 +8,10 @@ import { use, useEffect, useState } from 'react'
 interface SongListProps {
   songs: Song[]
   ordination?: 'desc' | 'dsc'
-  currentCategory?: string // 添加一个可选的currentCategory属性
+  currentCategory?: string
 }
 
-export default function SongList({ songs, currentCategory = '最近添加',ordination = 'desc' }: SongListProps) {
+export default function SongList({ songs, currentCategory = '最近添加', ordination = 'desc' }: SongListProps) {
   // 使用usePlayer hook获取播放器上下文
   const { addToPlaylist } = usePlayer()
   // 添加状态来跟踪哪些歌曲已被添加到播放列表
@@ -45,7 +45,7 @@ export default function SongList({ songs, currentCategory = '最近添加',ordin
   }
 
   useEffect(() => {
-    switch (ordination){
+    switch (ordination) {
       case 'desc':
         setOrderSongs([...songs].sort((a, b) => b.version - a.version))
         break;
@@ -55,7 +55,7 @@ export default function SongList({ songs, currentCategory = '最近添加',ordin
       default:
         setOrderSongs(songs)
     }
-  },[ordination,songs])
+  }, [ordination, songs])
 
   return (
     <div className="flex-col w-full max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
