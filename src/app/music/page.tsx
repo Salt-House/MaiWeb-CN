@@ -707,7 +707,7 @@ function AdvancedSearchBar({ getSongs, close, currentCategory }: { getSongs: (fi
         <div className="flex justify-center space-x-4">
           <button
             onClick={handleReset}
-            className="px-8 py-2 bg-red-400 text-white rounded-full hover:bg-gray-600 transition-colors shadow-md hover:shadow-lg font-bold"
+            className="px-8 py-2 bg-red-400 text-white rounded-full hover:bg-red-600 transition-colors shadow-md hover:shadow-lg font-bold"
           >
             🔄 重置
           </button>
