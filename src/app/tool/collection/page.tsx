@@ -796,11 +796,11 @@ export default function CollectionPage() {
                                         {conditionLoading ? (
                                             <LoadingSpinner size='sm' message='Loading' description='获取条件中...' />
                                         ) :
-                                            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                                            <div className="flex flex-col md:flex-row md:items-center md:justify-between max-sm:items-center  gap-2">
                                                 <div className="flex-1 space-y-1">
                                                     <p className="text-sm text-purple-800 font-medium">
                                                         {condition.condition_CN || '暂无中文说明'}
-                                                    </p>s
+                                                    </p>
                                                     <p className="text-xs text-purple-600 opacity-80">
                                                         {condition.condition}
                                                     </p>
