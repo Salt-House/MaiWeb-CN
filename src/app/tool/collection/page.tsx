@@ -3,6 +3,7 @@
 import LoadingSpinner from '@/app/components/LoadingSpinner'
 import SvgStrokedText from '@/app/components/SvgStrokedText'
 import TextScroller from '@/app/components/TextScroller'
+import { data } from 'framer-motion/client'
 import { useEffect, useState } from 'react'
 
 interface NamePlate {
@@ -29,9 +30,15 @@ interface Trophie {
     color: string,
 }
 
-interface SetCollectionProps{
+interface SetCollectionProps {
     type: string,
     id: number,
+}
+
+interface Condition {
+    category: string,
+    condition: string,
+    condition_CN?: string,
 }
 
 let baseUrl = "https://assets2.lxns.net/maimai"
@@ -61,6 +68,8 @@ export default function CollectionPage() {
     const [Icons, setIcons] = useState<Icon[]>([])
     const [Trophies, setTrophies] = useState<Trophie[]>([])
     const [activeTab, setActiveTab] = useState<string>("icon")
+    const [condition, setCondition] = useState<Condition>()
+    const [conditionLoading, setConditionLoading] = useState<boolean>(true)
 
     // 搜索相关状态
     const [searchTerm, setSearchTerm] = useState<string>("")
@@ -94,7 +103,33 @@ export default function CollectionPage() {
         type: string;
     } | null>(null);
 
+    // 获取条件 "icon", "frame", "nameplate", "trophy"
+    const GetCondition = (type: string, id: string) => {
+        setConditionLoading(true);
+        var requestOptions = {
+            method: 'GET',
+        };
+        let collection_id = (id as string | number).toString().padStart(6, '0');
 
+        fetch(`https://dev.maimai.moe/email/condition?type=${type}&colletion_id=${collection_id}`, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                if (result) {
+                    const data = JSON.parse(result);
+                    setCondition({
+                        category: data.category,
+                        condition: data.condition,
+                        condition_CN: data.condition_CN
+                    });
+                } else {
+                    setCondition(undefined);
+                }
+                setConditionLoading(false);
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    // 打开图片预览
     const openImagePreview = (item: any, type: string) => {
         let imageUrl = '';
         switch (type) {
@@ -107,6 +142,25 @@ export default function CollectionPage() {
             case 'icon':
                 imageUrl = `${baseUrl}/${type}/${item.id}.png`;
                 break;
+            case 'trophy':
+                switch (item.color) {
+                    case "Normal":
+                        imageUrl = "bg-[url('/img/trophy/UI_CMN_Shougou_Normal.png')]"
+                        break;
+                    case "Bronze":
+                        imageUrl = "bg-[url('/img/trophy/UI_CMN_Shougou_Bronze.png')]"
+                        break;
+                    case "Silver":
+                        imageUrl = "bg-[url('/img/trophy/UI_CMN_Shougou_Silver.png')]"
+                        break;
+                    case "Gold":
+                        imageUrl = "bg-[url('/img/trophy/UI_CMN_Shougou_Gold.png')]"
+                        break;
+                    case "Rainbow":
+                        imageUrl = "bg-[url('/img/trophy/UI_CMN_Shougou_Rainbow.png')]"
+                        break;
+                }
+                break;
         }
 
         setPreviewImage({
@@ -116,10 +170,10 @@ export default function CollectionPage() {
         });
     };
 
+    // 关闭图片预览
     const closeImagePreview = () => {
         setPreviewImage(null);
     };
-
 
     // 加载数据函数
     const loadData = async (type: string, searchParams: Record<string, string> = {}, append: boolean = false) => {
@@ -275,19 +329,19 @@ export default function CollectionPage() {
         if (item.color) {
             switch (item.color) {
                 case "Normal":
-                   bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Normal.png')]"
+                    bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Normal.png')]"
                     break;
                 case "Bronze":
-                   bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Bronze.png')]"
+                    bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Bronze.png')]"
                     break;
                 case "Silver":
-                   bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Silver.png')]"
+                    bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Silver.png')]"
                     break;
                 case "Gold":
-                   bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Gold.png')]"
+                    bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Gold.png')]"
                     break;
                 case "Rainbow":
-                   bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Rainbow.png')]"
+                    bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Rainbow.png')]"
                     break;
             }
         }
@@ -299,7 +353,10 @@ export default function CollectionPage() {
                         className="relative rounded-lg shadow-sm max-sm:h-16 h-28 aspect-[1080/452] bg-no-repeat bg-contain hover:shadow-md transition-all duration-300 overflow-hidden"
                         style={{ backgroundImage: `url(https://static.maimai.moe/UI_Frame_${item.id}.png)` }
                         }
-                        onClick={() => openImagePreview(item, 'frame')}
+                        onClick={() => {
+                            openImagePreview(item, 'frame');
+                            GetCondition('frame', item.id);
+                        }}
                     >
                         {/* 毛玻璃 + 文字层 */}
                         <div className="absolute max-sm:hidden inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
@@ -337,6 +394,10 @@ export default function CollectionPage() {
                     <div
                         key={item.id}
                         className={`relative rounded-full ${bg_trophy} bg-no-repeat bg-contain w-72 mx-auto aspect-[272/29] transition-all duration-300 flex flex-col items-center justify-center`}
+                        onClick={() => {
+                            openImagePreview(item, 'trophy');
+                            GetCondition('trophy', item.id);
+                        }}
                     >
                         <div
                             className="max-w-40 text-white text-sm  font-bold "
@@ -355,7 +416,10 @@ export default function CollectionPage() {
                         style={{
                             backgroundImage: `url(https://static.maimai.moe/UI_Plate_${item.id.toString().padStart(6, '0')}.png)`
                         }}
-                        onClick={() => openImagePreview(item, 'nameplate')}
+                        onClick={() => {
+                            openImagePreview(item, 'nameplate')
+                            GetCondition('plate', item.id);
+                        }}
                     >
                         {/* 毛玻璃 + 文字层 */}
                         <div className="absolute inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
@@ -698,6 +762,15 @@ export default function CollectionPage() {
                                         className="max-w-full max-h-96 object-contain rounded-lg shadow-lg w-64 h-64"
                                     />
                                 )}
+                                {previewImage.type === 'trophy' && (
+                                    <div className={`aspect-[272/29] bg-no-repeat bg-contain mx-auto w-72 ${previewImage.url} mx-auto`}>
+                                        <div className="flex flex-col items-center justify-center h-full">
+                                            <p className="text-white text-sm font-bold" style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}>
+                                                {previewImage.name}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             {/* 图片信息 */}
@@ -709,8 +782,48 @@ export default function CollectionPage() {
                                                 previewImage.type === 'icon' ? '玩家头像' : '称号'
                                     }
                                 </p>
-                                <p className='text-xs mt-1 opacity-75 text-red-500'>获取条件正在收集当中，如果您愿意提供相关数据<br></br>请通过邮件联系我们e2544733@outlook.com</p>
-                                <p className="text-xs mt-1 opacity-75">点击背景或按ESC键关闭</p>
+                            </div>
+                            <div className="mt-3 p-3 bg-purple-50 rounded-lg border border-purple-200">
+                                <div className="flex items-center justify-center mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-purple-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span className="text-sm font-medium text-purple-700">获取条件</span>
+                                </div>
+
+                                {condition ? (
+                                    <>
+                                        {conditionLoading ? (
+                                            <LoadingSpinner size='sm' message='Loading' description='获取条件中...' />
+                                        ) :
+                                            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                                                <div className="flex-1 space-y-1">
+                                                    <p className="text-sm text-purple-800 font-medium">
+                                                        {condition.condition_CN || '暂无中文说明'}
+                                                    </p>s
+                                                    <p className="text-xs text-purple-600 opacity-80">
+                                                        {condition.condition}
+                                                    </p>
+                                                </div>
+                                                <div className="flex-shrink-0">
+                                                    <span className="inline-block px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded-full">
+                                                        {condition.category === 'else' ? '其他' : condition.category}
+                                                    </span>
+                                                </div>
+                                            </div>}
+                                    </>
+                                ) : (
+                                    <div className="text-center">
+                                        <p className="text-xs text-red-500 mb-2">获取条件正在收集当中</p>
+                                        <p className="text-xs text-purple-600">
+                                            如果您愿意提供相关数据，请通过邮件联系我们
+                                            <br />
+                                            <a href="mailto:e2544733@outlook.com" className="text-purple-700 hover:text-purple-800 underline">
+                                                e2544733@outlook.com
+                                            </a>
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
