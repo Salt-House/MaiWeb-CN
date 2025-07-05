@@ -441,7 +441,7 @@ export default function CollectionPage() {
                     <div
                         key={item.id}
                         className="relative rounded-full p-3 shadow-sm hover:shadow-md transition-all duration-300 border border-purple-100 hover:border-purple-300 flex flex-col items-center"
-                        onClick={() => openImagePreview(item, 'icon')}
+                        onClick={() => {openImagePreview(item, 'icon'); GetCondition('icon', item.id)}}
                     >
                         <div className="flex flex-col items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-2">
                             <img
