@@ -365,8 +365,8 @@ export default function BestPage() {
             "category": "b50",
             "b35_songs": best35,
             "135_songs": best15,
-            "rating_b15": 0,
-            "rating_b35": 0,
+            "rating_b15": rating15,
+            "rating_b35": rating35,
             "user": {
                 "username": user?.username,
                 "mai_play_name": user?.mai_player_name,
