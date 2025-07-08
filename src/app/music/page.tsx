@@ -238,7 +238,7 @@ export default function MusicPage() {
               {selectedOption === 'version' && <VersionBar getSongs={getSongs} />}
             </div>
             {/* AnimateVolume */}
-            <div className="absolute -bottom-8 flex space-x-2">
+            <div className="absolute -bottom-8 max-sm:hidden flex space-x-2">
               <div className="w-2 h-8 bg-[#5ac0b6] animate-volume"></div>
               <div className="w-2 h-10 bg-[#7ef2e7] animate-volume [animation-delay:0.1s]"></div>
               <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.2s]"></div>
@@ -257,7 +257,7 @@ export default function MusicPage() {
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="max-sm:w-[90%] absolute sm:right-0 max-sm:-right-24 -bottom-20 mx-auto "
+                    className="max-sm:w-[90%] absolute sm:right-0  -bottom-20 mx-auto "
                   >
                     <button className=" aspect-[324/157]  sm:h-28 max-sm:h-24 transition-all duration-300 ease-in-out hover:brightness-110 bg-no-repeat bg-contain bg-[url('/img/refine_btn.png')]"
                       onClick={() => setAdvancedSearchDisplay(!advancedSearchDisplay)}>
