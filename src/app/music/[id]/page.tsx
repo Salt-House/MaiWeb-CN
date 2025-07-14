@@ -70,7 +70,12 @@ export default function SongDetail() {
         })
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
+          if (response.status === 401) {
+            throw new Error(`HTTP ${response.status} 造成该问题：暂时不支持URL直接输入id访问歌曲信息，或者没有登录。`)
+          } else {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
+
         }
 
         const data = await response.json()
