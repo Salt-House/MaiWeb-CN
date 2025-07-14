@@ -71,7 +71,7 @@ export default function SongDetail() {
 
         if (!response.ok) {
           if (response.status === 401) {
-            throw new Error(`HTTP ${response.status} 造成该问题：暂时不支持浏览器直接输入id查看歌曲信息，或者没有登录…… 请先登录！`)
+            throw new Error(`HTTP ${response.status} 造成该问题：暂时不支持URL直接输入id访问歌曲信息，或者没有登录。`)
           } else {
             throw new Error(`HTTP error! status: ${response.status}`)
           }
