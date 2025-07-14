@@ -34,6 +34,7 @@ export default function SongDetail() {
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
 
+    // TODO: - 待优化逻辑，后端应在没有token的情况下仍然返回歌曲数据，只是没有对应成绩信息。
     const fetchSongData = async () => {
       try {
         // 先检查 localStorage 是否有歌曲信息
@@ -44,7 +45,7 @@ export default function SongDetail() {
           setLoading(false)
 
           // 即使从缓存获取了歌曲信息，也异步获取最新数据
-          fetchLatestData()
+          // fetchLatestData()
           return
         }
 
