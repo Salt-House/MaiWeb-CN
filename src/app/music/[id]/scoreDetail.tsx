@@ -94,7 +94,6 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
       setScoreData(scores)
       setLoading(false)
       setHasAttemptedLoad(true)
-      return
     }
 
     // 如果没有传入scores，则尝试从API获取
