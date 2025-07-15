@@ -34,6 +34,7 @@ export default function SongDetail() {
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
 
+    // TODO: - 待优化逻辑，后端应在没有token的情况下仍然返回歌曲数据，只是没有对应成绩信息。
     const fetchSongData = async () => {
       try {
         // 先检查 localStorage 是否有歌曲信息
@@ -44,7 +45,7 @@ export default function SongDetail() {
           setLoading(false)
 
           // 即使从缓存获取了歌曲信息，也异步获取最新数据
-          fetchLatestData()
+          // fetchLatestData()
           return
         }
 
@@ -69,7 +70,12 @@ export default function SongDetail() {
         })
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
+          if (response.status === 401) {
+            throw new Error(`HTTP ${response.status} 造成该问题：暂时不支持URL直接输入id访问歌曲信息，或者没有登录。`)
+          } else {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
+
         }
 
         const data = await response.json()

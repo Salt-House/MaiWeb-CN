@@ -519,7 +519,7 @@ export default function UserProfilePage() {
                     <div className='w-full flex flex-col justify-center items-center space-y-5 my-10'>
                       <div className='w-6/12 flex flex-row justify-between'><b>落雪:</b><button className={`ml-2 rounded-2xl ${bindaccount.islxns ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`} onClick={() => setLink('lxns')}>{bindaccount.islxns ? '已绑定' : '未绑定'}</button></div>
                       <div className='w-6/12 flex flex-row justify-between'><b>水鱼:</b><button className={`ml-2 rounded-2xl ${bindaccount.isdivingfish ? 'bg-green-500' : 'bg-red-500'}  p-1 px-4 text-white font-bold`} onClick={() => { setLink('divingfish') }}>{bindaccount.isdivingfish ? '已绑定' : '未绑定'}</button></div>
-                      <div className='w-6/12 flex flex-row justify-between'><b>Arcaed:</b><button className={`ml-2 rounded-2xl ${bindaccount.isarcaed ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`} onClick={() => { setLink('arcaed') }}>{bindaccount.isarcaed ? '已绑定' : '未绑定'}</button></div>
+                      <div className='w-6/12 flex flex-row justify-between'><b>Arcade:</b><button className={`ml-2 rounded-2xl ${bindaccount.isarcaed ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`} onClick={() => { setLink('arcaed') }}>{bindaccount.isarcaed ? '已绑定' : '未绑定'}</button></div>
                     </div>
                     <div className="py-2"></div>
                     <div className="flex justify-center m-3 mb-10">
@@ -691,7 +691,7 @@ export default function UserProfilePage() {
                         关联账号
                       </h3>
                       <p className="text-gray-600 ml-8">绑定第三方账号，实现数据互通</p>
-                      <i className="text-gray-600 ml-8 text-sm">注:推荐绑定Arcaed账号</i>
+                      <i className="text-gray-600 ml-8 text-sm">注:推荐绑定Arcade账号</i>
                       <p className="text-gray-600 ml-8">在绑定账号后请点击<button className="my-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>导入数据(一天只有两次手动更新次数)</p>
 
                     </div>
