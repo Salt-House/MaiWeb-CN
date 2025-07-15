@@ -451,6 +451,7 @@ export default function CollectionPage() {
                                     alt={item.name}
                                     className="object-contain "
                                     fill
+                                     unoptimized 
                                 />
                             </div>
                             <p className="text-center text-sm leading-tight w-96">

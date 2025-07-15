@@ -86,6 +86,7 @@ export default function SongList({ songs, currentCategory = '最近添加', ordi
                       alt={song.title}
                       className="rounded-xl object-cover"
                       fill
+                       unoptimized 
                     />
                   </div>
 
