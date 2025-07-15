@@ -4,6 +4,7 @@ import LoadingSpinner from '@/app/components/LoadingSpinner'
 import SvgStrokedText from '@/app/components/SvgStrokedText'
 import TextScroller from '@/app/components/TextScroller'
 import { data } from 'framer-motion/client'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 interface NamePlate {
@@ -93,7 +94,7 @@ export default function CollectionPage() {
     const pageSize = 30;
 
     // 颜色选项
-    const colorOptions = ["", "Gold", "Silver"];
+    const colorOptions = ["", "Normal", "Bronze", "Gold", "Silver", "Rainbow"];
     const genreOptions = ["デフォルト", "オリジナルちほー", "maimaiシリーズ", "イベントちほー", "実績"];
 
 
@@ -441,14 +442,17 @@ export default function CollectionPage() {
                     <div
                         key={item.id}
                         className="relative rounded-full p-3 shadow-sm hover:shadow-md transition-all duration-300 border border-purple-100 hover:border-purple-300 flex flex-col items-center"
-                        onClick={() => {openImagePreview(item, 'icon'); GetCondition('icon', item.id)}}
+                        onClick={() => { openImagePreview(item, 'icon'); GetCondition('icon', item.id) }}
                     >
                         <div className="flex flex-col items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-2">
-                            <img
-                                src={`${baseUrl}/${type}/${item.id}.png`}
-                                alt={item.name}
-                                className="object-contain size-15 mt-2"
-                            />
+                            <div className='relative size-16 mt-2'>
+                                <Image
+                                    src={`${baseUrl}/${type}/${item.id}.png`}
+                                    alt={item.name}
+                                    className="object-contain "
+                                    fill
+                                />
+                            </div>
                             <p className="text-center text-sm leading-tight w-96">
                                 {item.name}
                             </p>
@@ -508,7 +512,9 @@ export default function CollectionPage() {
                                 <select
                                     id="search-color"
                                     value={searchColor}
-                                    onChange={(e) => setSearchColor(e.target.value)}
+                                    onChange={(e) => {
+                                        setSearchColor(e.target.value);
+                                    }}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                                 >
                                     <option value="">全部颜色</option>
@@ -518,7 +524,7 @@ export default function CollectionPage() {
                                                 color === "Rainbow" ? "彩虹" :
                                                     color === "Gold" ? "金色" :
                                                         color === "Silver" ? "银色" :
-                                                            color === "bronze" ? "铜色" :
+                                                            color === "Bronze" ? "铜色" :
                                                                 color === "Normal" ? "普通" : color}
                                         </option>
                                     ))}

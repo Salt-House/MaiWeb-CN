@@ -32,7 +32,7 @@ export default function SongDetail() {
   ]
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token')
+    const storedToken = localStorage.getItem('token') || null
 
     // TODO: - 待优化逻辑，后端应在没有token的情况下仍然返回歌曲数据，只是没有对应成绩信息。
     const fetchSongData = async () => {
@@ -43,9 +43,6 @@ export default function SongDetail() {
           const parsedData = JSON.parse(songData)
           setSong(parsedData)
           setLoading(false)
-
-          // 即使从缓存获取了歌曲信息，也异步获取最新数据
-          // fetchLatestData()
           return
         }
 
@@ -93,8 +90,47 @@ export default function SongDetail() {
         }
       }
     }
+    const fetchLatestDataNoToken = async () => {
+      try {
 
-    fetchSongData()
+        const url = `https://dev.maimai.moe/api/maimai/songs?id=${params.id}&page=1&page_size=100`
+        const response = await fetch(
+          url, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          }
+        })
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            throw new Error(`HTTP ${response.status} `)
+          } else {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
+
+        }
+
+        const data = await response.json()
+        console.log("歌曲数据：", data)
+        setSong(data[0])
+        setScores([])
+        setLoading(false)
+
+        // 缓存到 localStorage
+        localStorage.setItem(`song_${params.id}`, JSON.stringify(data.song))
+      } catch (err) {
+        if (!song) { // 只有在没有缓存数据的情况下才设置错误
+          setError(err instanceof Error ? err.message : '获取数据失败')
+          setLoading(false)
+        }
+      }
+    }
+    if (storedToken == null) {
+      fetchLatestDataNoToken()
+    } else {
+      fetchSongData()
+    }
   }, [params.id])
 
   const audio_url = `https://assets2.lxns.net/maimai/music/${song?.id ?? params.id}.mp3`

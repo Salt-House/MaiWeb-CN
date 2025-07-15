@@ -4,6 +4,7 @@ import { FaPlus, FaCheck } from 'react-icons/fa'
 import { usePlayer } from '@/app/context/PlayerContext'
 import { use, useEffect, useState } from 'react'
 import LoadingSpinner from '../components/LoadingSpinner'
+import Image from 'next/image'
 
 
 interface SongListProps {
@@ -79,11 +80,12 @@ export default function SongList({ songs, currentCategory = '最近添加', ordi
               >
                 <div className="flex h-36 max-sm:h-auto max-sm:flex-row max-sm:items-start max-sm:mx-auto bg-white px-4 max-sm:px-2 py-2 space-x-8 max-sm:space-x-2 cursor-pointer duration-300">
                   {/* 左侧曲绘封面 */}
-                  <div className="max-sm:size-24 w-36 h-36 flex-shrink-0">
-                    <img
+                  <div className="max-sm:size-24 relative w-36 h-36 flex-shrink-0">
+                    <Image
                       src={`https://assets2.lxns.net/maimai/jacket/${song.id}.png`}
                       alt={song.title}
-                      className="rounded-xl object-cover w-full h-full"
+                      className="rounded-xl object-cover"
+                      fill
                     />
                   </div>
 
