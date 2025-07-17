@@ -13,7 +13,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Notice from '../components/Notice'
 
 
-const currentVersion = "25000"
+const currentVersion = "25001"
 
 const version: (keyof typeof versionIds)[] = ["maimai", "GreeN", "ORANGE ", "PiNK", "MURASAKi ", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024", "舞萌DX 2025"]
 const versionIds = {
