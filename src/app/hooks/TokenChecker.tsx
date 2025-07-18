@@ -40,7 +40,7 @@ export default function TokenChecker() {
 
                 }
             } catch (error) {
-                setStatusMessage("");
+                setStatusMessage("出现未知错误"+error);
                 setIsLoading(false);
             }
         };

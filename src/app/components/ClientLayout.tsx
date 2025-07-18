@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, ReactNode } from "react";
+import PageTransitionWrapper from "./PageTransitionWrapper";
 
 interface ClientLayoutProps {
   children: ReactNode;
@@ -33,7 +34,7 @@ export default function ClientLayout({ children, textstroke, textDonate }: Clien
 
   return (
     <div className="relative overflow-scroll max-sm:w-full max-sm:mx-auto" style={{ height: 'calc(var(--vh, 1vh) * 100)' }}>
-      {children}
+        {children}
     </div>
   );
 }

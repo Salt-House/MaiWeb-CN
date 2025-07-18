@@ -3,7 +3,7 @@
 import LoadingSpinner from '@/app/components/LoadingSpinner'
 import SvgStrokedText from '@/app/components/SvgStrokedText'
 import TextScroller from '@/app/components/TextScroller'
-import { data } from 'framer-motion/client'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -292,7 +292,7 @@ export default function CollectionPage() {
 
     return (
         <div className="container mx-auto py-8 px-4">
-            <h1 className="text-2xl font-bold text-center text-purple-800 mb-8">收藏品展示</h1>
+            <SvgStrokedText text="收藏品展示" height={100} strokeColor={"#a078e4"} strokeWidth={10} />
 
             {/* Tab导航 */}
             <div className="flex justify-center mb-6 bg-white p-2 rounded-lg shadow-sm">
@@ -412,7 +412,7 @@ export default function CollectionPage() {
             <div className="bg-purple-50/50 rounded-lg p-4 shadow-inner">
                 {activeTab === "icon" && (
                     <div className="animate-fadeIn">
-                        <h2 className="text-lg font-medium mb-4 text-purple-700 border-b pb-2">玩家头像</h2>
+                        <h2 className="text-lg font-medium text-center mb-4 text-purple-700 border-b pb-2">玩家头像</h2>
 
                         {Icons.length === 0 ? (
                             <div className="flex justify-center py-8">
@@ -420,7 +420,7 @@ export default function CollectionPage() {
                             </div>
                         ) : (
                             <>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 lg:gap-1 gap-2">
                                     {Icons.map((item) => <RenderItem key={item.id} item={item} type="icon" openImagePreview={openImagePreview} GetCondition={GetCondition} />)}
                                 </div>
 
@@ -433,8 +433,8 @@ export default function CollectionPage() {
                     </div>
                 )}
                 {activeTab === "frame" && (
-                    <div className="animate-fadeIn">
-                        <h2 className="text-lg font-medium mb-4 text-purple-700 border-b pb-2">游戏背景</h2>
+                    <div>
+                        <h2 className="text-lg font-medium mb-4 text-center text-purple-700 border-b pb-2">游戏背景</h2>
                         {MaiBackGround.length === 0 ? (
                             <div className="flex justify-center py-8">
                                 <LoadingSpinner size='sm' message='Loading' description='加载背景数据源' />
@@ -454,8 +454,8 @@ export default function CollectionPage() {
                     </div>
                 )}
                 {activeTab === "nameplate" && (
-                    <div className="animate-fadeIn">
-                        <h2 className="text-lg font-medium mb-4 text-purple-700 border-b pb-2">玩家名牌</h2>
+                    <motion.div>
+                        <h2 className="text-lg font-medium mb-4 text-center text-purple-700 border-b pb-2">玩家名牌</h2>
                         {namePlates.length === 0 ? (
                             <div className="flex justify-center py-8">
                                 <LoadingSpinner size='sm' message='Loading' description='加载名牌数据源' />
@@ -472,13 +472,15 @@ export default function CollectionPage() {
 
                                 )}
                             </>
+
                         )}
-                    </div>
+
+                    </motion.div>
                 )}
 
                 {activeTab === "trophy" && (
                     <div className="animate-fadeIn">
-                        <h2 className="text-lg font-medium mb-4 text-purple-700 border-b pb-2">游戏奖杯</h2>
+                        <h2 className="text-lg font-medium mb-4 text-center text-purple-700 border-b pb-2">游戏奖杯</h2>
                         {Trophies.length === 0 ? (
                             <div className="flex justify-center py-8">
                                 <LoadingSpinner size='sm' message='Loading' description='加载奖杯数据源' />
@@ -498,125 +500,127 @@ export default function CollectionPage() {
                     </div>
                 )}
             </div>
-            {previewImage && (
-                <div
-                    className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4"
-                    onClick={closeImagePreview}
-                >
+            {
+                previewImage && (
                     <div
-                        className="relative max-w-4xl max-h-full bg-white rounded-lg overflow-hidden shadow-2xl"
-                        onClick={(e) => e.stopPropagation()}
+                        className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4"
+                        onClick={closeImagePreview}
                     >
-                        {/* 关闭按钮 */}
-                        <button
-                            onClick={closeImagePreview}
-                            className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-70 transition-all duration-200"
+                        <div
+                            className="relative max-w-4xl max-h-full bg-white rounded-lg overflow-hidden shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
+                            {/* 关闭按钮 */}
+                            <button
+                                onClick={closeImagePreview}
+                                className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-70 transition-all duration-200"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
 
-                        {/* 图片内容 */}
-                        <div className="p-6">
-                            <h3 className="text-xl font-bold text-purple-800 mb-4 text-center">
-                                {previewImage.name}
-                            </h3>
+                            {/* 图片内容 */}
+                            <div className="p-6">
+                                <h3 className="text-xl font-bold text-purple-800 mb-4 text-center">
+                                    {previewImage.name}
+                                </h3>
 
-                            <div className="flex justify-center">
-                                {previewImage.type === 'frame' && (
-                                    <img
-                                        src={previewImage.url}
-                                        alt={previewImage.name}
-                                        className="max-w-full max-h-96 object-contain rounded-lg shadow-lg"
-                                        style={{ aspectRatio: '1080/452' }}
-                                    />
-                                )}
-                                {previewImage.type === 'nameplate' && (
-                                    <img
-                                        src={previewImage.url}
-                                        alt={previewImage.name}
-                                        className="max-w-full max-h-32 object-contain rounded-lg shadow-lg"
-                                        style={{ aspectRatio: '724/120' }}
-                                    />
-                                )}
+                                <div className="flex justify-center">
+                                    {previewImage.type === 'frame' && (
+                                        <img
+                                            src={previewImage.url}
+                                            alt={previewImage.name}
+                                            className="max-w-full max-h-96 object-contain rounded-lg shadow-lg"
+                                            style={{ aspectRatio: '1080/452' }}
+                                        />
+                                    )}
+                                    {previewImage.type === 'nameplate' && (
+                                        <img
+                                            src={previewImage.url}
+                                            alt={previewImage.name}
+                                            className="max-w-full max-h-32 object-contain rounded-lg shadow-lg"
+                                            style={{ aspectRatio: '724/120' }}
+                                        />
+                                    )}
 
-                                {previewImage.type === 'icon' && (
-                                    <img
-                                        src={previewImage.url}
-                                        alt={previewImage.name}
-                                        className="max-w-full max-h-96 object-contain rounded-lg shadow-lg w-64 h-64"
-                                    />
-                                )}
-                                {previewImage.type === 'trophy' && (
-                                    <div className={`aspect-[272/29] bg-no-repeat bg-contain mx-auto w-72 ${previewImage.url} mx-auto`}>
-                                        <div className="flex flex-col items-center justify-center h-full">
-                                            <p className="text-white text-sm font-bold" style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}>
-                                                {previewImage.name}
-                                            </p>
+                                    {previewImage.type === 'icon' && (
+                                        <img
+                                            src={previewImage.url}
+                                            alt={previewImage.name}
+                                            className="max-w-full max-h-96 object-contain rounded-lg shadow-lg w-64 h-64"
+                                        />
+                                    )}
+                                    {previewImage.type === 'trophy' && (
+                                        <div className={`aspect-[272/29] bg-no-repeat bg-contain mx-auto w-72 ${previewImage.url} mx-auto`}>
+                                            <div className="flex flex-col items-center justify-center h-full">
+                                                <p className="text-white text-sm font-bold" style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}>
+                                                    {previewImage.name}
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* 图片信息 */}
-                            <div className="mt-4 text-center text-gray-600">
-                                <p className="text-sm">
-                                    类型: {
-                                        previewImage.type === 'frame' ? '背景框' :
-                                            previewImage.type === 'nameplate' ? '姓名框' :
-                                                previewImage.type === 'icon' ? '玩家头像' : '称号'
-                                    }
-                                </p>
-                            </div>
-                            <div className="mt-3 p-3 bg-purple-50 rounded-lg border border-purple-200">
-                                <div className="flex items-center justify-center mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-purple-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span className="text-sm font-medium text-purple-700">获取条件（仅供参考，如有错误请联系e2544733@outlook.com）</span>
+                                    )}
                                 </div>
 
-                                {condition ? (
-                                    <>
-                                        {conditionLoading ? (
-                                            <LoadingSpinner size='sm' message='Loading' description='获取条件中...' />
-                                        ) :
-                                            <div className="flex flex-col md:flex-row md:items-center md:justify-between max-sm:items-center  gap-2">
-                                                <div className="flex-1 space-y-1">
-                                                    <p className="text-sm text-purple-800 font-medium">
-                                                        {condition.condition_CN || '暂无中文说明'}
-                                                    </p>
-                                                    <p className="text-xs text-purple-600 opacity-80">
-                                                        {condition.condition}
-                                                    </p>
-                                                </div>
-                                                <div className="flex-shrink-0">
-                                                    <span className="inline-block px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded-full">
-                                                        {condition.category === 'else' ? '其他' : condition.category}
-                                                    </span>
-                                                </div>
-                                            </div>}
-                                    </>
-                                ) : (
-                                    <div className="text-center">
-                                        <p className="text-xs text-red-500 mb-2">获取条件正在收集当中</p>
-                                        <p className="text-xs text-purple-600">
-                                            如果您愿意提供相关数据，请通过邮件联系我们
-                                            <br />
-                                            <a href="mailto:e2544733@outlook.com" className="text-purple-700 hover:text-purple-800 underline">
-                                                e2544733@outlook.com
-                                            </a>
-                                        </p>
+                                {/* 图片信息 */}
+                                <div className="mt-4 text-center text-gray-600">
+                                    <p className="text-sm">
+                                        类型: {
+                                            previewImage.type === 'frame' ? '背景框' :
+                                                previewImage.type === 'nameplate' ? '姓名框' :
+                                                    previewImage.type === 'icon' ? '玩家头像' : '称号'
+                                        }
+                                    </p>
+                                </div>
+                                <div className="mt-3 p-3 bg-purple-50 rounded-lg border border-purple-200">
+                                    <div className="flex items-center justify-center mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-purple-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span className="text-sm font-medium text-purple-700">获取条件（仅供参考，如有错误请联系e2544733@outlook.com）</span>
                                     </div>
-                                )}
+
+                                    {condition ? (
+                                        <>
+                                            {conditionLoading ? (
+                                                <LoadingSpinner size='sm' message='Loading' description='获取条件中...' />
+                                            ) :
+                                                <div className="flex flex-col md:flex-row md:items-center md:justify-between max-sm:items-center  gap-2">
+                                                    <div className="flex-1 space-y-1">
+                                                        <p className="text-sm text-purple-800 font-medium">
+                                                            {condition.condition_CN || '暂无中文说明'}
+                                                        </p>
+                                                        <p className="text-xs text-purple-600 opacity-80">
+                                                            {condition.condition}
+                                                        </p>
+                                                    </div>
+                                                    <div className="flex-shrink-0">
+                                                        <span className="inline-block px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded-full">
+                                                            {condition.category === 'else' ? '其他' : condition.category}
+                                                        </span>
+                                                    </div>
+                                                </div>}
+                                        </>
+                                    ) : (
+                                        <div className="text-center">
+                                            <p className="text-xs text-red-500 mb-2">获取条件正在收集当中</p>
+                                            <p className="text-xs text-purple-600">
+                                                如果您愿意提供相关数据，请通过邮件联系我们
+                                                <br />
+                                                <a href="mailto:e2544733@outlook.com" className="text-purple-700 hover:text-purple-800 underline">
+                                                    e2544733@outlook.com
+                                                </a>
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
-        </div>
+        </div >
     );
 }
 
@@ -707,11 +711,11 @@ function RenderItem({ item, type, openImagePreview, GetCondition }: {
             return (
                 <div
                     key={item.id}
-                    className="relative rounded-full p-3 shadow-sm hover:shadow-md transition-all duration-300 border border-purple-100 hover:border-purple-300 flex flex-col items-center"
+                    className="relative rounded-lg p-3 sm:p-1 shadow-sm hover:shadow-md transition-all duration-300 border border-purple-100 hover:border-purple-300 flex flex-col items-center"
                     onClick={() => { openImagePreview(item, 'icon'); GetCondition('icon', item.id) }}
                 >
-                    <div className="flex flex-col items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-2">
-                        <div className='relative size-16 mt-2'>
+                    <div className="flex flex-col items-center justify-center w-24 h-24 max-sm:w-28 max-sm:h-28 mb-2">
+                        <div className='relative size-48 mt-2'>
                             <Image
                                 src={`${baseUrl}/${type}/${item.id}.png`}
                                 alt={item.name}
@@ -720,7 +724,7 @@ function RenderItem({ item, type, openImagePreview, GetCondition }: {
                                 unoptimized
                             />
                         </div>
-                        <p className="text-center text-sm leading-tight w-96">
+                        <p className="text-center text-sm leading-tight w-64">
                             {item.name}
                         </p>
                     </div>
