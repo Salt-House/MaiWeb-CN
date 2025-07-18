@@ -11,6 +11,7 @@ import Guide from '../components/Guide'
 import { FaFilter, FaTimes } from 'react-icons/fa'
 import { AnimatePresence, motion } from 'framer-motion'
 import Notice from '../components/Notice'
+import PageTransitionWrapper from '../components/PageTransitionWrapper'
 
 
 const currentVersion = "25001"
@@ -190,148 +191,150 @@ export default function MusicPage() {
       `}</style>
 
       {/*Top Search Options Bar*/}
-      <div id='filter-select' className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-24 text-black ">
-        <Guide steps={steps} autoStart={true} mark={"musictour"} />
-        <div className="border-4 relative border-white max-sm:w-[90%] bg-white rounded-2xl">
-          <div
-            className="w-[900px] max-sm:w-full max-sm:h-96 mx-auto h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
-            <div className="absolute -top-4 w-48 max-sm:h-10 h-20 text-3xl font-bold text-white" style={textstroke}>
-              音乐
-            </div>
-            <div className="flex flex-row max-sm:w-[90%] max-sm:flex-col max-sm:justify-center max-sm:items-center max-sm:space-x-0 max-sm:mt-0 max-sm:mb-0 space-x-16 -mt-4 mb-2">
-              <div
-                className="w-80 h-12 max-sm:w-full max-sm:my-0 max-sm:mt-4 bg-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-3">
-                <div className="text-white ml-2">按照</div>
-                <select
-                  className="w-40 h-9 rounded-full px-4 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 border"
-                  value={selectedOption}
-                  onChange={(e) => setSelectedOption(e.target.value)}
-                >
-                  <option value="category">乐曲种类</option>
-                  {/* <option value="aeuio">あいうえお</option> */}
-                  <option value="level">等级</option>
-                  <option value="version">版本</option>
-                </select>
-                <div className="text-white ml-2">分类</div>
+      <PageTransitionWrapper>
+        <div id='filter-select' className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-24 text-black ">
+          <Guide steps={steps} autoStart={true} mark={"musictour"} />
+          <div className="border-4 relative border-white max-sm:w-[90%] bg-white rounded-2xl">
+            <div
+              className="w-[900px] max-sm:w-full max-sm:h-96 mx-auto h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
+              <div className="absolute -top-4 w-48 max-sm:h-10 h-20 text-3xl font-bold text-white" style={textstroke}>
+                音乐
               </div>
-              <div className="w-80 max-sm:w-full h-12 bg-white border-4 border-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5">
-                <div className="flex w-full h-full overflow-hidden">
-                  <div className="w-1/3 bg-blue-700 flex items-center justify-center border-r-4 border-blue-700" style={{ borderTopLeftRadius: '1rem', borderBottomLeftRadius: '1rem' }}>
-                    <div className="text-white">搜索</div>
-                  </div>
-                  <div className="w-2/3 flex items-center justify-center">
-                    <input
-                      type="text"
-                      placeholder="乐曲名/别名/作曲家"
-                      className="w-[90%] h-9 bg-transparent text-black placeholder-gray-500 focus:outline-none transition-none"
-                      onChange={(e) => { if (e.target.value !== '') { getSongs(`keywords=${e.target.value}`) } }}
-                    />
+              <div className="flex flex-row max-sm:w-[90%] max-sm:flex-col max-sm:justify-center max-sm:items-center max-sm:space-x-0 max-sm:mt-0 max-sm:mb-0 space-x-16 -mt-4 mb-2">
+                <div
+                  className="w-80 h-12 max-sm:w-full max-sm:my-0 max-sm:mt-4 bg-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-3">
+                  <div className="text-white ml-2">按照</div>
+                  <select
+                    className="w-40 h-9 rounded-full px-4 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 border"
+                    value={selectedOption}
+                    onChange={(e) => setSelectedOption(e.target.value)}
+                  >
+                    <option value="category">乐曲种类</option>
+                    {/* <option value="aeuio">あいうえお</option> */}
+                    <option value="level">等级</option>
+                    <option value="version">版本</option>
+                  </select>
+                  <div className="text-white ml-2">分类</div>
+                </div>
+                <div className="w-80 max-sm:w-full h-12 bg-white border-4 border-blue-700 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5">
+                  <div className="flex w-full h-full overflow-hidden">
+                    <div className="w-1/3 bg-blue-700 flex items-center justify-center border-r-4 border-blue-700" style={{ borderTopLeftRadius: '1rem', borderBottomLeftRadius: '1rem' }}>
+                      <div className="text-white">搜索</div>
+                    </div>
+                    <div className="w-2/3 flex items-center justify-center">
+                      <input
+                        type="text"
+                        placeholder="乐曲名/别名/作曲家"
+                        className="w-[90%] h-9 bg-transparent text-black placeholder-gray-500 focus:outline-none transition-none"
+                        onChange={(e) => { if (e.target.value !== '') { getSongs(`keywords=${e.target.value}`) } }}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className='h-[172px]'>
-              {/* 根据选择的选项显示不同分类选项 */}
-              {selectedOption === 'category' && <CategoryBar getSongs={getSongs} />}
-              {/* {selectedOption === 'aeuio' && <AeuioBar getSongs={getSongs} />} */}
-              {selectedOption === 'level' && <LevelBar getSongs={getSongs} />}
-              {selectedOption === 'version' && <VersionBar getSongs={getSongs} />}
-            </div>
-            {/* AnimateVolume */}
-            <div className="absolute -bottom-8 max-sm:hidden flex space-x-2">
-              <div className="w-2 h-8 bg-[#5ac0b6] animate-volume"></div>
-              <div className="w-2 h-10 bg-[#7ef2e7] animate-volume [animation-delay:0.1s]"></div>
-              <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.2s]"></div>
-              <div className="w-2 h-12 bg-[#65d8cd] animate-volume [animation-delay:0.3s]"></div>
-              <div className="w-2 h-10 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.4s]"></div>
-              <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.5s]"></div>
-              <div className="w-2 h-12 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.6s]"></div>
-              <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.7s]"></div>
-              <div className="w-2 h-8 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.8s]"></div>
-            </div>
-            <AnimatePresence mode="wait">
-              {!advancedSearchDisplay && (
-                <>
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="max-sm:w-[90%] absolute sm:right-0  -bottom-20 mx-auto "
-                  >
-                    <button className=" aspect-[324/157]  sm:h-28 max-sm:h-24 transition-all duration-300 ease-in-out hover:brightness-110 bg-no-repeat bg-contain bg-[url('/img/refine_btn.png')]"
-                      onClick={() => setAdvancedSearchDisplay(!advancedSearchDisplay)}>
-                      <h1 className='text-xl font-bold text-white relative top-4 -left-4 '>高级搜索</h1>
-                    </button>
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-        <AnimatePresence mode="wait">
-          {advancedSearchDisplay && (
-            <>
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="max-sm:w-[90%] sm:w-[900px] relative -bottom-5 mx-auto "
-              >
-                <AdvancedSearchBar getSongs={getSongs}
-                  close={() => setAdvancedSearchDisplay(false)}
-                  currentCategory={setCurrentCategory} />
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
-      </div >
-
-      <div className='max-sm:mx-auto max-sm:w-full mb-32'>
-        {/*Music Cards*/}
-        <div className="relative max-sm:w-[90%] max-sm:mx-auto flex flex-col justify-center items-center">
-          <div className="border-4 max-sm:w-full border-white bg-white rounded-2xl">
-            <div className="max-sm:w-full max-sm:pt-4 w-[900px] min-h-60 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
-              {loading ? (
-                <SongList songs={songs} currentCategory={currentCategory} loading={true} />
-              ) : error ? (
-                <div>错误: {error}</div>
-              ) : (
-                songs.length === 0 ? (
+              <div className='h-[172px]'>
+                {/* 根据选择的选项显示不同分类选项 */}
+                {selectedOption === 'category' && <CategoryBar getSongs={getSongs} />}
+                {/* {selectedOption === 'aeuio' && <AeuioBar getSongs={getSongs} />} */}
+                {selectedOption === 'level' && <LevelBar getSongs={getSongs} />}
+                {selectedOption === 'version' && <VersionBar getSongs={getSongs} />}
+              </div>
+              {/* AnimateVolume */}
+              <div className="absolute -bottom-8 max-sm:hidden flex space-x-2">
+                <div className="w-2 h-8 bg-[#5ac0b6] animate-volume"></div>
+                <div className="w-2 h-10 bg-[#7ef2e7] animate-volume [animation-delay:0.1s]"></div>
+                <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.2s]"></div>
+                <div className="w-2 h-12 bg-[#65d8cd] animate-volume [animation-delay:0.3s]"></div>
+                <div className="w-2 h-10 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.4s]"></div>
+                <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.5s]"></div>
+                <div className="w-2 h-12 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.6s]"></div>
+                <div className="w-2 h-6 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.7s]"></div>
+                <div className="w-2 h-8 bg-[rgb(112,240,228)] animate-volume [animation-delay:0.8s]"></div>
+              </div>
+              <AnimatePresence mode="wait">
+                {!advancedSearchDisplay && (
                   <>
-                    <div className='text-3xl mb-2'>❌</div>
-                    <div>{`没有找到相关乐曲……{{(>_<)}}`}</div>
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="max-sm:w-[90%] absolute sm:right-0  -bottom-20 mx-auto "
+                    >
+                      <button className=" aspect-[324/157]  sm:h-28 max-sm:h-24 transition-all duration-300 ease-in-out hover:brightness-110 bg-no-repeat bg-contain bg-[url('/img/refine_btn.png')]"
+                        onClick={() => setAdvancedSearchDisplay(!advancedSearchDisplay)}>
+                        <h1 className='text-xl font-bold text-white relative top-4 -left-4 '>高级搜索</h1>
+                      </button>
+                    </motion.div>
                   </>
-                ) : (
-                  <SongList songs={songs} currentCategory={currentCategory} loading={false} />
-                )
-              )}
+                )}
+              </AnimatePresence>
             </div>
           </div>
-        </div>
-        {/* 加载更多 */}
-        <div className="relative flex flex-col justify-center items-center">
-          <div className="flex space-x-4">
-            {hasMore && (
-              <ActionButton onClick={() => getSongs(filteredUrl, currentPage + 1)}>
-                {loadingMore ? (
-                  <div className="flex items-center">
-                    <span className="ml-2">加载中...</span>
-                  </div>
-                ) : (
-                  "加载更多"
-                )}
-              </ActionButton>
+          <AnimatePresence mode="wait">
+            {advancedSearchDisplay && (
+              <>
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="max-sm:w-[90%] sm:w-[900px] relative -bottom-5 mx-auto "
+                >
+                  <AdvancedSearchBar getSongs={getSongs}
+                    close={() => setAdvancedSearchDisplay(false)}
+                    currentCategory={setCurrentCategory} />
+                </motion.div>
+              </>
             )}
-            {/* <ActionButton onClick={() => {
+          </AnimatePresence>
+        </div >
+
+        <div className='max-sm:mx-auto max-sm:w-full mb-32'>
+          {/*Music Cards*/}
+          <div className="relative max-sm:w-[90%] max-sm:mx-auto flex flex-col justify-center items-center">
+            <div className="border-4 max-sm:w-full border-white bg-white rounded-2xl">
+              <div className="max-sm:w-full max-sm:pt-4 w-[900px] min-h-60 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
+                {loading ? (
+                  <SongList songs={songs} currentCategory={currentCategory} loading={true} />
+                ) : error ? (
+                  <div>错误: {error}</div>
+                ) : (
+                  songs.length === 0 ? (
+                    <>
+                      <div className='text-3xl mb-2'>❌</div>
+                      <div>{`没有找到相关乐曲……{{(>_<)}}`}</div>
+                    </>
+                  ) : (
+                    <SongList songs={songs} currentCategory={currentCategory} loading={false} />
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+          {/* 加载更多 */}
+          <div className="relative flex flex-col justify-center items-center">
+            <div className="flex space-x-4">
+              {hasMore && (
+                <ActionButton onClick={() => getSongs(filteredUrl, currentPage + 1)}>
+                  {loadingMore ? (
+                    <div className="flex items-center">
+                      <span className="ml-2">加载中...</span>
+                    </div>
+                  ) : (
+                    "加载更多"
+                  )}
+                </ActionButton>
+              )}
+              {/* <ActionButton onClick={() => {
               console.log('Scrolling to top...'); // 添加调试日志
             }}>
               返回顶部
             </ActionButton> */}
+            </div>
           </div>
         </div>
-      </div>
+      </PageTransitionWrapper>
     </>
   )
 }

@@ -402,7 +402,6 @@ export default function BestPage() {
 
     return (
         <>
-            <AnimatedComponent isVisible={true}>
 
                 <div className="relative max-sm:w-[90%] w-[900px] p-5 flex flex-col justify-center items-center mx-auto">
                     <Guide steps={steps} autoStart={true} mark={"b50tour"} />
@@ -546,7 +545,6 @@ export default function BestPage() {
 
 
 
-            </AnimatedComponent>
         </>
     )
 }

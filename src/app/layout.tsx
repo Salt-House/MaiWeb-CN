@@ -10,6 +10,7 @@ import GlobalPlayer from "./components/GlobalPlayer";
 import MobileNavigation from "./components/mobilenavigation";
 import Notice from "./components/Notice";
 import { useEffect } from "react";
+import PageTransitionWrapper from "./components/PageTransitionWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -81,10 +82,6 @@ export default function RootLayout({
       <body className="font-douyin">
         <PlayerProvider>
           <ClientLayout textstroke={textstroke} textDonate={textDonate}>
-            {/* <Link href={'/tool/donate'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8">
-              <img src="/img/youxibi.png" className="hover:scale-105 transition-all duration-300 ease-in-out max-sm:w-10" alt="" />
-              <h1 className="text-white font-bold max-sm:text-sm" style={textDonate}>请开发者打一把mai</h1>
-            </Link> */}
             <Link href={'/qa/feedback'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8">
               <img src="/img/feedback.png" className="hover:scale-105 size-12 transition-all duration-300 ease-in-out max-sm:w-10" alt="" />
               <h1 className="text-white font-bold max-sm:text-sm" style={textDonate}>意见反馈</h1>
@@ -111,9 +108,9 @@ export default function RootLayout({
 
             {/* 使用新的客户端导航组件 */}
             <MobileNavigation textstroke={textstroke} />
-
+            {/* 页面内容 */}
             {children}
-
+            {/* 底部鸣谢 */}
             <div className=" overflow-x-auto ">
               {/* thanks */}
               <div className="mt-10 max-sm:min-w-[600px] flex flex-col justify-center items-center h-64 max-sm:bg-none bg-[url('/img/bg_pc.png')]  bg-contain text-center">
@@ -157,7 +154,6 @@ export default function RootLayout({
                 </div>
               </div>
             </div>
-
             <Link href={"/"} className="top-4 left-4 size-40 max-sm:hidden">
               <div className="fixed top-4 left-4 size-40 bg-[url('/img/moon.png')] bg-contain bg-center flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
                 <img src="/img/logo.png" className="scale-125" alt="" />

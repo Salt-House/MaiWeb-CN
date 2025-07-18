@@ -3,44 +3,9 @@
 import LoadingSpinner from '@/app/components/LoadingSpinner'
 import SvgStrokedText from '@/app/components/SvgStrokedText'
 import TextScroller from '@/app/components/TextScroller'
-import { data } from 'framer-motion/client'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-
-interface NamePlate {
-    id: string,
-    name: string,
-    description: string,
-    genre: string
-}
-interface MaiBackGround {
-    id: string,
-    name: string,
-    description: string,
-    genre: string
-}
-interface Icon {
-    id: string,
-    name: string,
-    description: string,
-    genre: string
-}
-interface Trophie {
-    id: string,
-    name: string,
-    color: string,
-}
-
-interface SetCollectionProps {
-    type: string,
-    id: number,
-}
-
-interface Condition {
-    category: string,
-    condition: string,
-    condition_CN?: string,
-}
 
 let baseUrl = "https://assets2.lxns.net/maimai"
 
@@ -324,148 +289,10 @@ export default function CollectionPage() {
             }`;
     };
 
-    // 渲染收藏品项目
-    const renderItem = (item: any, type: string) => {
-        let bg_trophy = "";
-        if (item.color) {
-            switch (item.color) {
-                case "Normal":
-                    bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Normal.png')]"
-                    break;
-                case "Bronze":
-                    bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Bronze.png')]"
-                    break;
-                case "Silver":
-                    bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Silver.png')]"
-                    break;
-                case "Gold":
-                    bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Gold.png')]"
-                    break;
-                case "Rainbow":
-                    bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Rainbow.png')]"
-                    break;
-            }
-        }
-        switch (type) {
-            case 'frame':
-                return (
-                    <div
-                        key={item.id}
-                        className="relative rounded-lg shadow-sm max-sm:h-16 h-28 aspect-[1080/452] bg-no-repeat bg-contain hover:shadow-md transition-all duration-300 overflow-hidden"
-                        style={{ backgroundImage: `url(https://static.maimai.moe/UI_Frame_${item.id}.png)` }
-                        }
-                        onClick={() => {
-                            openImagePreview(item, 'frame');
-                            GetCondition('frame', item.id);
-                        }}
-                    >
-                        {/* 毛玻璃 + 文字层 */}
-                        <div className="absolute max-sm:hidden inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
-                            <SvgStrokedText
-                                text={item.name}
-                                strokeColor="#9334e9"
-                                strokeWidth={3}
-                                fill="#fff"
-                                fontSize={18}
-                                width="200"
-                                height="100"
-                            />
-                        </div>
-                        <div className="absolute sm:hidden inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
-                            <SvgStrokedText
-                                text={item.name}
-                                strokeColor="#9334e9"
-                                strokeWidth={3}
-                                fill="#fff"
-                                fontSize={18}
-                                width="120"
-                                height="60"
-                            />
-                        </div>
-                        <div className="absolute top-2 right-2 opacity-0 hover:opacity-100 transition-opacity duration-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white drop-shadow-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                            </svg>
-                        </div>
-                    </div>
-                );
-
-            case 'trophy':
-                return (
-                    <div
-                        key={item.id}
-                        className={`relative rounded-full ${bg_trophy} bg-no-repeat bg-contain w-72 mx-auto aspect-[272/29] transition-all duration-300 flex flex-col items-center justify-center`}
-                        onClick={() => {
-                            openImagePreview(item, 'trophy');
-                            GetCondition('trophy', item.id);
-                        }}
-                    >
-                        <div
-                            className="max-w-40 text-white text-sm  font-bold "
-                            style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}
-                        >
-                            <TextScroller text={item.name} speed={10} delay={2} />
-                        </div>
-                    </div>
-                );
-
-            case 'nameplate':
-                return (
-                    <div
-                        key={item.id}
-                        className="relative rounded-lg shadow-sm h-12 aspect-[724/120] bg-no-repeat bg-contain hover:shadow-md transition-all duration-300 overflow-hidden"
-                        style={{
-                            backgroundImage: `url(https://static.maimai.moe/UI_Plate_${item.id.toString().padStart(6, '0')}.png)`
-                        }}
-                        onClick={() => {
-                            openImagePreview(item, 'nameplate')
-                            GetCondition('plate', item.id);
-                        }}
-                    >
-                        {/* 毛玻璃 + 文字层 */}
-                        <div className="absolute inset-0 backdrop-blur-sm bg-white/40 flex items-center justify-center transition-opacity duration-300 hover:opacity-0">
-                            <SvgStrokedText
-                                text={item.name}
-                                strokeColor="#9334e9"
-                                strokeWidth={3}
-                                fill="#fff"
-                                fontSize={18}
-                                width="200"
-                                height="100"
-                            />
-                        </div>
-                    </div>
-                );
-
-            default:
-                return (
-                    <div
-                        key={item.id}
-                        className="relative rounded-full p-3 shadow-sm hover:shadow-md transition-all duration-300 border border-purple-100 hover:border-purple-300 flex flex-col items-center"
-                        onClick={() => { openImagePreview(item, 'icon'); GetCondition('icon', item.id) }}
-                    >
-                        <div className="flex flex-col items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-2">
-                            <div className='relative size-16 mt-2'>
-                                <Image
-                                    src={`${baseUrl}/${type}/${item.id}.png`}
-                                    alt={item.name}
-                                    className="object-contain "
-                                    fill
-                                     unoptimized 
-                                />
-                            </div>
-                            <p className="text-center text-sm leading-tight w-96">
-                                {item.name}
-                            </p>
-                        </div>
-                    </div>
-                );
-        }
-    };
 
     return (
         <div className="container mx-auto py-8 px-4">
-            <h1 className="text-2xl font-bold text-center text-purple-800 mb-8">收藏品展示</h1>
+            <SvgStrokedText text="收藏品展示" height={100} strokeColor={"#a078e4"} strokeWidth={10} />
 
             {/* Tab导航 */}
             <div className="flex justify-center mb-6 bg-white p-2 rounded-lg shadow-sm">
@@ -585,7 +412,7 @@ export default function CollectionPage() {
             <div className="bg-purple-50/50 rounded-lg p-4 shadow-inner">
                 {activeTab === "icon" && (
                     <div className="animate-fadeIn">
-                        <h2 className="text-lg font-medium mb-4 text-purple-700 border-b pb-2">玩家头像</h2>
+                        <h2 className="text-lg font-medium text-center mb-4 text-purple-700 border-b pb-2">玩家头像</h2>
 
                         {Icons.length === 0 ? (
                             <div className="flex justify-center py-8">
@@ -593,45 +420,21 @@ export default function CollectionPage() {
                             </div>
                         ) : (
                             <>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                                    {Icons.map((item) => renderItem(item, "icon"))}
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 lg:gap-1 gap-2">
+                                    {Icons.map((item) => <RenderItem key={item.id} item={item} type="icon" openImagePreview={openImagePreview} GetCondition={GetCondition} />)}
                                 </div>
 
                                 {/* 加载更多按钮 */}
                                 {hasMore.icon && (
-                                    <div className="flex justify-center mt-6">
-                                        <button
-                                            onClick={() => loadMore("icon")}
-                                            disabled={isSearching}
-                                            className="px-4 py-2 bg-white border border-purple-300 rounded-md text-purple-600 hover:bg-purple-50 transition-colors flex items-center shadow-sm"
-                                        >
-                                            {isSearching ? (
-                                                <>
-                                                    <svg className="animate-spin mr-2 h-4 w-4 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                    </svg>
-                                                    加载中...
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                    </svg>
-                                                    加载更多
-                                                </>
-                                            )}
-                                        </button>
-                                    </div>
+                                    <LoadMoreButton loadMore={() => loadMore("icon")} isSearching={isSearching} />
                                 )}
                             </>
                         )}
                     </div>
                 )}
-
                 {activeTab === "frame" && (
-                    <div className="animate-fadeIn">
-                        <h2 className="text-lg font-medium mb-4 text-purple-700 border-b pb-2">游戏背景</h2>
+                    <div>
+                        <h2 className="text-lg font-medium mb-4 text-center text-purple-700 border-b pb-2">游戏背景</h2>
                         {MaiBackGround.length === 0 ? (
                             <div className="flex justify-center py-8">
                                 <LoadingSpinner size='sm' message='Loading' description='加载背景数据源' />
@@ -639,29 +442,20 @@ export default function CollectionPage() {
                         ) : (
                             <>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 place-items-center gap-3 gap-x-1">
-                                    {MaiBackGround.map((item) => renderItem(item, "frame"))}
+                                    {MaiBackGround.map((item) => <RenderItem key={item.id} item={item} type="frame" openImagePreview={openImagePreview} GetCondition={GetCondition} />)}
                                 </div>
 
                                 {/* 加载更多按钮 */}
                                 {hasMore.frame && (
-                                    <div className="flex justify-center mt-6">
-                                        <button
-                                            onClick={() => loadMore("frame")}
-                                            disabled={isSearching}
-                                            className="px-4 py-2 bg-white border border-purple-300 rounded-md text-purple-600 hover:bg-purple-50 transition-colors flex items-center shadow-sm"
-                                        >
-                                            {isSearching ? "加载中..." : "加载更多"}
-                                        </button>
-                                    </div>
+                                    <LoadMoreButton loadMore={() => loadMore("frame")} isSearching={isSearching} />
                                 )}
                             </>
                         )}
                     </div>
                 )}
-
                 {activeTab === "nameplate" && (
-                    <div className="animate-fadeIn">
-                        <h2 className="text-lg font-medium mb-4 text-purple-700 border-b pb-2">玩家名牌</h2>
+                    <motion.div>
+                        <h2 className="text-lg font-medium mb-4 text-center text-purple-700 border-b pb-2">玩家名牌</h2>
                         {namePlates.length === 0 ? (
                             <div className="flex justify-center py-8">
                                 <LoadingSpinner size='sm' message='Loading' description='加载名牌数据源' />
@@ -669,29 +463,24 @@ export default function CollectionPage() {
                         ) : (
                             <>
                                 <div className="grid max-sm:grid-cols-1 sm:grid-cols-3 md:grid-cols-4 place-items-center gap-3">
-                                    {namePlates.map((item) => renderItem(item, "nameplate"))}
+                                    {namePlates.map((item) => <RenderItem key={item.id} item={item} type="nameplate" openImagePreview={openImagePreview} GetCondition={GetCondition} />)}
                                 </div>
 
                                 {/* 加载更多按钮 */}
                                 {hasMore.nameplate && (
-                                    <div className="flex justify-center mt-6">
-                                        <button
-                                            onClick={() => loadMore("nameplate")}
-                                            disabled={isSearching}
-                                            className="px-4 py-2 bg-white border border-purple-300 rounded-md text-purple-600 hover:bg-purple-50 transition-colors flex items-center shadow-sm"
-                                        >
-                                            {isSearching ? "加载中..." : "加载更多"}
-                                        </button>
-                                    </div>
+                                    <LoadMoreButton loadMore={() => loadMore("nameplate")} isSearching={isSearching} />
+
                                 )}
                             </>
+
                         )}
-                    </div>
+
+                    </motion.div>
                 )}
 
                 {activeTab === "trophy" && (
                     <div className="animate-fadeIn">
-                        <h2 className="text-lg font-medium mb-4 text-purple-700 border-b pb-2">游戏奖杯</h2>
+                        <h2 className="text-lg font-medium mb-4 text-center text-purple-700 border-b pb-2">游戏奖杯</h2>
                         {Trophies.length === 0 ? (
                             <div className="flex justify-center py-8">
                                 <LoadingSpinner size='sm' message='Loading' description='加载奖杯数据源' />
@@ -699,144 +488,276 @@ export default function CollectionPage() {
                         ) : (
                             <>
                                 <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                                    {Trophies.map((item) => renderItem(item, "trophy"))}
+                                    {Trophies.map((item) => <RenderItem key={item.id} item={item} type="trophy" openImagePreview={openImagePreview} GetCondition={GetCondition} />)}
                                 </div>
 
                                 {/* 加载更多按钮 */}
                                 {hasMore.trophy && (
-                                    <div className="flex justify-center mt-6">
-                                        <button
-                                            onClick={() => loadMore("trophy")}
-                                            disabled={isSearching}
-                                            className="px-4 py-2 bg-white border border-purple-300 rounded-md text-purple-600 hover:bg-purple-50 transition-colors flex items-center shadow-sm"
-                                        >
-                                            {isSearching ? "加载中..." : "加载更多"}
-                                        </button>
-                                    </div>
+                                    <LoadMoreButton loadMore={() => loadMore("trophy")} isSearching={isSearching} />
                                 )}
                             </>
                         )}
                     </div>
                 )}
             </div>
-            {previewImage && (
-                <div
-                    className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4"
-                    onClick={closeImagePreview}
-                >
+            {
+                previewImage && (
                     <div
-                        className="relative max-w-4xl max-h-full bg-white rounded-lg overflow-hidden shadow-2xl"
-                        onClick={(e) => e.stopPropagation()}
+                        className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4"
+                        onClick={closeImagePreview}
                     >
-                        {/* 关闭按钮 */}
-                        <button
-                            onClick={closeImagePreview}
-                            className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-70 transition-all duration-200"
+                        <div
+                            className="relative max-w-4xl max-h-full bg-white rounded-lg overflow-hidden shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
+                            {/* 关闭按钮 */}
+                            <button
+                                onClick={closeImagePreview}
+                                className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-70 transition-all duration-200"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
 
-                        {/* 图片内容 */}
-                        <div className="p-6">
-                            <h3 className="text-xl font-bold text-purple-800 mb-4 text-center">
-                                {previewImage.name}
-                            </h3>
+                            {/* 图片内容 */}
+                            <div className="p-6">
+                                <h3 className="text-xl font-bold text-purple-800 mb-4 text-center">
+                                    {previewImage.name}
+                                </h3>
 
-                            <div className="flex justify-center">
-                                {previewImage.type === 'frame' && (
-                                    <img
-                                        src={previewImage.url}
-                                        alt={previewImage.name}
-                                        className="max-w-full max-h-96 object-contain rounded-lg shadow-lg"
-                                        style={{ aspectRatio: '1080/452' }}
-                                    />
-                                )}
-                                {previewImage.type === 'nameplate' && (
-                                    <img
-                                        src={previewImage.url}
-                                        alt={previewImage.name}
-                                        className="max-w-full max-h-32 object-contain rounded-lg shadow-lg"
-                                        style={{ aspectRatio: '724/120' }}
-                                    />
-                                )}
+                                <div className="flex justify-center">
+                                    {previewImage.type === 'frame' && (
+                                        <img
+                                            src={previewImage.url}
+                                            alt={previewImage.name}
+                                            className="max-w-full max-h-96 object-contain rounded-lg shadow-lg"
+                                            style={{ aspectRatio: '1080/452' }}
+                                        />
+                                    )}
+                                    {previewImage.type === 'nameplate' && (
+                                        <img
+                                            src={previewImage.url}
+                                            alt={previewImage.name}
+                                            className="max-w-full max-h-32 object-contain rounded-lg shadow-lg"
+                                            style={{ aspectRatio: '724/120' }}
+                                        />
+                                    )}
 
-                                {previewImage.type === 'icon' && (
-                                    <img
-                                        src={previewImage.url}
-                                        alt={previewImage.name}
-                                        className="max-w-full max-h-96 object-contain rounded-lg shadow-lg w-64 h-64"
-                                    />
-                                )}
-                                {previewImage.type === 'trophy' && (
-                                    <div className={`aspect-[272/29] bg-no-repeat bg-contain mx-auto w-72 ${previewImage.url} mx-auto`}>
-                                        <div className="flex flex-col items-center justify-center h-full">
-                                            <p className="text-white text-sm font-bold" style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}>
-                                                {previewImage.name}
-                                            </p>
+                                    {previewImage.type === 'icon' && (
+                                        <img
+                                            src={previewImage.url}
+                                            alt={previewImage.name}
+                                            className="max-w-full max-h-96 object-contain rounded-lg shadow-lg w-64 h-64"
+                                        />
+                                    )}
+                                    {previewImage.type === 'trophy' && (
+                                        <div className={`aspect-[272/29] bg-no-repeat bg-contain mx-auto w-72 ${previewImage.url} mx-auto`}>
+                                            <div className="flex flex-col items-center justify-center h-full">
+                                                <p className="text-white text-sm font-bold" style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}>
+                                                    {previewImage.name}
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* 图片信息 */}
-                            <div className="mt-4 text-center text-gray-600">
-                                <p className="text-sm">
-                                    类型: {
-                                        previewImage.type === 'frame' ? '背景框' :
-                                            previewImage.type === 'nameplate' ? '姓名框' :
-                                                previewImage.type === 'icon' ? '玩家头像' : '称号'
-                                    }
-                                </p>
-                            </div>
-                            <div className="mt-3 p-3 bg-purple-50 rounded-lg border border-purple-200">
-                                <div className="flex items-center justify-center mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-purple-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span className="text-sm font-medium text-purple-700">获取条件（仅供参考，如有错误请联系e2544733@outlook.com）</span>
+                                    )}
                                 </div>
 
-                                {condition ? (
-                                    <>
-                                        {conditionLoading ? (
-                                            <LoadingSpinner size='sm' message='Loading' description='获取条件中...' />
-                                        ) :
-                                            <div className="flex flex-col md:flex-row md:items-center md:justify-between max-sm:items-center  gap-2">
-                                                <div className="flex-1 space-y-1">
-                                                    <p className="text-sm text-purple-800 font-medium">
-                                                        {condition.condition_CN || '暂无中文说明'}
-                                                    </p>
-                                                    <p className="text-xs text-purple-600 opacity-80">
-                                                        {condition.condition}
-                                                    </p>
-                                                </div>
-                                                <div className="flex-shrink-0">
-                                                    <span className="inline-block px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded-full">
-                                                        {condition.category === 'else' ? '其他' : condition.category}
-                                                    </span>
-                                                </div>
-                                            </div>}
-                                    </>
-                                ) : (
-                                    <div className="text-center">
-                                        <p className="text-xs text-red-500 mb-2">获取条件正在收集当中</p>
-                                        <p className="text-xs text-purple-600">
-                                            如果您愿意提供相关数据，请通过邮件联系我们
-                                            <br />
-                                            <a href="mailto:e2544733@outlook.com" className="text-purple-700 hover:text-purple-800 underline">
-                                                e2544733@outlook.com
-                                            </a>
-                                        </p>
+                                {/* 图片信息 */}
+                                <div className="mt-4 text-center text-gray-600">
+                                    <p className="text-sm">
+                                        类型: {
+                                            previewImage.type === 'frame' ? '背景框' :
+                                                previewImage.type === 'nameplate' ? '姓名框' :
+                                                    previewImage.type === 'icon' ? '玩家头像' : '称号'
+                                        }
+                                    </p>
+                                </div>
+                                <div className="mt-3 p-3 bg-purple-50 rounded-lg border border-purple-200">
+                                    <div className="flex items-center justify-center mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-purple-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span className="text-sm font-medium text-purple-700">获取条件（仅供参考，如有错误请联系e2544733@outlook.com）</span>
                                     </div>
-                                )}
+
+                                    {condition ? (
+                                        <>
+                                            {conditionLoading ? (
+                                                <LoadingSpinner size='sm' message='Loading' description='获取条件中...' />
+                                            ) :
+                                                <div className="flex flex-col md:flex-row md:items-center md:justify-between max-sm:items-center  gap-2">
+                                                    <div className="flex-1 space-y-1">
+                                                        <p className="text-sm text-purple-800 font-medium">
+                                                            {condition.condition_CN || '暂无中文说明'}
+                                                        </p>
+                                                        <p className="text-xs text-purple-600 opacity-80">
+                                                            {condition.condition}
+                                                        </p>
+                                                    </div>
+                                                    <div className="flex-shrink-0">
+                                                        <span className="inline-block px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded-full">
+                                                            {condition.category === 'else' ? '其他' : condition.category}
+                                                        </span>
+                                                    </div>
+                                                </div>}
+                                        </>
+                                    ) : (
+                                        <div className="text-center">
+                                            <p className="text-xs text-red-500 mb-2">获取条件正在收集当中</p>
+                                            <p className="text-xs text-purple-600">
+                                                如果您愿意提供相关数据，请通过邮件联系我们
+                                                <br />
+                                                <a href="mailto:e2544733@outlook.com" className="text-purple-700 hover:text-purple-800 underline">
+                                                    e2544733@outlook.com
+                                                </a>
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
+        </div >
+    );
+}
+
+
+function RenderItem({ item, type, openImagePreview, GetCondition }: {
+    item: any;
+    type: string;
+    openImagePreview: (item: any, type: string) => void;
+    GetCondition: (type: string, id: string) => void;
+}) {
+    let bg_trophy = "";
+    if (item.color) {
+        switch (item.color) {
+            case "Normal":
+                bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Normal.png')]"
+                break;
+            case "Bronze":
+                bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Bronze.png')]"
+                break;
+            case "Silver":
+                bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Silver.png')]"
+                break;
+            case "Gold":
+                bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Gold.png')]"
+                break;
+            case "Rainbow":
+                bg_trophy = "bg-[url('/img/trophy/UI_CMN_Shougou_Rainbow.png')]"
+                break;
+        }
+    }
+    switch (type) {
+        case 'frame':
+            return (
+                <div
+                    key={item.id}
+                    className="relative rounded-lg shadow-sm max-sm:h-16 h-28 aspect-[1080/452] bg-no-repeat bg-contain hover:shadow-md transition-all duration-300 overflow-hidden"
+                    style={{ backgroundImage: `url(https://static.maimai.moe/UI_Frame_${item.id}.png)` }
+                    }
+                    onClick={() => {
+                        openImagePreview(item, 'frame');
+                        GetCondition('frame', item.id);
+                    }}
+                >
+                    <div className="absolute top-2 right-2 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white drop-shadow-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                    </div>
+                </div>
+            );
+
+        case 'trophy':
+            return (
+                <div
+                    key={item.id}
+                    className={`relative rounded-full ${bg_trophy} bg-no-repeat bg-contain w-72 mx-auto aspect-[272/29] transition-all duration-300 flex flex-col items-center justify-center`}
+                    onClick={() => {
+                        openImagePreview(item, 'trophy');
+                        GetCondition('trophy', item.id);
+                    }}
+                >
+                    <div
+                        className="max-w-40 text-white text-sm  font-bold "
+                        style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}
+                    >
+                        <TextScroller text={item.name} speed={10} delay={2} />
+                    </div>
+                </div>
+            );
+
+        case 'nameplate':
+            return (
+                <div
+                    key={item.id}
+                    className="relative rounded-lg shadow-sm h-12 aspect-[724/120] bg-no-repeat bg-contain hover:shadow-md transition-all duration-300 overflow-hidden"
+                    style={{
+                        backgroundImage: `url(https://static.maimai.moe/UI_Plate_${item.id.toString().padStart(6, '0')}.png)`
+                    }}
+                    onClick={() => {
+                        openImagePreview(item, 'nameplate')
+                        GetCondition('plate', item.id);
+                    }}
+                >
+                </div>
+            );
+
+        default:
+            return (
+                <div
+                    key={item.id}
+                    className="relative rounded-lg p-3 sm:p-1 shadow-sm hover:shadow-md transition-all duration-300 border border-purple-100 hover:border-purple-300 flex flex-col items-center"
+                    onClick={() => { openImagePreview(item, 'icon'); GetCondition('icon', item.id) }}
+                >
+                    <div className="flex flex-col items-center justify-center w-24 h-24 max-sm:w-28 max-sm:h-28 mb-2">
+                        <div className='relative size-48 mt-2'>
+                            <Image
+                                src={`${baseUrl}/${type}/${item.id}.png`}
+                                alt={item.name}
+                                className="object-contain "
+                                fill
+                                unoptimized
+                            />
+                        </div>
+                        <p className="text-center text-sm leading-tight w-64">
+                            {item.name}
+                        </p>
+                    </div>
+                </div>
+            );
+    }
+}
+
+function LoadMoreButton({ loadMore, isSearching }: { loadMore: () => void; isSearching: boolean }) {
+    return (
+        <div className="flex justify-center mt-6">
+            <button
+                onClick={loadMore}
+                disabled={isSearching}
+                className="px-4 py-2 bg-white border border-purple-300 rounded-md text-purple-600 hover:bg-purple-50 transition-colors flex items-center shadow-sm"
+            >
+                {isSearching ? (
+                    <>
+                        <svg className="animate-spin mr-2 h-4 w-4 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        加载中...
+                    </>
+                ) : (
+                    <>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                        加载更多
+                    </>
+                )}
+            </button>
         </div>
     );
 }

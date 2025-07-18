@@ -11,6 +11,7 @@ import { IoMdPeople } from "react-icons/io";
 import { BindAccount, FunctionStatus, ThirdAccount, UserHistorySub, UserProfile } from "../model";
 import RatingHistory from "@/app/components/RatingHistory";
 import SvgStrokedText from "@/app/components/SvgStrokedText";
+import PageTransitionWrapper from "@/app/components/PageTransitionWrapper";
 
 
 
@@ -236,7 +237,6 @@ export default function UserProfilePage() {
       case 'lxns':
         return (
           <>
-            <AnimatedComponent isVisible={true}>
               <div className="relative size-96 max-sm:size-72 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                 {isBindLoading ? <LoadingSpinner /> : <>
                   <h1 className="text-2xl font-bold">绑定落雪账号</h1>
@@ -248,13 +248,11 @@ export default function UserProfilePage() {
                 </>}
 
               </div>
-            </AnimatedComponent>
           </>
         )
       case 'divingfish':
         return (
           <>
-            <AnimatedComponent isVisible={true}>
               <div className="relative size-96 max-sm:size-72 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                 {isBindLoading ? <LoadingSpinner /> : <>
 
@@ -267,13 +265,11 @@ export default function UserProfilePage() {
                 </>}
 
               </div>
-            </AnimatedComponent>
           </>
         )
       case 'arcaed':
         return (
           <>
-            <AnimatedComponent isVisible={true}>
               <div className="relative size-96 max-sm:size-72 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
                 {isBindLoading ? <LoadingSpinner /> : <>
                   <h1 className="text-2xl font-bold">绑定街机账号</h1>
@@ -282,7 +278,6 @@ export default function UserProfilePage() {
                   <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
                 </>}
               </div>
-            </AnimatedComponent>
           </>
         )
       default:
@@ -640,85 +635,86 @@ export default function UserProfilePage() {
   }, [accounts]);
 
   return (
-    <div className='w-[900px] max-sm:w-full min-h-[400px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center'>
-      {userdata.username == "请刷新" ?
-        <>
-          <div className="flex flex-col text-center text-xl text-white">
-            <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 py-2 px-4 rounded-xl shadow-lg mb-4">
-              <span className="text-3xl">🤯</span>
-              <h1 className="text-2xl font-bold text-white tracking-wide">5s内无跳转表明登录状态已过期</h1>
+    <PageTransitionWrapper>
+
+      <div className='w-[900px] max-sm:w-full min-h-[400px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center'>
+        {userdata.username == "请刷新" ?
+          <>
+            <div className="flex flex-col text-center text-xl text-white">
+              <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 py-2 px-4 rounded-xl shadow-lg mb-4">
+                <span className="text-3xl">🤯</span>
+                <h1 className="text-2xl font-bold text-white tracking-wide">5s内无跳转表明登录状态已过期</h1>
+              </div>
+              <button
+                onClick={LogOut}
+                className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-red-500 to-pink-600 p-2 px-5 text-white font-bold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 border-white/30"
+              >
+                <FaRightFromBracket className="mr-2" />
+                返回重新登录
+              </button>
             </div>
-            <button
-              onClick={LogOut}
-              className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-red-500 to-pink-600 p-2 px-5 text-white font-bold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 border-white/30"
-            >
-              <FaRightFromBracket className="mr-2" />
-              返回重新登录
-            </button>
-          </div>
-        </> :
-        <>
-          <div className='max-sm:w-[90%] sm:w-[900px] flex justify-center items-center'>
-            {renderContent()}
-          </div>
-          {showGuide && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-              <AnimatedComponent isVisible={true}>
-                <div className="relative max-sm:w-[90%] w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
-                  <button
-                    className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 transition-colors"
-                    onClick={() => setShowGuide(false)}
-                  >
-                    <span className="text-xl">×</span>
-                  </button>
+          </> :
+          <>
+            <div key={activeSection} className='max-sm:w-[90%] sm:w-[900px] flex justify-center items-center'>
+              {renderContent()}
+            </div>
+            {showGuide && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                  <div className="relative max-sm:w-[90%] w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
+                    <button
+                      className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 transition-colors"
+                      onClick={() => setShowGuide(false)}
+                    >
+                      <span className="text-xl">×</span>
+                    </button>
 
-                  <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
-                    操作指南
-                  </h2>
+                    <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+                      操作指南
+                    </h2>
 
-                  <div className="space-y-6">
-                    <div className="space-y-2">
-                      <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                        <span className=" w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
-                        这里是个人信息页！
-                      </h3>
-                      <p className="text-gray-600 ml-8">查看个人信息、游玩数据及功能开启状态</p>
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                          <span className=" w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
+                          这里是个人信息页！
+                        </h3>
+                        <p className="text-gray-600 ml-8">查看个人信息、游玩数据及功能开启状态</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                          <span className=" w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
+                          关联账号
+                        </h3>
+                        <p className="text-gray-600 ml-8">绑定第三方账号，实现数据互通</p>
+                        <i className="text-gray-600 ml-8 text-sm">注:推荐绑定Arcade账号</i>
+                        <p className="text-gray-600 ml-8">在绑定账号后请点击<button className="my-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>导入数据(一天只有两次手动更新次数)</p>
+
+                      </div>
+
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                          <span className=" w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
+                          账号 & 隐私设置
+                        </h3>
+                        <p className="text-gray-600 ml-8">
+                          {`管理账号和查分器绑定 -> 账号设置`}<br />个人数据的使用范围和隐私选项（撰写中）
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                        <span className=" w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
-                        关联账号
-                      </h3>
-                      <p className="text-gray-600 ml-8">绑定第三方账号，实现数据互通</p>
-                      <i className="text-gray-600 ml-8 text-sm">注:推荐绑定Arcade账号</i>
-                      <p className="text-gray-600 ml-8">在绑定账号后请点击<button className="my-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>导入数据(一天只有两次手动更新次数)</p>
-
-                    </div>
-
-                    <div className="space-y-2">
-                      <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                        <span className=" w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
-                        账号 & 隐私设置
-                      </h3>
-                      <p className="text-gray-600 ml-8">
-                        {`管理账号和查分器绑定 -> 账号设置`}<br />个人数据的使用范围和隐私选项（撰写中）
+                    <div className="mt-8 p-4 bg-gray-50 rounded-xl">
+                      <p className="text-sm text-gray-500">
+                        提示：点击右上角的刷新按钮可以更新最新数据
                       </p>
                     </div>
                   </div>
+              </div>
+            )}
+          </>
+        }
 
-                  <div className="mt-8 p-4 bg-gray-50 rounded-xl">
-                    <p className="text-sm text-gray-500">
-                      提示：点击右上角的刷新按钮可以更新最新数据
-                    </p>
-                  </div>
-                </div>
-              </AnimatedComponent>
-            </div>
-          )}
-        </>
-      }
-
-    </div>
+      </div>
+    </PageTransitionWrapper>
   );
 }

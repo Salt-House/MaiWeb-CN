@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import PageTransitionWrapper from '../components/PageTransitionWrapper';
 
 interface QAItem {
   id: number;
@@ -65,83 +66,84 @@ export default function QAPage() {
     : qaData.filter(item => item.category === selectedCategory);
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-12">
-        {/* 页面标题 */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-            常见问题
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            在这里找到您关心的问题答案，如果没有找到您需要的信息，请随时联系我们的客服团队
-          </p>
-        </div>
+    <PageTransitionWrapper>
+      <div className="min-h-screen">
+        <div className="container mx-auto px-4 py-12">
+          {/* 页面标题 */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+              常见问题
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              在这里找到您关心的问题答案，如果没有找到您需要的信息，请随时联系我们的客服团队
+            </p>
+          </div>
 
-        {/* 分类筛选 */}
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 rounded-full transition-all duration-200 font-medium ${selectedCategory === category
+          {/* 分类筛选 */}
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-6 py-2 rounded-full transition-all duration-200 font-medium ${selectedCategory === category
                   ? 'bg-blue-600 text-white shadow-lg transform scale-105'
                   : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-md'
-                }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* QA列表 */}
-        <div className="max-w-4xl mx-auto">
-          <div className="space-y-4">
-            {filteredQA.map((item) => (
-              <div
-                key={item.id}
-                className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100"
+                  }`}
               >
-                <button
-                  onClick={() => toggleExpanded(item.id)}
-                  className="w-full px-6 py-5 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
-                          {item.category}
-                        </span>
-                      </div>
-                      <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors">
-                        {item.question}
-                      </h3>
-                    </div>
-                    <div className="ml-4">
-                      {expandedItems.includes(item.id) ? (
-                        <ChevronUpIcon className="h-5 w-5 text-gray-500" />
-                      ) : (
-                        <ChevronDownIcon className="h-5 w-5 text-gray-500" />
-                      )}
-                    </div>
-                  </div>
-                </button>
-
-                {expandedItems.includes(item.id) && (
-                  <div className="px-6 pb-5">
-                    <div className="border-t border-gray-100 pt-4">
-                      <p className="text-gray-700 leading-relaxed">
-                        {item.answer}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
+                {category}
+              </button>
             ))}
           </div>
-        </div>
 
-        {/* 联系我们卡片 */}
-        {/* <div className="max-w-4xl mx-auto mt-12">
+          {/* QA列表 */}
+          <div className="max-w-4xl mx-auto">
+            <div className="space-y-4">
+              {filteredQA.map((item) => (
+                <div
+                  key={item.id}
+                  className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100"
+                >
+                  <button
+                    onClick={() => toggleExpanded(item.id)}
+                    className="w-full px-6 py-5 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
+                            {item.category}
+                          </span>
+                        </div>
+                        <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors">
+                          {item.question}
+                        </h3>
+                      </div>
+                      <div className="ml-4">
+                        {expandedItems.includes(item.id) ? (
+                          <ChevronUpIcon className="h-5 w-5 text-gray-500" />
+                        ) : (
+                          <ChevronDownIcon className="h-5 w-5 text-gray-500" />
+                        )}
+                      </div>
+                    </div>
+                  </button>
+
+                  {expandedItems.includes(item.id) && (
+                    <div className="px-6 pb-5">
+                      <div className="border-t border-gray-100 pt-4">
+                        <p className="text-gray-700 leading-relaxed">
+                          {item.answer}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 联系我们卡片 */}
+          {/* <div className="max-w-4xl mx-auto mt-12">
           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-8 text-white text-center">
             <h2 className="text-2xl font-bold mb-4">没有找到您要的答案？</h2>
             <p className="text-blue-100 mb-6">
@@ -155,7 +157,8 @@ export default function QAPage() {
             </div>
           </div>
         </div> */}
+        </div>
       </div>
-    </div>
+    </PageTransitionWrapper>
   );
 }
