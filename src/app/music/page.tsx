@@ -14,7 +14,7 @@ import Notice from '../components/Notice'
 import PageTransitionWrapper from '../components/PageTransitionWrapper'
 
 
-const currentVersion = "25001"
+const currentVersion = "25002"
 
 const version: (keyof typeof versionIds)[] = ["maimai", "GreeN", "ORANGE ", "PiNK", "MURASAKi ", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024", "舞萌DX 2025"]
 const versionIds = {
@@ -94,7 +94,7 @@ export default function MusicPage() {
       setLoadingMore(true)
     }
     // 根据filteredUrl设置当前分类名称
-    if (filteredUrl.includes(`versions=${currentVersion}`)) {
+    if (filteredUrl.includes(`version=${currentVersion}`)) {
       setCurrentCategory('最近更新')
     } else if (filteredUrl.includes('genre=POPSアニメ')) {
       setCurrentCategory('流行&动漫')
