@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Area } from "../page";
 import Link from "next/link";
-import { FaArrowLeft, FaLocationDot } from "react-icons/fa6";
+import { FaArrowLeft, FaLocationDot, FaLanguage } from "react-icons/fa6";
 import { FiExternalLink } from "react-icons/fi";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 
@@ -18,6 +18,7 @@ export default function AreaDetailPage({ params }: PageProps) {
     const [area, setArea] = useState<Area>();
     const [lang, setLang] = useState("ja");
     const [loading, setLoading] = useState(true);
+    const [language, setLanguage] = useState("ja");
     const textstroke = {
         textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
     };
@@ -26,7 +27,7 @@ export default function AreaDetailPage({ params }: PageProps) {
     const GetAreaDetail = () => {
         setLoading(true);
         const decodedId = decodeURIComponent(id);
-        fetch(`https://dev.maimai.moe/api/maimai/areas?lang=ja&name=${decodedId}&page=1&page_size=100`, {
+        fetch(`https://dev.maimai.moe/api/maimai/areas?lang=${language}&name=${decodedId}&page=1&page_size=100`, {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -42,6 +43,12 @@ export default function AreaDetailPage({ params }: PageProps) {
                 setLoading(false);
             });
     };
+
+
+    useEffect(()=>{
+        GetAreaDetail();
+    },[language])
+    
 
     useEffect(() => {
         GetAreaDetail();
@@ -61,6 +68,33 @@ export default function AreaDetailPage({ params }: PageProps) {
                 <FaArrowLeft className="mr-1 group-hover:animate-pulse" />
                 <span className="text-2xl font-medium max-sm:text-lg" style={textstroke}>返回区域列表</span>
             </Link>
+
+            {/* 语言切换按钮 */}
+            <div className="absolute top-4 right-4 flex items-center space-x-2">
+                <FaLanguage className="text-white text-xl" style={textstroke} />
+                <div className="flex bg-white/20 backdrop-blur-sm rounded-lg p-1 border border-white/30">
+                    <button
+                        onClick={() => setLanguage('ja')}
+                        className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-200 ${
+                            language === 'ja'
+                                ? 'bg-white text-purple-600 shadow-sm'
+                                : 'text-white hover:bg-white/20'
+                        }`}
+                    >
+                        日本語
+                    </button>
+                    <button
+                        onClick={() => setLanguage('zh')}
+                        className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-200 ${
+                            language === 'zh'
+                                ? 'bg-white text-purple-600 shadow-sm'
+                                : 'text-white hover:bg-white/20'
+                        }`}
+                    >
+                        中文
+                    </button>
+                </div>
+            </div>
 
             {/* 主内容区域 */}
             <div className="w-full max-w-[900px] mx-auto mt-10 max-sm:mt-6">
