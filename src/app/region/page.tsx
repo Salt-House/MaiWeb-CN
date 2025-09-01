@@ -190,10 +190,10 @@ export default function RegionPage() {
               {Object.entries(groupAreasByPrefix(areas))
                 .sort(([, aAreas], [, bAreas]) => bAreas.length - aAreas.length)
                 .map(([groupKey, groupAreas]) => (
-                <div key={groupKey} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                <div key={groupKey} className="bg-purple-800/20 backdrop-blur-sm rounded-xl p-6 border border-purple-300/30 shadow-lg">
                   {/* 分组标题 */}
                   <div 
-                    className="flex items-center justify-between cursor-pointer mb-4 hover:bg-white/5 rounded-lg p-2 transition-all"
+                    className="flex items-center justify-between cursor-pointer mb-4 hover:bg-purple-700/30 rounded-lg p-2 transition-all"
                     onClick={() => toggleGroup(groupKey)}
                   >
                     <h2 className="text-2xl font-bold text-white max-sm:text-xl" style={textstroke}>
