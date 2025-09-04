@@ -435,7 +435,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)] cursor-pointer"
-            onClick={() => getSongs(`versions=${currentVersion}`)}
+            onClick={() => getSongs(`version=${currentVersion}`)}
           >
             最近更新
           </div>
