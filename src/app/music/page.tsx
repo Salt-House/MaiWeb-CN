@@ -14,7 +14,7 @@ import Notice from '../components/Notice'
 import PageTransitionWrapper from '../components/PageTransitionWrapper'
 
 
-const currentVersion = "25001"
+const currentVersion = "25002"
 
 const version: (keyof typeof versionIds)[] = ["maimai", "GreeN", "ORANGE ", "PiNK", "MURASAKi ", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024", "舞萌DX 2025"]
 const versionIds = {
@@ -94,7 +94,7 @@ export default function MusicPage() {
       setLoadingMore(true)
     }
     // 根据filteredUrl设置当前分类名称
-    if (filteredUrl.includes(`versions=${currentVersion}`)) {
+    if (filteredUrl.includes(`version=${currentVersion}`)) {
       setCurrentCategory('最近更新')
     } else if (filteredUrl.includes('genre=POPSアニメ')) {
       setCurrentCategory('流行&动漫')
@@ -348,7 +348,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)] cursor-pointer"
-            onClick={() => getSongs(`versions=${currentVersion}`)}
+            onClick={() => getSongs(`version=${currentVersion}`)}
           >
             最近更新
           </div>
@@ -435,7 +435,7 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
           className=" border-4 border-white bg-[rgb(69,197,255)] rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)] cursor-pointer"
-            onClick={() => getSongs(`versions=${currentVersion}`)}
+            onClick={() => getSongs(`version=${currentVersion}`)}
           >
             最近更新
           </div>
