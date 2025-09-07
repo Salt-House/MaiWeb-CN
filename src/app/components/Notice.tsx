@@ -191,7 +191,7 @@ const Notice: React.FC<NoticeProps> = ({
             >
               <div className="overflow-y-auto max-h-[65vh] p-8">
                 <div className="flex justify-between items-start mb-6">
-                  <h3 className="text-2xl font-bold text-gray-800">安全声明 - 游戏账号异常情况说明</h3>
+                  <h3 className="text-2xl font-bold text-gray-800">maimai.moe 关于近期账号安全问题的声明</h3>
                   <button
                     onClick={closeModal}
                     className="rounded-md p-2 hover:bg-gray-100 transition-colors focus:outline-none flex-shrink-0 ml-4"
