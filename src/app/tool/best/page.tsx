@@ -1,7 +1,7 @@
 'use client'
 
 import AnimatedComponent from "@/app/components/AnimatedComponent";
-import { Button } from "@/app/components/button";
+import Button from "@/app/components/button/Button";
 import Guide from "@/app/components/Guide";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { ShareableImageSub } from "@/app/components/ShareableImage";
