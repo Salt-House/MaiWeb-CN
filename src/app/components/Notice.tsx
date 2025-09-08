@@ -49,6 +49,8 @@ const Notice: React.FC<NoticeProps> = ({
   }
 
   useEffect(() => {
+    setString("maimai.moe 关于近期账号安全问题的声明");
+    setIsVisible(true);
     let temp = localStorage.getItem("token");
     if (temp) {
       setToken(temp);
@@ -70,10 +72,8 @@ const Notice: React.FC<NoticeProps> = ({
         .then(result => {
           const data = JSON.parse(result);
           if (data?.id) {
-            if (data.id <= 72) {
               setString("maimai.moe 关于近期账号安全问题的声明");
               setIsVisible(true);
-            }
           } else {
             setString("你好");
           }
@@ -81,6 +81,9 @@ const Notice: React.FC<NoticeProps> = ({
         .catch(error => console.log('error', error));
 
       GetBindAccount();
+    }else{
+      setString("maimai.moe 关于近期账号安全问题的声明");
+      setIsVisible(true);
     }
   }, [token])
 
