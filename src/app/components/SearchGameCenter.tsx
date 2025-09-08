@@ -96,7 +96,7 @@ const SearchGameCenter = () => {
         };
 
         // let baseurl = "https://api.maimap.tech/arcades?"
-        let baseurl = "httpsz://dev.maimai.moe/email/search_gamecenter?"
+        let baseurl = "https://dev.maimai.moe/email/search_gamecenter?"
         for (const key in searchGameCenter) {
             if (searchGameCenter[key] !== undefined && searchGameCenter[key] !== null) {
                 baseurl += `${key}=${searchGameCenter[key]}&`;
