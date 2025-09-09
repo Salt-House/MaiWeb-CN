@@ -6,6 +6,7 @@ interface SvgStrokedTextProps {
   strokeWidth?: number;
   fill?: string;
   fontSize?: number;
+  letterSpacing?: string | number;
   width?: string | number;
   height?: string | number;
 }
@@ -16,6 +17,7 @@ const SvgStrokedText: React.FC<SvgStrokedTextProps> = ({
   strokeWidth = 2,
   fill = '#fff',
   fontSize = 32,
+  letterSpacing = 'normal',
   width = '100%',
   height = 'auto',
 }) => {
@@ -31,6 +33,7 @@ const SvgStrokedText: React.FC<SvgStrokedTextProps> = ({
         fill={fill}
         fontSize={fontSize}
         fontWeight="bold"
+        letterSpacing={letterSpacing}
         style={{ paintOrder: 'stroke' }}
       >
         {text}
