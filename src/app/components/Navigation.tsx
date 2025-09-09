@@ -59,15 +59,7 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
 
       {/* 导航栏 */}
       <div className="relative z-[10] max-sm:w-[90%] max-sm:text-xl max-sm:h-14 w-[90%] max-w-[800px] bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-6 mx-auto mt-10 flex items-center justify-between sm:justify-center">
-        {/* 移动端汉堡菜单按钮 */}
-        <div className="sm:hidden flex items-center">
-          <button
-            onClick={() => setShowMobileMenu(!showMobileMenu)}
-            className="text-blue-500 text-2xl"
-          >
-            {showMobileMenu ? <FaTimes /> : <FaBars />}
-          </button>
-        </div>
+        
 
         {/* 桌面端导航链接 */}
         <div className="hidden sm:flex items-center max-sm:space-x-3 space-x-4 justify-center text-2xl text-white font-bold">
@@ -77,9 +69,22 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
           <div>|</div>
           <Link id="tool" href={"/tool"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>工具</Link>
           <div>|</div>
-          <Link id="tool" href={"/qa"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>常见问题</Link>
+          <Link id="qa" href={"/qa"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>常见问题</Link>
+          <div>|</div>
+          <Link id="road" href={"/road"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>开发路线</Link>
           {/* <div>|</div> */}
           {/* <Link id="guide" href={"/guide"} className="hover:scale-125 transition-all duration-300 ease-in-out text-blue-500" style={textstroke}>教学</Link> */}
+        </div>
+
+        
+        {/* 移动端汉堡菜单按钮 */}
+        <div className="sm:hidden flex items-center">
+          <button
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+            className="text-blue-500 text-2xl"
+          >
+            {showMobileMenu ? <FaTimes /> : <FaBars />}
+          </button>
         </div>
 
         {/* 移动端右侧用户头像 */}
@@ -131,6 +136,13 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
               onClick={() => setShowMobileMenu(false)}
             >
               工具
+            </Link>
+             <Link
+              href={"/road"}
+              className="p-4 text-blue-500 font-bold border-b border-gray-200 hover:bg-blue-50"
+              onClick={() => setShowMobileMenu(false)}
+            >
+              开发路线
             </Link>
             <Link
               href={"/qa"}
