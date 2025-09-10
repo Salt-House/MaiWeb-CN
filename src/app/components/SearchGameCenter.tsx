@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { FcClock } from "react-icons/fc";
 import { FaMapMarkerAlt, FaCircle } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+import {ExceptOptions} from "type-fest/source/except";
 
 // 接口定义
 export interface ArcadeSearchRequest {
@@ -33,6 +34,8 @@ export interface Arcade {
 
 const SearchGameCenter = () => {
     // 状态管理
+    const key = "AA7BZ-FVT6T-ZQ5XP-VCND7-DKFYF-RKBCU"
+    const [address, setAddress] = useState("")
     const [inputValue, setInputValue] = useState("");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const options = ["1km", "5km", "10km"];
@@ -73,6 +76,25 @@ const SearchGameCenter = () => {
         );
     };
 
+    // 从输入地址获取位置
+    const getLocationFromAdress = () =>{
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow' as RequestRedirect
+        };
+
+        fetch(`/api/geocoder?address=${address}&key=${key}`, requestOptions)
+            .then(response => response.text())
+            .then(result =>{
+                const data = JSON.parse(result);
+                setSearchGameCenter((prev)=>({
+                    ...prev,
+                    lat:data.result.location.lat,
+                    lng:data.result.location.lng,
+                }))
+            })
+            .catch(error => console.log('error', error));
+    }
 
     useEffect(() => {
         getLocation();
@@ -95,7 +117,6 @@ const SearchGameCenter = () => {
             method: 'GET',
         };
 
-        // let baseurl = "https://api.maimap.tech/arcades?"
         let baseurl = "https://dev.maimai.moe/email/search_gamecenter?"
         for (const key in searchGameCenter) {
             if (searchGameCenter[key] !== undefined && searchGameCenter[key] !== null) {
@@ -126,6 +147,7 @@ const SearchGameCenter = () => {
             });
     };
 
+    
     const handleNavigation = (target: Arcade) => {
         const ua = navigator.userAgent.toLowerCase();
         const name = encodeURIComponent(target.arcade_name); // 编码避免中文或特殊字符问题
@@ -143,6 +165,10 @@ const SearchGameCenter = () => {
 
         window.location.href = url;
     };
+
+    useEffect(()=>{
+        GetGameCenter();
+    },[searchGameCenter])
 
 
     return (
@@ -220,6 +246,17 @@ const SearchGameCenter = () => {
                             />
                         </div>
 
+                        {/* 地址搜索 */}
+                        <div className="relative min-w-[200px] max-sm:w-full">
+                            <input
+                                type="text"
+                                placeholder="输入地址"
+                                className="w-full py-2.5 px-4 rounded-full border-2 border-[rgb(113,241,229)] focus:outline-none focus:ring-2 focus:ring-[rgb(125,136,217)]"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                            />
+                        </div>
+
                         <button
                             onClick={getLocation}
                             className="flex items-center justify-center h-11 w-11 rounded-full bg-gradient-to-r from-[rgb(245,242,193)] to-[rgb(164,247,238)] border-2 border-[rgb(113,241,229)] hover:shadow-lg transform hover:scale-105 transition-all duration-300"
@@ -234,7 +271,7 @@ const SearchGameCenter = () => {
                 </div>
 
                 {/* 搜索按钮 - 使用原网站的多层边框风格 */}
-                <div className="mt-4 mb-4">
+                <div className="mt-4 mb-4 flex flex-wrap justify-center gap-4">
                     <div className="border-3 border-white rounded-full hover:scale-110 transition-all duration-300">
                         <div className="border-3 border-[rgb(113,241,229)] rounded-full">
                             <div className="border-3 border-white rounded-full">
@@ -254,6 +291,33 @@ const SearchGameCenter = () => {
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                             </svg>
                                             搜索机厅
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="border-3 border-white rounded-full hover:scale-110 transition-all duration-300">
+                        <div className="border-3 border-[rgb(113,241,229)] rounded-full">
+                            <div className="border-3 border-white rounded-full">
+                                <button
+                                    className="px-8 py-2.5 rounded-full bg-gradient-to-r from-[rgb(164,247,238)] to-[rgb(125,136,217)] hover:from-[rgb(125,136,217)] hover:to-[rgb(164,247,238)] text-lg font-bold text-white shadow-md flex items-center gap-2 disabled:opacity-70"
+                                    onClick={getLocationFromAdress}
+                                    disabled={isLoading || !address.trim()}
+                                >
+                                    {isLoading ? (
+                                        <>
+                                            <div className="animate-spin h-5 w-5 border-b-2 border-white rounded-full"></div>
+                                            查询中...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            地址查询
                                         </>
                                     )}
                                 </button>
