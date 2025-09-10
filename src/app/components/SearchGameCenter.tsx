@@ -83,7 +83,7 @@ const SearchGameCenter = () => {
             redirect: 'follow' as RequestRedirect
         };
 
-        fetch(`/api/geocoder?address=${address}&key=${key}`, requestOptions)
+        fetch(`https://apis.map.qq.com/ws/geocoder/v1/api/geocoder?address=${address}&key=${key}`, requestOptions)
             .then(response => response.text())
             .then(result =>{
                 const data = JSON.parse(result);
