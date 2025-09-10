@@ -237,47 +237,47 @@ export default function UserProfilePage() {
       case 'lxns':
         return (
           <>
-            <div className="relative size-96 max-sm:size-72 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
-              {isBindLoading ? <LoadingSpinner /> : <>
-                <h1 className="text-2xl font-bold">绑定落雪账号</h1>
-                <h1 className="text-xl font-bold text-red-500">（请至少上传一次成绩至落雪）</h1>
-                <input type="text" name="lxnstoken" id="" placeholder="个人token" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={lxnstoken} onChange={(e) => setLxnsToken(e.target.value)} />
-                <a href="https://maimai.lxns.net/login" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往落雪获取token➡️</a>
-                <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindLxns}>绑定</button>
-                <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
-              </>}
+              <div className="relative size-96 max-sm:size-72 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
+                {isBindLoading ? <LoadingSpinner /> : <>
+                  <h1 className="text-2xl font-bold">绑定落雪账号</h1>
+                  <h1 className="text-xl font-bold text-red-500">（请至少上传一次成绩至落雪）</h1>
+                  <input type="text" name="lxnstoken" id="" placeholder="个人token" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={lxnstoken} onChange={(e) => setLxnsToken(e.target.value)} />
+                  <a href="https://maimai.lxns.net/login" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往落雪获取token➡️</a>
+                  <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindLxns}>绑定</button>
+                  <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
+                </>}
 
-            </div>
+              </div>
           </>
         )
       case 'divingfish':
         return (
           <>
-            <div className="relative size-96 max-sm:size-72 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
-              {isBindLoading ? <LoadingSpinner /> : <>
+              <div className="relative size-96 max-sm:size-72 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
+                {isBindLoading ? <LoadingSpinner /> : <>
 
-                <h1 className="text-2xl font-bold">绑定水鱼账号</h1>
-                <input type="username" name="divingfishusername" id="" placeholder="水鱼账号" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishusername} onChange={(e) => setDivingFishUsername(e.target.value)} />
-                <input type="password" name="divingfishpassword" id="" placeholder="水鱼密码" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishpassword} onChange={(e) => setDivingFishPassword(e.target.value)} />
-                <a href="https://www.diving-fish.com/maimaidx/prober/" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往水鱼注册账号</a>
-                <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindDivifish}>绑定</button>
-                <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
-              </>}
+                  <h1 className="text-2xl font-bold">绑定水鱼账号</h1>
+                  <input type="username" name="divingfishusername" id="" placeholder="水鱼账号" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishusername} onChange={(e) => setDivingFishUsername(e.target.value)} />
+                  <input type="password" name="divingfishpassword" id="" placeholder="水鱼密码" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={divingfishpassword} onChange={(e) => setDivingFishPassword(e.target.value)} />
+                  <a href="https://www.diving-fish.com/maimaidx/prober/" className="absolute bottom-5 right-5 text-blue-500 hover:scale-105 hover:underline duration-300 transition-all ease-in-out">前往水鱼注册账号</a>
+                  <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindDivifish}>绑定</button>
+                  <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
+                </>}
 
-            </div>
+              </div>
           </>
         )
       case 'arcaed':
         return (
           <>
-            <div className="relative size-96 max-sm:size-72 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
-              {isBindLoading ? <LoadingSpinner /> : <>
-                <h1 className="text-2xl font-bold">绑定街机账号</h1>
-                <input type="username" name="divingfishusername" id="" placeholder="二维码字段" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={qr_code} onChange={(e) => setQrCode(e.target.value)} />
-                <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindArcade}>绑定</button>
-                <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
-              </>}
-            </div>
+              <div className="relative size-96 max-sm:size-72 bg-white bg-opacity-75 backdrop-blur-md rounded-2xl shadow-xl flex flex-col justify-center items-center space-y-5">
+                {isBindLoading ? <LoadingSpinner /> : <>
+                  <h1 className="text-2xl font-bold">绑定街机账号</h1>
+                  <input type="username" name="divingfishusername" id="" placeholder="二维码字段" className="w-60 rounded-2xl border-4 border-blue-500 p-1 pl-2" value={qr_code} onChange={(e) => setQrCode(e.target.value)} />
+                  <button className="ml-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold hover:scale-105 hover:shadow-lg duration-300 ease-in-out" onClick={BindArcade}>绑定</button>
+                  <button className="absolute right-5 top-0" onClick={() => { setLink('') }}>❌</button>
+                </>}
+              </div>
           </>
         )
       default:
@@ -514,8 +514,7 @@ export default function UserProfilePage() {
                     <div className='w-full flex flex-col justify-center items-center space-y-5 my-10'>
                       <div className='w-6/12 flex flex-row justify-between'><b>落雪:</b><button className={`ml-2 rounded-2xl ${bindaccount.islxns ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`} onClick={() => setLink('lxns')}>{bindaccount.islxns ? '已绑定' : '未绑定'}</button></div>
                       <div className='w-6/12 flex flex-row justify-between'><b>水鱼:</b><button className={`ml-2 rounded-2xl ${bindaccount.isdivingfish ? 'bg-green-500' : 'bg-red-500'}  p-1 px-4 text-white font-bold`} onClick={() => { setLink('divingfish') }}>{bindaccount.isdivingfish ? '已绑定' : '未绑定'}</button></div>
-                      <div className='w-6/12 flex flex-row justify-center text-gray-400'><b>- Arcade 数据源暂不可用 -</b></div>
-                      {/* <div className='w-6/12 flex flex-row justify-between'><b>Arcade:</b><button className={`ml-2 rounded-2xl ${bindaccount.isarcaed ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`} onClick={() => { setLink('arcaed') }}>{bindaccount.isarcaed ? '已绑定' : '未绑定'}</button></div> */}
+                      <div className='w-6/12 flex flex-row justify-between'><b>Arcade:</b><button className={`ml-2 rounded-2xl ${bindaccount.isarcaed ? 'bg-green-500' : 'bg-red-500'} p-1 px-4 text-white font-bold`} onClick={() => { setLink('arcaed') }}>{bindaccount.isarcaed ? '已绑定' : '未绑定'}</button></div>
                     </div>
                     <div className="py-2"></div>
                     <div className="flex justify-center m-3 mb-10">
@@ -661,55 +660,55 @@ export default function UserProfilePage() {
             </div>
             {showGuide && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                <div className="relative max-sm:w-[90%] w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
-                  <button
-                    className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 transition-colors"
-                    onClick={() => setShowGuide(false)}
-                  >
-                    <span className="text-xl">×</span>
-                  </button>
+                  <div className="relative max-sm:w-[90%] w-[600px] bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-8">
+                    <button
+                      className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 transition-colors"
+                      onClick={() => setShowGuide(false)}
+                    >
+                      <span className="text-xl">×</span>
+                    </button>
 
-                  <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
-                    操作指南
-                  </h2>
+                    <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+                      操作指南
+                    </h2>
 
-                  <div className="space-y-6">
-                    <div className="space-y-2">
-                      <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                        <span className=" w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
-                        这里是个人信息页！
-                      </h3>
-                      <p className="text-gray-600 ml-8">查看个人信息、游玩数据及功能开启状态</p>
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                          <span className=" w-6 h-6 bg-purple-500 rounded-full text-white text-sm flex items-center justify-center mr-2">1</span>
+                          这里是个人信息页！
+                        </h3>
+                        <p className="text-gray-600 ml-8">查看个人信息、游玩数据及功能开启状态</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                          <span className=" w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
+                          关联账号
+                        </h3>
+                        <p className="text-gray-600 ml-8">绑定第三方账号，实现数据互通</p>
+                        <i className="text-gray-600 ml-8 text-sm">注:推荐绑定Arcade账号</i>
+                        <p className="text-gray-600 ml-8">在绑定账号后请点击<button className="my-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>导入数据(一天只有两次手动更新次数)</p>
+
+                      </div>
+
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                          <span className=" w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
+                          账号 & 隐私设置
+                        </h3>
+                        <p className="text-gray-600 ml-8">
+                          {`管理账号和查分器绑定 -> 账号设置`}<br />个人数据的使用范围和隐私选项（撰写中）
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                        <span className=" w-6 h-6 bg-blue-500 rounded-full text-white text-sm flex items-center justify-center mr-2">2</span>
-                        关联账号
-                      </h3>
-                      <p className="text-gray-600 ml-8">绑定第三方账号，实现数据互通</p>
-                      <i className="text-gray-600 ml-8 text-sm">注:推荐绑定Arcade账号</i>
-                      <p className="text-gray-600 ml-8">在绑定账号后请点击<button className="my-2 rounded-2xl bg-purple-500 p-1 px-4 text-white font-bold" onClick={RefreshData}>从查分器导入数据</button>导入数据(一天只有两次手动更新次数)</p>
-
-                    </div>
-
-                    <div className="space-y-2">
-                      <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                        <span className=" w-6 h-6 bg-green-500 rounded-full text-white text-sm flex items-center justify-center mr-2">3</span>
-                        账号 & 隐私设置
-                      </h3>
-                      <p className="text-gray-600 ml-8">
-                        {`管理账号和查分器绑定 -> 账号设置`}<br />个人数据的使用范围和隐私选项（撰写中）
+                    <div className="mt-8 p-4 bg-gray-50 rounded-xl">
+                      <p className="text-sm text-gray-500">
+                        提示：点击右上角的刷新按钮可以更新最新数据
                       </p>
                     </div>
                   </div>
-
-                  <div className="mt-8 p-4 bg-gray-50 rounded-xl">
-                    <p className="text-sm text-gray-500">
-                      提示：点击右上角的刷新按钮可以更新最新数据
-                    </p>
-                  </div>
-                </div>
               </div>
             )}
           </>
