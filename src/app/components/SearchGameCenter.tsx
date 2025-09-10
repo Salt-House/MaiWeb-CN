@@ -50,13 +50,16 @@ const SearchGameCenter = () => {
     const [showResults, setShowResults] = useState(false);
     const [resultError, setResultError] = useState("");
     ;
-    // 初始化获取位置信息
+    /**
+     * 获取用户当前位置
+     */
     const getLocation = () => {
         if (!navigator.geolocation) {
-            console.error("浏览器不支持地理定位");
+            alert("浏览器不支持地理定位");
             return;
         }
 
+        setIsLoading(true);
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 setSearchGameCenter((prev) => ({
@@ -64,9 +67,25 @@ const SearchGameCenter = () => {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
                 }));
+                setIsLoading(false);
+                alert('位置获取成功，可以开始搜索机厅');
             },
             (error) => {
                 console.error("定位失败", error);
+                setIsLoading(false);
+                let errorMessage = "定位失败";
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        errorMessage = "用户拒绝了定位请求";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        errorMessage = "位置信息不可用";
+                        break;
+                    case error.TIMEOUT:
+                        errorMessage = "定位请求超时";
+                        break;
+                }
+                alert(errorMessage + "，请尝试手动输入地址");
             },
             {
                 enableHighAccuracy: true, // 启用高精度
@@ -76,24 +95,54 @@ const SearchGameCenter = () => {
         );
     };
 
-    // 从输入地址获取位置
+    /**
+     * 从输入地址获取位置坐标
+     */
     const getLocationFromAdress = () =>{
+        if (!address.trim()) {
+            alert('请输入地址');
+            return;
+        }
+        
+        setIsLoading(true);
         var requestOptions = {
             method: 'GET',
             redirect: 'follow' as RequestRedirect
         };
 
-        fetch(`https://apis.map.qq.com/ws/geocoder/v1/api/geocoder?address=${address}&key=${key}`, requestOptions)
+        fetch(`https://dev.maimai.moe/email/transfer/tencent/address2latlng?address=${address}`, requestOptions)
             .then(response => response.text())
             .then(result =>{
                 const data = JSON.parse(result);
-                setSearchGameCenter((prev)=>({
-                    ...prev,
-                    lat:data.result.location.lat,
-                    lng:data.result.location.lng,
-                }))
+                if (data.lat && data.lng) {
+                    setSearchGameCenter((prev)=>({
+                        ...prev,
+                        lat:data.lat,
+                        lng:data.lng,
+                    }));
+                    // 地址解析成功后自动搜索机厅
+                    // 使用setTimeout确保状态更新完成后再搜索
+                    setTimeout(() => {
+                        // 创建临时的搜索参数，包含新的坐标
+                        const tempSearchParams = {
+                            ...searchGameCenter,
+                            lat: data.lat,
+                            lng: data.lng
+                        };
+                        
+                        // 直接调用搜索API而不是GetGameCenter函数，避免状态更新延迟
+                        performSearch(tempSearchParams);
+                    }, 100);
+                } else {
+                    alert('地址解析失败，请检查地址是否正确');
+                    setIsLoading(false);
+                }
             })
-            .catch(error => console.log('error', error));
+            .catch(error => {
+                console.log('error', error);
+                alert('地址查询失败，请稍后重试');
+                setIsLoading(false);
+            });
     }
 
     useEffect(() => {
@@ -106,9 +155,12 @@ const SearchGameCenter = () => {
         return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
     };
 
-    // 查询机厅
-    const GetGameCenter = () => {
-        console.log('searchGameCenter', searchGameCenter);
+    /**
+     * 执行机厅搜索的核心函数
+     * @param searchParams 搜索参数
+     */
+    const performSearch = (searchParams: ArcadeSearchRequest) => {
+        console.log('searchParams', searchParams);
         setIsLoading(true);
         setShowResults(true);
         setResultError("");
@@ -117,34 +169,58 @@ const SearchGameCenter = () => {
             method: 'GET',
         };
 
+        // 构建查询URL
         let baseurl = "https://dev.maimai.moe/email/search_gamecenter?"
-        for (const key in searchGameCenter) {
-            if (searchGameCenter[key] !== undefined && searchGameCenter[key] !== null) {
-                baseurl += `${key}=${searchGameCenter[key]}&`;
+        for (const key in searchParams) {
+            if (searchParams[key] !== undefined && searchParams[key] !== null && searchParams[key] !== '') {
+                baseurl += `${key}=${encodeURIComponent(searchParams[key])}&`;
             }
         }
+        // 移除最后的&符号
+        baseurl = baseurl.slice(0, -1);
+
+        console.log('查询URL:', baseurl);
 
         fetch(baseurl, requestOptions)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(result => {
                 setIsLoading(false);
                 if (result.success) {
-                    setArcadeResults(result.data || []);
-                    console.log('arcadeResults', result.data);
-                    if ((result.data || []).length === 0) {
-                        setResultError("未找到符合条件的机厅");
+                    const arcades = result.data || [];
+                    setArcadeResults(arcades);
+                    console.log('arcadeResults', arcades);
+                    if (arcades.length === 0) {
+                        setResultError("未找到符合条件的机厅，请尝试扩大搜索范围或调整搜索条件");
                     }
                 } else {
-                    setResultError("查询失败，请稍后重试");
+                    setResultError(result.message || "查询失败，请稍后重试");
                     setArcadeResults([]);
                 }
             })
             .catch(error => {
-                console.log('error', error);
+                console.error('查询机厅失败:', error);
                 setIsLoading(false);
-                setResultError("查询过程中出现错误");
+                setResultError("查询过程中出现网络错误，请检查网络连接后重试");
                 setArcadeResults([]);
             });
+    };
+
+    /**
+     * 查询机厅（用户点击搜索按钮时调用）
+     */
+    const GetGameCenter = () => {
+        // 检查是否有位置信息
+        if (!searchGameCenter.lat || !searchGameCenter.lng) {
+            alert('请先获取位置信息或输入地址');
+            return;
+        }
+
+        performSearch(searchGameCenter);
     };
 
     
@@ -166,9 +242,8 @@ const SearchGameCenter = () => {
         window.location.href = url;
     };
 
-    useEffect(()=>{
-        GetGameCenter();
-    },[searchGameCenter])
+    // 移除自动触发搜索的useEffect，避免无限循环
+    // 现在只有用户主动点击搜索按钮或地址解析成功后才会搜索
 
 
     return (
