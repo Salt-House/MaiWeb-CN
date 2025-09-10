@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "axios": "^1.10.0",
     "clsx": "^2.1.1",
     "dom-to-image": "^2.6.0",

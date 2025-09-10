@@ -17,6 +17,14 @@ const nextConfig = {
             },
         ],
     },
+    async rewrites() {
+        return [
+            {
+                source: '/api/geocoder/:path*',
+                destination: 'https://apis.map.qq.com/ws/geocoder/v1/:path*',
+            },
+        ];
+    },
 };
 
 export default nextConfig;

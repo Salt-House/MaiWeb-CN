@@ -42,6 +42,7 @@ const config: Config = {
   plugins: [
     require('tailwind-scrollbar-hide'),
     require('tailwindcss-text-stroke'),
+    require('@tailwindcss/line-clamp'),
   ],
 };
 export default config;

@@ -7,10 +7,8 @@ import UserLogin from "./components/UserLogin";
 import ClientLayout from "./components/ClientLayout";
 import { PlayerProvider } from "./context/PlayerContext";
 import GlobalPlayer from "./components/GlobalPlayer";
-import MobileNavigation from "./components/mobilenavigation";
+import MobileNavigation from "./components/Navigation";
 import Notice from "./components/Notice";
-import { useEffect } from "react";
-import PageTransitionWrapper from "./components/PageTransitionWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
