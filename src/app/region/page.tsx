@@ -6,7 +6,7 @@ import { FaTools } from "react-icons/fa"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import PageTransitionWrapper from "../components/PageTransitionWrapper";
 
-interface AreaCharacters {
+export interface AreaCharacters {
   name: string;
   illustrator: string;
   description1: string;
@@ -15,27 +15,28 @@ interface AreaCharacters {
   props: any;
 }
 
-interface AreaSong {
-  id: "string";
-  title: "string";
-  artist: "string";
-  description: "string";
-  illustrator: "string";
-  movie: "string";
+export interface AreaSong {
+  id?: string;
+  title: string;
+  artist: string;
+  description: string;
+  illustrator: string;
+  movie: string;
 }
 
 export interface Area {
-  id: "string";
-  name: "string";
-  comment: "string";
-  description: "string";
-  video_id: "string";
-  characters: AreaCharacters[];
-  songs: AreaSong[]
+  aid: number;
+  area_id: string;
+  name: string;
+  comment: string;
+  description: string;
+  video_id: string;
+  characters: string; // This will be a JSON string that needs to be parsed
+  songs: string; // This will be a JSON string that needs to be parsed
 }
 
 export default function RegionPage() {
-  const [lang, setLang] = useState("ja");
+  const [lang, setLang] = useState("zh");
   const [page, setPage] = useState(1);
   const [page_size, setPageSize] = useState(100);
   const [areas, setAreas] = useState<Area[]>([]);
@@ -59,8 +60,8 @@ export default function RegionPage() {
     
     areas.forEach(area => {
       // 提取ID中除最后一个数字部分的字符串作为分组键
-      const matches = area.id.match(/^(.+?)(\d+)$/);
-      const prefix = matches ? matches[1] : area.id;
+      const matches = area.area_id.match(/^(.+?)(\d+)$/);
+      const prefix = matches ? matches[1] : area.area_id;
       
       if (!groups[prefix]) {
         groups[prefix] = [];
@@ -71,8 +72,8 @@ export default function RegionPage() {
     // 对每个分组内的区域按照ID中最后一个数字从小到大排序
     Object.keys(groups).forEach(groupKey => {
       groups[groupKey].sort((a, b) => {
-        const aMatches = a.id.match(/^(.+?)(\d+)$/);
-        const bMatches = b.id.match(/^(.+?)(\d+)$/);
+        const aMatches = a.area_id.match(/^(.+?)(\d+)$/);
+        const bMatches = b.area_id.match(/^(.+?)(\d+)$/);
         
         const aNum = aMatches ? parseInt(aMatches[2], 10) : 0;
         const bNum = bMatches ? parseInt(bMatches[2], 10) : 0;
@@ -102,11 +103,11 @@ export default function RegionPage() {
       method: "GET",
       headers: myHeaders,
     };
-    fetch(`https://dev.maimai.moe/api/maimai/areas?lang=${lang}&page=${page}&page_size=${page_size}`, requestOptions)
+    fetch(`https://dev.maimai.moe/email/area/list?language=${lang}`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         const temp = JSON.parse(result);
-        setAreas(temp);
+        setAreas(temp.list);
         localStorage.setItem('area_data', JSON.stringify(temp));
       })
       .catch((error) => console.error(error));
@@ -210,7 +211,7 @@ export default function RegionPage() {
                   }`}>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-sm:gap-4">
                       {groupAreas.map((area) => (
-                        <Link href={`/region/${area.name}`} key={area.id} className="rounded-xl transition-all hover:scale-105">
+                        <Link href={`/region/${area.area_id}`} key={area.area_id} className="rounded-xl transition-all hover:scale-105">
                           <div className="w-[298px] h-[86px] bg-[url('/img/bg_name.png')] bg-no-repeat bg-cover bg-center mx-auto flex items-center justify-center">
                             <div className="w-[195px] overflow-hidden">
                               <h1 className={`text-white w-[195px] text-center ${area.name.length > 9 ? "animate-text-scroll-region" : ""} whitespace-nowrap font-bold text-xl sm:text-2xl`} style={textstroke}>
@@ -220,7 +221,7 @@ export default function RegionPage() {
                           </div>
                           {/* Area Image - 1:1 Aspect Ratio */}
                           <div className="relative w-full flex-col items-center justify-center">
-                            <img src={"/img/version/" + area.id + ".png"} className="mx-auto w-96 animate-floatUpDown transition-all duration-300 ease-in-out object-cover" alt={area.name} />
+                            <img src={"/img/version/" + area.area_id + ".png"} className="mx-auto w-96 animate-floatUpDown transition-all duration-300 ease-in-out object-cover" alt={area.name} />
                           </div>
                         </Link>
                       ))}
