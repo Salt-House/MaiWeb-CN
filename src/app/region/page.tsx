@@ -16,7 +16,7 @@ export interface AreaCharacters {
 }
 
 export interface AreaSong {
-  id?: string;
+  song_id?: string;
   title: string;
   artist: string;
   description: string;

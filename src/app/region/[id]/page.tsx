@@ -30,7 +30,7 @@ export default function AreaDetailPage({ params }: PageProps) {
     const id = params.id;
     const [area, setArea] = useState<ParsedArea>();
     const [loading, setLoading] = useState(true);
-    const [language, setLanguage] = useState("jp");
+    const [language, setLanguage] = useState("zh");
     const textstroke = {
         textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
     };
@@ -222,14 +222,14 @@ export default function AreaDetailPage({ params }: PageProps) {
                                         <div key={index} className="flex flex-col bg-white rounded-lg hover:bg-gray-50 transition-all duration-200">
                                             <div className="flex flex-col sm:flex-row items-center p-3 max-sm:text-center">
                                                 {/* Use video_id as fallback for song id */}
-                                                <img src={`${baseurl}${song.id}.png`} className="w-24 h-24 mb-2 sm:mb-0 sm:mr-8" alt="" />
+                                                <img src={`${baseurl}${song.song_id}.png`} className="w-24 h-24 mb-2 sm:mb-0 sm:mr-8" alt="" />
                                                 <div className="flex-grow">
                                                     <h3 className="font-medium text-gray-800">{song.title}</h3>
                                                     <p className="text-sm text-gray-500">{song.artist || "未知艺术家"}</p>
                                                 </div>
                                                 {/* Only show link if song has an id */}
-                                                {song.id && (
-                                                    <Link href={`/music/${song.id}`} className="flex items-center text-blue-500 hover:text-blue-600 mt-2 sm:mt-0">
+                                                {song.song_id && (
+                                                    <Link href={`/music/${song.song_id}`} className="flex items-center text-blue-500 hover:text-blue-600 mt-2 sm:mt-0">
                                                         <span className="text-sm mr-1">详情</span>
                                                         <FiExternalLink />
                                                     </Link>
