@@ -1,7 +1,8 @@
 'use client'
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Area } from "../page";
+import type { AreaCharacters, AreaSong } from "../page";
 import Link from "next/link";
 import { FaArrowLeft, FaLocationDot, FaLanguage } from "react-icons/fa6";
 import { FiExternalLink } from "react-icons/fi";
@@ -13,12 +14,23 @@ interface PageProps {
     };
 }
 
+// Define the parsed area interface
+interface ParsedArea {
+    aid: number;
+    area_id: string;
+    name: string;
+    comment: string;
+    description: string;
+    video_id: string;
+    characters: AreaCharacters[];
+    songs: AreaSong[];
+}
+
 export default function AreaDetailPage({ params }: PageProps) {
     const id = params.id;
-    const [area, setArea] = useState<Area>();
-    const [lang, setLang] = useState("ja");
+    const [area, setArea] = useState<ParsedArea>();
     const [loading, setLoading] = useState(true);
-    const [language, setLanguage] = useState("ja");
+    const [language, setLanguage] = useState("zh");
     const textstroke = {
         textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
     };
@@ -26,8 +38,7 @@ export default function AreaDetailPage({ params }: PageProps) {
 
     const GetAreaDetail = () => {
         setLoading(true);
-        const decodedId = decodeURIComponent(id);
-        fetch(`https://dev.maimai.moe/api/maimai/areas?lang=${language}&name=${decodedId}&page=1&page_size=100`, {
+        fetch(`https://dev.maimai.moe/email/getOneArea?language=${language}&area_id=${params.id}`, {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -35,7 +46,24 @@ export default function AreaDetailPage({ params }: PageProps) {
         })
             .then(res => res.json())
             .then(data => {
-                setArea(data[0]);
+                try {
+                    // Parse the characters and songs JSON strings
+                    const parsedArea: ParsedArea = {
+                        ...data.area,
+                        characters: data.area.characters ? JSON.parse(data.area.characters) : [],
+                        songs: data.area.songs ? JSON.parse(data.area.songs) : []
+                    };
+                    setArea(parsedArea);
+                } catch (parseError) {
+                    console.error("Failed to parse area data:", parseError);
+                    // Set area with empty arrays if parsing fails
+                    const fallbackArea: ParsedArea = {
+                        ...data.area,
+                        characters: [],
+                        songs: []
+                    };
+                    setArea(fallbackArea);
+                }
                 setLoading(false);
             })
             .catch(error => {
@@ -44,11 +72,9 @@ export default function AreaDetailPage({ params }: PageProps) {
             });
     };
 
-
-    useEffect(()=>{
+    useEffect(() => {
         GetAreaDetail();
-    },[language])
-    
+    }, [language]);
 
     useEffect(() => {
         GetAreaDetail();
@@ -74,9 +100,9 @@ export default function AreaDetailPage({ params }: PageProps) {
                 <FaLanguage className="text-white text-xl" style={textstroke} />
                 <div className="flex bg-white/20 backdrop-blur-sm rounded-lg p-1 border border-white/30">
                     <button
-                        onClick={() => setLanguage('ja')}
+                        onClick={() => setLanguage('jp')}
                         className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-200 ${
-                            language === 'ja'
+                            language === 'jp'
                                 ? 'bg-white text-purple-600 shadow-sm'
                                 : 'text-white hover:bg-white/20'
                         }`}
@@ -109,7 +135,7 @@ export default function AreaDetailPage({ params }: PageProps) {
                             </h1>
                             <div className="relative w-full flex justify-center items-center my-4">
                                 <img
-                                    src={`/img/version/${area.id}.png`}
+                                    src={`/img/version/${area.area_id}.png`}
                                     className="w-80 h-80 object-contain animate-floatUpDown transition-all duration-300 ease-in-out max-sm:w-52 max-sm:h-52"
                                     alt={area.name}
                                 />
@@ -123,7 +149,7 @@ export default function AreaDetailPage({ params }: PageProps) {
                                 <div className="flex items-center">
                                     <FaLocationDot className="text-purple-500 mr-2" />
                                     <span className="text-gray-700 font-medium">区域ID: </span>
-                                    <span className="ml-2">{area.id}</span>
+                                    <span className="ml-2">{area.area_id}</span>
                                 </div>
                             </div>
                             {area.description && (
@@ -144,7 +170,7 @@ export default function AreaDetailPage({ params }: PageProps) {
                                             <div className="flex flex-col md:flex-row max-sm:items-center max-sm:text-center">
                                                 <div className="w-28 h-28 overflow-hidden rounded-lg border-2 border-purple-200 flex-shrink-0 mx-auto md:mx-0 mb-3 md:mb-0">
                                                     <img
-                                                        src={`/img/chara/${area.id}/0${index + 1}.png`}
+                                                        src={`/img/chara/${area.area_id}/0${index + 1}.png`}
                                                         className="w-full h-full object-cover"
                                                         alt={character.name || area.name}
                                                     />
@@ -195,15 +221,19 @@ export default function AreaDetailPage({ params }: PageProps) {
                                     {area.songs.map((song, index) => (
                                         <div key={index} className="flex flex-col bg-white rounded-lg hover:bg-gray-50 transition-all duration-200">
                                             <div className="flex flex-col sm:flex-row items-center p-3 max-sm:text-center">
-                                                <img src={`${baseurl}${song.id}.png`} className="w-24 h-24 mb-2 sm:mb-0 sm:mr-8" alt="" />
+                                                {/* Use video_id as fallback for song id */}
+                                                <img src={`${baseurl}${song.song_id}.png`} className="w-24 h-24 mb-2 sm:mb-0 sm:mr-8" alt="" />
                                                 <div className="flex-grow">
                                                     <h3 className="font-medium text-gray-800">{song.title}</h3>
                                                     <p className="text-sm text-gray-500">{song.artist || "未知艺术家"}</p>
                                                 </div>
-                                                <Link href={`/music/${song.id}`} className="flex items-center text-blue-500 hover:text-blue-600 mt-2 sm:mt-0">
-                                                    <span className="text-sm mr-1">详情</span>
-                                                    <FiExternalLink />
-                                                </Link>
+                                                {/* Only show link if song has an id */}
+                                                {song.song_id && (
+                                                    <Link href={`/music/${song.song_id}`} className="flex items-center text-blue-500 hover:text-blue-600 mt-2 sm:mt-0">
+                                                        <span className="text-sm mr-1">详情</span>
+                                                        <FiExternalLink />
+                                                    </Link>
+                                                )}
                                             </div>
                                             {song.description && (
                                                 <>
