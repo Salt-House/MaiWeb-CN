@@ -3,7 +3,7 @@
 import LoadingSpinner from '@/app/components/LoadingSpinner'
 import SvgStrokedText from '@/app/components/SvgStrokedText'
 import TextScroller from '@/app/components/TextScroller'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -295,43 +295,116 @@ export default function CollectionPage() {
             <SvgStrokedText text="收藏品展示" height={100} strokeColor={"#a078e4"} strokeWidth={10} />
 
             {/* Tab导航 */}
-            <div className="flex justify-center mb-6 bg-white p-2 rounded-lg shadow-sm">
-                <div className="flex space-x-2">
-                    <button onClick={() => { setActiveTab("icon"); loadData("icon"); }} className={getTabClass("icon")}>头像</button>
-                    <button onClick={() => { setActiveTab("frame"); loadData("frame"); }} className={getTabClass("frame")}>背景</button>
-                    <button onClick={() => { setActiveTab("nameplate"); loadData("nameplate"); }} className={getTabClass("nameplate")}>名牌</button>
-                    <button onClick={() => { setActiveTab("trophy"); loadData("trophy"); }} className={getTabClass("trophy")}>奖杯</button>
+            <motion.div 
+                className="flex justify-center mb-6 bg-white p-3 rounded-xl shadow-lg border border-purple-100"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+            >
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+                    <motion.button 
+                        onClick={() => { setActiveTab("icon"); loadData("icon"); }} 
+                        className={getTabClass("icon")}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                    >
+                        头像
+                    </motion.button>
+                    <motion.button 
+                        onClick={() => { setActiveTab("frame"); loadData("frame"); }} 
+                        className={getTabClass("frame")}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                    >
+                        背景
+                    </motion.button>
+                    <motion.button 
+                        onClick={() => { setActiveTab("nameplate"); loadData("nameplate"); }} 
+                        className={getTabClass("nameplate")}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                    >
+                        名牌
+                    </motion.button>
+                    <motion.button 
+                        onClick={() => { setActiveTab("trophy"); loadData("trophy"); }} 
+                        className={getTabClass("trophy")}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                    >
+                        奖杯
+                    </motion.button>
                 </div>
-            </div>
+            </motion.div>
 
             {/* 搜索区域 */}
-            <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
-                <div className="flex justify-between mb-3">
-                    <h2 className="text-lg font-medium text-purple-700">筛选选项</h2>
-                    <button
+            <motion.div 
+                className="mb-6 bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-purple-100"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+            >
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+                    <motion.h2 
+                        className="text-lg sm:text-xl font-bold text-purple-800"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.3 }}
+                    >
+                        筛选选项
+                    </motion.h2>
+                    <motion.button
                         onClick={() => refreshData(activeTab)}
-                        className="text-sm text-purple-600 hover:text-purple-800 flex items-center"
+                        className="text-sm text-purple-600 hover:text-purple-800 flex items-center px-3 py-1.5 rounded-lg hover:bg-purple-50 transition-colors"
                         disabled={isSearching}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.3 }}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                         </svg>
                         重置筛选
-                    </button>
+                    </motion.button>
                 </div>
 
-                <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-3">
-                    <div className="flex-grow">
-                        <label htmlFor="search-term" className="block text-sm font-medium text-gray-700 mb-1">名称搜索</label>
+                <motion.form 
+                    onSubmit={handleSearch} 
+                    className="flex flex-col lg:flex-row gap-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                >
+                    <motion.div 
+                        className="flex-grow"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                    >
+                        <label htmlFor="search-term" className="block text-sm font-medium text-gray-700 mb-2">名称搜索</label>
                         <input
                             id="search-term"
                             type="text"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             placeholder="输入名称关键词..."
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+                            className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400 transition-all duration-200"
                         />
-                    </div>
+                    </motion.div>
 
                     {activeTab === "trophy" ?
                         <>
@@ -388,11 +461,18 @@ export default function CollectionPage() {
                     }
 
 
-                    <div className="md:self-end">
-                        <button
+                    <motion.div 
+                        className="lg:self-end w-full lg:w-auto"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6 }}
+                    >
+                        <motion.button
                             type="submit"
-                            className="w-full md:w-auto px-5 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors flex items-center justify-center"
+                            className="w-full lg:w-auto px-6 py-2.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200 flex items-center justify-center font-medium shadow-md"
                             disabled={isSearching}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                         >
                             {isSearching ? (
                                 <>
@@ -403,122 +483,264 @@ export default function CollectionPage() {
                                     搜索中...
                                 </>
                             ) : "搜索"}
-                        </button>
-                    </div>
-                </form>
-            </div>
+                        </motion.button>
+                    </motion.div>
+                </motion.form>
+            </motion.div>
 
             {/* 内容区域 */}
-            <div className="bg-purple-50/50 rounded-lg p-4 shadow-inner">
-                {activeTab === "icon" && (
-                    <div className="animate-fadeIn">
-                        <h2 className="text-lg font-medium text-center mb-4 text-purple-700 border-b pb-2">玩家头像</h2>
+            <motion.div 
+                className="bg-purple-50 rounded-lg p-6 shadow-lg border border-purple-200"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+            >
+                <AnimatePresence mode="wait">
+                    {activeTab === "icon" && (
+                        <motion.div 
+                            key="icon"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 20 }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            <motion.h2 
+                                className="text-xl font-bold text-center mb-6 text-purple-800 border-b-2 border-purple-300 pb-3"
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
+                            >
+                                玩家头像
+                            </motion.h2>
 
-                        {Icons.length === 0 ? (
-                            <div className="flex justify-center py-8">
-                                <LoadingSpinner size='sm' message='Loading' description='加载头像数据源' />
-                            </div>
-                        ) : (
-                            <>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 lg:gap-1 gap-2">
-                                    {Icons.map((item) => <RenderItem key={item.id} item={item} type="icon" openImagePreview={openImagePreview} GetCondition={GetCondition} />)}
-                                </div>
+                            {Icons.length === 0 ? (
+                                <motion.div 
+                                    className="flex justify-center py-12"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.2 }}
+                                >
+                                    <LoadingSpinner size='sm' message='Loading' description='加载头像数据源' />
+                                </motion.div>
+                            ) : (
+                                <>
+                                    <motion.div 
+                                        className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.2, staggerChildren: 0.05 }}
+                                    >
+                                        {Icons.map((item, index) => (
+                                            <motion.div
+                                                key={item.id}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: index * 0.02 }}
+                                            >
+                                                <RenderItem item={item} type="icon" openImagePreview={openImagePreview} GetCondition={GetCondition} />
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
 
-                                {/* 加载更多按钮 */}
-                                {hasMore.icon && (
-                                    <LoadMoreButton loadMore={() => loadMore("icon")} isSearching={isSearching} />
-                                )}
-                            </>
-                        )}
-                    </div>
-                )}
-                {activeTab === "frame" && (
-                    <div>
-                        <h2 className="text-lg font-medium mb-4 text-center text-purple-700 border-b pb-2">游戏背景</h2>
-                        {MaiBackGround.length === 0 ? (
-                            <div className="flex justify-center py-8">
-                                <LoadingSpinner size='sm' message='Loading' description='加载背景数据源' />
-                            </div>
-                        ) : (
-                            <>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 place-items-center gap-3 gap-x-1">
-                                    {MaiBackGround.map((item) => <RenderItem key={item.id} item={item} type="frame" openImagePreview={openImagePreview} GetCondition={GetCondition} />)}
-                                </div>
+                                    {/* 加载更多按钮 */}
+                                    {hasMore.icon && (
+                                        <LoadMoreButton loadMore={() => loadMore("icon")} isSearching={isSearching} />
+                                    )}
+                                </>
+                            )}
+                        </motion.div>
+                    )}
+                    {activeTab === "frame" && (
+                        <motion.div 
+                            key="frame"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 20 }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            <motion.h2 
+                                className="text-xl font-bold text-center mb-6 text-purple-800 border-b-2 border-purple-300 pb-3"
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
+                            >
+                                游戏背景
+                            </motion.h2>
+                            {MaiBackGround.length === 0 ? (
+                                <motion.div 
+                                    className="flex justify-center py-12"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.2 }}
+                                >
+                                    <LoadingSpinner size='sm' message='Loading' description='加载背景数据源' />
+                                </motion.div>
+                            ) : (
+                                <>
+                                    <motion.div 
+                                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.2, staggerChildren: 0.05 }}
+                                    >
+                                        {MaiBackGround.map((item, index) => (
+                                            <motion.div
+                                                key={item.id}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: index * 0.02 }}
+                                            >
+                                                <RenderItem item={item} type="frame" openImagePreview={openImagePreview} GetCondition={GetCondition} />
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
 
-                                {/* 加载更多按钮 */}
-                                {hasMore.frame && (
-                                    <LoadMoreButton loadMore={() => loadMore("frame")} isSearching={isSearching} />
-                                )}
-                            </>
-                        )}
-                    </div>
-                )}
-                {activeTab === "nameplate" && (
-                    <motion.div>
-                        <h2 className="text-lg font-medium mb-4 text-center text-purple-700 border-b pb-2">玩家名牌</h2>
-                        {namePlates.length === 0 ? (
-                            <div className="flex justify-center py-8">
-                                <LoadingSpinner size='sm' message='Loading' description='加载名牌数据源' />
-                            </div>
-                        ) : (
-                            <>
-                                <div className="grid max-sm:grid-cols-1 sm:grid-cols-3 md:grid-cols-4 place-items-center gap-3">
-                                    {namePlates.map((item) => <RenderItem key={item.id} item={item} type="nameplate" openImagePreview={openImagePreview} GetCondition={GetCondition} />)}
-                                </div>
+                                    {/* 加载更多按钮 */}
+                                    {hasMore.frame && (
+                                        <LoadMoreButton loadMore={() => loadMore("frame")} isSearching={isSearching} />
+                                    )}
+                                </>
+                            )}
+                        </motion.div>
+                    )}
+                    {activeTab === "nameplate" && (
+                        <motion.div 
+                            key="nameplate"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 20 }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            <motion.h2 
+                                className="text-xl font-bold text-center mb-6 text-purple-800 border-b-2 border-purple-300 pb-3"
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
+                            >
+                                玩家名牌
+                            </motion.h2>
+                            {namePlates.length === 0 ? (
+                                <motion.div 
+                                    className="flex justify-center py-12"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.2 }}
+                                >
+                                    <LoadingSpinner size='sm' message='Loading' description='加载名牌数据源' />
+                                </motion.div>
+                            ) : (
+                                <>
+                                    <motion.div 
+                                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.2, staggerChildren: 0.05 }}
+                                    >
+                                        {namePlates.map((item, index) => (
+                                            <motion.div
+                                                key={item.id}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: index * 0.02 }}
+                                            >
+                                                <RenderItem item={item} type="nameplate" openImagePreview={openImagePreview} GetCondition={GetCondition} />
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
 
-                                {/* 加载更多按钮 */}
-                                {hasMore.nameplate && (
-                                    <LoadMoreButton loadMore={() => loadMore("nameplate")} isSearching={isSearching} />
+                                    {/* 加载更多按钮 */}
+                                    {hasMore.nameplate && (
+                                        <LoadMoreButton loadMore={() => loadMore("nameplate")} isSearching={isSearching} />
+                                    )}
+                                </>
+                            )}
+                        </motion.div>
+                    )}
 
-                                )}
-                            </>
+                    {activeTab === "trophy" && (
+                        <motion.div 
+                            key="trophy"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 20 }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            <motion.h2 
+                                className="text-xl font-bold text-center mb-6 text-purple-800 border-b-2 border-purple-300 pb-3"
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
+                            >
+                                游戏奖杯
+                            </motion.h2>
+                            {Trophies.length === 0 ? (
+                                <motion.div 
+                                    className="flex justify-center py-12"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.2 }}
+                                >
+                                    <LoadingSpinner size='sm' message='Loading' description='加载奖杯数据源' />
+                                </motion.div>
+                            ) : (
+                                <>
+                                    <motion.div 
+                                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.2, staggerChildren: 0.05 }}
+                                    >
+                                        {Trophies.map((item, index) => (
+                                            <motion.div
+                                                key={item.id}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: index * 0.02 }}
+                                            >
+                                                <RenderItem item={item} type="trophy" openImagePreview={openImagePreview} GetCondition={GetCondition} />
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
 
-                        )}
-
-                    </motion.div>
-                )}
-
-                {activeTab === "trophy" && (
-                    <div className="animate-fadeIn">
-                        <h2 className="text-lg font-medium mb-4 text-center text-purple-700 border-b pb-2">游戏奖杯</h2>
-                        {Trophies.length === 0 ? (
-                            <div className="flex justify-center py-8">
-                                <LoadingSpinner size='sm' message='Loading' description='加载奖杯数据源' />
-                            </div>
-                        ) : (
-                            <>
-                                <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                                    {Trophies.map((item) => <RenderItem key={item.id} item={item} type="trophy" openImagePreview={openImagePreview} GetCondition={GetCondition} />)}
-                                </div>
-
-                                {/* 加载更多按钮 */}
-                                {hasMore.trophy && (
-                                    <LoadMoreButton loadMore={() => loadMore("trophy")} isSearching={isSearching} />
-                                )}
-                            </>
-                        )}
-                    </div>
-                )}
-            </div>
+                                    {/* 加载更多按钮 */}
+                                    {hasMore.trophy && (
+                                        <LoadMoreButton loadMore={() => loadMore("trophy")} isSearching={isSearching} />
+                                    )}
+                                </>
+                            )}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </motion.div>
             {
                 previewImage && (
-                    <div
+                    <motion.div
                         className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4"
                         onClick={closeImagePreview}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
                     >
-                        <div
+                        <motion.div
                             className="relative max-w-4xl max-h-full bg-white rounded-lg overflow-hidden shadow-2xl"
                             onClick={(e) => e.stopPropagation()}
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
                         >
                             {/* 关闭按钮 */}
-                            <button
+                            <motion.button
                                 onClick={closeImagePreview}
                                 className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-70 transition-all duration-200"
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                                 </svg>
-                            </button>
+                            </motion.button>
 
                             {/* 图片内容 */}
                             <div className="p-6">
@@ -526,41 +748,60 @@ export default function CollectionPage() {
                                     {previewImage.name}
                                 </h3>
 
-                                <div className="flex justify-center">
+                                <motion.div 
+                                    className="flex justify-center"
+                                    initial={{ scale: 0.9, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    transition={{ delay: 0.1, duration: 0.2 }}
+                                >
                                     {previewImage.type === 'frame' && (
-                                        <img
+                                        <motion.img
                                             src={previewImage.url}
                                             alt={previewImage.name}
                                             className="max-w-full max-h-96 object-contain rounded-lg shadow-lg"
                                             style={{ aspectRatio: '1080/452' }}
+                                            initial={{ scale: 0.9 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{ duration: 0.2 }}
                                         />
                                     )}
                                     {previewImage.type === 'nameplate' && (
-                                        <img
+                                        <motion.img
                                             src={previewImage.url}
                                             alt={previewImage.name}
                                             className="max-w-full max-h-32 object-contain rounded-lg shadow-lg"
                                             style={{ aspectRatio: '724/120' }}
+                                            initial={{ scale: 0.9 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{ duration: 0.2 }}
                                         />
                                     )}
 
                                     {previewImage.type === 'icon' && (
-                                        <img
+                                        <motion.img
                                             src={previewImage.url}
                                             alt={previewImage.name}
                                             className="max-w-full max-h-96 object-contain rounded-lg shadow-lg w-64 h-64"
+                                            initial={{ scale: 0.9 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{ duration: 0.2 }}
                                         />
                                     )}
                                     {previewImage.type === 'trophy' && (
-                                        <div className={`aspect-[272/29] bg-no-repeat bg-contain mx-auto w-72 ${previewImage.url} mx-auto`}>
+                                        <motion.div 
+                                            className={`aspect-[272/29] bg-no-repeat bg-contain mx-auto w-72 ${previewImage.url} mx-auto`}
+                                            initial={{ scale: 0.9 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
                                             <div className="flex flex-col items-center justify-center h-full">
                                                 <p className="text-white text-sm font-bold" style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}>
                                                     {previewImage.name}
                                                 </p>
                                             </div>
-                                        </div>
+                                        </motion.div>
                                     )}
-                                </div>
+                                </motion.div>
 
                                 {/* 图片信息 */}
                                 <div className="mt-4 text-center text-gray-600">
@@ -615,8 +856,8 @@ export default function CollectionPage() {
                                     )}
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
                 )
             }
 
@@ -625,6 +866,13 @@ export default function CollectionPage() {
 }
 
 
+/**
+ * 收藏品展示组件
+ * @param item 收藏品数据
+ * @param type 收藏品类型
+ * @param openImagePreview 打开图片预览函数
+ * @param GetCondition 获取条件函数
+ */
 function RenderItem({ item, type, openImagePreview, GetCondition }: {
     item: any;
     type: string;
@@ -654,81 +902,142 @@ function RenderItem({ item, type, openImagePreview, GetCondition }: {
     switch (type) {
         case 'frame':
             return (
-                <div
+                <motion.div
                     key={item.id}
-                    className="relative rounded-lg shadow-sm max-sm:h-16 h-28 aspect-[1080/452] bg-no-repeat bg-contain hover:shadow-md transition-all duration-300 overflow-hidden"
-                    style={{ backgroundImage: `url(https://static.maimai.moe/UI_Frame_${item.id}.png)` }
-                    }
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
+                    className="relative rounded-lg shadow-sm cursor-pointer overflow-hidden bg-white border border-purple-200"
+                    style={{ 
+                        aspectRatio: '1080/452',
+                        backgroundImage: `url(https://static.maimai.moe/UI_Frame_${item.id}.png)`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center'
+                    }}
                     onClick={() => {
                         openImagePreview(item, 'frame');
                         GetCondition('frame', item.id);
                     }}
                 >
-                    <div className="absolute top-2 right-2 opacity-0 hover:opacity-100 transition-opacity duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white drop-shadow-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                        </svg>
-                    </div>
-                </div>
+                    <motion.div 
+                        className="absolute top-2 right-2"
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <div className="bg-purple-600 rounded-full p-1.5 shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                            </svg>
+                        </div>
+                    </motion.div>
+                </motion.div>
             );
 
         case 'trophy':
             return (
-                <div
+                <motion.div
                     key={item.id}
-                    className={`relative rounded-full ${bg_trophy} bg-no-repeat bg-contain w-72 mx-auto aspect-[272/29] transition-all duration-300 flex flex-col items-center justify-center`}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ scale: 1.02, y: -1 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
+                    className={`relative cursor-pointer ${bg_trophy} bg-no-repeat bg-contain w-72 mx-auto flex flex-col items-center justify-center`}
+                    style={{ aspectRatio: '272/29' }}
                     onClick={() => {
                         openImagePreview(item, 'trophy');
                         GetCondition('trophy', item.id);
                     }}
                 >
                     <div
-                        className="max-w-40 text-white text-sm  font-bold "
-                        style={{ textShadow: "1px 1px 5px rgba(0, 0, 0)" }}
+                        className="max-w-40 text-white text-sm font-bold"
+                        style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.8)" }}
                     >
                         <TextScroller text={item.name} speed={10} delay={2} />
                     </div>
-                </div>
+                </motion.div>
             );
 
         case 'nameplate':
             return (
-                <div
+                <motion.div
                     key={item.id}
-                    className="relative rounded-lg shadow-sm h-12 aspect-[724/120] bg-no-repeat bg-contain hover:shadow-md transition-all duration-300 overflow-hidden"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
+                    className="relative rounded-lg shadow-sm cursor-pointer overflow-hidden bg-white border border-purple-200"
                     style={{
-                        backgroundImage: `url(https://static.maimai.moe/UI_Plate_${item.id.toString().padStart(6, '0')}.png)`
+                        aspectRatio: '724/120',
+                        backgroundImage: `url(https://static.maimai.moe/UI_Plate_${item.id.toString().padStart(6, '0')}.png)`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center'
                     }}
                     onClick={() => {
                         openImagePreview(item, 'nameplate')
                         GetCondition('plate', item.id);
                     }}
                 >
-                </div>
+                    <motion.div 
+                        className="absolute top-1 right-1"
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <div className="bg-purple-600 rounded-full p-1 shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                            </svg>
+                        </div>
+                    </motion.div>
+                </motion.div>
             );
 
         default:
             return (
-                <div
+                <motion.div
                     key={item.id}
-                    className="relative rounded-lg p-3 sm:p-1 shadow-sm hover:shadow-md transition-all duration-300 border border-purple-100 hover:border-purple-300 flex flex-col items-center"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ scale: 1.05, y: -3 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
+                    className="relative rounded-lg p-3 shadow-sm cursor-pointer border border-purple-200 hover:border-purple-400 bg-white flex flex-col items-center hover:shadow-lg"
                     onClick={() => { openImagePreview(item, 'icon'); GetCondition('icon', item.id) }}
                 >
-                    <div className="flex flex-col items-center justify-center w-24 h-24 max-sm:w-28 max-sm:h-28 mb-2">
-                        <div className='relative size-48 mt-2'>
+                    <div className="flex flex-col items-center justify-center mb-2">
+                        <div className="relative w-20 h-20 sm:w-16 sm:h-16 mb-2">
                             <Image
                                 src={`${baseUrl}/${type}/${item.id}.png`}
                                 alt={item.name}
-                                className="object-contain "
+                                className="object-contain"
                                 fill
                                 unoptimized
                             />
                         </div>
-                        <p className="text-center text-sm leading-tight w-64">
+                        <p className="text-center text-xs leading-tight max-w-20 text-gray-700 font-medium">
                             {item.name}
                         </p>
                     </div>
-                </div>
+                    <motion.div 
+                        className="absolute top-2 right-2"
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <div className="bg-purple-600 rounded-full p-1 shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                            </svg>
+                        </div>
+                    </motion.div>
+                </motion.div>
             );
     }
 }
