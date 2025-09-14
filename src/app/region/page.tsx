@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { FaTools } from "react-icons/fa"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import PageTransitionWrapper from "../components/PageTransitionWrapper";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 export interface AreaCharacters {
   name: string;
@@ -103,17 +104,44 @@ export default function RegionPage() {
       method: "GET",
       headers: myHeaders,
     };
+    
     fetch(`https://dev.maimai.moe/email/area/list?language=${lang}`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
-        const temp = JSON.parse(result);
-        setAreas(temp.list);
-        localStorage.setItem('area_data', JSON.stringify(temp));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
       })
-      .catch((error) => console.error(error));
+      .then((result) => {
+        try {
+          const temp = JSON.parse(result);
+          if (temp && temp.list && Array.isArray(temp.list)) {
+            setAreas(temp.list);
+            // 确保在客户端环境中使用localStorage
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('area_data', JSON.stringify(temp));
+            }
+          } else {
+            console.error('Invalid data format received:', temp);
+            setAreas([]);
+          }
+        } catch (parseError) {
+          console.error('Failed to parse response:', parseError);
+          setAreas([]);
+        }
+      })
+      .catch((error) => {
+        console.error('Failed to fetch area data:', error);
+        setAreas([]);
+      });
   }
 
   const CheckAreaData = () => {
+    // 检查是否在客户端环境
+    if (typeof window === 'undefined') {
+      return true; // 服务端渲染时总是需要获取数据
+    }
+    
     const storedData = localStorage.getItem('area_data');
     if (!storedData || storedData === '[]' || storedData === '""') {
       return true; // 需要获取数据
@@ -136,21 +164,24 @@ export default function RegionPage() {
     if (shouldFetchData) {
       GetArea(lang, page, page_size);
     } else {
-      try {
-        const storedData = localStorage.getItem('area_data');
-        if (storedData) {
-          const parsedData = JSON.parse(storedData);
-          // 检查是否已经是数组格式
-          if (Array.isArray(parsedData)) {
-            setAreas(parsedData);
-          } else {
-            // 可能存储的是JSON字符串的字符串
-            setAreas(JSON.parse(parsedData));
+      // 确保在客户端环境中执行
+      if (typeof window !== 'undefined') {
+        try {
+          const storedData = localStorage.getItem('area_data');
+          if (storedData) {
+            const parsedData = JSON.parse(storedData);
+            // 检查是否已经是数组格式
+            if (Array.isArray(parsedData)) {
+              setAreas(parsedData);
+            } else {
+              // 可能存储的是JSON字符串的字符串
+              setAreas(JSON.parse(parsedData));
+            }
           }
+        } catch (error) {
+          console.error("解析存储的区域数据时出错:", error);
+          GetArea(lang, page, page_size); // 出错时重新获取数据
         }
-      } catch (error) {
-        console.error("解析存储的区域数据时出错:", error);
-        GetArea(lang, page, page_size); // 出错时重新获取数据
       }
     }
   }, [lang, page, page_size]);
@@ -171,7 +202,7 @@ export default function RegionPage() {
   }, [areas])
 
   return (
-    <>
+    <ErrorBoundary>
       <PageTransitionWrapper>
         <div className="flex flex-col items-center p-8 max-sm:p-4 min-h-screen">
           <p className="text-3xl font-bold mb-8 max-sm:text-2xl max-sm:mb-6 text-white" style={textstroke}>区域</p>
@@ -233,6 +264,6 @@ export default function RegionPage() {
           )}
         </div>
       </PageTransitionWrapper>
-    </>
+    </ErrorBoundary>
   );
 }
