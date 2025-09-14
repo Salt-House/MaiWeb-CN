@@ -76,7 +76,7 @@ export default function PreviewModal({
                             <div className="flex-1 flex justify-center items-center bg-gray-50 rounded-lg p-4">
                                 {previewImage.type === 'trophy' ? (
                                     <div 
-                                        className={`${previewImage.url} bg-no-repeat bg-contain w-full max-w-md flex items-center justify-center`}
+                                        className={`${previewImage.url} bg-no-repeat bg-contain bg-center w-full max-w-md flex items-center justify-center`}
                                         style={{ aspectRatio: '272/29', minHeight: '100px' }}
                                     >
                                         <div className="text-white text-lg font-bold text-center px-4"
