@@ -1,36 +1,40 @@
 
 
 
-interface NamePlate {
+export interface NamePlate {
     id: string,
     name: string,
     description: string,
     genre: string
 }
-interface MaiBackGround {
+
+export interface MaiBackGround {
     id: string,
     name: string,
     description: string,
     genre: string
 }
-interface Icon {
+
+export interface Icon {
     id: string,
     name: string,
     description: string,
     genre: string
 }
-interface Trophie {
+
+export interface Trophie {
     id: string,
     name: string,
+    description: string,
     color: string,
 }
 
-interface SetCollectionProps {
+export interface SetCollectionProps {
     type: string,
     id: number,
 }
 
-interface Condition {
+export interface Condition {
     category: string,
     condition: string,
     condition_CN?: string,
