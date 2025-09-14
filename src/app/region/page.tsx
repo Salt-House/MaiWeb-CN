@@ -159,8 +159,9 @@ export default function RegionPage() {
   }
 
   useEffect(() => {
-    const shouldFetchData = CheckAreaData();
-
+    // const shouldFetchData = CheckAreaData();
+    const shouldFetchData = true
+    //   todo 12.1移除该注释
     if (shouldFetchData) {
       GetArea(lang, page, page_size);
     } else {
