@@ -7,15 +7,11 @@ interface SearchFormProps {
     activeTab: string
     searchTerm: string
     searchColor: string
-    searchGenre: string
     isSearching: boolean
     colorOptions: string[]
-    genreOptions: string[]
     onSearchTermChange: (term: string) => void
     onSearchColorChange: (color: string) => void
-    onSearchGenreChange: (genre: string) => void
     onSearch: (e: FormEvent) => void
-    onReset: () => void
 }
 
 /**
@@ -26,15 +22,11 @@ export default function SearchForm({
     activeTab,
     searchTerm,
     searchColor,
-    searchGenre,
     isSearching,
     colorOptions,
-    genreOptions,
     onSearchTermChange,
     onSearchColorChange,
-    onSearchGenreChange,
-    onSearch,
-    onReset
+    onSearch
 }: SearchFormProps) {
     return (
         <motion.div 

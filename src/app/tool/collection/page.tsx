@@ -273,6 +273,11 @@ export default function CollectionPage() {
         loadData("trophy");
     }, []);
 
+
+    useEffect(() => {
+        refreshData(activeTab);
+    }, [activeTab]);
+
     // 处理搜索
     const handleSearch = (e: React.FormEvent) => {
         // 阻止表单默认提交行为，防止页面刷新
@@ -310,15 +315,11 @@ export default function CollectionPage() {
                 activeTab={activeTab}
                 searchTerm={searchTerm}
                 searchColor={searchColor}
-                searchGenre={searchGenre}
                 isSearching={isSearching}
                 colorOptions={colorOptions}
-                genreOptions={genreOptions}
                 onSearchTermChange={setSearchTerm}
                 onSearchColorChange={setSearchColor}
-                onSearchGenreChange={setSearchGenre}
                 onSearch={handleSearch}
-                onReset={() => refreshData(activeTab)}
             />
 
             {/* 内容区域 */}
