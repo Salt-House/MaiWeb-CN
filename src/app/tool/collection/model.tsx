@@ -2,28 +2,28 @@
 
 
 export interface NamePlate {
-    id: string,
+    collection_id: string,
     name: string,
     description: string,
     genre: string
 }
 
 export interface MaiBackGround {
-    id: string,
+    collection_id: string,
     name: string,
     description: string,
     genre: string
 }
 
 export interface Icon {
-    id: string,
+    collection_id: string,
     name: string,
     description: string,
     genre: string
 }
 
 export interface Trophie {
-    id: string,
+    collection_id: string,
     name: string,
     description: string,
     color: string,

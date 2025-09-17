@@ -10,12 +10,11 @@ interface SearchFormProps {
     searchGenre: string
     isSearching: boolean
     colorOptions: string[]
-    genreOptions: string[]
+    activeGenreOptions: string[]
     onSearchTermChange: (term: string) => void
     onSearchColorChange: (color: string) => void
     onSearchGenreChange: (genre: string) => void
     onSearch: (e: FormEvent) => void
-    onReset: () => void
 }
 
 /**
@@ -29,28 +28,27 @@ export default function SearchForm({
     searchGenre,
     isSearching,
     colorOptions,
-    genreOptions,
+    activeGenreOptions,
     onSearchTermChange,
     onSearchColorChange,
     onSearchGenreChange,
-    onSearch,
-    onReset
+    onSearch
 }: SearchFormProps) {
     return (
-        <motion.div 
+        <motion.div
             className="mb-6 bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-purple-100"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
         >
-            <motion.form 
-                onSubmit={onSearch} 
+            <motion.form
+                onSubmit={onSearch}
                 className="space-y-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
             >
-                <motion.div 
+                <motion.div
                     className="flex flex-col sm:flex-row gap-4"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -68,7 +66,7 @@ export default function SearchForm({
                             className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
                         />
                     </div>
-                    
+
                     {activeTab === "trophy" && (
                         <div className="flex-1">
                             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -87,29 +85,27 @@ export default function SearchForm({
                             </select>
                         </div>
                     )}
-                    
-                    {/*{activeTab !== "trophy" && (*/}
-                    {/*    <div className="flex-1">*/}
-                    {/*        <label className="block text-sm font-medium text-gray-700 mb-2">*/}
-                    {/*            类型筛选*/}
-                    {/*        </label>*/}
-                    {/*        <select*/}
-                    {/*            value={searchGenre}*/}
-                    {/*            onChange={(e) => onSearchGenreChange(e.target.value)}*/}
-                    {/*            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"*/}
-                    {/*        >*/}
-                    {/*            <option value="">全部类型</option>*/}
-                    {/*            {genreOptions.map((genre) => (*/}
-                    {/*                <option key={genre} value={genre}>*/}
-                    {/*                    {genre}*/}
-                    {/*                </option>*/}
-                    {/*            ))}*/}
-                    {/*        </select>*/}
-                    {/*    </div>*/}
-                    {/*)}*/}
+
+                    <div className="flex-1">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Genre筛选
+                        </label>
+                        <select
+                            value={searchGenre}
+                            onChange={(e) => onSearchGenreChange(e.target.value)}
+                            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
+                        >
+                            <option value="">全部类型</option>
+                            {activeGenreOptions.map((genre) => (
+                                <option key={genre} value={genre}>
+                                    {genre}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </motion.div>
-                
-                <motion.div 
+
+                <motion.div
                     className="flex justify-center"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}

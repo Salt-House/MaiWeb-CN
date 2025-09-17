@@ -48,7 +48,7 @@ export default function RenderItem({ item, type, openImagePreview, GetCondition 
         case 'icon':
             return (
                 <motion.div
-                    key={item.id}
+                    key={item.collection_id}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     whileHover={{ scale: 1.05, y: -2 }}
@@ -57,12 +57,12 @@ export default function RenderItem({ item, type, openImagePreview, GetCondition 
                     className="relative cursor-pointer bg-white rounded-xl shadow-lg border border-purple-100 overflow-hidden group hover:shadow-xl transition-all duration-300"
                     onClick={() => {
                         openImagePreview(item, 'icon');
-                        GetCondition('icon', item.id);
+                        GetCondition('icon', item.collection_id);
                     }}
                 >
                     <div className="aspect-square p-4 flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50">
                         <img
-                            src={`${baseUrl}/${type}/${item.id}.png`}
+                            src={`${baseUrl}/${type}/${Number(item.collection_id)}.png`}
                             alt={item.name}
                             className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
                             loading="lazy"
@@ -87,7 +87,7 @@ export default function RenderItem({ item, type, openImagePreview, GetCondition 
         case 'frame':
             return (
                 <motion.div
-                    key={item.id}
+                    key={item.collection_id}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     whileHover={{ scale: 1.05, y: -2 }}
@@ -96,12 +96,12 @@ export default function RenderItem({ item, type, openImagePreview, GetCondition 
                     className="relative cursor-pointer bg-white rounded-xl shadow-lg border border-purple-100 overflow-hidden group hover:shadow-xl transition-all duration-300"
                     onClick={() => {
                         openImagePreview(item, 'frame');
-                        GetCondition('frame', item.id);
+                        GetCondition('frame', item.collection_id);
                     }}
                 >
                     <div className="aspect-[4/3] p-4 flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-50">
                         <img
-                            src={`https://static.maimai.moe/UI_Frame_${item.id}.png`}
+                            src={`https://static.maimai.moe/UI_Frame_${item.collection_id}.png`}
                             alt={item.name}
                             className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
                             loading="lazy"
@@ -126,7 +126,7 @@ export default function RenderItem({ item, type, openImagePreview, GetCondition 
         case 'trophy':
             return (
                 <motion.div
-                    key={item.id}
+                    key={item.collection_id}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     whileHover={{ scale: 1.02, y: -1 }}
@@ -136,7 +136,7 @@ export default function RenderItem({ item, type, openImagePreview, GetCondition 
                     style={{ aspectRatio: '272/29' }}
                     onClick={() => {
                         openImagePreview(item, 'trophy');
-                        GetCondition('trophy', item.id);
+                        GetCondition('trophy', item.collection_id);
                     }}
                 >
                     <div
@@ -151,7 +151,7 @@ export default function RenderItem({ item, type, openImagePreview, GetCondition 
         case 'plate':
             return (
                 <motion.div
-                    key={item.id}
+                    key={item.collection_id}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     whileHover={{ scale: 1.05, y: -2 }}
@@ -160,12 +160,12 @@ export default function RenderItem({ item, type, openImagePreview, GetCondition 
                     className="relative cursor-pointer bg-white rounded-xl shadow-lg border border-purple-100 overflow-hidden group hover:shadow-xl transition-all duration-300"
                     onClick={() => {
                         openImagePreview(item, 'nameplate');
-                        GetCondition('plate', item.id);
+                        GetCondition('plate', item.collection_id);
                     }}
                 >
                     <div className="aspect-[3/1] p-4 flex items-center justify-center bg-gradient-to-br from-green-50 to-emerald-50">
                         <img
-                            src={`https://static.maimai.moe/UI_Plate_${item.id.toString().padStart(6, '0')}.png`}
+                            src={`https://static.maimai.moe/UI_Plate_${item.collection_id.toString().padStart(6, '0')}.png`}
                             alt={item.name}
                             className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
                             loading="lazy"

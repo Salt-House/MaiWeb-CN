@@ -39,6 +39,7 @@ export default function CollectionPage() {
     const [Icons, setIcons] = useState<Icon[]>([])
     const [Trophies, setTrophies] = useState<Trophie[]>([])
     const [activeTab, setActiveTab] = useState<string>("icon")
+    const [activeGenreOptions, setActiveGenreOptions] = useState<string[]>([""])
     const [condition, setCondition] = useState<Condition>()
     const [conditionLoading, setConditionLoading] = useState<boolean>(true)
 
@@ -65,9 +66,15 @@ export default function CollectionPage() {
 
     // 颜色选项
     const colorOptions = ["", "Normal", "Bronze", "Gold", "Silver", "Rainbow"];
-    const genreOptions = ["デフォルト", "オリジナルちほー", "maimaiシリーズ", "イベントちほー", "実績"];
 
 
+    //搜索选项
+    const [trophyGenreOptions, setTtrophyGenreOptions] = useState<string[]>([""])
+    const [nameplateGenreOptions, setNameplateGenreOptions] = useState<string[]>([""])
+    const [frameGenreOptions, setFrameGenreOptions] = useState<string[]>([""])
+    const [iconGenreOptions, setIconGenreOptions] = useState<string[]>([""])
+
+    
     const [previewImage, setPreviewImage] = useState<{
         url: string;
         name: string;
@@ -105,13 +112,14 @@ export default function CollectionPage() {
         let imageUrl = '';
         switch (type) {
             case 'frame':
-                imageUrl = `https://static.maimai.moe/UI_Frame_${item.id}.png`;
+                imageUrl = `https://static.maimai.moe/UI_Frame_${item.collection_id}.png`;
                 break;
             case 'nameplate':
-                imageUrl = `https://static.maimai.moe/UI_Plate_${item.id.toString().padStart(6, '0')}.png`;
+            case 'plate':
+                imageUrl = `https://static.maimai.moe/UI_Plate_${item.collection_id}.png`;
                 break;
             case 'icon':
-                imageUrl = `${baseUrl}/${type}/${item.id}.png`;
+                imageUrl = `${baseUrl}/${type}/${item.collection_id}.png`;
                 break;
             case 'trophy':
                 switch (item.color) {
@@ -154,6 +162,7 @@ export default function CollectionPage() {
 
         // 构建查询参数
         const queryParams = new URLSearchParams();
+        queryParams.append("type", type);
         queryParams.append("page", append ? (currentPage[type] + 1).toString() : "1");
         queryParams.append("page_size", pageSize.toString());
 
@@ -184,7 +193,9 @@ export default function CollectionPage() {
 
         // 获取数据
         try {
-            const apiUrl = `https://dev.maimai.moe/api/maimai/${endpoint}?${queryParams.toString()}`;
+            // const apiUrl = `https://dev.maimai.moe/api/maimai/${endpoint}?${queryParams.toString()}`;
+            // const apiUrl = `http://localhost:33043/list?${queryParams.toString()}`;
+            const apiUrl = `https://dev.maimai.moe/email/list?${queryParams.toString()}`;
             console.log("API请求URL:", apiUrl);
 
             const data = await fetchData(apiUrl);
@@ -195,16 +206,16 @@ export default function CollectionPage() {
                     // 根据不同的数据类型选择正确的状态更新方法
                     switch (type) {
                         case "icon":
-                            setIcons(prev => [...prev, ...data]);
+                            setIcons(prev => [...prev, ...data.collections]);
                             break;
                         case "frame":
-                            setMaiBackGround(prev => [...prev, ...data]);
+                            setMaiBackGround(prev => [...prev, ...data.collections]);
                             break;
                         case "nameplate":
-                            setNamePlates(prev => [...prev, ...data]);
+                            setNamePlates(prev => [...prev, ...data.collections]);
                             break;
                         case "trophy":
-                            setTrophies(prev => [...prev, ...data]);
+                            setTrophies(prev => [...prev, ...data.collections]);
                             break;
                     }
 
@@ -217,11 +228,11 @@ export default function CollectionPage() {
                     // 检查是否还有更多数据
                     setHasMore(prev => ({
                         ...prev,
-                        [type]: data.length === pageSize
+                        [type]: (data.collections?.length || 0) === pageSize
                     }));
                 } else {
                     // 直接替换数据
-                    setter(data);
+                    setter(data.collections || []);
 
                     // 重置页码
                     setCurrentPage(prev => ({
@@ -232,7 +243,7 @@ export default function CollectionPage() {
                     // 检查是否还有更多数据
                     setHasMore(prev => ({
                         ...prev,
-                        [type]: data.length === pageSize
+                        [type]: (data.collections?.length || 0) === pageSize
                     }));
                 }
             } else {
@@ -248,11 +259,22 @@ export default function CollectionPage() {
     // 加载更多数据
     const loadMore = (type: string) => {
         loadData(type, {
-            name: searchTerm,
+            keywords: searchTerm,
             color: searchColor,
             genre: searchGenre
         }, true);
     };
+
+    const loadOptions = async () => {
+        const trophyData =  await fetchData('https://dev.maimai.moe/email/options?type=trophies');
+        const nameplateData =  await fetchData('https://dev.maimai.moe/email/options?type=plate');
+        const frameData = await fetchData('https://dev.maimai.moe/email/options?type=frames');
+        const iconData =  await fetchData('https://dev.maimai.moe/email/options?type=icon');
+        setTtrophyGenreOptions(trophyData.options);
+        setNameplateGenreOptions(nameplateData.options);
+        setFrameGenreOptions(frameData.options);
+        setIconGenreOptions(iconData.options);
+    }
 
     // 刷新数据
     const refreshData = (type: string) => {
@@ -263,7 +285,7 @@ export default function CollectionPage() {
 
         // 加载第一页数据
         loadData(type);
-    };
+    }; 
 
     // 初始加载
     useEffect(() => {
@@ -271,7 +293,27 @@ export default function CollectionPage() {
         loadData("frame");
         loadData("nameplate");
         loadData("trophy");
+        loadOptions();
     }, []);
+
+
+    useEffect(() => {
+        refreshData(activeTab);
+        switch (activeTab) {
+            case "icon":
+                setActiveGenreOptions(iconGenreOptions);
+                break;
+            case "frame":
+                setActiveGenreOptions(frameGenreOptions);
+                break;
+            case "nameplate":
+                setActiveGenreOptions(nameplateGenreOptions);
+                break;
+            case "trophy":
+                setActiveGenreOptions(trophyGenreOptions);
+                break;
+        }
+    }, [activeTab, iconGenreOptions, frameGenreOptions, nameplateGenreOptions, trophyGenreOptions]);
 
     // 处理搜索
     const handleSearch = (e: React.FormEvent) => {
@@ -313,12 +355,11 @@ export default function CollectionPage() {
                 searchGenre={searchGenre}
                 isSearching={isSearching}
                 colorOptions={colorOptions}
-                genreOptions={genreOptions}
+                activeGenreOptions={activeGenreOptions}
                 onSearchTermChange={setSearchTerm}
                 onSearchColorChange={setSearchColor}
                 onSearchGenreChange={setSearchGenre}
                 onSearch={handleSearch}
-                onReset={() => refreshData(activeTab)}
             />
 
             {/* 内容区域 */}
@@ -365,7 +406,7 @@ export default function CollectionPage() {
                                     >
                                         {Icons.map((item, index) => (
                                             <motion.div
-                                                key={item.id}
+                                                key={item.collection_id}
                                                 initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: index * 0.02 }}
@@ -418,7 +459,7 @@ export default function CollectionPage() {
                                     >
                                         {MaiBackGround.map((item, index) => (
                                             <motion.div
-                                                key={item.id}
+                                                key={item.collection_id}
                                                 initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: index * 0.02 }}
@@ -471,7 +512,7 @@ export default function CollectionPage() {
                                     >
                                         {namePlates.map((item, index) => (
                                             <motion.div
-                                                key={item.id}
+                                                key={item.collection_id}
                                                 initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: index * 0.02 }}
@@ -525,7 +566,7 @@ export default function CollectionPage() {
                                     >
                                         {Trophies.map((item, index) => (
                                             <motion.div
-                                                key={item.id}
+                                                key={item.collection_id}
                                                 initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: index * 0.02 }}
