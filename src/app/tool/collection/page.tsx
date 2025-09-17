@@ -39,6 +39,7 @@ export default function CollectionPage() {
     const [Icons, setIcons] = useState<Icon[]>([])
     const [Trophies, setTrophies] = useState<Trophie[]>([])
     const [activeTab, setActiveTab] = useState<string>("icon")
+    const [activeGenreOptions, setActiveGenreOptions] = useState<string[]>([""])
     const [condition, setCondition] = useState<Condition>()
     const [conditionLoading, setConditionLoading] = useState<boolean>(true)
 
@@ -65,9 +66,15 @@ export default function CollectionPage() {
 
     // 颜色选项
     const colorOptions = ["", "Normal", "Bronze", "Gold", "Silver", "Rainbow"];
-    const genreOptions = ["デフォルト", "オリジナルちほー", "maimaiシリーズ", "イベントちほー", "実績"];
 
 
+    //搜索选项
+    const [trophyGenreOptions, setTtrophyGenreOptions] = useState<string[]>([""])
+    const [nameplateGenreOptions, setNameplateGenreOptions] = useState<string[]>([""])
+    const [frameGenreOptions, setFrameGenreOptions] = useState<string[]>([""])
+    const [iconGenreOptions, setIconGenreOptions] = useState<string[]>([""])
+
+    
     const [previewImage, setPreviewImage] = useState<{
         url: string;
         name: string;
@@ -254,6 +261,17 @@ export default function CollectionPage() {
         }, true);
     };
 
+    const loadOptions = async () => {
+        const trophyData =  await fetchData('https://dev.maimai.moe/email/options?type=trophies');
+        const nameplateData =  await fetchData('https://dev.maimai.moe/email/options?type=plate');
+        const frameData = await fetchData('https://dev.maimai.moe/email/options?type=frames');
+        const iconData =  await fetchData('https://dev.maimai.moe/email/options?type=icon');
+        setTtrophyGenreOptions(trophyData.options);
+        setNameplateGenreOptions(nameplateData.options);
+        setFrameGenreOptions(frameData.options);
+        setIconGenreOptions(iconData.options);
+    }
+
     // 刷新数据
     const refreshData = (type: string) => {
         // 重置搜索条件
@@ -263,7 +281,7 @@ export default function CollectionPage() {
 
         // 加载第一页数据
         loadData(type);
-    };
+    }; 
 
     // 初始加载
     useEffect(() => {
@@ -271,12 +289,27 @@ export default function CollectionPage() {
         loadData("frame");
         loadData("nameplate");
         loadData("trophy");
+        loadOptions();
     }, []);
 
 
     useEffect(() => {
         refreshData(activeTab);
-    }, [activeTab]);
+        switch (activeTab) {
+            case "icon":
+                setActiveGenreOptions(iconGenreOptions);
+                break;
+            case "frame":
+                setActiveGenreOptions(frameGenreOptions);
+                break;
+            case "nameplate":
+                setActiveGenreOptions(nameplateGenreOptions);
+                break;
+            case "trophy":
+                setActiveGenreOptions(trophyGenreOptions);
+                break;
+        }
+    }, [activeTab, iconGenreOptions, frameGenreOptions, nameplateGenreOptions, trophyGenreOptions]);
 
     // 处理搜索
     const handleSearch = (e: React.FormEvent) => {
@@ -315,10 +348,13 @@ export default function CollectionPage() {
                 activeTab={activeTab}
                 searchTerm={searchTerm}
                 searchColor={searchColor}
+                searchGenre={searchGenre}
                 isSearching={isSearching}
                 colorOptions={colorOptions}
+                activeGenreOptions={activeGenreOptions}
                 onSearchTermChange={setSearchTerm}
                 onSearchColorChange={setSearchColor}
+                onSearchGenreChange={setSearchGenre}
                 onSearch={handleSearch}
             />
 
