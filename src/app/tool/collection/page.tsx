@@ -112,13 +112,14 @@ export default function CollectionPage() {
         let imageUrl = '';
         switch (type) {
             case 'frame':
-                imageUrl = `https://static.maimai.moe/UI_Frame_${item.id}.png`;
+                imageUrl = `https://static.maimai.moe/UI_Frame_${item.collection_id}.png`;
                 break;
             case 'nameplate':
-                imageUrl = `https://static.maimai.moe/UI_Plate_${item.id.toString().padStart(6, '0')}.png`;
+            case 'plate':
+                imageUrl = `https://static.maimai.moe/UI_Plate_${item.collection_id}.png`;
                 break;
             case 'icon':
-                imageUrl = `${baseUrl}/${type}/${item.id}.png`;
+                imageUrl = `${baseUrl}/${type}/${item.collection_id}.png`;
                 break;
             case 'trophy':
                 switch (item.color) {
@@ -161,6 +162,7 @@ export default function CollectionPage() {
 
         // 构建查询参数
         const queryParams = new URLSearchParams();
+        queryParams.append("type", type);
         queryParams.append("page", append ? (currentPage[type] + 1).toString() : "1");
         queryParams.append("page_size", pageSize.toString());
 
@@ -191,7 +193,9 @@ export default function CollectionPage() {
 
         // 获取数据
         try {
-            const apiUrl = `https://dev.maimai.moe/api/maimai/${endpoint}?${queryParams.toString()}`;
+            // const apiUrl = `https://dev.maimai.moe/api/maimai/${endpoint}?${queryParams.toString()}`;
+            // const apiUrl = `http://localhost:33043/list?${queryParams.toString()}`;
+            const apiUrl = `https://dev.maimai.moe/email/list?${queryParams.toString()}`;
             console.log("API请求URL:", apiUrl);
 
             const data = await fetchData(apiUrl);
@@ -202,16 +206,16 @@ export default function CollectionPage() {
                     // 根据不同的数据类型选择正确的状态更新方法
                     switch (type) {
                         case "icon":
-                            setIcons(prev => [...prev, ...data]);
+                            setIcons(prev => [...prev, ...data.collections]);
                             break;
                         case "frame":
-                            setMaiBackGround(prev => [...prev, ...data]);
+                            setMaiBackGround(prev => [...prev, ...data.collections]);
                             break;
                         case "nameplate":
-                            setNamePlates(prev => [...prev, ...data]);
+                            setNamePlates(prev => [...prev, ...data.collections]);
                             break;
                         case "trophy":
-                            setTrophies(prev => [...prev, ...data]);
+                            setTrophies(prev => [...prev, ...data.collections]);
                             break;
                     }
 
@@ -224,11 +228,11 @@ export default function CollectionPage() {
                     // 检查是否还有更多数据
                     setHasMore(prev => ({
                         ...prev,
-                        [type]: data.length === pageSize
+                        [type]: (data.collections?.length || 0) === pageSize
                     }));
                 } else {
                     // 直接替换数据
-                    setter(data);
+                    setter(data.collections || []);
 
                     // 重置页码
                     setCurrentPage(prev => ({
@@ -239,7 +243,7 @@ export default function CollectionPage() {
                     // 检查是否还有更多数据
                     setHasMore(prev => ({
                         ...prev,
-                        [type]: data.length === pageSize
+                        [type]: (data.collections?.length || 0) === pageSize
                     }));
                 }
             } else {
@@ -255,7 +259,7 @@ export default function CollectionPage() {
     // 加载更多数据
     const loadMore = (type: string) => {
         loadData(type, {
-            name: searchTerm,
+            keywords: searchTerm,
             color: searchColor,
             genre: searchGenre
         }, true);
@@ -402,7 +406,7 @@ export default function CollectionPage() {
                                     >
                                         {Icons.map((item, index) => (
                                             <motion.div
-                                                key={item.id}
+                                                key={item.collection_id}
                                                 initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: index * 0.02 }}
@@ -455,7 +459,7 @@ export default function CollectionPage() {
                                     >
                                         {MaiBackGround.map((item, index) => (
                                             <motion.div
-                                                key={item.id}
+                                                key={item.collection_id}
                                                 initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: index * 0.02 }}
@@ -508,7 +512,7 @@ export default function CollectionPage() {
                                     >
                                         {namePlates.map((item, index) => (
                                             <motion.div
-                                                key={item.id}
+                                                key={item.collection_id}
                                                 initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: index * 0.02 }}
@@ -562,7 +566,7 @@ export default function CollectionPage() {
                                     >
                                         {Trophies.map((item, index) => (
                                             <motion.div
-                                                key={item.id}
+                                                key={item.collection_id}
                                                 initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: index * 0.02 }}
