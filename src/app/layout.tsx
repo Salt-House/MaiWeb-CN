@@ -10,6 +10,7 @@ import GlobalPlayer from "./components/GlobalPlayer";
 import MobileNavigation from "./components/Navigation";
 import Notice from "./components/Notice";
 import PageTransition from "./components/PageTransitionWrapper";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -87,7 +88,7 @@ export default function RootLayout({
             </Link>
 
             {/* BackGround Layer */}
-            <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-1] bg-[url('/img/bg_shines.png')]">
+            {/* <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-1] bg-[url('/img/bg_shines.png')]">
             </div>
             <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-2]">
               <div className="w-[10px] h-[200px]">
@@ -103,7 +104,40 @@ export default function RootLayout({
               </div>
             </div>
             <StarMove />
-            <div className="fixed w-full max-sm:w-full h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div>
+            <div className="fixed w-full max-sm:w-full h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div> */}
+
+            <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-1] bg-cover">
+              <div className="fixed w-full h-full z-[-2]">
+                <Image
+                  src="/img/circle/bottom_left.png"
+                  alt=""
+                  width={200}
+                  height={200}
+                  className="absolute bottom-0 left-0 object-contain"
+                />
+                <Image
+                  src="/img/circle/bottom_right.png"
+                  alt=""
+                  width={200}
+                  height={200}
+                  className="absolute bottom-0 right-0 object-contain"
+                />
+                <Image
+                  src="/img/circle/top_left.png"
+                  alt=""
+                  width={200}
+                  height={200}
+                  className="absolute top-0 left-0 object-contain"
+                />
+                <Image
+                  src="/img/circle/top_right.png"
+                  alt=""
+                  width={200}
+                  height={200}
+                  className="absolute top-0 right-0 object-contain"
+                />
+              </div>
+            </div>
 
             {/* 使用新的客户端导航组件 */}
             <MobileNavigation textstroke={textstroke} />
@@ -156,8 +190,8 @@ export default function RootLayout({
               </div>
             </div>
             <Link href={"/"} className="top-4 left-4 size-40 max-sm:hidden">
-              <div className="fixed top-4 left-4 size-40 bg-[url('/img/moon.png')] bg-contain bg-center flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
-                <img src="/img/logo.png" className="scale-125" alt="" />
+              <div className="fixed top-2 left-14 size-40 flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
+                <img src="/img/circle/logo.png" className="scale-125" alt="" />
               </div>
             </Link>
             <UserLogin />
