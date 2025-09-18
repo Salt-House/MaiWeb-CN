@@ -66,7 +66,6 @@ export default function QAPage() {
     : qaData.filter(item => item.category === selectedCategory);
 
   return (
-    <PageTransitionWrapper>
       <div className="min-h-screen">
         <div className="container mx-auto px-4 py-12">
           {/* 页面标题 */}
@@ -159,6 +158,5 @@ export default function QAPage() {
         </div> */}
         </div>
       </div>
-    </PageTransitionWrapper>
   );
 }

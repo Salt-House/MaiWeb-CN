@@ -9,6 +9,7 @@ import { PlayerProvider } from "./context/PlayerContext";
 import GlobalPlayer from "./components/GlobalPlayer";
 import MobileNavigation from "./components/Navigation";
 import Notice from "./components/Notice";
+import PageTransition from "./components/PageTransitionWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -107,7 +108,9 @@ export default function RootLayout({
             {/* 使用新的客户端导航组件 */}
             <MobileNavigation textstroke={textstroke} />
             {/* 页面内容 */}
-            {children}
+            <PageTransition>
+              {children}
+            </PageTransition>
             {/* 底部鸣谢 */}
             <div className=" overflow-x-auto ">
               {/* thanks */}

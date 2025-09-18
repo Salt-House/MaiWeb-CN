@@ -170,7 +170,6 @@ export default function Home() {
 
   return (
     <>
-      <PageTransitionWrapper>
         <div className="w-full overflow-hidden">
           {/* Main Layer */}
           <div className="relative w-full">
@@ -444,7 +443,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </PageTransitionWrapper>
     </>
   )
 }

@@ -1,0 +1,135 @@
+Date : 2025-09-18 08:42:56
+Directory : /Applications/Myweb/MaiWeb-CN/src
+Total : 68 files,  113761 codes, 749 comments, 1127 blanks, all 115637 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JSON           |          1 |    103,310 |          0 |          0 |    103,310 |
+| TypeScript JSX |         61 |      9,959 |        732 |      1,051 |     11,742 |
+| Markdown       |          1 |        242 |          0 |         36 |        278 |
+| PostCSS        |          2 |        130 |         17 |         25 |        172 |
+| HTML           |          1 |        112 |          0 |         12 |        124 |
+| TypeScript     |          2 |          8 |          0 |          3 |         11 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                   |         68 |    113,761 |        749 |      1,127 |    115,637 |
+| app                                                                                 |         63 |    113,294 |        722 |      1,055 |    115,071 |
+| app (Files)                                                                         |          4 |        605 |         43 |         51 |        699 |
+| app/components                                                                      |         26 |    106,110 |        209 |        310 |    106,629 |
+| app/components (Files)                                                              |         21 |    105,809 |        193 |        265 |    106,267 |
+| app/components/HOC                                                                  |          1 |          9 |          0 |          4 |         13 |
+| app/components/button                                                               |          4 |        292 |         16 |         41 |        349 |
+| app/context                                                                         |          1 |        277 |         48 |         64 |        389 |
+| app/css                                                                             |          1 |         88 |          0 |         18 |        106 |
+| app/hooks                                                                           |          2 |         70 |          7 |         13 |         90 |
+| app/introduction                                                                    |          1 |         74 |          0 |          9 |         83 |
+| app/music                                                                           |          7 |      2,179 |        181 |        228 |      2,588 |
+| app/music (Files)                                                                   |          3 |      1,017 |         74 |         77 |      1,168 |
+| app/music/[id]                                                                      |          4 |      1,162 |        107 |        151 |      1,420 |
+| app/qa                                                                              |          2 |        365 |         27 |         32 |        424 |
+| app/qa (Files)                                                                      |          1 |        134 |         18 |         12 |        164 |
+| app/qa/feedback                                                                     |          1 |        231 |          9 |         20 |        260 |
+| app/questionnaire                                                                   |          1 |        192 |          1 |         13 |        206 |
+| app/region                                                                          |          2 |        460 |         36 |         40 |        536 |
+| app/region (Files)                                                                  |          1 |        223 |         23 |         25 |        271 |
+| app/region/[id]                                                                     |          1 |        237 |         13 |         15 |        265 |
+| app/road                                                                            |          1 |        110 |         33 |          9 |        152 |
+| app/tool                                                                            |         12 |      1,933 |        102 |        188 |      2,223 |
+| app/tool (Files)                                                                    |          1 |         38 |          0 |          7 |         45 |
+| app/tool/best                                                                       |          1 |        501 |         14 |         40 |        555 |
+| app/tool/collection                                                                 |          7 |      1,059 |         70 |         95 |      1,224 |
+| app/tool/collection (Files)                                                         |          2 |        542 |         38 |         59 |        639 |
+| app/tool/collection/components                                                      |          5 |        517 |         32 |         36 |        585 |
+| app/tool/donate                                                                     |          1 |         81 |          0 |         12 |         93 |
+| app/tool/news                                                                       |          2 |        254 |         18 |         34 |        306 |
+| app/tool/news (Files)                                                               |          1 |        103 |          2 |         13 |        118 |
+| app/tool/news/[id]                                                                  |          1 |        151 |         16 |         21 |        188 |
+| app/user                                                                            |          3 |        831 |         35 |         80 |        946 |
+| app/user (Files)                                                                    |          2 |        205 |          3 |         18 |        226 |
+| app/user/profile                                                                    |          1 |        626 |         32 |         62 |        720 |
+| docs                                                                                |          1 |        242 |          0 |         36 |        278 |
+| email                                                                               |          1 |        112 |          0 |         12 |        124 |
+| lib                                                                                 |          1 |          5 |          0 |          2 |          7 |
+| utils                                                                               |          2 |        108 |         27 |         22 |        157 |
++-------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                            | language       | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| /Applications/Myweb/MaiWeb-CN/src/app/components/ActionButton.tsx                   | TypeScript JSX |         10 |          0 |          0 |         10 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/AnimatedComponent.tsx              | TypeScript JSX |         27 |          0 |          5 |         32 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/ChinaMap.tsx                       | TypeScript JSX |        255 |         27 |         21 |        303 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/ClientLayout.tsx                   | TypeScript JSX |         28 |          5 |          7 |         40 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/ErrorBoundary.tsx                  | TypeScript JSX |         64 |          7 |         10 |         81 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/GlobalPlayer.tsx                   | TypeScript JSX |        204 |         19 |         26 |        249 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/Guide.tsx                          | TypeScript JSX |        124 |          4 |         19 |        147 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/HOC/FrozenRouter.tsx               | TypeScript JSX |          9 |          0 |          4 |         13 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/LoadingSpinner.tsx                 | TypeScript JSX |         30 |          1 |          5 |         36 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/Navigation.tsx                     | TypeScript JSX |        131 |         19 |         16 |        166 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/NeedItem.tsx                       | TypeScript JSX |        224 |         32 |         17 |        273 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/NewsCard.tsx                       | TypeScript JSX |         76 |          1 |          5 |         82 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/Notice.tsx                         | TypeScript JSX |        260 |          3 |         27 |        290 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/PageTransitionWrapper.tsx          | TypeScript JSX |         37 |          3 |          9 |         49 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/RatingHistory.tsx                  | TypeScript JSX |        212 |         13 |         20 |        245 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/SearchGameCenter.tsx               | TypeScript JSX |        372 |         53 |         41 |        466 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/SearchGameCenterResults.tsx        | TypeScript JSX |        138 |          3 |          9 |        150 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/ShareableImage.tsx                 | TypeScript JSX |        185 |          0 |          8 |        193 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/SvgStrokedText.tsx                 | TypeScript JSX |         42 |          0 |          4 |         46 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/TextScroller.tsx                   | TypeScript JSX |         61 |          3 |         10 |         74 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/UserLogin.tsx                      | TypeScript JSX |         19 |          0 |          6 |         25 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/button/Button.tsx                  | TypeScript JSX |        112 |          4 |         13 |        129 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/button/ButtonShowcase.tsx          | TypeScript JSX |        105 |          6 |         10 |        121 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/button/DownloadButton.tsx          | TypeScript JSX |         72 |          6 |         17 |         95 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/button/index.ts                    | TypeScript     |          3 |          0 |          1 |          4 |
+| /Applications/Myweb/MaiWeb-CN/src/app/components/china.json                         | JSON           |    103,310 |          0 |          0 |    103,310 |
+| /Applications/Myweb/MaiWeb-CN/src/app/context/PlayerContext.tsx                     | TypeScript JSX |        277 |         48 |         64 |        389 |
+| /Applications/Myweb/MaiWeb-CN/src/app/css/homepage.css                              | PostCSS        |         88 |          0 |         18 |        106 |
+| /Applications/Myweb/MaiWeb-CN/src/app/globals.css                                   | PostCSS        |         42 |         17 |          7 |         66 |
+| /Applications/Myweb/MaiWeb-CN/src/app/hooks/TokenChecker.tsx                        | TypeScript JSX |         52 |          3 |          8 |         63 |
+| /Applications/Myweb/MaiWeb-CN/src/app/hooks/useStateWithCallback.tsx                | TypeScript JSX |         18 |          4 |          5 |         27 |
+| /Applications/Myweb/MaiWeb-CN/src/app/introduction/page.tsx                         | TypeScript JSX |         74 |          0 |          9 |         83 |
+| /Applications/Myweb/MaiWeb-CN/src/app/layout.tsx                                    | TypeScript JSX |        148 |          8 |         13 |        169 |
+| /Applications/Myweb/MaiWeb-CN/src/app/loading.tsx                                   | TypeScript JSX |          8 |          0 |          1 |          9 |
+| /Applications/Myweb/MaiWeb-CN/src/app/music/[id]/musicPlayer.tsx                    | TypeScript JSX |        367 |         47 |         75 |        489 |
+| /Applications/Myweb/MaiWeb-CN/src/app/music/[id]/noteTable.tsx                      | TypeScript JSX |         70 |          0 |          5 |         75 |
+| /Applications/Myweb/MaiWeb-CN/src/app/music/[id]/page.tsx                           | TypeScript JSX |        342 |         23 |         32 |        397 |
+| /Applications/Myweb/MaiWeb-CN/src/app/music/[id]/scoreDetail.tsx                    | TypeScript JSX |        383 |         37 |         39 |        459 |
+| /Applications/Myweb/MaiWeb-CN/src/app/music/page.tsx                                | TypeScript JSX |        706 |         39 |         54 |        799 |
+| /Applications/Myweb/MaiWeb-CN/src/app/music/songList.tsx                            | TypeScript JSX |        186 |         10 |         12 |        208 |
+| /Applications/Myweb/MaiWeb-CN/src/app/music/songModel.tsx                           | TypeScript JSX |        125 |         25 |         11 |        161 |
+| /Applications/Myweb/MaiWeb-CN/src/app/page.tsx                                      | TypeScript JSX |        407 |         18 |         30 |        455 |
+| /Applications/Myweb/MaiWeb-CN/src/app/qa/feedback/page.tsx                          | TypeScript JSX |        231 |          9 |         20 |        260 |
+| /Applications/Myweb/MaiWeb-CN/src/app/qa/page.tsx                                   | TypeScript JSX |        134 |         18 |         12 |        164 |
+| /Applications/Myweb/MaiWeb-CN/src/app/questionnaire/page.tsx                        | TypeScript JSX |        192 |          1 |         13 |        206 |
+| /Applications/Myweb/MaiWeb-CN/src/app/region/[id]/page.tsx                          | TypeScript JSX |        237 |         13 |         15 |        265 |
+| /Applications/Myweb/MaiWeb-CN/src/app/region/page.tsx                               | TypeScript JSX |        223 |         23 |         25 |        271 |
+| /Applications/Myweb/MaiWeb-CN/src/app/road/page.tsx                                 | TypeScript JSX |        110 |         33 |          9 |        152 |
+| /Applications/Myweb/MaiWeb-CN/src/app/tool/best/page.tsx                            | TypeScript JSX |        501 |         14 |         40 |        555 |
+| /Applications/Myweb/MaiWeb-CN/src/app/tool/collection/components/LoadMoreButton.tsx | TypeScript JSX |         34 |          5 |          3 |         42 |
+| /Applications/Myweb/MaiWeb-CN/src/app/tool/collection/components/PreviewModal.tsx   | TypeScript JSX |        122 |         11 |         10 |        143 |
+| /Applications/Myweb/MaiWeb-CN/src/app/tool/collection/components/RenderItem.tsx     | TypeScript JSX |        176 |          7 |         10 |        193 |
+| /Applications/Myweb/MaiWeb-CN/src/app/tool/collection/components/SearchForm.tsx     | TypeScript JSX |        130 |          4 |          6 |        140 |
+| /Applications/Myweb/MaiWeb-CN/src/app/tool/collection/components/TabNavigation.tsx  | TypeScript JSX |         55 |          5 |          7 |         67 |
+| /Applications/Myweb/MaiWeb-CN/src/app/tool/collection/model.tsx                     | TypeScript JSX |         33 |          0 |          8 |         41 |
+| /Applications/Myweb/MaiWeb-CN/src/app/tool/collection/page.tsx                      | TypeScript JSX |        509 |         38 |         51 |        598 |
+| /Applications/Myweb/MaiWeb-CN/src/app/tool/donate/page.tsx                          | TypeScript JSX |         81 |          0 |         12 |         93 |
+| /Applications/Myweb/MaiWeb-CN/src/app/tool/news/[id]/page.tsx                       | TypeScript JSX |        151 |         16 |         21 |        188 |
+| /Applications/Myweb/MaiWeb-CN/src/app/tool/news/page.tsx                            | TypeScript JSX |        103 |          2 |         13 |        118 |
+| /Applications/Myweb/MaiWeb-CN/src/app/tool/page.tsx                                 | TypeScript JSX |         38 |          0 |          7 |         45 |
+| /Applications/Myweb/MaiWeb-CN/src/app/user/model.tsx                                | TypeScript JSX |         39 |          0 |          3 |         42 |
+| /Applications/Myweb/MaiWeb-CN/src/app/user/page.tsx                                 | TypeScript JSX |        166 |          3 |         15 |        184 |
+| /Applications/Myweb/MaiWeb-CN/src/app/user/profile/page.tsx                         | TypeScript JSX |        626 |         32 |         62 |        720 |
+| /Applications/Myweb/MaiWeb-CN/src/docs/performance_optimization.md                  | Markdown       |        242 |          0 |         36 |        278 |
+| /Applications/Myweb/MaiWeb-CN/src/email/notion.html                                 | HTML           |        112 |          0 |         12 |        124 |
+| /Applications/Myweb/MaiWeb-CN/src/lib/utils.ts                                      | TypeScript     |          5 |          0 |          2 |          7 |
+| /Applications/Myweb/MaiWeb-CN/src/utils/need.tsx                                    | TypeScript JSX |         53 |         18 |          9 |         80 |
+| /Applications/Myweb/MaiWeb-CN/src/utils/request.tsx                                 | TypeScript JSX |         55 |          9 |         13 |         77 |
+| Total                                                                               |                |    113,761 |        749 |      1,127 |    115,637 |
++-------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

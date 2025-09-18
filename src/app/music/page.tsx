@@ -191,7 +191,6 @@ export default function MusicPage() {
       `}</style>
 
       {/*Top Search Options Bar*/}
-      <PageTransitionWrapper>
         <div id='filter-select' className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-24 text-black ">
           <Guide steps={steps} autoStart={true} mark={"musictour"} />
           <div className="border-4 relative border-white max-sm:w-[90%] bg-white rounded-2xl">
@@ -334,7 +333,6 @@ export default function MusicPage() {
             </div>
           </div>
         </div>
-      </PageTransitionWrapper>
     </>
   )
 }

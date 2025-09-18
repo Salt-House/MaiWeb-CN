@@ -204,7 +204,6 @@ export default function RegionPage() {
 
   return (
     <ErrorBoundary>
-      <PageTransitionWrapper>
         <div className="flex flex-col items-center p-8 max-sm:p-4 min-h-screen">
           <p className="text-3xl font-bold mb-8 max-sm:text-2xl max-sm:mb-6 text-white" style={textstroke}>区域</p>
 
@@ -264,7 +263,6 @@ export default function RegionPage() {
             </div>
           )}
         </div>
-      </PageTransitionWrapper>
     </ErrorBoundary>
   );
 }
