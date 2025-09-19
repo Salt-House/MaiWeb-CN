@@ -32,7 +32,7 @@ export default function AreaDetailPage({ params }: PageProps) {
     const [loading, setLoading] = useState(true);
     const [language, setLanguage] = useState("zh");
     const textstroke = {
-        textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
+        textShadow: '-2px -2px 4px rgba(236, 72, 153, 1), 2px -2px 4px rgba(236, 72, 153, 1), -2px 2px 2px rgba(236, 72, 153, 1), 2px 2px 2px rgba(236, 72, 153, 1)'
     };
     const baseurl = "https://assets2.lxns.net/maimai/jacket/";
 
@@ -103,7 +103,7 @@ export default function AreaDetailPage({ params }: PageProps) {
                         onClick={() => setLanguage('jp')}
                         className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-200 ${
                             language === 'jp'
-                                ? 'bg-white text-purple-600 shadow-sm'
+                                ? 'bg-white text-pink-600 shadow-sm'
                                 : 'text-white hover:bg-white/20'
                         }`}
                     >
@@ -113,7 +113,7 @@ export default function AreaDetailPage({ params }: PageProps) {
                         onClick={() => setLanguage('zh')}
                         className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-200 ${
                             language === 'zh'
-                                ? 'bg-white text-purple-600 shadow-sm'
+                                ? 'bg-white text-pink-600 shadow-sm'
                                 : 'text-white hover:bg-white/20'
                         }`}
                     >
@@ -143,11 +143,11 @@ export default function AreaDetailPage({ params }: PageProps) {
                         </div>
 
                         {/* 区域基本信息 */}
-                        <div className="bg-white/50 rounded-lg p-4 border-2 border-[rgb(155,244,236)] mb-6">
+                        <div className="bg-white/50 rounded-lg p-4 border-2 border-pink-300 mb-6">
                             <h2 className="text-xl font-bold mb-4 text-gray-800 border-b-2 border-gray-200 pb-2">区域基本信息</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="flex items-center">
-                                    <FaLocationDot className="text-purple-500 mr-2" />
+                                    <FaLocationDot className="text-pink-500 mr-2" />
                                     <span className="text-gray-700 font-medium">区域ID: </span>
                                     <span className="ml-2">{area.area_id}</span>
                                 </div>
@@ -162,13 +162,13 @@ export default function AreaDetailPage({ params }: PageProps) {
 
                         {/* 区域角色 */}
                         {area.characters?.length > 0 && (
-                            <div className="bg-white/50 rounded-lg p-4 border-2 border-[rgb(155,244,236)] mb-6">
+                            <div className="bg-white/50 rounded-lg p-4 border-2 border-pink-300 mb-6">
                                 <h2 className="text-xl font-bold mb-4 text-gray-800 border-b-2 border-gray-200 pb-2">区域角色</h2>
                                 <div className="grid grid-cols-1 gap-4">
                                     {area.characters.map((character, index) => (
                                         <div key={index} className="p-4 bg-white rounded-lg shadow hover:shadow-md transition-all duration-200">
                                             <div className="flex flex-col md:flex-row max-sm:items-center max-sm:text-center">
-                                                <div className="w-28 h-28 overflow-hidden rounded-lg border-2 border-purple-200 flex-shrink-0 mx-auto md:mx-0 mb-3 md:mb-0">
+                                                <div className="w-28 h-28 overflow-hidden rounded-lg border-2 border-pink-200 flex-shrink-0 mx-auto md:mx-0 mb-3 md:mb-0">
                                                     <img
                                                         src={`/img/chara/${area.area_id}/0${index + 1}.png`}
                                                         className="w-full h-full object-cover"
@@ -177,9 +177,9 @@ export default function AreaDetailPage({ params }: PageProps) {
                                                 </div>
                                                 <div className="md:ml-4 mt-3 md:mt-0 flex-grow">
                                                     <div className="flex flex-wrap items-center mb-2 max-sm:justify-center">
-                                                        <h3 className="font-bold text-lg text-purple-800 mr-2">{character.name}</h3>
+                                                        <h3 className="font-bold text-lg text-pink-800 mr-2">{character.name}</h3>
                                                         {character.team && (
-                                                            <span className="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded-full">
+                                                            <span className="bg-pink-100 text-pink-600 text-xs px-2 py-1 rounded-full">
                                                                 {character.team}
                                                             </span>
                                                         )}
@@ -215,7 +215,7 @@ export default function AreaDetailPage({ params }: PageProps) {
 
                         {/* 区域歌曲 */}
                         {area.songs?.length > 0 && (
-                            <div className="bg-white/50 rounded-lg p-4 border-2 border-[rgb(155,244,236)]">
+                            <div className="bg-white/50 rounded-lg p-4 border-2 border-pink-300">
                                 <h2 className="text-xl font-bold mb-4 text-gray-800 border-b-2 border-gray-200 pb-2">区域歌曲</h2>
                                 <div className="grid grid-cols-1 gap-3">
                                     {area.songs.map((song, index) => (
@@ -229,7 +229,7 @@ export default function AreaDetailPage({ params }: PageProps) {
                                                 </div>
                                                 {/* Only show link if song has an id */}
                                                 {song.song_id && (
-                                                    <Link href={`/music/${song.song_id}`} className="flex items-center text-blue-500 hover:text-blue-600 mt-2 sm:mt-0">
+                                                    <Link href={`/music/${song.song_id}`} className="flex items-center text-pink-500 hover:text-pink-600 mt-2 sm:mt-0">
                                                         <span className="text-sm mr-1">详情</span>
                                                         <FiExternalLink />
                                                     </Link>
@@ -253,7 +253,7 @@ export default function AreaDetailPage({ params }: PageProps) {
                     <div className="bg-white/80 backdrop-blur-md rounded-xl shadow-lg p-8 text-center">
                         <h2 className="text-xl font-medium text-gray-800 mb-3">未找到区域信息</h2>
                         <p className="text-gray-600 mb-4">无法找到名为 "{id}" 的区域数据，请稍后再试或检查区域名称。</p>
-                        <Link href="/region" className="inline-block px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition-colors">
+                        <Link href="/region" className="inline-block px-4 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition-colors">
                             返回区域列表
                         </Link>
                     </div>

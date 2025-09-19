@@ -10,7 +10,7 @@ export default function RoatatingCircle() {
 
     return (
         <>
-            <div className="relative mx-auto z-[1-] flex items-center justify-center h-screen">
+            <div className="relative mx-auto z-[1] flex items-center justify-center h-screen">
                 <div className="relative w-[1000px] h-[700px] flex items-center justify-center">
                     <motion.img
                         src="/img/circle/circle_white.png"
@@ -38,7 +38,7 @@ export default function RoatatingCircle() {
                     />
                     <motion.img
                         src="/img/circle/circle_yellow.png"
-                        className="absolute w-[900px] bottom-[-25px] right-[18px]"
+                        className="absolute w-[900px] sm:bottom-[-25px] sm:right-[18px]"
                         animate={{
                             rotateZ: [0, 15, -15, 0],
                             rotateY: [0, 10, -10, 0],
@@ -59,10 +59,9 @@ export default function RoatatingCircle() {
                     />
                     <motion.img
                         src="/img/circle/star_pink.png"
-                        className="absolute w-[200px] h-[200px]"
+                        className="absolute w-[200px] "
                         animate={{
                             y: [100, -50],
-                            opacity: [0, 1, 0]
                         }}
                         transition={{
                             duration: 6,

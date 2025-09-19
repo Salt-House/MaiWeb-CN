@@ -22,7 +22,7 @@ export default function TabNavigation({ activeTab, onTabChange }: TabNavigationP
 
     const getTabClass = (tabId: string) => {
         const baseClass = "px-6 py-3 rounded-lg font-medium transition-all duration-300 relative overflow-hidden"
-        const activeClass = "bg-purple-600 text-white shadow-lg"
+        const activeClass = "bg-pink-600 text-white shadow-lg"
         const inactiveClass = "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800"
         
         return `${baseClass} ${activeTab === tabId ? activeClass : inactiveClass}`
@@ -34,7 +34,7 @@ export default function TabNavigation({ activeTab, onTabChange }: TabNavigationP
 
     return (
         <motion.div 
-            className="mb-8 bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-purple-100"
+            className="mb-8 bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-pink-100"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
@@ -53,7 +53,7 @@ export default function TabNavigation({ activeTab, onTabChange }: TabNavigationP
                     >
                         {activeTab === tab.id && (
                             <motion.div
-                                className="absolute inset-0 bg-purple-600 rounded-lg"
+                                className="absolute inset-0 bg-pink-600 rounded-lg"
                                 layoutId="activeTab"
                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                             />

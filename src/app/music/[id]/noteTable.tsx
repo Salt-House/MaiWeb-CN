@@ -27,14 +27,14 @@ export default function NoteTable({ song, chartType }: { song: Song, chartType: 
     <div className="overflow-x-scroll">
       <table className="w-full text-black mt-4 border-collapse rounded-t-lg overflow-hidden shadow-md">
         <thead>
-          <tr className="bg-gradient-to-r from-blue-50 to-indigo-50">
-            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-blue-200">难度</th>
-            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-blue-200">Tap</th>
-            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-blue-200">Hold</th>
-            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-blue-200">Slide</th>
-            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-blue-200">Touch</th>
-            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-blue-200">Break</th>
-            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-blue-200">Total</th>
+          <tr className="bg-gradient-to-r from-pink-50 to-rose-50">
+            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-pink-200">难度</th>
+            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-pink-200">Tap</th>
+            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-pink-200">Hold</th>
+            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-pink-200">Slide</th>
+            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-pink-200">Touch</th>
+            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-pink-200">Break</th>
+            <th className="py-3 px-4 text-center text-sm font-medium text-gray-700 border-b-2 border-pink-200">Total</th>
           </tr>
         </thead>
         <tbody>

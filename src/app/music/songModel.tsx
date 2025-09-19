@@ -126,16 +126,16 @@ export function getGenreColor(genre: string): { bg: string, border: string } {
   const colors = {
     'POPSアニメ': { bg: 'rgb(255,200,0)', border: '#b38c00' },
     '流行&动漫': { bg: 'rgb(255,200,0)', border: '#b38c00' },
-    'niconicoボーカロイド': { bg: 'rgb(69,197,255)', border: 'rgb(0,108,196)' },
-    'niconico & VOCALOID': { bg: 'rgb(69,197,255)', border: 'rgb(0,108,196)' },
+    'niconicoボーカロイド': { bg: 'rgb(236,72,153)', border: 'rgb(190,24,93)' },
+    'niconico & VOCALOID': { bg: 'rgb(236,72,153)', border: 'rgb(190,24,93)' },
     '東方Project': { bg: 'rgb(159,54,227)', border: '#7f2bb6' },
     '东方Project': { bg: 'rgb(159,54,227)', border: '#7f2bb6' },
     'ゲームバラエティ': { bg: 'rgb(122,231,83)', border: '#62b942' },
     '其他游戏': { bg: 'rgb(122,231,83)', border: '#62b942' },
     'maimai': { bg: 'rgb(255,70,70)', border: '#802323' },
     '舞萌': { bg: 'rgb(255,70,70)', border: '#802323' },
-    'オンゲキCHUNITHM': { bg: 'rgb(48,157,248)', border: 'rgb(0,108,196)' },
-    '音击&中二节奏': { bg: 'rgb(48,157,248)', border: 'rgb(0,108,196)' },
+    'オンゲキCHUNITHM': { bg: 'rgb(236,72,153)', border: 'rgb(190,24,93)' },
+    '音击&中二节奏': { bg: 'rgb(236,72,153)', border: 'rgb(190,24,93)' },
     'utage': { bg: 'rgb(220,56,184)', border: 'rgb(179,46,121)' }
   }
   return colors[genre as keyof typeof colors] || { bg: 'rgb(255,200,0)', border: '#b38c00' }

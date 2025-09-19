@@ -23,7 +23,7 @@ export default function LoadMoreButton({ loadMore, isSearching }: LoadMoreButton
             <motion.button
                 onClick={loadMore}
                 disabled={isSearching}
-                className="px-8 py-3 bg-purple-600 text-white rounded-xl font-medium shadow-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300"
+                className="px-8 py-3 bg-pink-600 text-white rounded-xl font-medium shadow-lg hover:bg-pink-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
