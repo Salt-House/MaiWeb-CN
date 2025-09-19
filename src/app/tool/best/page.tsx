@@ -9,7 +9,10 @@ import { UserProfile } from "@/app/user/model";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import { Step } from "react-joyride";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import dynamic from 'next/dynamic';
+// 动态引入缩放组件，避免在其它页面提前加载大体积库
+const TransformWrapper = dynamic(() => import('react-zoom-pan-pinch').then(m => m.TransformWrapper), { ssr: false });
+const TransformComponent = dynamic(() => import('react-zoom-pan-pinch').then(m => m.TransformComponent), { ssr: false });
 
 // 定义MusicGradeProps接口
 interface MusicGradeProps {

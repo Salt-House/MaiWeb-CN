@@ -635,8 +635,6 @@ export default function UserProfilePage() {
   }, [accounts]);
 
   return (
-    <PageTransitionWrapper>
-
       <div className='w-[900px] max-sm:w-full min-h-[400px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center'>
         {userdata.username == "请刷新" ?
           <>
@@ -713,8 +711,6 @@ export default function UserProfilePage() {
             )}
           </>
         }
-
       </div>
-    </PageTransitionWrapper>
   );
 }

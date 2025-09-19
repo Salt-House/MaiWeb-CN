@@ -36,7 +36,7 @@ export default function SearchForm({
 }: SearchFormProps) {
     return (
         <motion.div
-            className="mb-6 bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-purple-100"
+            className="mb-6 bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-pink-100"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -63,7 +63,7 @@ export default function SearchForm({
                             value={searchTerm}
                             onChange={(e) => onSearchTermChange(e.target.value)}
                             placeholder="输入收藏品名称..."
-                            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
+                            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
                         />
                     </div>
 
@@ -75,7 +75,7 @@ export default function SearchForm({
                             <select
                                 value={searchColor}
                                 onChange={(e) => onSearchColorChange(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
+                                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
                             >
                                 {colorOptions.map((color) => (
                                     <option key={color} value={color}>
@@ -93,7 +93,7 @@ export default function SearchForm({
                         <select
                             value={searchGenre}
                             onChange={(e) => onSearchGenreChange(e.target.value)}
-                            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
+                            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
                         >
                             <option value="">全部类型</option>
                             {activeGenreOptions.map((genre) => (
@@ -114,7 +114,7 @@ export default function SearchForm({
                     <motion.button
                         type="submit"
                         disabled={isSearching}
-                        className="px-8 py-3 bg-purple-600 text-white rounded-lg font-medium shadow-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 flex items-center space-x-2"
+                        className="px-8 py-3 bg-pink-600 text-white rounded-lg font-medium shadow-lg hover:bg-pink-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 flex items-center space-x-2"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         transition={{ duration: 0.2 }}

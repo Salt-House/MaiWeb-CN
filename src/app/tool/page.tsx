@@ -24,7 +24,6 @@ export default function ToolPage() {
 
     return (
         <>
-            <PageTransitionWrapper>
                 <div className="max-sm:w-[90%] text-center w-[800px] h-[600px] mx-auto p-2 space-y-2 flex flex-col justify-center items-center">
                     <h1 className="text-3xl max-sm:text-2xl max-sm:mb-2 font-bold text-white" style={textstroke}>欢迎来到Maimai.moe 工具页面</h1>
                     <div className="flex max-sm:flex-col max-sm:space-y-5 sm:space-x-5 text-white">
@@ -39,7 +38,6 @@ export default function ToolPage() {
                         </div>
                     </div>
                 </div>
-            </PageTransitionWrapper>
         </>
     )
 }

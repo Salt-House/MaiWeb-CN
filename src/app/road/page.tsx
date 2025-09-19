@@ -99,7 +99,7 @@ export default function RoadPage(){
         <div className="min-h-screen py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-center items-center w-[60vw] mx-auto">
-                    <SvgStrokedText text="开发路线" width={300} height={200} letterSpacing={"2px"} fontSize={25} strokeColor="#ff00ff" ></SvgStrokedText>
+                    <SvgStrokedText text="开发路线" width={300} height={200} letterSpacing={"2px"} fontSize={25} strokeColor="#ec4899" ></SvgStrokedText>
                 </div>
                 <div className="space-y-8">
                     {isLoading ? (

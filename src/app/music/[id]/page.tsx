@@ -136,7 +136,7 @@ export default function SongDetail() {
   const audio_url = `https://assets2.lxns.net/maimai/music/${song?.id ?? params.id}.mp3`
 
   const textShadow = {
-    textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
+    textShadow: '-2px -2px 4px rgba(236, 72, 153, 1), 2px -2px 4px rgba(236, 72, 153, 1), -2px 2px 2px rgba(236, 72, 153, 1), 2px 2px 2px rgba(236, 72, 153, 1)'
   }
 
   if (loading) {
@@ -144,7 +144,7 @@ export default function SongDetail() {
       <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
         <div className="border-4 border-white rounded-2xl">
           <div
-            className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
+            className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-pink-300">
             <div className="container mx-auto p-4">
               <LoadingSpinner size='sm' message="加载中..." description="正在获取乐曲数据" />
             </div>
@@ -159,7 +159,7 @@ export default function SongDetail() {
       <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
         <div className="border-4 border-white rounded-2xl">
           <div
-            className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-[rgb(155,244,236)]">
+            className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-pink-300">
             <div className="container mx-auto p-4 text-black">
               <div>错误: {error || '未找到歌曲 QAQ'}</div>
             </div>
@@ -180,7 +180,7 @@ export default function SongDetail() {
         </Link>
       </div>
       <div className="border-4 max-sm:w-[90%] border-white bg-white rounded-2xl">
-        <div className="max-sm:w-full w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-[rgb(155,244,236)]">
+        <div className="max-sm:w-full w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-pink-300">
           <SongInfo song={song} />
 
           {/* 音乐播放器 */}
@@ -291,7 +291,7 @@ function SongInfo({ song }: { song: Song }) {
             song.aliases.map((alias, index) => (
               <span
                 key={index}
-                className="bg-[rgb(69,197,255)] text-white px-3 py-1 rounded-full text-sm font-medium shadow-sm"
+                className="bg-pink-400 text-white px-3 py-1 rounded-full text-sm font-medium shadow-sm"
               >
                 {alias}
               </span>
@@ -312,13 +312,13 @@ function NoteDetail({ song }: { song: Song }) {
       {song.difficulties?.standard?.length > 0 && (
         <>
           <div className="flex items-center">
-            <span className="w-16 max-sm:w-12 text-sm max-sm:text-xs text-white bg-blue-500 rounded-full py-1 mr-2">标准</span>
+            <span className="w-16 max-sm:w-12 text-sm max-sm:text-xs text-white bg-pink-500 rounded-full py-1 mr-2">标准</span>
             <div className="flex flex-wrap space-x-2 max-sm:space-x-1">
               {song.difficulties.standard.map((diff: { level_index: number; level: string, note_designer: string }, idx: Key | null | undefined) => (
                 <div className="flex items-end space-x-1 max-sm:mb-1">
                   <div
                     key={idx}
-                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-pink-300"
                     style={{
                       backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
                     }}
@@ -346,7 +346,7 @@ function NoteDetail({ song }: { song: Song }) {
                 <div className="flex items-end space-x-1 max-sm:mb-1">
                   <div
                     key={idx}
-                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-pink-300"
                     style={{
                       backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
                     }}
@@ -376,7 +376,7 @@ function NoteDetail({ song }: { song: Song }) {
                 <div className="flex items-end space-x-1 max-sm:mb-1">
                   <div
                     key={idx}
-                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-pink-300"
                     style={{
                       backgroundColor: "rgb(220, 56, 184)"
                     }}

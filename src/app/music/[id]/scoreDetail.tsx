@@ -163,7 +163,7 @@ export default function ScoreDetail({ song, scores }: { song: Song, scores?: Son
         <ScoreSection
           title="标准"
           scores={standardScores}
-          bgColor="bg-blue-500"
+          bgColor="bg-pink-500"
           chartType="standard"
           needBottomBorder={dxScores.length > 0}
           song={song}
@@ -253,7 +253,7 @@ function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder, son
               {/* 难度方块 */}
               <div className="mr-4">
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-pink-300"
                   style={{
                     backgroundColor: getDifficultyColor(score.level_index)
                   }}

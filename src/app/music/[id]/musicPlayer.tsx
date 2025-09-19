@@ -332,7 +332,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
   const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-md p-3 flex flex-col md:flex-row md:items-center md:space-x-4 space-y-3 md:space-y-0 border-2 border-[rgb(155,244,236)]">
+    <div className="w-full bg-white rounded-lg shadow-md p-3 flex flex-col md:flex-row md:items-center md:space-x-4 space-y-3 md:space-y-0 border-2 border-pink-300">
       {/* 移动端进度条 */}
       <div className="w-full md:hidden my-2">
         <div className="flex items-center space-x-4">
@@ -343,13 +343,13 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
             onClick={handleProgressChange}
           >
             <div
-              className="absolute top-0 left-0 h-full bg-[rgb(69,197,255)] rounded-full"
+              className="absolute top-0 left-0 h-full bg-pink-400 rounded-full"
               style={{ width: `${progressPercentage}%` }}
             ></div>
 
             <div
               ref={progressKnobRef}
-              className="absolute top-1/2 w-4 h-4 bg-white border-2 border-[rgb(69,197,255)] rounded-full transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
+              className="absolute top-1/2 w-4 h-4 bg-white border-2 border-pink-400 rounded-full transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
               style={{
                 left: `${progressPercentage}%`,
                 transform: 'translate(-50%, -50%)'
@@ -369,7 +369,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
           {/* 播放/暂停按钮 - 始终居左 */}
           <button
             onClick={handleTogglePlay}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-[rgb(69,197,255)] text-white hover:bg-[rgb(55,180,235)] transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-pink-400 text-white hover:bg-pink-500 transition-colors"
           >
             {displayIsPlaying ? <FaPause /> : <FaPlay className="ml-1" />}
           </button>
@@ -385,13 +385,13 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
               onClick={handleProgressChange}
             >
               <div
-                className="absolute top-0 left-0 h-full bg-[rgb(69,197,255)] rounded-full"
+                className="absolute top-0 left-0 h-full bg-pink-400 rounded-full"
                 style={{ width: `${progressPercentage}%` }}
               ></div>
 
               <div
                 ref={progressKnobRef}
-                className="absolute top-1/2 w-4 h-4 bg-white border-2 border-[rgb(69,197,255)] rounded-full transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
+                className="absolute top-1/2 w-4 h-4 bg-white border-2 border-pink-400 rounded-full transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
                 style={{
                   left: `${progressPercentage}%`,
                   transform: 'translate(-50%, -50%)'
@@ -418,7 +418,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
           {/* 添加到播放列表按钮 */}
           <button
             onClick={handleAddToPlaylist}
-            className={`w-8 h-8 flex items-center justify-center rounded-full text-white transition-colors ${isAddedToPlaylist ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
+            className={`w-8 h-8 flex items-center justify-center rounded-full text-white transition-colors ${isAddedToPlaylist ? 'bg-green-400 hover:bg-green-500' : 'bg-pink-500 hover:bg-pink-600'}`}
             title="添加到播放列表"
           >
             {isAddedToPlaylist ? <FaCheck /> : <FaPlus />}
@@ -443,13 +443,13 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
                     onClick={handleVolumeChange}
                   >
                     <div
-                      className="absolute bottom-0 left-0 w-full bg-[rgb(69,197,255)] rounded-full"
+                      className="absolute bottom-0 left-0 w-full bg-pink-400 rounded-full"
                       style={{ height: `${globalVolume * 100}%` }}
                     ></div>
 
                     <div
                       ref={volumeKnobRef}
-                      className="absolute w-4 h-4 bg-white border-2 border-[rgb(69,197,255)] rounded-full -left-1.5 transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
+                      className="absolute w-4 h-4 bg-white border-2 border-pink-400 rounded-full -left-1.5 transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
                       style={{ bottom: `${globalVolume * 100}%`, transform: 'translateY(50%)' }}
                       onMouseDown={startVolumeDrag}
                       onMouseOver={() => volumeKnobRef.current?.classList.add('scale-110')}
@@ -466,12 +466,12 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
                     onClick={handleMobileVolumeChange}
                   >
                     <div
-                      className="absolute top-0 left-0 h-full bg-[rgb(69,197,255)] rounded-full"
+                      className="absolute top-0 left-0 h-full bg-pink-400 rounded-full"
                       style={{ width: `${globalVolume * 100}%` }}
                     ></div>
 
                     <div
-                      className="absolute top-1/2 w-4 h-4 bg-white border-2 border-[rgb(69,197,255)] rounded-full transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
+                      className="absolute top-1/2 w-4 h-4 bg-white border-2 border-pink-400 rounded-full transform -translate-y-1/2 cursor-grab shadow-md hover:scale-110 transition-transform"
                       style={{ left: `${globalVolume * 100}%`, transform: 'translate(-50%, -50%)' }}
                       onMouseDown={startMobileVolumeDrag}
                     ></div>

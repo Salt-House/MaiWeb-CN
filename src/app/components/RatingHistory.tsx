@@ -1,4 +1,5 @@
-import * as echarts from 'echarts';
+// 动态按需加载 echarts，减小首屏 bundle
+import type * as EChartsType from 'echarts';
 import { useEffect, useState, useRef } from "react";
 import { UserHistorySub } from "../user/model";
 
@@ -6,7 +7,8 @@ export default function RatingHistory() {
     const [token, setToken] = useState<string | null>(null);
     const [ratingHistory, setRatingHistory] = useState<UserHistorySub[]>([]);
     const chartRef = useRef<HTMLDivElement>(null);
-    const chartInstance = useRef<echarts.ECharts | null>(null);
+    const chartInstance = useRef<EChartsType.ECharts | null>(null);
+    const echartsModuleRef = useRef<typeof import('echarts') | null>(null);
 
     const GetHistory = () => {
         const myHeaders = new Headers();
@@ -74,14 +76,23 @@ export default function RatingHistory() {
             return;
         }
 
-        // 如果已经存在实例，先销毁
-        if (chartInstance.current) {
-            chartInstance.current.dispose();
-        }
+        // 动态加载 echarts 并初始化
+        (async () => {
+            if (!echartsModuleRef.current) {
+                echartsModuleRef.current = await import('echarts');
+            }
+            const echarts = echartsModuleRef.current;
+            if (chartInstance.current) {
+                chartInstance.current.dispose();
+            }
+            chartInstance.current = echarts.init(chartRef.current!);
+            chartInstance.current.resize();
 
-        // 初始化图表并确保有明确的尺寸
-        chartInstance.current = echarts.init(chartRef.current);
-        chartInstance.current.resize();
+            // 数据加载完成后更新图表
+            if (ratingHistory.length > 0) {
+                updateChart();
+            }
+        })();
 
         // 窗口大小变化时重新调整图表大小
         const handleResize = () => {
@@ -89,10 +100,7 @@ export default function RatingHistory() {
         };
         window.addEventListener('resize', handleResize);
 
-        // 数据加载完成后更新图表
-        if (ratingHistory.length > 0) {
-            updateChart();
-        }
+        // 数据加载完成后更新图表放到动态加载回调中
 
         // 清理函数
         return () => {

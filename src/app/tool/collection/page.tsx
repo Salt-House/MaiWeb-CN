@@ -79,6 +79,7 @@ export default function CollectionPage() {
         url: string;
         name: string;
         type: string;
+        collection_id?: string;
     } | null>(null);
 
     // 获取条件 "icon", "frame", "plate", "trophy"
@@ -145,7 +146,8 @@ export default function CollectionPage() {
         setPreviewImage({
             url: imageUrl,
             name: item.name,
-            type: type
+            type: type,
+            collection_id: item.collection_id
         });
     };
 
@@ -331,15 +333,15 @@ export default function CollectionPage() {
     // 高亮选中的Tab
     const getTabClass = (tabName: string) => {
         return `px-4 py-2 font-medium text-sm transition-colors duration-200 ${activeTab === tabName
-            ? "bg-purple-600 text-white rounded-lg shadow-md"
-            : "text-gray-600 hover:text-purple-600 hover:bg-purple-100 rounded-lg"
+            ? "bg-pink-600 text-white rounded-lg shadow-md"
+            : "text-gray-600 hover:text-pink-600 hover:bg-pink-100 rounded-lg"
             }`;
     };
 
 
     return (
         <div className="container mx-auto py-8 px-4">
-            <SvgStrokedText text="收藏品展示" height={100} strokeColor={"#a078e4"} strokeWidth={10} />
+            <SvgStrokedText text="收藏品展示" height={100} strokeColor={"#ec4899"} strokeWidth={10} />
 
             {/* Tab导航 */}
             <TabNavigation 
@@ -364,7 +366,7 @@ export default function CollectionPage() {
 
             {/* 内容区域 */}
             <motion.div 
-                className="bg-purple-50 rounded-lg p-6 shadow-lg border border-purple-200"
+                className="bg-pink-50 rounded-lg p-6 shadow-lg border border-pink-200"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
@@ -379,7 +381,7 @@ export default function CollectionPage() {
                             transition={{ duration: 0.2 }}
                         >
                             <motion.h2 
-                                className="text-xl font-bold text-center mb-6 text-purple-800 border-b-2 border-purple-300 pb-3"
+                                className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.1 }}
@@ -433,7 +435,7 @@ export default function CollectionPage() {
                             transition={{ duration: 0.2 }}
                         >
                             <motion.h2 
-                                className="text-xl font-bold text-center mb-6 text-purple-800 border-b-2 border-purple-300 pb-3"
+                                className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.1 }}
@@ -486,7 +488,7 @@ export default function CollectionPage() {
                             transition={{ duration: 0.2 }}
                         >
                             <motion.h2 
-                                className="text-xl font-bold text-center mb-6 text-purple-800 border-b-2 border-purple-300 pb-3"
+                                className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.1 }}
@@ -540,7 +542,7 @@ export default function CollectionPage() {
                             transition={{ duration: 0.2 }}
                         >
                             <motion.h2 
-                                className="text-xl font-bold text-center mb-6 text-purple-800 border-b-2 border-purple-300 pb-3"
+                                className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.1 }}

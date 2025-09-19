@@ -48,15 +48,15 @@ export default function SongList({ songs, currentCategory = '最近添加', ordi
         <div className="text-lg font-medium max-sm:mb-3 text-black">
           当前分类：{currentCategory}
         </div>
-        <div className="flex bg-[rgb(158,175,238)] p-1 rounded-full overflow-hidden w-64 max-sm:w-40 max-sm:mb-5 max-sm:h-9">
+        <div className="flex bg-pink-300 p-1 rounded-full overflow-hidden w-64 max-sm:w-40 max-sm:mb-5 max-sm:h-9">
           <button
-            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === 'level' ? 'bg-white shadow-md text-[rgb(158,175,238)] font-medium' : 'text-white'}`}
+            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === 'level' ? 'bg-white shadow-md text-pink-500 font-medium' : 'text-white'}`}
             onClick={() => setDisplayMode('level')}
           >
             等级
           </button>
           <button
-            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === 'level_value' ? 'bg-white shadow-md text-[rgb(158,175,238)] font-medium' : 'text-white'}`}
+            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === 'level_value' ? 'bg-white shadow-md text-pink-500 font-medium' : 'text-white'}`}
             onClick={() => setDisplayMode('level_value')}
           >
             定数
@@ -117,14 +117,14 @@ export default function SongList({ songs, currentCategory = '最近添加', ordi
                         {/* Standard谱面 */}
                         {song.difficulties.standard.length > 0 && (
                           <div className="flex items-center">
-                            <span className="w-16 max-sm:w-12 max-sm:text-xs text-sm text-white bg-blue-500 rounded-full py-1 mr-2 max-sm:mr-1">标准</span>
+                            <span className="w-16 max-sm:w-12 max-sm:text-xs text-sm text-white bg-pink-500 rounded-full py-1 mr-2 max-sm:mr-1">标准</span>
                             <div className="flex space-x-2 max-sm:space-x-1">
                               {song.difficulties.standard.map((diff, idx) => (
                                 <>
                                   <div key={idx} className='flex flex-col'>
                                     <div
                                       key={idx}
-                                      className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                                      className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-pink-300"
                                       style={{
                                         backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
                                       }}
@@ -147,7 +147,7 @@ export default function SongList({ songs, currentCategory = '最近添加', ordi
                                 <>
                                   <div key={idx} className='flex flex-col'>
                                     <div
-                                      className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                                      className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-pink-300"
                                       style={{
                                         backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
                                       }}
@@ -171,7 +171,7 @@ export default function SongList({ songs, currentCategory = '最近添加', ordi
                               {song.difficulties.utage.map((diff, idx) => (
                                 <div
                                   key={idx}
-                                  className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                                  className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-pink-300"
                                   style={{
                                     backgroundColor: "rgb(220, 56, 184)"
                                   }}
@@ -194,7 +194,7 @@ export default function SongList({ songs, currentCategory = '最近添加', ordi
               <button
                 id='addMusicPlay'
                 onClick={() => handleAddToPlaylist(song)}
-                className={`absolute max-sm:-left-1 max-sm:-top-1 left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full text-white hover:bg-[rgb(135,70,193)] transition-colors ${addedSongs[song.id] ? 'bg-green-400 hover:bg-green-500' : 'bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]'}`}
+                className={`absolute max-sm:-left-1 max-sm:-top-1 left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full text-white hover:bg-pink-600 transition-colors ${addedSongs[song.id] ? 'bg-green-400 hover:bg-green-500' : 'bg-pink-500 hover:bg-pink-600'}`}
                 title="添加到播放列表"
               >
                 {addedSongs[song.id] ? <FaCheck /> : <FaPlus />}

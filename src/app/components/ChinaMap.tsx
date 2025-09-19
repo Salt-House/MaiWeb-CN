@@ -90,7 +90,7 @@ const ChinaMap = () => {
         text: ["高", "低"],
         calculable: true,
         inRange: {
-          color: ["#e0ffff", "#006edd"], // 渐变色
+          color: ["#fce7f3", "#ec4899"], // 粉色主题
         },
       },
       series: [
@@ -113,7 +113,7 @@ const ChinaMap = () => {
               show: true, // 悬停时显示省份名称
             },
             itemStyle: {
-              areaColor: "rgb(239, 246, 255)", // 悬停时区域的颜色
+              areaColor: "rgb(253, 242, 248)", // 悬停时区域的颜色
             },
           },
           // data: chinaGeoJson.features.map(feature => ({
@@ -180,7 +180,7 @@ const ChinaMap = () => {
         text: ["高", "低"],
         calculable: true,
         inRange: {
-          color: ["#e0ffff", "#006edd"], // 渐变色
+          color: ["#fce7f3", "#ec4899"], // 粉色主题
         },
       },
       series: [
@@ -199,7 +199,7 @@ const ChinaMap = () => {
               show: true, // 悬停时显示省份名称
             },
             itemStyle: {
-              areaColor: "rgb(239, 246, 255)", // 悬停时区域的颜色
+              areaColor: "rgb(253, 242, 248)", // 悬停时区域的颜色
             },
           },
           // data: chinaGeoJson.features.map(feature => ({
