@@ -11,7 +11,7 @@ import MobileNavigation from "./components/Navigation";
 import Notice from "./components/Notice";
 import PageTransition from "./components/PageTransitionWrapper";
 import Image from "next/image";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 import RoatatingCircle from "@/app/components/circle/RoatatingCircle";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -61,8 +61,8 @@ function StarMove({ count = 5 }) {
 }
 
 export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+    children,
+}: Readonly<{
     children: React.ReactNode;
 }>) {
     const textstroke = {
@@ -75,22 +75,22 @@ export default function RootLayout({
 
     return (
         <html lang="en">
-        <head>
-            <link
-                rel="stylesheet"
-                href="https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css"
-            />
-        </head>
-        <body className="font-douyin">
-        <PlayerProvider>
-            <ClientLayout textstroke={textstroke} textDonate={textDonate}>
-                <Link href={'/qa/feedback'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8">
-                    <img src="/img/feedback.png" className="hover:scale-105 size-12 transition-all duration-300 ease-in-out max-sm:w-10" alt="" />
-                    <h1 className="text-white font-bold max-sm:text-sm" style={textDonate}>意见反馈</h1>
-                </Link>
+            <head>
+                <link
+                    rel="stylesheet"
+                    href="https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css"
+                />
+            </head>
+            <body className="font-douyin">
+                <PlayerProvider>
+                    <ClientLayout textstroke={textstroke} textDonate={textDonate}>
+                        <Link href={'/qa/feedback'} className="fixed z-[5] bottom-5 right-5 flex flex-col justify-center items-center hover:cursor-pointer transition-all duration-300 hover:bottom-8">
+                            <img src="/img/feedback.png" className="hover:scale-105 size-12 transition-all duration-300 ease-in-out max-sm:w-10" alt="" />
+                            <h1 className="text-white font-bold max-sm:text-sm" style={textDonate}>意见反馈</h1>
+                        </Link>
 
-                {/* BackGround Layer */}
-                {/* <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-1] bg-[url('/img/bg_shines.png')]">
+                        {/* BackGround Layer */}
+                        {/* <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-1] bg-[url('/img/bg_shines.png')]">
             </div>
             <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-2]">
               <div className="w-[10px] h-[200px]">
@@ -108,104 +108,124 @@ export default function RootLayout({
             <StarMove />
             <div className="fixed w-full max-sm:w-full h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div> */}
 
-                <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-1] bg-cover">
-                    <div className="fixed w-full h-full z-[-2]">
-                        <Image
-                            src="/img/circle/bottom_left.png"
-                            alt=""
-                            width={300}
-                            height={300}
-                            className="absolute bottom-0 left-0 object-contain"
-                        />
-                        <Image
-                            src="/img/circle/bottom_right_PhotoGrid.png"
-                            alt=""
-                            width={900}
-                            height={900}
-                            className="absolute bottom-0 right-0 object-contain"
-                        />
-                        <Image
-                            src="/img/circle/top_left_PhotoGrid.png"
-                            alt=""
-                            width={900}
-                            height={900}
-                            className="absolute top-0 left-0 object-contain"
-                        />
-                        <Image
-                            src="/img/circle/top_right.png"
-                            alt=""
-                            width={300}
-                            height={300}
-                            className="absolute top-0 right-0 object-contain"
-                        />
-                        <div className={`top-[25vh]`}>
-                            <RoatatingCircle/>
+                        <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-1] bg-cover">
+                            <div className="fixed w-full h-full z-[-2]">
+                                <Image
+                                    src="/img/circle/bottom_left.png"
+                                    alt=""
+                                    width={300}
+                                    height={300}
+                                    className="absolute bottom-0 z-[50] left-0 object-contain"
+                                />
+                                <Image
+                                    src="/img/circle/bottom_right_PhotoGrid.png"
+                                    alt=""
+                                    width={900}
+                                    height={900}
+                                    className="absolute bottom-0 z-[50] right-0 object-contain"
+                                />
+                                <Image
+                                    src="/img/circle/top_left_PhotoGrid.png"
+                                    alt=""
+                                    width={900}
+                                    height={900}
+                                    className="absolute top-0 z-[50] left-0 object-contain"
+                                />
+                                <Image
+                                    src="/img/circle/top_right.png"
+                                    alt=""
+                                    width={300}
+                                    height={300}
+                                    className="absolute top-0 z-[50] right-0 object-contain"
+                                />
+                                <RoatatingCircle />
+
+                                <Image
+                                    src="/img/bg_pattern.png"
+                                    alt=""
+                                    className="absolute top-0 left-0 w-full h-full object-cover z-[-3]"
+                                    width={1920}
+                                    height={1080}
+                                />
+
+                                <Image
+                                    src="/img/circle/chara-left.png"
+                                    alt=""
+                                    width={350}
+                                    height={350}
+                                    className="absolute top-1/2 left-56 transform -translate-x-1/2 -translate-y-1/2 z-[50]"
+                                />
+                                <Image
+                                    src="/img/circle/chara-right.png"
+                                    alt=""
+                                    width={350}
+                                    height={350}
+                                    className="absolute top-1/2 right-0 transform -translate-y-1/2 z-[50]"
+                                />
+                            </div>
                         </div>
 
-                    </div>
-                </div>
-
-                {/* 使用新的客户端导航组件 */}
-                <MobileNavigation textstroke={textstroke} />
-                {/* 页面内容 */}
-                <PageTransition>
-                    {children}
-                </PageTransition>
-                {/* 底部鸣谢 */}
-                <div className=" overflow-x-auto ">
-                    {/* thanks */}
-                    <div className="mt-10 max-sm:min-w-[600px] flex flex-col justify-center items-center h-64 max-sm:bg-none bg-[url('/img/bg_pc.png')]  bg-contain text-center">
-                        <div className="w-28 h-12 text-2xl text-black font-bold">
-                            鸣谢
-                        </div>
-                        {/* First row */}
-                        <div className="mb-5 flex flex-row justify-center space-x-5">
-                            <a href="https://chinese-font.netlify.app/zh-cn/">
-                                <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/WebChineseFontsPlan.png')] bg-no-repeat bg-contain"></div>
-                            </a>
-                            <a href="https://turou.fun">
-                                <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/UsaginoNiku.png')] bg-no-repeat bg-contain bg-center"></div>
-                            </a>
-                            <a href="https://www.diving-fish.com/maimaidx/prober/">
-                                <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/Divingfish.png')] bg-no-repeat bg-contain bg-center"></div>
-                            </a>
-
-                        </div>
-                        {/* Second row */}
-                        <div className="flex flex-row justify-center space-x-5 ">
-                            <a href="https://maimai.lxns.net">
-                                <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/Lxns.png')] bg-no-repeat bg-contain bg-center"></div>
-                            </a>
-                            <a href="https://github.com/120MF/MaiMap">
-                                <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/Maimap.png')] bg-no-repeat bg-contain bg-center"></div>
-                            </a>
-                            <a href="https://github.com/Salt-House/MaiWeb-CN" className="group">
-                                <div className="w-48 h-16 bg-gradient-to-r from-purple-500/90 to-pink-500/90 flex items-center justify-center rounded-lg shadow-md border-2 border-white/20 transition-transform group-hover:scale-105">
-                                    <div className="flex items-center space-x-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" className="group-hover:animate-pulse">
-                                            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-                                        </svg>
-                                        <span className="text-white font-bold">请给我们点个⭐</span>
-                                    </div>
+                        {/* 使用新的客户端导航组件 */}
+                        <MobileNavigation textstroke={textstroke} />
+                        {/* 页面内容 */}
+                        <PageTransition>
+                            {children}
+                        </PageTransition>
+                        {/* 底部鸣谢 */}
+                        <div className=" overflow-x-auto ">
+                            {/* thanks */}
+                            <div className="mt-10 max-sm:min-w-[600px] flex flex-col justify-center items-center h-64 max-sm:bg-none bg-[url('/img/bg_pc.png')]  bg-contain text-center">
+                                <div className="w-28 h-12 text-2xl text-black font-bold">
+                                    鸣谢
                                 </div>
-                            </a>
+                                {/* First row */}
+                                <div className="mb-5 flex flex-row justify-center space-x-5">
+                                    <a href="https://chinese-font.netlify.app/zh-cn/">
+                                        <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/WebChineseFontsPlan.png')] bg-no-repeat bg-contain"></div>
+                                    </a>
+                                    <a href="https://turou.fun">
+                                        <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/UsaginoNiku.png')] bg-no-repeat bg-contain bg-center"></div>
+                                    </a>
+                                    <a href="https://www.diving-fish.com/maimaidx/prober/">
+                                        <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/Divingfish.png')] bg-no-repeat bg-contain bg-center"></div>
+                                    </a>
+
+                                </div>
+                                {/* Second row */}
+                                <div className="flex flex-row justify-center space-x-5 ">
+                                    <a href="https://maimai.lxns.net">
+                                        <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/Lxns.png')] bg-no-repeat bg-contain bg-center"></div>
+                                    </a>
+                                    <a href="https://github.com/120MF/MaiMap">
+                                        <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/Maimap.png')] bg-no-repeat bg-contain bg-center"></div>
+                                    </a>
+                                    <a href="https://github.com/Salt-House/MaiWeb-CN" className="group">
+                                        <div className="w-48 h-16 bg-gradient-to-r from-purple-500/90 to-pink-500/90 flex items-center justify-center rounded-lg shadow-md border-2 border-white/20 transition-transform group-hover:scale-105">
+                                            <div className="flex items-center space-x-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" className="group-hover:animate-pulse">
+                                                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                                                </svg>
+                                                <span className="text-white font-bold">请给我们点个⭐</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div className="text-black my-2">
+                                    © 2024 Salt House. All rights reserved.
+                                </div>
+                            </div>
                         </div>
-                        <div className="text-black my-2">
-                            © 2024 Salt House. All rights reserved.
-                        </div>
-                    </div>
-                </div>
-                <Link href={"/"} className="top-4 left-4 size-40 max-sm:hidden">
-                    <div className="fixed top-2 left-14 size-40 flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
-                        <img src="/img/circle/logo.png" className="scale-125" alt="" />
-                    </div>
-                </Link>
-                <UserLogin />
-                <GlobalPlayer />
-            </ClientLayout>
-        </PlayerProvider>
-        <Notice type="warning" />
-        </body>
+                        <Link href={"/"} className="top-4 left-4 size-40 max-sm:hidden">
+                            <div className="fixed top-2 left-14 size-40 flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
+                                <img src="/img/circle/logo.png" className="scale-125" alt="" />
+                            </div>
+                        </Link>
+                        <UserLogin />
+                        <GlobalPlayer />
+                    </ClientLayout>
+                </PlayerProvider>
+                <Notice type="warning" />
+            </body>
         </html >
     );
 }
