@@ -17,6 +17,7 @@
     "dom-to-image": "^2.6.0",
     "echarts": "^5.6.0",
     "framer-motion": "^12.23.6",
+    "jotai": "^2.14.0",
     "next": "^14.2.28",
     "react": "^18",
     "react-dom": "^18",
