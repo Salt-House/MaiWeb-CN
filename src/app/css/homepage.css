@@ -122,7 +122,7 @@
   position: absolute;
   inset: -3px;
   border-radius: 9999px; /* 与 rounded-full 保持一致 */
-  border: 2px solid #fbcfe8; /* Tailwind pink-200 */
+  border: 3px solid #fbcfe8; /* Tailwind pink-200 */
   box-shadow: 0 2px 8px rgba(236, 72, 153, 0.25); /* 粉色系柔和阴影 */
   pointer-events: none;
 }

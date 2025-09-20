@@ -17,7 +17,7 @@ export default function SongList({ songs, currentCategory = '最近添加', ordi
 
   return (
     <div className="flex-col w-full max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
-      <div className="flex max-sm:flex-col max-sm:items-start justify-between items-center mb-6 px-4 max-sm:px-1">
+      <div className="flex max-sm:flex-col max-sm:items-start justify-center items-center mb-6 px-4 max-sm:px-1">
         <div className="text-lg font-medium max-sm:mb-3 text-black">
           当前分类：{currentCategory}
         </div>
@@ -37,21 +37,24 @@ export default function SongList({ songs, currentCategory = '最近添加', ordi
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center items-center py-10">
-          <LoadingSpinner size='sm' message="加载中..." description="正在获取乐曲数据" />
-        </div>
-      ) : (
-        songs.map((song, index) => (
-          <SongItem
-            key={`${song.id}-${index}`}
-            song={song}
-            index={index}
-            totalSongs={songs.length}
-            displayMode={displayMode}
-          />
-        ))
-      )}
+      <div className='w-full flex flex-wrap justify-center items-center'>
+        {loading ? (
+          <div className="flex justify-center items-center py-10">
+            <LoadingSpinner size='sm' message="加载中..." description="正在获取乐曲数据" />
+          </div>
+        ) : (
+          songs.map((song, index) => (
+            <SongItem
+              key={`${song.id}-${index}`}
+              song={song}
+              index={index}
+              totalSongs={songs.length}
+              displayMode={displayMode}
+            />
+          ))
+        )}
+      </div>
+
     </div >
   )
 }
