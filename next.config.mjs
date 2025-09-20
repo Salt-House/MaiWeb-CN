@@ -1,3 +1,5 @@
+import bundleAnalyzer from '@next/bundle-analyzer'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: false,
@@ -20,4 +22,9 @@ const nextConfig = {
     },
 };
 
-export default nextConfig;
+// 使用环境变量控制是否启用打包分析
+const withBundleAnalyzer = bundleAnalyzer({
+    enabled: process.env.ANALYZE === 'true',
+})
+
+export default withBundleAnalyzer(nextConfig);
