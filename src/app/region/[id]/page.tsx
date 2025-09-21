@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Area } from "../page";
 import type { AreaCharacters, AreaSong } from "../page";
 import Link from "next/link";
-import { FaArrowLeft, FaLocationDot, FaLanguage } from "react-icons/fa6";
+import { FaArrowLeft, FaLocationDot, FaLanguage, FaCircleInfo, FaMusic, FaUsers } from "react-icons/fa6";
 import { FiExternalLink } from "react-icons/fi";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 
@@ -81,132 +81,209 @@ export default function AreaDetailPage({ params }: PageProps) {
     }, []);
 
     return (
-        <div className="relative w-full max-w-[900px] h-auto mx-auto py-10 px-4 flex flex-col items-center max-sm:py-6 overflow-x-hidden">
-            {/* 背景装饰 */}
-            <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1]">
-                <div className="opacity-25">
-                    <div className="w-full h-[200px] bg-[url('/img/bg_shines.png')] bg-no-repeat bg-contain bg-center"></div>
-                </div>
+        <div className="relative w-full min-h-screen  mx-auto flex flex-col items-center overflow-x-hidden">
+            {/* 背景装饰元素 */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1] pointer-events-none">
+                <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-pink-200/20 rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+                <div className="absolute top-1/3 right-1/3 w-48 h-48 bg-blue-200/15 rounded-full blur-2xl animate-pulse delay-2000"></div>
             </div>
 
-            {/* 返回按钮 */}
-            <Link href="/region" className="absolute top-4 left-4 flex items-center text-white transition-colors group max-sm:text-sm">
-                <FaArrowLeft className="mr-1 group-hover:animate-pulse" />
-                <span className="text-2xl font-medium max-sm:text-lg" style={textstroke}>返回区域列表</span>
-            </Link>
+            {/* 顶部导航栏 */}
+            <div className="w-full  border-b border-pink-200/50 sticky top-0 z-50">
+                <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+                    {/* 返回按钮 */}
+                    <Link 
+                        href="/region" 
+                        className="flex items-center text-pink-600 hover:text-pink-700 transition-all duration-200 group"
+                    >
+                        <FaArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" />
+                        <span className="font-medium text-lg max-sm:text-base">返回区域列表</span>
+                    </Link>
 
-            {/* 语言切换按钮 */}
-            <div className="absolute top-4 right-4 flex items-center space-x-2">
-                <FaLanguage className="text-white text-xl" style={textstroke} />
-                <div className="flex bg-white/20 backdrop-blur-sm rounded-lg p-1 border border-white/30">
-                    <button
-                        onClick={() => setLanguage('jp')}
-                        className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-200 ${
-                            language === 'jp'
-                                ? 'bg-white text-pink-600 shadow-sm'
-                                : 'text-white hover:bg-white/20'
-                        }`}
-                    >
-                        日本語
-                    </button>
-                    <button
-                        onClick={() => setLanguage('zh')}
-                        className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-200 ${
-                            language === 'zh'
-                                ? 'bg-white text-pink-600 shadow-sm'
-                                : 'text-white hover:bg-white/20'
-                        }`}
-                    >
-                        中文
-                    </button>
+                    {/* 语言切换 */}
+                    <div className="flex items-center space-x-3">
+                        <FaLanguage className="text-pink-600 text-lg" />
+                        <div className="flex bg-white/80 backdrop-blur-sm rounded-lg p-1 border border-pink-200 shadow-sm">
+                            <button
+                                onClick={() => setLanguage('jp')}
+                                className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-200 ${
+                                    language === 'jp'
+                                        ? 'bg-pink-500 text-white shadow-md'
+                                        : 'text-gray-600 hover:bg-pink-100/50'
+                                }`}
+                            >
+                                日本語
+                            </button>
+                            <button
+                                onClick={() => setLanguage('zh')}
+                                className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-200 ${
+                                    language === 'zh'
+                                        ? 'bg-pink-500 text-white shadow-md'
+                                        : 'text-gray-600 hover:bg-pink-100/50'
+                                }`}
+                            >
+                                中文
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             {/* 主内容区域 */}
-            <div className="w-full max-w-[900px] mx-auto mt-10 max-sm:mt-6">
+            <div className="w-full max-w-6xl mx-auto px-4 py-8 flex-1">
                 {loading ? (
-                    <LoadingSpinner size="md" />
+                    <div className="flex justify-center items-center min-h-[400px]">
+                        <LoadingSpinner size="lg" />
+                    </div>
                 ) : area ? (
-                    <div className="rounded-xl p-6 transition-all duration-300">
-                        {/* 标题 */}
-                        <div className="flex flex-col mb-5 items-center">
-                            <h1 className="text-white w-full text-center whitespace-nowrap font-bold text-2xl max-sm:text-xl" style={textstroke}>
+                    <div className="space-y-8">
+                        {/* 区域标题和图片 */}
+                        <div className="text-center space-y-6">
+                            <div className="inline-flex items-center rounded-full px-6 py-2 border border-pink-200 shadow-sm">
+                                <FaLocationDot className="text-pink-500 mr-2" />
+                                <span className="text-sm text-gray-600">区域ID: {area.area_id}</span>
+                            </div>
+                            
+                            <h1 className="text-4xl font-bold text-gray-800 max-sm:text-2xl" style={textstroke}>
                                 {area.name}
                             </h1>
-                            <div className="relative w-full flex justify-center items-center my-4">
+                            
+                            <div className="relative">
                                 <img
                                     src={`/img/version/${area.area_id}.png`}
-                                    className="w-80 h-80 object-contain animate-floatUpDown transition-all duration-300 ease-in-out max-sm:w-52 max-sm:h-52"
+                                    className="w-96 h-96 object-contain mx-auto animate-floatUpDown transition-all duration-300 ease-in-out max-sm:w-64 max-sm:h-64"
                                     alt={area.name}
+                                    onError={(e) => {
+                                        const target = e.target as HTMLImageElement;
+                                        target.src = '/img/logo.png';
+                                    }}
                                 />
+                                <div className="absolute inset-0 from-transparent to-white/50 pointer-events-none"></div>
                             </div>
                         </div>
 
-                        {/* 区域基本信息 */}
-                        <div className="bg-white/50 rounded-lg p-4 border-2 border-pink-300 mb-6">
-                            <h2 className="text-xl font-bold mb-4 text-gray-800 border-b-2 border-gray-200 pb-2">区域基本信息</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="flex items-center">
-                                    <FaLocationDot className="text-pink-500 mr-2" />
-                                    <span className="text-gray-700 font-medium">区域ID: </span>
-                                    <span className="ml-2">{area.area_id}</span>
+                        {/* 统计信息卡片 */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="bg-white/80 backdrop-blur-md rounded-xl p-6 border border-pink-200 shadow-sm hover:shadow-md transition-all duration-300">
+                                <div className="flex items-center mb-4">
+                                    <FaCircleInfo className="text-pink-500 text-xl mr-3" />
+                                    <h3 className="text-lg font-semibold text-gray-800">区域信息</h3>
                                 </div>
+                                <p className="text-gray-600 text-sm leading-relaxed">
+                                    {area.description || "暂无区域描述信息"}
+                                </p>
                             </div>
-                            {area.description && (
-                                <div className="mt-4">
-                                    <h3 className="text-lg font-medium text-gray-700 mb-2">区域描述:</h3>
-                                    <p className="text-gray-600 bg-white/70 p-3 rounded-md">{area.description}</p>
+
+                            <div className="bg-white/80 backdrop-blur-md rounded-xl p-6 border border-pink-200 shadow-sm hover:shadow-md transition-all duration-300">
+                                <div className="flex items-center mb-4">
+                                    <FaUsers className="text-pink-500 text-xl mr-3" />
+                                    <h3 className="text-lg font-semibold text-gray-800">角色数量</h3>
                                 </div>
-                            )}
+                                <p className="text-3xl font-bold text-pink-600">
+                                    {area.characters?.length || 0}
+                                </p>
+                                <p className="text-sm text-gray-500 mt-2">位角色</p>
+                            </div>
+
+                            <div className="bg-white/80 backdrop-blur-md rounded-xl p-6 border border-pink-200 shadow-sm hover:shadow-md transition-all duration-300">
+                                <div className="flex items-center mb-4">
+                                    <FaMusic className="text-pink-500 text-xl mr-3" />
+                                    <h3 className="text-lg font-semibold text-gray-800">歌曲数量</h3>
+                                </div>
+                                <p className="text-3xl font-bold text-pink-600">
+                                    {area.songs?.length || 0}
+                                </p>
+                                <p className="text-sm text-gray-500 mt-2">首歌曲</p>
+                            </div>
                         </div>
 
                         {/* 区域角色 */}
                         {area.characters?.length > 0 && (
-                            <div className="bg-white/50 rounded-lg p-4 border-2 border-pink-300 mb-6">
-                                <h2 className="text-xl font-bold mb-4 text-gray-800 border-b-2 border-gray-200 pb-2">区域角色</h2>
-                                <div className="grid grid-cols-1 gap-4">
+                            <div className="space-y-6">
+                                <div className="flex items-center border-b border-pink-200 pb-4">
+                                    <FaUsers className="text-pink-500 text-2xl mr-3" />
+                                    <h2 className="text-2xl font-bold text-gray-800">区域角色</h2>
+                                    <span className="ml-3 bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm font-medium">
+                                        {area.characters.length} 位
+                                    </span>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {area.characters.map((character, index) => (
-                                        <div key={index} className="p-4 bg-white rounded-lg shadow hover:shadow-md transition-all duration-200">
-                                            <div className="flex flex-col md:flex-row max-sm:items-center max-sm:text-center">
-                                                <div className="w-28 h-28 overflow-hidden rounded-lg border-2 border-pink-200 flex-shrink-0 mx-auto md:mx-0 mb-3 md:mb-0">
+                                        <div 
+                                            key={index} 
+                                            className="bg-white/80 backdrop-blur-md rounded-xl p-6 border border-pink-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                                        >
+                                            {/* 角色头像 */}
+                                            <div className="flex justify-center mb-4">
+                                                <div className="relative w-20 h-20 rounded-full border-4 border-pink-300 overflow-hidden shadow-md">
                                                     <img
                                                         src={`/img/chara/${area.area_id}/0${index + 1}.png`}
                                                         className="w-full h-full object-cover"
                                                         alt={character.name || area.name}
+                                                        onError={(e) => {
+                                                            const target = e.target as HTMLImageElement;
+                                                            target.src = '/img/user.png';
+                                                        }}
                                                     />
                                                 </div>
-                                                <div className="md:ml-4 mt-3 md:mt-0 flex-grow">
-                                                    <div className="flex flex-wrap items-center mb-2 max-sm:justify-center">
-                                                        <h3 className="font-bold text-lg text-pink-800 mr-2">{character.name}</h3>
-                                                        {character.team && (
-                                                            <span className="bg-pink-100 text-pink-600 text-xs px-2 py-1 rounded-full">
-                                                                {character.team}
-                                                            </span>
-                                                        )}
-                                                        {character.illustrator && (
-                                                            <span className="ml-auto text-xs text-gray-500 max-sm:ml-0 max-sm:mt-1">
-                                                                插画: {character.illustrator}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                    {(character.description1 || character.description2) && (
-                                                        <div className="bg-gray-50 p-2 rounded-md mb-2 text-sm italic text-gray-600">
-                                                            {character.description1 && <p>"{character.description1}"</p>}
-                                                            {character.description2 && <p className="mt-1">"{character.description2}"</p>}
-                                                        </div>
+                                            </div>
+
+                                            {/* 角色名称和团队 */}
+                                            <div className="text-center mb-4">
+                                                <h3 className="text-lg font-bold text-gray-800 mb-2">
+                                                    {character.name}
+                                                </h3>
+                                                {character.team && (
+                                                    <span className="inline-block bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-xs font-medium">
+                                                        {character.team}
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            {/* 角色描述 */}
+                                            {(character.description1 || character.description2) && (
+                                                <div className="bg-pink-50/50 rounded-lg p-3 mb-4">
+                                                    {character.description1 && (
+                                                        <p className="text-sm text-gray-700 italic mb-2">
+                                                            "{character.description1}"
+                                                        </p>
                                                     )}
-                                                    {character.props && Object.keys(character.props).length > 0 && (
-                                                        <div className="flex flex-wrap gap-2 mt-2 justify-center md:justify-start">
-                                                            {Object.entries(character.props).map(([key, value]) => (
-                                                                <div key={key} className="flex items-center bg-white border border-gray-200 rounded px-2 py-1 text-xs">
-                                                                    <span className="font-medium text-gray-700 mr-1">{key}:</span>
-                                                                    <span className="text-gray-600">{value as string}</span>
-                                                                </div>
-                                                            ))}
-                                                        </div>
+                                                    {character.description2 && (
+                                                        <p className="text-sm text-gray-700 italic">
+                                                            "{character.description2}"
+                                                        </p>
                                                     )}
                                                 </div>
-                                            </div>
+                                            )}
+
+                                            {/* 角色属性 */}
+                                            {character.props && Object.keys(character.props).length > 0 && (
+                                                <div className="space-y-2">
+                                                    <h4 className="text-sm font-medium text-gray-600">属性信息</h4>
+                                                    <div className="grid grid-cols-2 gap-2">
+                                                        {Object.entries(character.props).map(([key, value]) => (
+                                                            <div 
+                                                                key={key} 
+                                                                className="bg-white border border-pink-200 rounded-lg px-2 py-1 text-xs"
+                                                            >
+                                                                <span className="font-medium text-pink-600">{key}:</span>
+                                                                <span className="text-gray-600 ml-1">{value as string}</span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* 插画师信息 */}
+                                            {character.illustrator && (
+                                                <div className="mt-4 pt-3 border-t border-pink-200">
+                                                    <p className="text-xs text-gray-500">
+                                                        插画: {character.illustrator}
+                                                    </p>
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -215,34 +292,63 @@ export default function AreaDetailPage({ params }: PageProps) {
 
                         {/* 区域歌曲 */}
                         {area.songs?.length > 0 && (
-                            <div className="bg-white/50 rounded-lg p-4 border-2 border-pink-300">
-                                <h2 className="text-xl font-bold mb-4 text-gray-800 border-b-2 border-gray-200 pb-2">区域歌曲</h2>
-                                <div className="grid grid-cols-1 gap-3">
+                            <div className="space-y-6">
+                                <div className="flex items-center border-b border-pink-200 pb-4">
+                                    <FaMusic className="text-pink-500 text-2xl mr-3" />
+                                    <h2 className="text-2xl font-bold text-gray-800">区域歌曲</h2>
+                                    <span className="ml-3 bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm font-medium">
+                                        {area.songs.length} 首
+                                    </span>
+                                </div>
+
+                                <div className="grid grid-cols-1 gap-4">
                                     {area.songs.map((song, index) => (
-                                        <div key={index} className="flex flex-col bg-white rounded-lg hover:bg-gray-50 transition-all duration-200">
-                                            <div className="flex flex-col sm:flex-row items-center p-3 max-sm:text-center">
-                                                {/* Use video_id as fallback for song id */}
-                                                <img src={`${baseurl}${song.song_id}.png`} className="w-24 h-24 mb-2 sm:mb-0 sm:mr-8" alt="" />
-                                                <div className="flex-grow">
-                                                    <h3 className="font-medium text-gray-800">{song.title}</h3>
-                                                    <p className="text-sm text-gray-500">{song.artist || "未知艺术家"}</p>
+                                        <div 
+                                            key={index} 
+                                            className="bg-white/80 backdrop-blur-md rounded-xl p-6 border border-pink-200 shadow-sm hover:shadow-lg transition-all duration-300"
+                                        >
+                                            <div className="flex items-center space-x-6">
+                                                {/* 歌曲封面 */}
+                                                <div className="flex-shrink-0">
+                                                    <img 
+                                                        src={`${baseurl}${song.song_id}.png`} 
+                                                        className="w-20 h-20 rounded-lg border-2 border-pink-300 object-cover shadow-md"
+                                                        alt={song.title}
+                                                        onError={(e) => {
+                                                            const target = e.target as HTMLImageElement;
+                                                            target.src = '/img/music.png';
+                                                        }}
+                                                    />
                                                 </div>
-                                                {/* Only show link if song has an id */}
-                                                {song.song_id && (
-                                                    <Link href={`/music/${song.song_id}`} className="flex items-center text-pink-500 hover:text-pink-600 mt-2 sm:mt-0">
-                                                        <span className="text-sm mr-1">详情</span>
-                                                        <FiExternalLink />
-                                                    </Link>
-                                                )}
+
+                                                {/* 歌曲信息 */}
+                                                <div className="flex-grow">
+                                                    <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                                                        {song.title}
+                                                    </h3>
+                                                    <p className="text-sm text-gray-600 mb-3">
+                                                        {song.artist || "未知艺术家"}
+                                                    </p>
+                                                    
+                                                    {/* 歌曲描述 */}
+                                                    {song.description && (
+                                                        <p className="text-sm text-gray-700 bg-pink-50/50 rounded-lg p-3 mb-3">
+                                                            {song.description}
+                                                        </p>
+                                                    )}
+
+                                                    {/* 详情链接 */}
+                                                    {song.song_id && (
+                                                        <Link 
+                                                            href={`/music/${song.song_id}`}
+                                                            className="inline-flex items-center text-pink-600 hover:text-pink-700 transition-colors duration-200"
+                                                        >
+                                                            <span className="text-sm font-medium mr-2">查看歌曲详情</span>
+                                                            <FiExternalLink className="text-sm" />
+                                                        </Link>
+                                                    )}
+                                                </div>
                                             </div>
-                                            {song.description && (
-                                                <>
-                                                    <div className="border-t border-gray-200 mx-3"></div>
-                                                    <div className="p-3 text-sm text-gray-600">
-                                                        {song.description}
-                                                    </div>
-                                                </>
-                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -250,14 +356,34 @@ export default function AreaDetailPage({ params }: PageProps) {
                         )}
                     </div>
                 ) : (
-                    <div className="bg-white/80 backdrop-blur-md rounded-xl shadow-lg p-8 text-center">
-                        <h2 className="text-xl font-medium text-gray-800 mb-3">未找到区域信息</h2>
-                        <p className="text-gray-600 mb-4">无法找到名为 "{id}" 的区域数据，请稍后再试或检查区域名称。</p>
-                        <Link href="/region" className="inline-block px-4 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition-colors">
-                            返回区域列表
-                        </Link>
+                    <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
+                        <div className="bg-white/80 backdrop-blur-md rounded-xl p-8 border border-pink-200 shadow-lg max-w-md">
+                            <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FaLocationDot className="text-pink-500 text-2xl" />
+                            </div>
+                            <h2 className="text-xl font-semibold text-gray-800 mb-3">未找到区域信息</h2>
+                            <p className="text-gray-600 mb-6">
+                                无法找到名为 "{id}" 的区域数据，请稍后再试或检查区域名称。
+                            </p>
+                            <Link 
+                                href="/region" 
+                                className="inline-flex items-center px-6 py-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors duration-200 font-medium"
+                            >
+                                <FaArrowLeft className="mr-2" />
+                                返回区域列表
+                            </Link>
+                        </div>
                     </div>
                 )}
+            </div>
+
+            {/* 页脚装饰 */}
+            <div className="w-full bg-white/80 backdrop-blur-md border-t border-pink-200/50 mt-12">
+                <div className="max-w-6xl mx-auto px-4 py-6 text-center">
+                    <p className="text-sm text-gray-600">
+                        © 2024 MaiWeb - 区域详情页面
+                    </p>
+                </div>
             </div>
         </div>
     );
