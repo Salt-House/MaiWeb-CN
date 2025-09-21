@@ -59,42 +59,42 @@ export default function RoatatingCircle() {
                     />
                     <motion.img
                         src="/img/circle/star_pink.png"
-                        className="absolute w-[200px] "
+                        className="absolute w-[60px] sm:right-10 "
                         animate={{
-                            y: [100, -50],
+                            y: [-1000, 1000],
                         }}
                         transition={{
-                            duration: 6,
-                            delay: 4,
+                            duration: 20.5,
+                            delay:1.5,
                             repeat: Infinity,
                             ease: "linear",
-                            repeatType: "reverse"
+                            repeatType: "loop"
                         }}
                     />
                      <motion.img
                         src="/img/circle/star_pink.png"
-                        className="absolute w-[200px] h-[200px]"
+                        className="absolute w-[120px] sm:left-10 scale-x-[1] scale-y-[-1]"
                         animate={{
-                            y: [100, -50],
-                            opacity: [0, 1, 0]
+                            y: [1000, -1000],
+                            rotate: [180,180]
                         }}
                         transition={{
-                            duration: 8,
-                            delay: 4,
+                            duration: 20.5,
+                            delay:1.5,
                             repeat: Infinity,
                             ease: "linear",
-                            repeatType: "reverse"
+                            repeatType: "loop"
                         }}
                     />
                     <motion.img
                         src="/img/circle/star_yellow.png"
-                        className="absolute w-[200px] h-[200px]"
+                        className="absolute w-[80px] sm:right-10"
                         animate={{
-                            y: [100, -50],
-                            opacity: [0, 1, 0]
+                            y: [-1000, 1000],
+                            rotate:[180,180]
                         }}
                         transition={{
-                            duration: 7,
+                            duration: 16.5,
                             delay: 0.5,
                             repeat: Infinity,
                             ease: "linear",
@@ -103,10 +103,9 @@ export default function RoatatingCircle() {
                     />
                     <motion.img
                         src="/img/circle/star_yellow.png"
-                        className="absolute w-[200px] h-[200px]"
+                        className="absolute w-[80px] sm:left-14"
                         animate={{
-                            y: [100, -50],
-                            opacity: [0, 1, 0]
+                            y: [1000,-1000],
                         }}
                         transition={{
                             duration: 10,
