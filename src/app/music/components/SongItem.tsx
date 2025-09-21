@@ -48,7 +48,7 @@ export default function SongItem({ song, index, totalSongs, displayMode }: SongI
 
     return (
         <motion.div
-            className='relative songitem-premium mr-10 flex items-center w-fit min-w-[450px] max-w-[480px] max-h-[160px] bg-pink-500 rounded-full mb-10 max-sm:mb-1 pr-4'
+            className='relative songitem-premium mr-10 flex items-center w-fit min-w-[450px] max-lg:min-w-[400px] max-w-[480px] max-lg:max-w-[420px] max-h-[160px] max-lg:max-h-[140px] bg-pink-500 rounded-full mb-10 max-sm:mb-4 pr-4 max-sm:w-full max-sm:min-w-0 max-sm:max-w-full max-sm:mr-0 max-sm:pr-2'
             whileHover={{ y: -4, scale: 1.02 }}
             onHoverStart={() => setRoate(true)}
             onHoverEnd={() => setRoate(false)}
@@ -75,7 +75,7 @@ export default function SongItem({ song, index, totalSongs, displayMode }: SongI
                     {isAdded ? <FaCheck /> : <FaPlus />}
                 </button>
                 <motion.div
-                    className='songitem-avatar group flex-shrink-0 size-40 border-4 border-pink-300 rounded-full relative hover:border-pink-400 transition-colors duration-300'
+                    className='songitem-avatar group flex-shrink-0 size-40 max-lg:size-36 max-sm:size-32 border-4 border-pink-300 rounded-full relative hover:border-pink-400 transition-colors duration-300'
                     style={{
                         // 外轮廓拟态阴影（无渐变）：双向阴影营造浮起感
                         boxShadow: '8px 8px 16px rgba(190,24,93,0.35), -8px -8px 16px rgba(249,168,212,0.6)'
@@ -202,12 +202,12 @@ export default function SongItem({ song, index, totalSongs, displayMode }: SongI
                     </div>
                 </motion.div>
                 <SongCategory genre={song.genre} />
-                <div id='level' className='ml-4 flex flex-col justify-center items-start'>
-                    <p className='text-white font-bold text-xl truncate max-w-[200px]'>{song.title}</p>
+                <div id='level' className='ml-4 max-sm:ml-2 flex flex-col justify-center items-start'>
+                    <p className='text-white font-bold text-xl max-lg:text-lg truncate max-w-[200px] max-lg:max-w-[180px] max-sm:max-w-[150px]'>{song.title}</p>
                     <div className='flex flex-col mb-0.5'>
                         {song.difficulties.dx.length > 0 && (
                             <div className='flex items-center'>
-                                <Image src={'/img/dx.png'} width={60} height={30} alt="DX" className='-ml-2' />
+                                <Image src={'/img/dx.png'} width={60} height={30} alt="DX" className='-ml-2 max-lg:w-14 max-sm:w-12' />
                                 {song.difficulties.dx.map((diff) => (
                                     <SongLevelText
                                         key={diff.level_index}
@@ -219,7 +219,7 @@ export default function SongItem({ song, index, totalSongs, displayMode }: SongI
                         )}
                         {song.difficulties.standard.length > 0 && (
                             <div className='flex items-center'>
-                                <Image src={'/img/standard.png'} width={60} height={30} alt="standard" className='-ml-2' />
+                                <Image src={'/img/standard.png'} width={60} height={30} alt="standard" className='-ml-2 max-lg:w-14 max-sm:w-12' />
                                 {song.difficulties.standard.map((diff) => (
                                     <SongLevelText
                                         key={diff.level_index}
@@ -231,7 +231,7 @@ export default function SongItem({ song, index, totalSongs, displayMode }: SongI
                         )}
                         {song.difficulties.utage.length > 0 && (
                             <div className='flex items-center'>
-                                <Image src={'/img/utage.png'} width={60} height={30} alt="utage" className='-ml-2' />
+                                <Image src={'/img/utage.png'} width={60} height={30} alt="utage" className='-ml-2 max-lg:w-14 max-sm:w-12' />
                                 {song.difficulties.utage.map((diff) => (
                                     <SongLevelText
                                         key={diff.level_index}
@@ -242,7 +242,7 @@ export default function SongItem({ song, index, totalSongs, displayMode }: SongI
                             </div>
                         )}
                     </div>
-                    <p className='text-white truncate max-w-[200px] mb-2'>BPM: {song.bpm}&nbsp;&nbsp;Artist: {song.artist}</p>
+                    <p className='text-white truncate max-w-[200px] max-lg:max-w-[180px] max-sm:max-w-[150px] mb-2'>BPM: {song.bpm}&nbsp;&nbsp;Artist: {song.artist}</p>
                 </div>
             </a>
         </motion.div>
@@ -285,14 +285,14 @@ function getTextColor(level_index: 0 | 1 | 2 | 3 | 4): string {
 
 function SongLevelText({ level, level_index }: { level: number | string, level_index: 0 | 1 | 2 | 3 | 4 }) {
     return (
-        <div className="relative mx-1.5">
-            <span className="absolute inset-0 text-2xl font-bold" style={{
+        <div className="relative mx-1.5 max-sm:mx-1">
+            <span className="absolute inset-0 text-2xl max-lg:text-xl font-bold" style={{
                 color: 'transparent',
                 WebkitTextStroke: `4px ${getStrokeColor(level_index)}`,
             }}>
                 {level}
             </span>
-            <span className="relative text-2xl font-bold" style={{
+            <span className="relative text-2xl max-lg:text-xl font-bold" style={{
                 color: getTextColor(level_index)
             }}>
                 {level}
@@ -305,7 +305,7 @@ function SongCategory({ genre }: { genre: string }) {
     return (
         <>
             <h2
-                className="absolute z-[50] -top-5 right-0 inline-flex max-sm:ml-0 max-sm:px-2 max-sm:text-xs px-5 py-1 truncate rounded-full text-white border-2"
+                className="absolute z-[50] -top-5 right-0 inline-flex max-sm:ml-0 max-sm:px-3 max-sm:text-xs px-5 py-1 truncate rounded-full text-white border-2"
                 style={{
                     backgroundColor: getGenreColor(genre).bg,
                     borderColor: getGenreColor(genre).border
