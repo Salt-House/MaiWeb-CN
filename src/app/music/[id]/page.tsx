@@ -9,388 +9,355 @@ import MusicPlayer from './musicPlayer'
 import ScoreDetail from './scoreDetail'
 import Link from 'next/link'
 import { FaArrowLeft } from 'react-icons/fa'
-import { FaBilibili, FaArrowUpRightFromSquare } from "react-icons/fa6"
-import { data } from 'framer-motion/client'
-import { Step } from 'react-joyride'
-import Guide from '@/app/components/Guide'
-import { Button } from '@/app/components/button'
-
+import { FaBilibili } from "react-icons/fa6"
+import { motion, Variants } from 'framer-motion'
+import Image from 'next/image'
 
 export default function SongDetail() {
-  const params = useParams()
-  const [song, setSong] = useState<Song | null>(null)
-  const [scores, setScores] = useState<SongScoreProps[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [buttonStatus, setButtonStatus] = useState<boolean>(false)
-  const steps: Step[] = [
-    {
-      target: '#note',
-      content: '这里您可以左右滚动查看',
-      disableBeacon: true
-    },
-  ]
+    const params = useParams()
+    const [song, setSong] = useState<Song | null>(null)
+    const [scores, setScores] = useState<SongScoreProps[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+    const [chartType, setChartType] = useState<ChartType>(ChartType.DX)
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token') || null
+    useEffect(() => {
+        const fetchSongData = async () => {
+            setLoading(true)
+            try {
+                const storedToken = localStorage.getItem('token')
+                let url = `https://dev.maimai.moe/api/maimai/songs?id=${params.id}&page=1&page_size=1`
+                const headers: HeadersInit = { 'Accept': 'application/json' }
 
-    // TODO: - 待优化逻辑，后端应在没有token的情况下仍然返回歌曲数据，只是没有对应成绩信息。
-    const fetchSongData = async () => {
-      try {
-        // 先检查 localStorage 是否有歌曲信息
-        const songData = localStorage.getItem(`song_${params.id}`)
-        if (songData) {
-          const parsedData = JSON.parse(songData)
-          setSong(parsedData)
-          setLoading(false)
-          return
+                if (storedToken) {
+                    url = `https://dev.maimai.moe/api/maimai/maiweb/minfo?id=${params.id}`
+                    headers['Authorization'] = `Bearer ${storedToken}`
+                }
+
+                const response = await fetch(url, { method: 'GET', headers })
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`)
+                }
+
+                const data = await response.json()
+
+                if (storedToken) {
+                    setSong(data.song)
+                    setScores(data.scores || [])
+                } else {
+                    setSong(data[0])
+                    setScores([])
+                }
+            } catch (err) {
+                setError(err instanceof Error ? err.message : '获取数据失败')
+            } finally {
+                setLoading(false)
+            }
         }
 
-        // 如果没有缓存数据，发送网络请求
-        fetchLatestData()
-      } catch (err) {
-        setError(err instanceof Error ? err.message : '获取数据失败')
-        setLoading(false)
-      }
-    }
+        fetchSongData()
+    }, [params.id])
 
-    const fetchLatestData = async () => {
-      try {
-        const url = `https://dev.maimai.moe/api/maimai/maiweb/minfo?id=${params.id}`
-        const response = await fetch(
-          url, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${storedToken}`
-          }
-        })
-
-        if (!response.ok) {
-          if (response.status === 401) {
-            throw new Error(`HTTP ${response.status} 造成该问题：暂时不支持URL直接输入id访问歌曲信息，或者没有登录。`)
-          } else {
-            throw new Error(`HTTP error! status: ${response.status}`)
-          }
-
-        }
-
-        const data = await response.json()
-        console.log("歌曲数据：", data)
-        setSong(data.song)
-        setScores(data.scores || [])
-        setLoading(false)
-
-        // 缓存到 localStorage
-        localStorage.setItem(`song_${params.id}`, JSON.stringify(data.song))
-      } catch (err) {
-        if (!song) { // 只有在没有缓存数据的情况下才设置错误
-          setError(err instanceof Error ? err.message : '获取数据失败')
-          setLoading(false)
-        }
-      }
-    }
-    const fetchLatestDataNoToken = async () => {
-      try {
-
-        const url = `https://dev.maimai.moe/api/maimai/songs?id=${params.id}&page=1&page_size=100`
-        const response = await fetch(
-          url, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          }
-        })
-
-        if (!response.ok) {
-          if (response.status === 401) {
-            throw new Error(`HTTP ${response.status} `)
-          } else {
-            throw new Error(`HTTP error! status: ${response.status}`)
-          }
-
-        }
-
-        const data = await response.json()
-        console.log("歌曲数据：", data)
-        setSong(data[0])
-        setScores([])
-        setLoading(false)
-
-        // 缓存到 localStorage
-        localStorage.setItem(`song_${params.id}`, JSON.stringify(data.song))
-      } catch (err) {
-        if (!song) { // 只有在没有缓存数据的情况下才设置错误
-          setError(err instanceof Error ? err.message : '获取数据失败')
-          setLoading(false)
-        }
-      }
-    }
-    if (storedToken == null) {
-      fetchLatestDataNoToken()
-    } else {
-      fetchSongData()
-    }
-  }, [params.id])
-
-  const audio_url = `https://assets2.lxns.net/maimai/music/${song?.id ?? params.id}.mp3`
-
-  const textShadow = {
-    textShadow: '-2px -2px 4px rgba(236, 72, 153, 1), 2px -2px 4px rgba(236, 72, 153, 1), -2px 2px 2px rgba(236, 72, 153, 1), 2px 2px 2px rgba(236, 72, 153, 1)'
-  }
-
-  if (loading) {
-    return (
-      <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
-        <div className="border-4 border-white rounded-2xl">
-          <div
-            className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-pink-300">
-            <div className="container mx-auto p-4">
-              <LoadingSpinner size='sm' message="加载中..." description="正在获取乐曲数据" />
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen ">
+                <LoadingSpinner size='lg' message="正在加载乐曲..." description="请稍候" />
             </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+        )
+    }
 
-  if (error || !song) {
-    return (
-      <div className="relative flex flex-col justify-center items-center mt-10 mb-16">
-        <div className="border-4 border-white rounded-2xl">
-          <div
-            className=" w-[900px] h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-pink-300">
-            <div className="container mx-auto p-4 text-black">
-              <div>错误: {error || '未找到歌曲 QAQ'}</div>
+    if (error || !song) {
+        return (
+            <div className="flex justify-center items-center min-h-screen text-red-500">
+                <div>错误: {error || '未找到歌曲 QAQ'}</div>
             </div>
-          </div>
+        )
+    }
+
+    return (
+        <div className="min-h-screen p-4 sm:p-8 ">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="max-w-7xl mx-auto"
+            >
+                <div className="mb-6">
+                    <Link href='/music' className="inline-flex items-center text-gray-600 hover:text-pink-500 transition-colors group">
+                        <FaArrowLeft className="mr-2 transition-transform group-hover:-translate-x-1" />
+                        <span className="font-bold">返回音乐列表</span>
+                    </Link>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="md:col-span-1 flex flex-col items-center space-y-8">
+                        <RecordPlayer song={song} />
+                        <div className="w-full">
+                            <MusicPlayer
+                                audioUrl={`https://assets2.lxns.net/maimai/music/${song.id}.mp3`}
+                                title={song.title}
+                                artist={song.artist}
+                                songId={song.id.toString()}
+                            />
+                        </div>
+                    </div>
+                    <div className="md:col-span-2 space-y-8">
+                        <SongInfo song={song} />
+                        <div>
+                            <ChartTypeSwitcher chartType={chartType} setChartType={setChartType} />
+                            <NoteTable song={song} chartType={chartType} />
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
         </div>
-      </div>
     )
-  }
-
-  return (
-    <div className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-16">
-      <Guide steps={steps} mark='notetour' />
-      <div className="max-sm:w-[90%] w-[900px] flex justify-start mb-2">
-
-        <Link href='/music' className="inline-flex items-center text-white hover:scale-105 transition-colors m-3">
-          <FaArrowLeft className="mr-2 size-5" />
-          <span className="text-xl font-bold" style={textShadow}>返回音乐列表</span>
-        </Link>
-      </div>
-      <div className="border-4 max-sm:w-[90%] border-white bg-white rounded-2xl">
-        <div className="max-sm:w-full w-[900px] bg-white rounded-2xl flex flex-col text-center border-4 border-pink-300">
-          <SongInfo song={song} />
-
-          {/* 音乐播放器 */}
-          <div className="mt-2 mb-6 mx-6">
-            <MusicPlayer audioUrl={audio_url} title={song.title} artist={song.artist} songId={song.id.toString()} />
-          </div>
-
-          {/* 乐曲成绩 */}
-          <div className="flex flex-row space-x-6 justify-center items-center">
-            <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
-            <div className="text-gray-700 max-sm:w-[40%] font-bold text-xl">乐曲成绩</div>
-            <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
-          </div>
-          <ScoreDetail song={song} scores={scores} />
-
-          {/* 谱面详情 */}
-          <div className="flex flex-row space-x-6 justify-center items-center">
-            <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
-            <div className="text-gray-700 max-sm:w-[40%] font-bold text-xl">谱面详情</div>
-            <div className="w-2/5 max-sm:w-[30%] h-1 rounded-full bg-gray-300" />
-          </div>
-          <NoteDetail song={song} />
-        </div>
-      </div>
-    </div>
-  )
 }
 
-function SongInfo({ song }: { song: Song }) {
-  return (
-    <div className="container mx-auto px-4 my-6">
-      <div className="flex max-sm:flex-col max-sm:justify-center max-sm:items-center space-x-8 mt-2">
-        {/* 左侧曲绘 */}
-        <div className="w-64 flex-shrink-0 ml-2">
-          <img
-            src={`https://assets2.lxns.net/maimai/jacket/${song.id}.png`}
-            alt={song.title}
-            className="rounded-xl object-cover w-64 h-64"
-          />
-          {song.rights && (
-            <p className="text-xs text-gray-500 mt-2 ml-2 text-left">
-              {song.rights}
-            </p>
-          )}
-        </div>
+/**
+ * 谱面类型切换组件
+ */
+function ChartTypeSwitcher({ chartType, setChartType }: { chartType: ChartType, setChartType: (type: ChartType) => void }) {
+    const tabs = [
+        { type: ChartType.STANDARD, label: 'Standard' },
+        { type: ChartType.DX, label: 'DX' },
+    ];
 
-        {/* 右侧信息 */}
-        <div className="flex-1 max-sm:w-[90%] flex-col sm:flex-shrink-0 max-sm:mt-4">
-          <h1 className="text-3xl font-bold mb-4 ml-1 text-left text-black">{song.title}</h1>
-          <div className="sm:flex-1 space-y-3 text-left">
-            <div
-              className="text-center px-5 py-1 mb-1.5 rounded-full text-white border-2 w-fit"
-              style={{
-                backgroundColor: getGenreColor(song.genre).bg,
-                borderColor: getGenreColor(song.genre).border
-              }}
-            >
-              {transferText(song.genre)}
-              {/* {song.genre} */}
+    return (
+        <div className="flex justify-center mb-4">
+            <div className="flex space-x-1 p-1 rounded-xl bg-gray-200/80">
+                {tabs.map(tab => (
+                    <button
+                        key={tab.type}
+                        onClick={() => setChartType(tab.type)}
+                        className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${chartType === tab.type ? 'bg-white text-pink-500 shadow-sm' : 'text-gray-500'}`}>
+                        {tab.label}
+                    </button>
+                ))}
             </div>
-            <div className="space-y-2.5 text-left">
-              <div className="flex flex-row space-x-4">
-                <h2 className='text-black'>id: {song.id}</h2>
-                {/* <a
-                  href="https://maimai.lxns.net"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-700 underline cursor-pointer"
-                >
-                  关于落雪?
-                </a> */}
-              </div>
-              <h2 className='text-black'>Artist: {song.artist}</h2>
-              <div className="flex flex-row space-x-4 items-center">
-                <div className="space-y-2.5">
-                  <h2 className='text-black'>BPM: {song.bpm}</h2>
-                  <h2 className='text-black'>更新版本: {transferVersion(song.version)}</h2>
+        </div>
+    );
+}
+
+
+/**
+ * 唱片机风格的歌曲封面组件
+ */
+function RecordPlayer({ song }: { song: Song }) {
+    const [isPlaying, setIsPlaying] = useState(false)
+
+    const discVariants: Variants = {
+        spinning: {
+            rotate: 360,
+            transition: {
+                repeat: Infinity,
+                duration: 20,
+                ease: 'linear'
+            }
+        },
+        stopped: {
+            rotate: 0,
+            transition: {
+                duration: 1
+            }
+        }
+    };
+
+    return (
+        <div className='relative w-full max-w-xs aspect-square'>
+            <motion.div
+                className='w-full h-full rounded-full relative'
+                onHoverStart={() => setIsPlaying(true)}
+                onHoverEnd={() => setIsPlaying(false)}
+                style={{
+                    boxShadow: '12px 12px 24px rgba(0,0,0,0.1), -12px -12px 24px rgba(255,255,255,0.9)'
+                }}
+                whileHover={{ scale: 1.03, boxShadow: '16px 16px 32px rgba(0,0,0,0.15), -16px -16px 32px rgba(255,255,255,1)' }}
+                whileTap={{ scale: 0.99, boxShadow: '6px 6px 12px rgba(0,0,0,0.05), -6px -6px 12px rgba(255,255,255,0.7)' }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            >
+                <div className='relative w-full h-full rounded-full'>
+                    {/* Bevel */}
+                    <div
+                        className='absolute inset-0 rounded-full pointer-events-none'
+                        style={{
+                            border: '4px solid rgba(255,255,255,0.25)',
+                            boxShadow: 'inset 8px 8px 16px rgba(0,0,0,0.05), inset -8px -8px 16px rgba(255,255,255,0.3)'
+                        }}
+                    />
+
+                    {/* Highlight */}
+                    <div
+                        className='absolute left-[16%] top-[10%] w-[68%] h-[18%] rounded-full pointer-events-none'
+                        style={{
+                            backgroundColor: 'rgba(255,255,255,0.08)',
+                            transform: 'rotate(-18deg)'
+                        }}
+                    />
+
+                    {/* Album art */}
+                    <div className='absolute inset-8 rounded-full overflow-hidden'>
+                        <motion.div
+                            className='w-full h-full relative'
+                            variants={discVariants}
+                            animate={isPlaying ? "spinning" : "stopped"}
+                        >
+                            <Image
+                                src={`https://assets2.lxns.net/maimai/jacket/${song.id}.png`}
+                                alt={song.title}
+                                className='object-cover'
+                                fill
+                                unoptimized
+                            />
+                        </motion.div>
+                    </div>
+
+                    {/* Dashed ring 1 */}
+                    <div
+                        className='absolute inset-10 rounded-full pointer-events-none'
+                        style={{
+                            border: '2px dashed rgba(0,0,0,0.2)'
+                        }}
+                    />
+
+                    {/* Dashed ring 2 */}
+                    <div
+                        className='absolute inset-16 rounded-full pointer-events-none'
+                        style={{
+                            border: '2px dashed rgba(0,0,0,0.15)'
+                        }}
+                    />
+
+                    {/* Inner shadow ring */}
+                    <div
+                        className='absolute inset-20 rounded-full pointer-events-none'
+                        style={{
+                            border: '2px solid rgba(0,0,0,0.05)',
+                            boxShadow: 'inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.2)'
+                        }}
+                    />
+
+                    {/* Center hole */}
+                    <div
+                        className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none'
+                        style={{
+                            width: '22%',
+                            height: '22%',
+                            backgroundColor: 'white',
+                            border: '2px solid rgba(0,0,0,0.08)',
+                            boxShadow: 'inset 3px 3px 6px rgba(0,0,0,0.06), inset -3px -3px 6px rgba(255,255,255,0.6)'
+                        }}
+                    />
                 </div>
-                {song.disabled && (
-                  <div className="flex-1 flex justify-center items-center">
-                    <h1 className="text-2xl font-bold text-red-500">——此乐曲已删除——</h1>
-                  </div>
-                )}
-              </div>
-              <h2 className='text-black'>所属区域: {song.map ?? "无"}</h2>
-              <div className="flex flex-row space-x-4">
-                <div className="flex rounded-xl border-2 border-[#00a1d6] overflow-hidden">
-                  <a
-                    href={`https://search.bilibili.com/all?keyword=${song.title}`}
+
+                {/* Tonearm */}
+                <motion.div
+                    aria-hidden
+                    className='absolute -top-8 left-8 z-20 pointer-events-none origin-top-left'
+                    animate={{ rotate: isPlaying ? 22 : -10 }}
+                    transition={{ type: 'spring', stiffness: 150, damping: 15, mass: 0.8 }}
+                >
+                    {/* Pivot */}
+                    <div
+                        className='w-6 h-6 rounded-full'
+                        style={{
+                            backgroundColor: 'rgba(220,220,220,0.95)',
+                            boxShadow: '3px 3px 6px rgba(0,0,0,0.15), -3px -3px 6px rgba(255,255,255,0.5)',
+                            border: '1px solid rgba(0,0,0,0.06)'
+                        }}
+                    />
+                    {/* Arm */}
+                    <div
+                        className='mt-1.5 w-36 h-2 rounded-full'
+                        style={{
+                            backgroundColor: 'rgba(230,230,230,0.9)',
+                            boxShadow: '4px 4px 8px rgba(0,0,0,0.12), -4px -4px 8px rgba(255,255,255,0.5)',
+                            border: '1px solid rgba(0,0,0,0.05)'
+                        }}
+                    />
+                    {/* Head */}
+                    <div
+                        className='relative rounded-lg'
+                        style={{
+                            width: '2rem',
+                            height: '2.5rem',
+                            marginLeft: '128px',
+                            marginTop: '-4px',
+                            backgroundColor: 'rgba(235,235,235,0.96)',
+                            boxShadow: '4px 4px 8px rgba(0,0,0,0.15), -4px -4px 8px rgba(255,255,255,0.55)',
+                            border: '1px solid rgba(0,0,0,0.08)'
+                        }}
+                    >
+                        <span
+                            className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 block rounded-full'
+                            style={{
+                                width: '8px',
+                                height: '8px',
+                                backgroundColor: 'rgba(0,0,0,0.6)',
+                                boxShadow: 'inset 1px 1px 2px rgba(255,255,255,0.25)'
+                            }}
+                        />
+                    </div>
+                </motion.div>
+            </motion.div>
+        </div>
+    )
+}
+
+
+/**
+ * 歌曲基本信息组件
+ */
+function SongInfo({ song }: { song: Song }) {
+    return (
+        <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm">
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">{song.title}</h1>
+            <p className="text-lg text-gray-600 mb-4">{song.artist}</p>
+
+            <div className="flex flex-wrap gap-3 items-center mb-4">
+                <span
+                    className="px-4 py-1 rounded-full text-white text-sm font-semibold border-2"
+                    style={{
+                        backgroundColor: getGenreColor(song.genre).bg,
+                        borderColor: getGenreColor(song.genre).border
+                    }}
+                >
+                    {transferText(song.genre)}
+                </span>
+                <span className="text-sm text-gray-500">ID: {song.id}</span>
+                <span className="text-sm text-gray-500">BPM: {song.bpm}</span>
+                <span className="text-sm text-gray-500">版本: {transferVersion(song.version)}</span>
+            </div>
+
+            {song.aliases && song.aliases.length > 0 && (
+                <div className='mb-4'>
+                    <div className="font-medium text-gray-700 mb-2">别名:</div>
+                    <div className="flex flex-wrap gap-2">
+                        {song.aliases.map((alias, index) => (
+                            <span
+                                key={index}
+                                className="bg-pink-100/80 text-pink-700 px-3 py-1 rounded-full text-xs font-medium border border-pink-200/50 shadow-sm"
+                            >
+                                {alias}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            <div className="flex items-center space-x-4 mt-4">
+                <a
+                    href={`https://search.bilibili.com/all?keyword=${encodeURIComponent(song.title)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center px-4 py-1 bg-white text-[#00a1d6] hover:bg-[#00a1d6] hover:text-white transition-colors"
-                  >
-                    <FaBilibili className="mr-3 size-5" />
-                    WEB
-                    {/* <FaArrowUpRightFromSquare className='ml-2' /> */}
-                  </a>
-                </div>
-              </div>
+                    className="flex items-center px-4 py-2 rounded-xl text-[#00a1d6] bg-white/80 border border-slate-300/50 shadow-md hover:shadow-lg transition-all duration-300"
+                >
+                    <FaBilibili className="mr-2" />
+                    <span>在B站搜索</span>
+                </a>
             </div>
-          </div>
         </div>
-      </div>
-      <div className='text-left mx-5 mt-5'>
-        <div className="font-medium text-black">乐曲别名:</div>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {song.aliases && song.aliases.length > 0 ? (
-            song.aliases.map((alias, index) => (
-              <span
-                key={index}
-                className="bg-pink-400 text-white px-3 py-1 rounded-full text-sm font-medium shadow-sm"
-              >
-                {alias}
-              </span>
-            ))
-          ) : (
-            <span className="text-gray-500">暂无别名</span>
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function NoteDetail({ song }: { song: Song }) {
-  return (
-    <div id='note' className="flex flex-col space-y-4 max-sm:space-y-2 max-sm:mx-2 m-6">
-      {/* Standard谱面 */}
-      {song.difficulties?.standard?.length > 0 && (
-        <>
-          <div className="flex items-center">
-            <span className="w-16 max-sm:w-12 text-sm max-sm:text-xs text-white bg-pink-500 rounded-full py-1 mr-2">标准</span>
-            <div className="flex flex-wrap space-x-2 max-sm:space-x-1">
-              {song.difficulties.standard.map((diff: { level_index: number; level: string, note_designer: string }, idx: Key | null | undefined) => (
-                <div className="flex items-end space-x-1 max-sm:mb-1">
-                  <div
-                    key={idx}
-                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-pink-300"
-                    style={{
-                      backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
-                    }}
-                  >
-                    {diff.level}
-                  </div>
-                  <div className="max-sm:text-xs text-black">
-                    {(diff.note_designer == "-") ? undefined : (diff.note_designer)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <NoteTable song={song} chartType={'standard' as ChartType} />
-        </>
-      )}
-
-      {/* DX谱面 */}
-      {song.difficulties?.dx?.length > 0 && (
-        <>
-          <div className="flex items-center">
-            <span className="w-16 max-sm:w-12 text-sm max-sm:text-xs text-white bg-orange-500 rounded-full py-1 mr-2">DX</span>
-            <div className="flex flex-wrap space-x-2 max-sm:space-x-1">
-              {song.difficulties.dx.map((diff: { level_index: number; level: string, note_designer: string }, idx: Key | null | undefined) => (
-                <div className="flex items-end space-x-1 max-sm:mb-1">
-                  <div
-                    key={idx}
-                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-pink-300"
-                    style={{
-                      backgroundColor: getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
-                    }}
-                  >
-                    {diff.level}
-                  </div>
-                  <div className="max-sm:text-xs text-black">
-                    {(diff.note_designer == "-") ? undefined : (diff.note_designer)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <NoteTable song={song} chartType={'dx' as ChartType} />
-        </>
-      )}
-
-      {/* Utage谱面 */}
-      {song.difficulties?.utage?.length > 0 && (
-        <>
-          <div className="flex items-center">
-            <span className="w-16 max-sm:w-12 text-sm max-sm:text-xs text-white rounded-full py-1 mr-2" style={{
-              backgroundColor: "rgb(220, 56, 184)"
-            }}>宴会场</span>
-            <div className="flex flex-wrap space-x-2 max-sm:space-x-1">
-              {song.difficulties.utage.map((diff: { level: string }, idx: Key | null | undefined) => (
-                <div className="flex items-end space-x-1 max-sm:mb-1">
-                  <div
-                    key={idx}
-                    className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-pink-300"
-                    style={{
-                      backgroundColor: "rgb(220, 56, 184)"
-                    }}
-                  >
-                    {diff.level}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <NoteTable song={song} chartType={'utage' as ChartType} />
-        </>
-      )}
-    </div>
-  )
+    )
 }
 
