@@ -14,7 +14,7 @@ import Notice from '../components/Notice'
 import PageTransitionWrapper from '../components/PageTransitionWrapper'
 
 
-const currentVersion = "25002"
+const currentVersion = "25003"
 
 const version: (keyof typeof versionIds)[] = ["maimai", "GreeN", "ORANGE ", "PiNK", "MURASAKi ", "MiLK", "FiNALE", "舞萌DX", "舞萌DX 2021", "舞萌DX 2022", "舞萌DX 2023", "舞萌DX 2024", "舞萌DX 2025"]
 const versionIds = {
