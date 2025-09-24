@@ -524,7 +524,7 @@ export default function BestPage() {
                                                     {...song}
                                                     index={index} />
                                             );
-                                        }) : <div className="">暂无数据</div>}
+                                        }) : <div className="">暂无数据</div>} 
                                     </>}
                                     <hr className='w-full mx-auto  border-t-4 border-gray-400 my-5' />
                                 </div>
