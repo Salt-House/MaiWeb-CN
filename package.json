@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -17,6 +18,7 @@
     "dom-to-image": "^2.6.0",
     "echarts": "^5.6.0",
     "framer-motion": "^12.23.6",
+    "jotai": "^2.14.0",
     "next": "^14.2.28",
     "react": "^18",
     "react-dom": "^18",
@@ -32,6 +34,8 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cross-env": "^7.0.3",
+    "@next/bundle-analyzer": "^14.2.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"

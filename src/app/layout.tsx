@@ -13,6 +13,7 @@ import PageTransition from "./components/PageTransitionWrapper";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import RoatatingCircle from "@/app/components/circle/RoatatingCircle";
+import RoatChiho from "./components/circle/RoatChiho";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -107,7 +108,13 @@ export default function RootLayout({
             </div>
             <StarMove />
             <div className="fixed w-full max-sm:w-full h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div> */}
-
+{/* 
+                        <Image
+                            src={"/img/circle/bg_pc.png"}
+                            alt=""
+                            width={1920}
+                            height={1080}
+                        /> */}
                         <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-1] bg-cover">
                             <div className="fixed w-full h-full z-[-2]">
                                 <Image
@@ -153,14 +160,14 @@ export default function RootLayout({
                                     alt=""
                                     width={350}
                                     height={350}
-                                    className="absolute top-1/2 left-56 transform -translate-x-1/2 -translate-y-1/2 z-[50]"
+                                    className="absolute max-sm:hidden top-1/2 left-56 transform -translate-x-1/2 -translate-y-1/2 z-[50]"
                                 />
                                 <Image
                                     src="/img/circle/chara-right.png"
                                     alt=""
                                     width={350}
                                     height={350}
-                                    className="absolute top-1/2 right-0 transform -translate-y-1/2 z-[50]"
+                                    className="absolute max-sm:hidden top-1/2 right-0 transform -translate-y-1/2 z-[50]"
                                 />
                             </div>
                         </div>
@@ -174,7 +181,7 @@ export default function RootLayout({
                         {/* 底部鸣谢 */}
                         <div className=" overflow-x-auto ">
                             {/* thanks */}
-                            <div className="mt-10 max-sm:min-w-[600px] flex flex-col justify-center items-center h-64 max-sm:bg-none bg-[url('/img/bg_pc.png')]  bg-contain text-center">
+                            <div className="mt-10 max-sm:min-w-[600px] flex flex-col justify-center items-center h-64 max-sm:bg-none bg-[url('/img/circle/bg_pc.png')]  bg-contain text-center">
                                 <div className="w-28 h-12 text-2xl text-black font-bold">
                                     鸣谢
                                 </div>

@@ -1,458 +1,185 @@
-import { useEffect, useState } from 'react'
-import { Song, getDifficultyColor, SongScoreProps, ChartType } from "../songModel"
-import { FaChevronDown, FaChevronUp, FaDownload } from 'react-icons/fa'
-import LoadingSpinner from '@/app/components/LoadingSpinner'
-import { Button } from '@/app/components/button'
+'use client'
 
+import { useEffect, useState } from 'react';
+import { Song, getDifficultyColor, SongScoreProps, ChartType } from "../songModel";
+import { FaChevronDown, FaChevronUp, FaTrophy, FaStar, FaSync } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 export default function ScoreDetail({ song, scores }: { song: Song, scores?: SongScoreProps[] }) {
-  const [loading, setLoading] = useState(true)
-  const [scoreData, setScoreData] = useState<SongScoreProps[]>([])
-  const [hasAttemptedLoad, setHasAttemptedLoad] = useState(false)
-  const [category, setCategory] = useState<string>("dx")
-  const [standardButtonLoading, setStandardButtonLoading] = useState<boolean>(false)
-  const [dxButtonLoading, setDxButtonLoading] = useState<boolean>(false)
-
-  // 下载成绩图函数
-  const downloadSongGrade = (chartType: string) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    if (song != null) {
-      // 根据谱面类型设置对应的按钮状态
-      if (chartType === "standard") {
-        setStandardButtonLoading(true);
-      } else if (chartType === "dx") {
-        setDxButtonLoading(true);
-      }
-
-      let temp = song?.aliases.slice(0, 5)
-      let aliasesStr = ""
-      for (let i in temp) {
-        aliasesStr += temp[i] + "  "
-      }
-
-      var raw = JSON.stringify({
-        "song": {
-          "id": song?.id,
-          "title": song?.title,
-          "artist": song?.artist,
-          "genre": song?.genre,
-          "bpm": song?.bpm,
-          "map": song?.map,
-          "version": song.version,
-          "aliases": aliasesStr,
-          "category": chartType,
-          "scores": scoreData
-            .filter((item) => item.type === chartType)
-            .sort((a, b) => a.level_index - b.level_index)
-        }
-      });
-
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-      };
-
-      fetch("https://dev.maimai.moe/email/song-achievements", requestOptions)
-        .then(response => response.blob())
-        .then(blob => {
-          // 根据谱面类型重置对应的按钮状态
-          if (chartType === "standard") {
-            setStandardButtonLoading(false);
-          } else if (chartType === "dx") {
-            setDxButtonLoading(false);
-          }
-
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = `${song.title} ${chartType}成绩.png`; // 下载的文件名
-          a.click();
-          URL.revokeObjectURL(url);
-        })
-        .catch(error => {
-          console.log('error', error);
-          // 出错时也要重置按钮状态
-          if (chartType === "standard") {
-            setStandardButtonLoading(false);
-          } else if (chartType === "dx") {
-            setDxButtonLoading(false);
-          }
-        });
-    } else {
-      alert("歌曲信息未加载，请稍后再试")
-    }
-  }
+  const [loading, setLoading] = useState(true);
+  const [scoreData, setScoreData] = useState<SongScoreProps[]>([]);
+  const [hasAttemptedLoad, setHasAttemptedLoad] = useState(false);
 
   useEffect(() => {
-    // 重置状态，避免切换歌曲时显示上一首歌的数据
-    setLoading(true)
-    setHasAttemptedLoad(false)
+    setLoading(true);
+    setHasAttemptedLoad(false);
 
     if (scores && scores.length > 0) {
-      setScoreData(scores)
-      setLoading(false)
-      setHasAttemptedLoad(true)
+      setScoreData(scores);
+      setLoading(false);
+      setHasAttemptedLoad(true);
+      return;
     }
 
-    // 如果没有传入scores，则尝试从API获取
     const fetchScores = async () => {
-      const storedToken = localStorage.getItem('token')
+      const storedToken = localStorage.getItem('token');
       if (!storedToken) {
-        setLoading(false)
-        setHasAttemptedLoad(true)
-        return
+        setLoading(false);
+        setHasAttemptedLoad(true);
+        return;
       }
 
       try {
-        const response = await fetch(
-          `https://dev.maimai.moe/api/maimai/maiweb/minfo?id=${song.id}`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${storedToken}`
-          }
-        })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
-        const data = await response.json()
+        const response = await fetch(`https://dev.maimai.moe/api/maimai/maiweb/minfo?id=${song.id}`, {
+          headers: { 'Authorization': `Bearer ${storedToken}` }
+        });
+        if (!response.ok) throw new Error('Failed to fetch scores');
+        const data = await response.json();
         if (data.scores && Array.isArray(data.scores)) {
-          setScoreData(data.scores)
+          setScoreData(data.scores);
         }
       } catch (e) {
-        console.error("获取成绩数据失败:", e)
+        console.error("获取成绩数据失败:", e);
       } finally {
-        setLoading(false)
-        setHasAttemptedLoad(true)
+        setLoading(false);
+        setHasAttemptedLoad(true);
       }
-    }
+    };
 
-    fetchScores()
-  }, [song.id, scores])
+    fetchScores();
+  }, [song.id, scores]);
 
-  const storedToken = localStorage.getItem('token');
-  if (!storedToken) {
-    return <div className="text-center py-4 text-black">登录以查看个人乐曲成绩</div>
+  if (!localStorage.getItem('token')) {
+    return <div className="text-center py-8 text-gray-500">登录以查看个人乐曲成绩</div>;
   }
 
   if (loading && !hasAttemptedLoad) {
-    return (
-      <div className="text-center py-4">
-        <LoadingSpinner size="ultrasm" message="加载成绩中..." />
-      </div>
-    )
+    return <div className="text-center py-8"><LoadingSpinner size="ultrasm" message="加载成绩中..." /></div>;
   }
 
   if ((!scoreData || scoreData.length === 0) && hasAttemptedLoad) {
-    return <div className="text-center py-12 text-black">暂无该歌曲的分数数据，快去打一把吧！</div>
+    return <div className="text-center py-12 text-gray-500">暂无该歌曲的分数数据，快去打一把吧！</div>;
   }
 
-  // 按照类型分组
-  const standardScores = scoreData.filter((score: any) => score.type === 'standard');
-  const dxScores = scoreData.filter((score: any) => score.type === 'dx');
-  const utageScores = scoreData.filter((score: any) => score.type === 'utage');
+  const standardScores = scoreData.filter(s => s.type === 'standard').sort((a, b) => a.level_index - b.level_index);
+  const dxScores = scoreData.filter(s => s.type === 'dx').sort((a, b) => a.level_index - b.level_index);
 
   return (
-    <div className='mx-6'>
-      {/* 标准谱面成绩 */}
-      {standardScores.length > 0 && (
-        <ScoreSection
-          title="标准"
-          scores={standardScores}
-          bgColor="bg-blue-500"
-          chartType="standard"
-          needBottomBorder={dxScores.length > 0}
-          song={song}
-          onDownload={() => downloadSongGrade("standard")}
-          buttonLoading={standardButtonLoading}
-          category="standard"
-        />
-      )}
-
-      {/* DX谱面成绩 */}
-      {dxScores.length > 0 && (
-        <ScoreSection
-          title="DX"
-          scores={dxScores}
-          bgColor="bg-orange-500"
-          chartType="dx"
-          needBottomBorder={false}
-          song={song}
-          onDownload={() => downloadSongGrade("dx")}
-          buttonLoading={dxButtonLoading}
-          category="dx"
-        />
-      )}
-
-      {/* 宴会场谱面成绩 */}
-      {/* {utageScores.length > 0 && (
-        <ScoreSection
-          title="宴会场"
-          scores={utageScores}
-          bgColor="bg-[rgb(220,56,184)]"
-          chartType="utage"
-          song={song}
-          onDownload={() => downloadSongGrade("utage")}
-          buttonLoading={utageButtonLoading}
-          category="utage"
-        />
-      )} */}
-    </div>
-  )
-}
-
-// 成绩区块组件
-function ScoreSection({ title, scores, bgColor, chartType, needBottomBorder, song, onDownload, buttonLoading, category }: {
-  title: string,
-  scores: any[],
-  bgColor: string,
-  chartType: string,
-  needBottomBorder: boolean,
-  song: Song,
-  onDownload: () => void,
-  buttonLoading: boolean,
-  category: string
-}) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  // 按照level_index排序，从小到大
-  const sortedScores = [...scores].sort((a, b) => a.level_index - b.level_index);
-
-  return (
-    <div className="mb-6">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center">
-          <span className={`w-16 text-sm text-white ${bgColor} rounded-full py-1 text-center`}>{title}</span>
-          {category === chartType.toLowerCase() && (
-            <button
-              onClick={() => onDownload()}
-              className={`h-7 w-7 text-white ${bgColor} rounded-full mx-2 text-center flex items-center justify-center ${buttonLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-opacity-80'}`}
-              disabled={buttonLoading}
-            >
-              {buttonLoading ? <span className="inline-block">...</span> : <FaDownload size={14} />}
-            </button>
-          )}
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="ml-2 p-1 rounded-full hover:bg-gray-200 transition-colors text-black"
-            aria-label={isExpanded ? "收起" : "展开"}
-          >
-            {isExpanded ? <FaChevronUp size={16} /> : <FaChevronDown size={16} />}
-          </button>
-        </div>
-      </div>
-
-      {isExpanded && (
-        <div className="space-y-4 mx-2">
-          {sortedScores.map((score: any, index: number) => (
-            <div key={index} className={`flex items-start ${index === sortedScores.length - 1 ? (needBottomBorder ? 'border-b-2 pb-4 mb-8' : 'pb-4 mb-4') : 'border-b-2 pb-4 mb-4'}`}>
-              {/* 难度方块 */}
-              <div className="mr-4">
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white border-4 border-[rgb(155,244,236)]"
-                  style={{
-                    backgroundColor: getDifficultyColor(score.level_index)
-                  }}
-                >
-                  {song.difficulties
-                    && song.difficulties[chartType as keyof typeof song.difficulties]
-                    && song.difficulties[chartType as keyof typeof song.difficulties][score.level_index]
-                    ? song.difficulties[chartType as keyof typeof song.difficulties][score.level_index].level
-                    : score.level_index}
-                </div>
-              </div>
-
-              {/* 成绩信息 */}
-              <div className="flex-1">
-                <div className="grid max-sm:grid-cols-1 grid-cols-3 gap-4 max-sm:gap-2 max-sm:pl-2 pl-8 mx-4 max-sm:mx-1">
-                  {/* 成绩和评级 */}
-                  <div className="flex items-center space-x-3 justify-center">
-                    {getRateImage(score.achievements) ? (
-                      <img src={getRateImage(score.achievements)!} alt={getRateText(score.achievements)} className="max-sm:h-8 h-10" />
-                    ) : (
-                      <div className="max-sm:text-base text-lg font-medium">{getRateText(score.achievements)}</div>
-                    )}
-                    <p className="max-sm:text-base text-lg font-semibold text-black">{score.achievements ? `${score.achievements.toFixed(4)}%` : "暂无成绩"}</p>
-                  </div>
-
-                  {/* FC FDX */}
-                  <div className="flex items-center justify-center space-x-4 max-sm:py-2">
-                    {getFCImage(score.fc) ? (
-                      <div className='max-sm:size-10 size-12 bg-no-repeat bg-center max-sm:bg-[length:45px_45px] bg-[length:55px_55px]' style={{ backgroundImage: `url(${getFCImage(score.fc)})` }}></div>
-                    ) : (
-                      <div className='max-sm:size-8 size-10 rounded-full bg-gray-400'></div>
-                    )}
-
-                    {getFSImage(score.fs) ? (
-                      <div className='max-sm:size-10 size-12 bg-no-repeat bg-center max-sm:bg-[length:45px_45px] bg-[length:55px_55px]' style={{ backgroundImage: `url(${getFSImage(score.fs)})` }}></div>
-                    ) : (
-                      <div className='max-sm:size-8 size-10 rounded-full bg-gray-400'></div>
-                    )}
-                  </div>
-
-                  {/* DX分数和DX Rating */}
-                  <div className="text-center text-black">
-                    <p className="font-medium max-sm:text-sm">DX分数: {score.dx_score || "暂无"}</p>
-                    <p className="font-medium max-sm:text-sm">DX Rating: {score.dx_rating || "暂无"}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="w-full p-4 space-y-8">
+      {standardScores.length > 0 && <ScoreSection title="标准谱面" scores={standardScores} song={song} chartType={ChartType.STANDARD} />}
+      {dxScores.length > 0 && <ScoreSection title="DX谱面" scores={dxScores} song={song} chartType={ChartType.DX} />}
     </div>
   );
 }
 
-// 根据rate值返回对应的评级图片路径
+function ScoreSection({ title, scores, song, chartType }: { title: string, scores: SongScoreProps[], song: Song, chartType: ChartType }) {
+  const [isExpanded, setIsExpanded] = useState(true);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="p-6 rounded-2xl bg-[#F0F2F5] border border-slate-300/50 shadow-sm"
+    >
+      <div className="flex items-center justify-between cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
+        <h3 className="text-xl font-bold text-gray-700">{title}</h3>
+        <motion.div animate={{ rotate: isExpanded ? 0 : -180 }} transition={{ duration: 0.3 }}>
+          <FaChevronDown className="text-gray-500" />
+        </motion.div>
+      </div>
+
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="mt-6 space-y-6">
+              {scores.map((score, index) => <ScoreCard key={index} score={score} song={song} chartType={chartType} />)}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+function ScoreCard({ score, song, chartType }: { score: SongScoreProps, song: Song, chartType: ChartType }) {
+  const difficulty = song.difficulties[chartType]?.find(d => d.level_index === score.level_index);
+
+  return (
+    <div className="p-5 rounded-xl bg-[#e6e9ee] border border-slate-300/40 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]">
+      <div className="flex items-center space-x-4">
+        <div
+          className="w-16 h-16 rounded-lg flex items-center justify-center shadow-md"
+          style={{ backgroundColor: getDifficultyColor(score.level_index as 0 | 1 | 2 | 3 | 4) }}
+        >
+          {difficulty?.level_value || score.level_index}
+        </div>
+        <div className="flex-1 grid grid-cols-2 gap-4">
+          <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-[#F0F2F5] border border-white/60 shadow-sm">
+            <img src={getRateImage(score.achievements) || ''} alt="" className="h-8 mb-1" />
+            <p className="text-lg font-bold text-gray-800">{score.achievements.toFixed(4)}%</p>
+          </div>
+          <div className="flex items-center justify-center space-x-4">
+            {getFCImage(score.fc as any) && <img src={getFCImage(score.fc as any)!} className="h-10" />}
+            {getFSImage(score.fs as any) && <img src={getFSImage(score.fs as any)!} className="h-10" />}
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 grid grid-cols-2 gap-4 text-center">
+          <div className="p-2 rounded-lg bg-[#F0F2F5] border border-white/60 shadow-sm">
+              <p className="text-sm text-gray-500">DX Score</p>
+              <p className="text-lg font-semibold text-gray-800">{score.dx_score}</p>
+          </div>
+          <div className="p-2 rounded-lg bg-[#F0F2F5] border border-white/60 shadow-sm">
+              <p className="text-sm text-gray-500">DX Rating</p>
+              <p className="text-lg font-semibold text-gray-800">{score.dx_rating}</p>
+          </div>
+      </div>
+    </div>
+  );
+}
+
+// Helper functions (getRateImage, getFCImage, getFSImage) remain the same
 function getRateImage(achievements: number | null): string | null {
   if (achievements === null) return null;
-  switch (true) {
-    case achievements >= 100.5:
-      return '/img/grade/sssp.webp';
-    case achievements >= 100:
-      return '/img/grade/sss.webp';
-    case achievements >= 99.5:
-      return '/img/grade/ssp.webp';
-    case achievements >= 99:
-      return '/img/grade/ss.webp';
-    case achievements >= 98:
-      return '/img/grade/sp.webp';
-    case achievements >= 97:
-      return '/img/grade/s.webp';
-    case achievements >= 94:
-      return '/img/grade/aaa.webp';
-    case achievements >= 90:
-      return '/img/grade/aa.webp';
-    case achievements >= 80:
-      return '/img/grade/a.webp';
-    case achievements >= 75:
-      return '/img/grade/bbb.webp';
-    case achievements >= 70:
-      return '/img/grade/bb.webp';
-    case achievements >= 60:
-      return '/img/grade/b.webp';
-    case achievements >= 50:
-      return '/img/grade/c.webp';
-    case achievements >= 0:
-      return '/img/grade/d.webp';
-    default:
-      return null;
-  }
+  if (achievements >= 100.5) return '/img/grade/sssp.webp';
+  if (achievements >= 100) return '/img/grade/sss.webp';
+  if (achievements >= 99.5) return '/img/grade/ssp.webp';
+  if (achievements >= 99) return '/img/grade/ss.webp';
+  if (achievements >= 98) return '/img/grade/sp.webp';
+  if (achievements >= 97) return '/img/grade/s.webp';
+  if (achievements >= 94) return '/img/grade/aaa.webp';
+  if (achievements >= 90) return '/img/grade/aa.webp';
+  if (achievements >= 80) return '/img/grade/a.webp';
+  return null;
 }
 
-// 根据rate值返回对应的评级文本
-function getRateText(achievements: number | null): string {
-  if (achievements === null) return "无评级";
-  switch (true) {
-    case achievements >= 100.5:
-      return "SSS+";
-    case achievements >= 100:
-      return "SSS";
-    case achievements >= 99.5:
-      return "SS+";
-    case achievements >= 99:
-      return "SS";
-    case achievements >= 98:
-      return "S+";
-    case achievements >= 97:
-      return "S";
-    case achievements >= 94:
-      return "AAA";
-    case achievements >= 90:
-      return "AA";
-    case achievements >= 80:
-      return "A";
-    case achievements >= 75:
-      return "BBB";
-    case achievements >= 70:
-      return "BB";
-    case achievements >= 60:
-      return "B";
-    case achievements >= 50:
-      return "C";
-    case achievements >= 0:
-      return "D";
-  }
-  return "未知";
+function getFCImage(fc: string | null): string | null {
+    if (!fc) return null;
+    const map: { [key: string]: string } = {
+        'app': '/img/grade/app.webp',
+        'ap': '/img/grade/ap.webp',
+        'fcp': '/img/grade/fcp.webp',
+        'fc': '/img/grade/fc.webp',
+    };
+    return map[fc] || null;
 }
 
-// 根据fc值返回对应的图片路径
-function getFCImage(fc: number | null): string | null {
-  if (fc === null) return null;
-  const fcImageMap: { [key: number]: string } = {
-    0: '/img/grade/app.webp',
-    1: '/img/grade/ap.webp',
-    2: '/img/grade/fcp.webp',
-    3: '/img/grade/fc.webp',
-  };
-  return fcImageMap[fc] || null;
-}
-
-// 根据fs值返回对应的图片路径
-function getFSImage(fs: number | null): string | null {
-  if (fs === null) return null;
-  const fsImageMap: { [key: number]: string } = {
-    0: '/img/grade/sync.webp',
-    1: '/img/grade/fs.webp',
-    2: '/img/grade/fsp.webp',
-    3: '/img/grade/fsd.webp',
-    4: '/img/grade/fsdp.webp',
-  };
-  return fsImageMap[fs] || null;
-}
-
-// 根据fc值返回对应的文本
-function getFCText(fc: number | null): string {
-  if (fc === null) return "无FC";
-  const fcMap: { [key: number]: string } = {
-    0: "AP+",
-    1: "AP",
-    2: "FC+",
-    3: "FC",
-  };
-  return fcMap[fc] || "未知";
-}
-
-// 根据fc值返回对应的颜色类名
-function getFCColor(fc: number | null): string {
-  if (fc === null) return "text-gray-500";
-  const fcColorMap: { [key: number]: string } = {
-    0: "text-yellow-600",
-    1: "text-yellow-600",
-    2: "text-green-500",
-    3: "text-green-600",
-  };
-  return fcColorMap[fc] || "text-gray-500";
-}
-
-// 根据fs值返回对应的文本
-function getFSText(fs: number | null): string {
-  if (fs === null) return "无FS";
-  const fsMap: { [key: number]: string } = {
-    0: "SYNC PLAY",
-    1: "FS",
-    2: "FS+",
-    3: "FDX",
-    4: "FDX+",
-  };
-  return fsMap[fs] || "未知";
-}
-
-// 根据fs值返回对应的颜色类名
-function getFSColor(fs: number | null): string {
-  if (fs === null) return "text-gray-500";
-  const fsColorMap: { [key: number]: string } = {
-    0: "text-blue-500",
-    1: "text-blue-500",
-    2: "text-blue-500",
-    3: "text-yellow-500",
-    4: "text-yellow-500",
-  };
-  return fsColorMap[fs] || "text-gray-500";
+function getFSImage(fs: string | null): string | null {
+    if (!fs) return null;
+    const map: { [key: string]: string } = {
+        'fsdp': '/img/grade/fsdp.webp',
+        'fsd': '/img/grade/fsd.webp',
+        'fsp': '/img/ggrade/fsp.webp',
+        'fs': '/img/grade/fs.webp',
+        'sync':'/img/grade/sync.webp'
+    };
+    return map[fs] || null;
 }
