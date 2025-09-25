@@ -105,7 +105,7 @@ export default function SongItem({ song, index, totalSongs, displayMode }: SongI
                         />
 
                         {/* 专辑图贴纸区域（进一步内缩，露出更多环形） */}
-                        <div className='absolute inset-6 rounded-full overflow-hidden'>
+                        <div className='absolute inset-2 rounded-full overflow-hidden'>
                             <Image
                                 src={`https://assets2.lxns.net/maimai/jacket/${song.id}.png`}
                                 alt={song.title}
@@ -144,23 +144,13 @@ export default function SongItem({ song, index, totalSongs, displayMode }: SongI
                             }}
                         />
 
-                        {/* 中心孔位（保留） */}
-                        <div
-                            className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none'
-                            style={{
-                                width: '18%',
-                                height: '18%',
-                                backgroundColor: 'white',
-                                border: '2px solid rgba(0,0,0,0.08)',
-                                boxShadow: 'inset 2px 2px 4px rgba(0,0,0,0.06), inset -2px -2px 4px rgba(255,255,255,0.6)'
-                            }}
-                        />
+                      
                     </div>
 
                     {/* 扫头（Tonearm） */}
                     <div
                         aria-hidden
-                        className='absolute -top-6 left-6 z-20 pointer-events-none origin-top-left -rotate-[-8deg] transition-transform duration-300 '
+                        className='absolute -top-6 left-6 z-20 pointer-events-none origin-top-left -rotate-[-2deg] transition-transform duration-300 '
                     >
                         {/* 基座（pivot） */}
                         <div
