@@ -173,7 +173,7 @@ export default function MusicPage() {
         select {
           appearance: none; /* 清除默认样式 */
           -webkit-appearance: none; /* 兼容 Safari */
-          -moz-appearance: none; /* 兼容 Firefox */
+          -moz-appearance: none; /* 兼容 Firefox */   
           color: white; /* 默认文本颜色 */
         }
         select option {
