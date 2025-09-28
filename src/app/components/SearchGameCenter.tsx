@@ -323,10 +323,6 @@ const SearchGameCenter = () => {
                         ease: "easeOut",
                         delay: 0.3
                     }}
-                    whileHover={{
-                        scale: 1.05,
-                        transition: { duration: 0.3 }
-                    }}
                 >
                     <Image
                         className="w-48 drop-shadow-lg"
@@ -340,199 +336,209 @@ const SearchGameCenter = () => {
 
                 {/* 搜索表单 */}
                 <motion.div
-                    className="w-full px-8 mt-4 mb-2"
+                    className="w-full px-8 mt-8 mb-6"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.5 }}
                 >
-                    <div className="flex flex-wrap justify-center gap-4">
-                        {/* 搜索范围选择器 */}
-                        <motion.div
-                            className="relative min-w-[140px] max-sm:w-full rounded-full overflow-hidden border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg"
-                            whileHover={{ scale: 1.02, boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.3)" }}
-                            transition={{ duration: 0.2 }}
-                        >
-                            <select
-                                className="w-full py-2.5 px-4 appearance-none bg-transparent text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-400"
-                                value={searchGameCenter.range}
-                                onChange={(e) => setSearchGameCenter(prev => ({ ...prev, range: parseInt(e.target.value) }))}
-                            >
-                                <option value={1000}>1公里范围</option>
-                                <option value={3000}>3公里范围</option>
-                                <option value={5000}>5公里范围</option>
-                                <option value={10000}>10公里范围</option>
-                                <option value={20000}>20公里范围</option>
-                            </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-gradient-to-r from-transparent to-pink-200">
-                                <svg className="h-4 w-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </div>
-                        </motion.div>
+                    <div className="flex flex-col items-center gap-6">
+                        {/* 第一行：搜索范围、排序方式、获取定位 + 定位信息提示 */}
+                        <div className="flex flex-col items-center gap-2 w-full">
+                            <div className="flex flex-wrap justify-center gap-6 w-full">
+                                {/* 搜索范围选择器 */}
+                                <motion.div
+                                    className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg"
+                                    whileHover={{ boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.3)" }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <select
+                                        className="w-full h-9 py-1.5 px-4 appearance-none bg-transparent text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                                        value={searchGameCenter.range}
+                                        onChange={(e) => setSearchGameCenter(prev => ({ ...prev, range: parseInt(e.target.value) }))}
+                                    >
+                                        <option value={1000}>1公里范围</option>
+                                        <option value={3000}>3公里范围</option>
+                                        <option value={5000}>5公里范围</option>
+                                        <option value={10000}>10公里范围</option>
+                                        <option value={20000}>20公里范围</option>
+                                    </select>
+                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-gradient-to-r from-transparent to-pink-200">
+                                        <svg className="h-4 w-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                </motion.div>
 
-                        {/* 排序方式选择器 */}
-                        <motion.div
-                            className="relative min-w-[140px] max-sm:w-full rounded-full overflow-hidden border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg"
-                            whileHover={{ scale: 1.02, boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.3)" }}
-                            transition={{ duration: 0.2 }}
-                        >
-                            <select
-                                className="w-full py-2.5 px-4 appearance-none bg-transparent text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-400"
-                                value={searchGameCenter.sort}
-                                onChange={(e) => setSearchGameCenter(prev => ({ ...prev, sort: e.target.value }))}
-                            >
-                                <option value="distance">按距离排序</option>
-                            </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-gradient-to-r from-transparent to-pink-200">
-                                <svg className="h-4 w-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </div>
-                        </motion.div>
+                                {/* 排序方式选择器 */}
+                                <motion.div
+                                    className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg"
+                                    whileHover={{ boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.3)" }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <select
+                                        className="w-full h-9 py-1.5 px-4 appearance-none bg-transparent text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                                        value={searchGameCenter.sort}
+                                        onChange={(e) => setSearchGameCenter(prev => ({ ...prev, sort: e.target.value }))}
+                                    >
+                                        <option value="distance">按距离排序</option>
+                                    </select>
+                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-gradient-to-r from-transparent to-pink-200">
+                                        <svg className="h-4 w-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                </motion.div>
 
-                        {/* 机厅名称搜索 */}
-                        <motion.div
-                            className="relative min-w-[200px] max-sm:w-full"
-                            whileHover={{ scale: 1.02 }}
-                            transition={{ duration: 0.2 }}
-                        >
-                            <input
-                                type="text"
-                                placeholder="输入机厅名称"
-                                className="w-full py-2.5 px-4 rounded-full border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 text-gray-800 placeholder-pink-400"
-                                value={searchGameCenter.name || ''}
-                                onChange={(e) => setSearchGameCenter(prev => ({ ...prev, name: e.target.value }))}
-                            />
-                        </motion.div>
-
-                        {/* 地址搜索 */}
-                        <motion.div
-                            className="relative min-w-[200px] max-sm:w-full"
-                            whileHover={{ scale: 1.02 }}
-                            transition={{ duration: 0.2 }}
-                        >
-                            <input
-                                type="text"
-                                placeholder="输入地址"
-                                className="w-full py-2.5 px-4 rounded-full border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 text-gray-800 placeholder-pink-400"
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                            />
-                        </motion.div>
-
-                        <motion.button
-                            onClick={getLocation}
-                            className="flex items-center justify-center h-11 w-11 rounded-full bg-gradient-to-r from-pink-200 to-pink-300 border-2 border-pink-400 shadow-lg"
-                            title="获取我的位置"
-                            whileHover={{
-                                scale: 1.1,
-                                boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.4)",
-                                rotate: [0, -10, 10, 0]
-                            }}
-                            whileTap={{ scale: 0.95 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-pink-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </motion.button>
-                    </div>
-                </motion.div>
-
-                {/* 搜索按钮 */}
-                <motion.div
-                    className="mt-4 mb-4 flex flex-wrap justify-center gap-4"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.7 }}
-                >
-                    <motion.div
-                        className="relative"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <motion.button
-                            className="px-8 py-2.5 rounded-full bg-gradient-to-r from-pink-300 to-pink-400 hover:from-pink-400 hover:to-pink-500 text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-pink-500"
-                            onClick={GetGameCenter}
-                            disabled={isLoading}
-                            whileHover={{
-                                boxShadow: "0 15px 35px -5px rgba(255, 95, 165, 0.4)"
-                            }}
-                        >
-                            {isLoading ? (
-                                <>
-                                    <motion.div
-                                        className="h-5 w-5 border-b-2 border-white rounded-full"
-                                        animate={{ rotate: 360 }}
-                                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                    ></motion.div>
-                                    搜索中...
-                                </>
-                            ) : (
-                                <>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
-                                    搜索机厅
-                                </>
-                            )}
-                        </motion.button>
-                    </motion.div>
-                    <motion.div
-                        className="relative"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <motion.button
-                            className="px-8 py-2.5 rounded-full bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-pink-600"
-                            onClick={getLocationFromAdress}
-                            disabled={isLoading || !address.trim()}
-                            whileHover={{
-                                boxShadow: "0 15px 35px -5px rgba(255, 95, 165, 0.4)"
-                            }}
-                        >
-                            {isLoading ? (
-                                <>
-                                    <motion.div
-                                        className="h-5 w-5 border-b-2 border-white rounded-full"
-                                        animate={{ rotate: 360 }}
-                                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                    ></motion.div>
-                                    查询中...
-                                </>
-                            ) : (
-                                <>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                {/* 获取定位按钮 */}
+                                <motion.button
+                                    onClick={getLocation}
+                                    className="flex items-center justify-center h-10 px-4 rounded-full bg-gradient-to-r from-pink-200 to-pink-300 border-2 border-pink-400 shadow-lg gap-2 max-sm:w-10 max-sm:h-10 max-sm:px-0 max-sm:gap-0"
+                                    title="获取我的位置"
+                                    whileHover={{
+                                        boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.4)",
+                                    }}
+                                    whileTap={{ scale: 0.95 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-pink-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0z" />
                                     </svg>
-                                    地址查询
-                                </>
-                            )}
-                        </motion.button>
-                    </motion.div>
-                </motion.div>
+                                    <span className="text-sm font-medium text-pink-700 whitespace-nowrap max-sm:hidden">获取当前定位</span>
+                                </motion.button>
+                            </div>
 
-                {/* 定位信息提示 */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.9 }}
-                >
-                    {searchGameCenter.lat && searchGameCenter.lng ? (
-                        <div className="flex items-center gap-1 text-sm text-pink-600 mb-2 bg-pink-50 px-3 py-1 rounded-full border border-pink-200">
-                            <FcClock />
-                            <span>已获取您的位置信息，可直接搜索附近机厅</span>
+                            {/* 定位信息提示 */}
+                            <motion.div
+                                className="-mb-3"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.5, delay: 0.9 }}
+                            >
+                                {searchGameCenter.lat && searchGameCenter.lng ? (
+                                    <div className="flex items-center gap-1 text-sm text-pink-500 px-3">
+                                        <FcClock />
+                                        <span>已获取您的位置信息，可直接搜索附近机厅</span>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center gap-1 text-sm text-pink-500 px-3">
+                                        <FcClock />
+                                        <span>未获取到您的位置信息</span>
+                                    </div>
+                                )}
+                            </motion.div>
                         </div>
-                    ) : (
-                        <div className="flex items-center gap-1 text-sm text-pink-500 mb-2 bg-pink-50 px-3 py-1 rounded-full border border-pink-200">
-                            <FcClock />
-                            <span>未获取到您的位置信息</span>
+
+                        {/* 第二行：机厅名称搜索 + 搜索按钮 */}
+                        <div className="flex flex-wrap justify-center gap-6 w-full">
+                            {/* 机厅名称搜索 */}
+                            <motion.div
+                                className="relative min-w-[250px] flex-1 max-w-[350px] max-sm:min-w-[200px]"
+                                transition={{ duration: 0.2 }}
+                            >
+                                <input
+                                    type="text"
+                                    placeholder="请输入机厅名称（可选）"
+                                    className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 text-gray-800 placeholder-pink-300"
+                                    value={searchGameCenter.name || ''}
+                                    onChange={(e) => setSearchGameCenter(prev => ({ ...prev, name: e.target.value }))}
+                                />
+                            </motion.div>
+
+                            {/* 搜索机厅按钮 */}
+                            <motion.div
+                                className="relative"
+                                whileTap={{ scale: 0.95 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                <motion.button
+                                    className="px-8 py-2.5 h-11 rounded-full bg-gradient-to-r from-pink-300 to-pink-400 hover:from-pink-400 hover:to-pink-500 text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-pink-500 max-sm:px-6 max-sm:text-base"
+                                    onClick={GetGameCenter}
+                                    disabled={isLoading}
+                                    whileHover={{
+                                        boxShadow: "0 15px 35px -5px rgba(255, 95, 165, 0.4)"
+                                    }}
+                                >
+                                    {isLoading ? (
+                                        <>
+                                            <motion.div
+                                                className="h-5 w-5 border-b-2 border-white rounded-full"
+                                                animate={{ rotate: 360 }}
+                                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                            ></motion.div>
+                                            搜索中...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                            </svg>
+                                            搜索机厅
+                                        </>
+                                    )}
+                                </motion.button>
+                            </motion.div>
                         </div>
-                    )}
+
+                        {/* 分隔栏 */}
+                        <div className="flex items-center w-full max-w-lg mx-auto max-sm:max-w-full max-sm:px-4">
+                            <div className="flex-1 h-px bg-pink-300"></div>
+                            <span className="px-4 text-sm text-pink-500 whitespace-nowrap max-sm:text-xs max-sm:px-2">或使用地址查询</span>
+                            <div className="flex-1 h-px bg-pink-300"></div>
+                        </div>
+
+                        {/* 第三行：地址搜索 + 地址查询按钮 */}
+                        <div className="flex flex-wrap justify-center gap-6 w-full">
+                            {/* 地址搜索 */}
+                            <motion.div
+                                className="relative min-w-[250px] flex-1 max-w-[350px] max-sm:min-w-[200px]"
+                                transition={{ duration: 0.2 }}
+                            >
+                                <input
+                                    type="text"
+                                    placeholder="请输入地址"
+                                    className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 text-gray-800 placeholder-pink-300"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                />
+                            </motion.div>
+
+                            {/* 地址查询按钮 */}
+                            <motion.div
+                                className="relative"
+                                whileTap={{ scale: 0.95 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                <motion.button
+                                    className="px-8 py-2.5 h-11 rounded-full bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-pink-600 max-sm:px-6 max-sm:text-base"
+                                    onClick={getLocationFromAdress}
+                                    disabled={isLoading || !address.trim()}
+                                    whileHover={{
+                                        boxShadow: "0 15px 35px -5px rgba(255, 95, 165, 0.4)"
+                                    }}
+                                >
+                                    {isLoading ? (
+                                        <>
+                                            <motion.div
+                                                className="h-5 w-5 border-b-2 border-white rounded-full"
+                                                animate={{ rotate: 360 }}
+                                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                            ></motion.div>
+                                            查询中...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0z" />
+                                            </svg>
+                                            地址查询
+                                        </>
+                                    )}
+                                </motion.button>
+                            </motion.div>
+                        </div>
+                    </div>
                 </motion.div>
 
                 {/* 装饰元素 - 使用circle目录中的资源 */}

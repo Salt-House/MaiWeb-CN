@@ -30,9 +30,8 @@ export default function SearchGameCenterResults(props: SearchGameCenterResultsPr
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="max-sm:w-[90%] w-[800px] mx-auto mb-20"
         >
-          <motion.div 
+          <motion.div
             className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border-2 border-pink-300 hover:border-pink-400 transition-all duration-300"
-            whileHover={{ scale: 1.01, boxShadow: "0 25px 50px -12px rgba(236, 72, 153, 0.25)" }}
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-pink-600">
@@ -41,7 +40,6 @@ export default function SearchGameCenterResults(props: SearchGameCenterResultsPr
               <motion.button
                 onClick={onClose}
                 className="text-pink-400 hover:text-pink-600 transition-colors p-2 rounded-full hover:bg-pink-50"
-                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,7 +88,6 @@ export default function SearchGameCenterResults(props: SearchGameCenterResultsPr
                     >
                       <motion.div
                         className="bg-pink-50/80 backdrop-blur-sm rounded-xl p-4 hover:shadow-lg transition-all duration-300 border-2 border-pink-200 hover:border-pink-300"
-                        whileHover={{ scale: 1.02, y: -2 }}
                         transition={{ duration: 0.2 }}
                       >
                         <div className="flex justify-between items-start">
@@ -113,7 +110,7 @@ export default function SearchGameCenterResults(props: SearchGameCenterResultsPr
                               )}
                               {arcade.arcade_cost !== null && (
                                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-700">
-                                  单次: {arcade.arcade_cost}元
+                                  单pc: {arcade.arcade_cost} 元
                                 </span>
                               )}
                               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
@@ -129,7 +126,6 @@ export default function SearchGameCenterResults(props: SearchGameCenterResultsPr
                             <motion.button
                               className="p-2 rounded-full bg-pink-400 hover:bg-pink-500 transition-colors shadow-md"
                               onClick={() => handleNavigation(arcade)}
-                              whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                             >
                               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
