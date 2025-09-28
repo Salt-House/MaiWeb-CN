@@ -1,7 +1,5 @@
 "use client"
-import { motion } from "framer-motion";
-
-
+import { motion } from "framer-motion"
 
 export default function RoatChiho() {
   return (
@@ -16,7 +14,7 @@ export default function RoatChiho() {
           duration: 2,
           ease: "easeInOut",
           repeat: Infinity,
-          repeatType: "reverse"
+          repeatType: "reverse",
         }}
         onClick={() => alert("不要点你爹")}
       />
@@ -29,7 +27,7 @@ export default function RoatChiho() {
         transition={{
           duration: 2,
           ease: "easeInOut",
-          repeat: Infinity
+          repeat: Infinity,
         }}
         onClick={() => alert("不要点你爹")}
       />

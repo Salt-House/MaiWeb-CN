@@ -1,58 +1,82 @@
-'use client'
+"use client"
 
-import { ChartType, DifficultyInfo, getDifficultyColor, Song } from "../songModel";
-import { motion } from 'framer-motion';
-import { FaMusic } from 'react-icons/fa'; // Example icon
+import { ChartType, DifficultyInfo, getDifficultyColor, Song } from "../songModel"
+import { motion } from "framer-motion"
+import { FaMusic } from "react-icons/fa" // Example icon
 
 // Helper to get total notes
 const getTotalNotes = (diff: DifficultyInfo) => {
-  const noteTypes: (keyof DifficultyInfo)[] = ['tap_num', 'hold_num', 'slide_num', 'touch_num', 'break_num'];
-  return noteTypes.reduce((sum, type) => sum + (Number(diff[type]) || 0), 0);
-};
+  const noteTypes: (keyof DifficultyInfo)[] = [
+    "tap_num",
+    "hold_num",
+    "slide_num",
+    "touch_num",
+    "break_num",
+  ]
+  return noteTypes.reduce((sum, type) => sum + (Number(diff[type]) || 0), 0)
+}
 
 // Note type component
-const NoteDetailItem = ({ label, value, icon, color }: { label: string, value: number | string, icon: React.ReactNode, color: string }) => (
+const NoteDetailItem = ({
+  label,
+  value,
+  icon,
+  color,
+}: {
+  label: string
+  value: number | string
+  icon: React.ReactNode
+  color: string
+}) => (
   <div className="flex items-center justify-between w-full text-sm">
     <div className="flex items-center space-x-2">
-      <div style={{ color }} className="w-4 h-4">{icon}</div>
+      <div style={{ color }} className="w-4 h-4">
+        {icon}
+      </div>
       <span className="text-gray-600 font-medium">{label}</span>
     </div>
     <span className="font-bold text-gray-800">{value}</span>
   </div>
-);
+)
 
-export default function NoteTable({ song, chartType }: { song: Song, chartType: ChartType }) {
-  let songData: DifficultyInfo[] = [];
+export default function NoteTable({ song, chartType }: { song: Song; chartType: ChartType }) {
+  let songData: DifficultyInfo[] = []
 
   switch (chartType) {
     case ChartType.STANDARD:
-      songData = song.difficulties.standard;
-      break;
+      songData = song.difficulties.standard
+      break
     case ChartType.DX:
-      songData = song.difficulties.dx;
-      break;
+      songData = song.difficulties.dx
+      break
     case ChartType.UTAGE:
-      songData = song.difficulties.utage;
-      break;
+      songData = song.difficulties.utage
+      break
     default:
-      break;
+      break
   }
 
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
       {songData.map((diff, idx) => {
-        const diffColor = chartType === 'utage'
-          ? "rgb(220, 56, 184)"
-          : getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4);
-        const totalNotes = getTotalNotes(diff);
+        const diffColor =
+          chartType === "utage"
+            ? "rgb(220, 56, 184)"
+            : getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
+        const totalNotes = getTotalNotes(diff)
 
         const noteDetails = [
-          { label: 'Tap', value: diff.tap_num, icon: <FaMusic />, color: '#FF7A7A' },
-          { label: 'Hold', value: diff.hold_num, icon: <FaMusic />, color: '#FFB347' },
-          { label: 'Slide', value: diff.slide_num, icon: <FaMusic />, color: '#47B3FF' },
-          { label: 'Touch', value: chartType === ChartType.STANDARD ? '-' : diff.touch_num, icon: <FaMusic />, color: '#47FFB3' },
-          { label: 'Break', value: diff.break_num, icon: <FaMusic />, color: '#FF4747' },
-        ];
+          { label: "Tap", value: diff.tap_num, icon: <FaMusic />, color: "#FF7A7A" },
+          { label: "Hold", value: diff.hold_num, icon: <FaMusic />, color: "#FFB347" },
+          { label: "Slide", value: diff.slide_num, icon: <FaMusic />, color: "#47B3FF" },
+          {
+            label: "Touch",
+            value: chartType === ChartType.STANDARD ? "-" : diff.touch_num,
+            icon: <FaMusic />,
+            color: "#47FFB3",
+          },
+          { label: "Break", value: diff.break_num, icon: <FaMusic />, color: "#FF4747" },
+        ]
 
         return (
           <motion.div
@@ -70,7 +94,7 @@ export default function NoteTable({ song, chartType }: { song: Song, chartType: 
                   className="flex items-center justify-center min-w-20 h-9 px-3 rounded-lg text-white font-bold shadow-md"
                   style={{ backgroundColor: diffColor }}
                 >
-                  {chartType === 'utage' ? `${diff.level} | ${diff.kanji}` : diff.level_value}
+                  {chartType === "utage" ? `${diff.level} | ${diff.kanji}` : diff.level_value}
                 </div>
                 <div className="text-right">
                   <div className="text-xs text-gray-500">Total Notes</div>
@@ -89,8 +113,8 @@ export default function NoteTable({ song, chartType }: { song: Song, chartType: 
               </div>
             </div>
           </motion.div>
-        );
+        )
       })}
     </div>
-  );
+  )
 }
