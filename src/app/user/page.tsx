@@ -19,6 +19,9 @@ export default function UserPage() {
   const [agree, setAgree] = useState<boolean>(false);
   const [register, setRegister] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [code, setCode] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
   const Register = () => {
     setIsLoading(true);
@@ -106,6 +109,52 @@ export default function UserPage() {
       });
   }
 
+  const sendVerificationEmail = () => {
+    setIsLoading(true);
+    fetch(`https://dev.maimai.moe/email/verify/email?email=${email}`)
+      .then(async (response) => {
+        const data = await response.json();
+        if (response.ok) {
+          alert(data.message);
+        } else {
+          throw new Error(data.message || "发送验证邮件失败，请稍后再试。");
+        }
+      })
+      .catch((error) => alert(error))
+      .finally(() => setIsLoading(false));
+  };
+
+  const changePassword = () => {
+    setIsLoading(true);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      "email": email,
+      "password": newPassword,
+      "code": parseInt(code)
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    fetch("https://dev.maimai.moe/email/change_password", requestOptions)
+      .then(async (response) => {
+        const data = await response.json();
+        if (response.ok) {
+          alert(data.message);
+          setForgotPassword(false);
+        } else {
+          throw new Error(data.message || "密码修改失败，请稍后再试。");
+        }
+      })
+      .catch((error) => alert(error))
+      .finally(() => setIsLoading(false));
+  };
+
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (!storedToken) {
@@ -154,18 +203,40 @@ export default function UserPage() {
                     </div>
                   </>
                   : <>
-                    <div className='h-full flex flex-col p-2 justify-center items-center space-y-2'>
-                      <img src="/img/logo.png" className='w-48' alt="" />
-                      <h1 className='text-2xl font-bold'>舞萌萌账号登录</h1>
-                      {isLoading ? <LoadingSpinner /> : <>
-                        <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-md' value={username} onChange={(e) => setUsername(e.target.value)} />
-                        <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-md' value={password} onChange={(e) => setPassword(e.target.value)} />
-                        <div className='flex flex-row space-x-5'>
-                          <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={Login}>登录</button>
-                          <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={() => { setRegister(true) }}>注册</button>
+                   {forgotPassword ?
+                      <>
+                        <div className='h-full flex flex-col p-2 justify-center items-center space-y-2'>
+                          <button
+                            className="flex items-center text-white font-medium hover:text-gray-200 transition-colors absolute top-4 left-4"
+                            onClick={() => setForgotPassword(false)}
+                          >
+                            <FaArrowLeft className="mr-1" /> 返回登录
+                          </button>
+                          <img src="/img/logo.png" className='w-48' alt="" />
+                          <h1 className='text-2xl font-bold'>忘记密码</h1>
+                          {isLoading ? <LoadingSpinner /> : <>
+                            <input type="email" id="email" placeholder='email' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-md' value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <button className='w-48 h-12 border-4 border-white rounded-2xl text-xl font-bold' onClick={sendVerificationEmail}>发送验证码</button>
+                            <input type="text" id="code" placeholder='验证码' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-md' value={code} onChange={(e) => setCode(e.target.value)} />
+                            <input type="password" id="newPassword" placeholder='新密码' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-md' value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                            <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold' onClick={changePassword}>修改密码</button>
+                          </>}
                         </div>
-                      </>}
-                    </div>
+                      </>
+                      :
+                      <div className='h-full flex flex-col p-2 justify-center items-center space-y-2'>
+                        <img src="/img/logo.png" className='w-48' alt="" />
+                        <h1 className='text-2xl font-bold'>舞萌萌账号登录</h1>
+                        {isLoading ? <LoadingSpinner /> : <>
+                          <input type="username" id="username" placeholder='username' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-md' value={username} onChange={(e) => setUsername(e.target.value)} />
+                          <input type="password" id="password" placeholder='password' className=' w-[300px] p-1 pl-4 border-2 border-black rounded-2xl text-black focus:shadow-md' value={password} onChange={(e) => setPassword(e.target.value)} />
+                          <div className='flex flex-row space-x-5'>
+                            <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={Login}>登录</button>
+                            <button className='w-32 h-12 border-4 border-white rounded-2xl text-xl font-bold hover:scale-105' onClick={() => { setRegister(true) }}>注册</button>
+                          </div>
+                          <button className='text-white mt-4' onClick={() => setForgotPassword(true)}>忘记密码?</button>
+                        </>}
+                      </div>}
                   </>}
               </>
               :
