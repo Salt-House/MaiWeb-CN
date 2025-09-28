@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import React, { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react'
+import React, { createContext, useContext, useState, useEffect, useRef, ReactNode } from "react"
 
 export interface PlaylistItem {
   id: string
@@ -12,10 +12,9 @@ export interface PlaylistItem {
 
 // 播放模式枚举
 export enum PlayMode {
-  SEQUENCE = 'sequence', // 顺序播放
-  SINGLE = 'single'      // 单曲循环
+  SEQUENCE = "sequence", // 顺序播放
+  SINGLE = "single", // 单曲循环
 }
-
 
 export interface PlayerContextType {
   currentTrack: PlaylistItem | null
@@ -57,22 +56,22 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
     audioRef.current = audio
 
     // 监听音频事件
-    audio.addEventListener('timeupdate', () => {
+    audio.addEventListener("timeupdate", () => {
       setCurrentTime(audio.currentTime)
     })
 
-    audio.addEventListener('loadedmetadata', () => {
+    audio.addEventListener("loadedmetadata", () => {
       setDuration(audio.duration)
     })
 
-    audio.addEventListener('ended', handleTrackEnded)
+    audio.addEventListener("ended", handleTrackEnded)
 
     return () => {
       audio.pause()
-      audio.src = ''
-      audio.removeEventListener('timeupdate', () => { })
-      audio.removeEventListener('loadedmetadata', () => { })
-      audio.removeEventListener('ended', handleTrackEnded)
+      audio.src = ""
+      audio.removeEventListener("timeupdate", () => {})
+      audio.removeEventListener("loadedmetadata", () => {})
+      audio.removeEventListener("ended", handleTrackEnded)
     }
   }, [])
 
@@ -83,7 +82,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
       if (audioRef.current) {
         audioRef.current.currentTime = 0
         audioRef.current.play().catch(error => {
-          console.error('重新播放失败:', error)
+          console.error("重新播放失败:", error)
         })
       }
     } else {
@@ -111,24 +110,24 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
     if (!audioRef.current) return
 
     // 移除旧的事件监听器
-    audioRef.current.removeEventListener('ended', handleTrackEnded)
+    audioRef.current.removeEventListener("ended", handleTrackEnded)
 
     // 添加新的事件监听器
-    audioRef.current.addEventListener('ended', handleTrackEnded)
+    audioRef.current.addEventListener("ended", handleTrackEnded)
 
     return () => {
       if (audioRef.current) {
-        audioRef.current.removeEventListener('ended', handleTrackEnded)
+        audioRef.current.removeEventListener("ended", handleTrackEnded)
       }
     }
   }, [playMode, currentTrack, playlist]) // 添加所有相关依赖
 
   // 从本地存储加载播放列表和播放模式
   useEffect(() => {
-    const savedPlaylist = localStorage.getItem('music_playlist')
-    const savedCurrentTrack = localStorage.getItem('music_current_track')
-    const savedVolume = localStorage.getItem('music_volume')
-    const savedPlayMode = localStorage.getItem('music_play_mode')
+    const savedPlaylist = localStorage.getItem("music_playlist")
+    const savedCurrentTrack = localStorage.getItem("music_current_track")
+    const savedVolume = localStorage.getItem("music_volume")
+    const savedPlayMode = localStorage.getItem("music_play_mode")
 
     if (savedPlaylist) {
       setPlaylist(JSON.parse(savedPlaylist))
@@ -154,19 +153,19 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
   // 保存播放列表和播放模式到本地存储
   useEffect(() => {
     if (playlist.length > 0) {
-      localStorage.setItem('music_playlist', JSON.stringify(playlist))
+      localStorage.setItem("music_playlist", JSON.stringify(playlist))
     }
 
     if (currentTrack) {
-      localStorage.setItem('music_current_track', JSON.stringify(currentTrack))
+      localStorage.setItem("music_current_track", JSON.stringify(currentTrack))
     }
 
-    localStorage.setItem('music_play_mode', playMode)
+    localStorage.setItem("music_play_mode", playMode)
   }, [playlist, currentTrack, playMode])
 
   // 保存音量设置
   useEffect(() => {
-    localStorage.setItem('music_volume', volume.toString())
+    localStorage.setItem("music_volume", volume.toString())
   }, [volume])
 
   // 当当前曲目改变时，更新音频源
@@ -178,7 +177,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 
     if (isPlaying) {
       audioRef.current.play().catch(error => {
-        console.error('播放失败:', error)
+        console.error("播放失败:", error)
         setIsPlaying(false)
       })
     }
@@ -190,7 +189,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 
     if (isPlaying) {
       audioRef.current.play().catch(error => {
-        console.error('播放失败:', error)
+        console.error("播放失败:", error)
         setIsPlaying(false)
       })
     } else {
@@ -203,9 +202,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
     // 记录当前的播放状态
     const wasPlaying = isPlaying
 
-    setPlayMode(prevMode =>
-      prevMode === PlayMode.SEQUENCE ? PlayMode.SINGLE : PlayMode.SEQUENCE
-    )
+    setPlayMode(prevMode => (prevMode === PlayMode.SEQUENCE ? PlayMode.SINGLE : PlayMode.SEQUENCE))
 
     // 如果切换前是播放状态，确保切换后仍然保持播放
     if (wasPlaying && !isPlaying && audioRef.current) {
@@ -227,40 +224,40 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 
   const removeFromPlaylist = (id: string) => {
     // 检查是否是当前播放的曲目
-    const isCurrentTrack = currentTrack && currentTrack.id === id;
+    const isCurrentTrack = currentTrack && currentTrack.id === id
 
     // 获取当前索引和更新后的播放列表
-    const currentIndex = playlist.findIndex(item => item.id === id);
-    const updatedPlaylist = playlist.filter(item => item.id !== id);
+    const currentIndex = playlist.findIndex(item => item.id === id)
+    const updatedPlaylist = playlist.filter(item => item.id !== id)
 
     // 更新播放列表状态
-    setPlaylist(updatedPlaylist);
+    setPlaylist(updatedPlaylist)
 
     // 如果删除的是当前播放的曲目
     if (isCurrentTrack) {
       // 停止当前音频播放
       if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = '';
+        audioRef.current.pause()
+        audioRef.current.src = ""
       }
 
       // 如果更新后的播放列表不为空，切换到新的曲目
       if (updatedPlaylist.length > 0) {
         // 确定下一首要播放的歌曲索引
-        let nextIndex = currentIndex;
+        let nextIndex = currentIndex
         // 如果删除的是最后一首，则播放第一首
         if (nextIndex >= updatedPlaylist.length) {
-          nextIndex = 0;
+          nextIndex = 0
         }
 
         // 设置新的当前曲目
-        setCurrentTrack(updatedPlaylist[nextIndex]);
+        setCurrentTrack(updatedPlaylist[nextIndex])
         // 保持播放状态
-        setIsPlaying(true);
+        setIsPlaying(true)
       } else {
         // 如果播放列表为空，清除当前曲目并停止播放
-        setCurrentTrack(null);
-        setIsPlaying(false);
+        setCurrentTrack(null)
+        setIsPlaying(false)
       }
     }
   }
@@ -287,7 +284,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
       if (audioRef.current) {
         audioRef.current.currentTime = 0
         audioRef.current.play().catch(error => {
-          console.error('重新播放失败:', error)
+          console.error("重新播放失败:", error)
         })
       }
       return
@@ -332,8 +329,8 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
     setPlaylist([])
     setCurrentTrack(null)
     setIsPlaying(false)
-    localStorage.removeItem('music_playlist')
-    localStorage.removeItem('music_current_track')
+    localStorage.removeItem("music_playlist")
+    localStorage.removeItem("music_current_track")
   }
 
   // 设置进度
@@ -372,7 +369,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
         clearPlaylist,
         setProgress,
         setVolume: setVolumeValue,
-        togglePlayMode
+        togglePlayMode,
       }}
     >
       {children}
@@ -383,7 +380,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 export const usePlayer = () => {
   const context = useContext(PlayerContext)
   if (context === undefined) {
-    throw new Error('usePlayer must be used within a PlayerProvider')
+    throw new Error("usePlayer must be used within a PlayerProvider")
   }
   return context
 }

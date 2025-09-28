@@ -1,34 +1,31 @@
-"use client";
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { IoMdClose } from 'react-icons/io';
-import { IoInformationCircle } from 'react-icons/io5';
-import { ThirdAccount } from '../user/model';
+"use client"
+import React, { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { IoMdClose } from "react-icons/io"
+import { IoInformationCircle } from "react-icons/io5"
+import { ThirdAccount } from "../user/model"
 
 interface NoticeProps {
-  type?: 'info' | 'success' | 'warning' | 'error';
-  duration?: number; // 自动关闭的时间（毫秒），如不设置则不自动关闭
+  type?: "info" | "success" | "warning" | "error"
+  duration?: number // 自动关闭的时间（毫秒），如不设置则不自动关闭
 }
 
-const Notice: React.FC<NoticeProps> = ({
-  type = 'info',
-  duration,
-}) => {
-  const [token, setToken] = useState<string>("");
-  const [isVisible, setIsVisible] = useState(false);
-  const [string, setString] = useState<string>("");
-  const [accounts, setAccounts] = useState<ThirdAccount[]>([]);
-  const [notice, setNotice] = useState<string[]>([]);
-  const [showModal, setShowModal] = useState(false);
-  let notice_index = 0;
+const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
+  const [token, setToken] = useState<string>("")
+  const [isVisible, setIsVisible] = useState(false)
+  const [string, setString] = useState<string>("")
+  const [accounts, setAccounts] = useState<ThirdAccount[]>([])
+  const [notice, setNotice] = useState<string[]>([])
+  const [showModal, setShowModal] = useState(false)
+  let notice_index = 0
 
   // 不同类型通知的样式
   const typeStyles = {
-    info: 'bg-blue-50 border-blue-300 text-blue-700',
-    success: 'bg-green-50 border-green-300 text-green-700',
-    warning: 'bg-yellow-50 border-yellow-300 text-yellow-700',
-    error: 'bg-red-50 border-red-300 text-red-700',
-  };
+    info: "bg-blue-50 border-blue-300 text-blue-700",
+    success: "bg-green-50 border-green-300 text-green-700",
+    warning: "bg-yellow-50 border-yellow-300 text-yellow-700",
+    error: "bg-red-50 border-red-300 text-red-700",
+  }
 
   // 不同类型通知的图标
   const icons = {
@@ -36,113 +33,113 @@ const Notice: React.FC<NoticeProps> = ({
     success: <IoInformationCircle className="h-5 w-5 text-green-500" />,
     warning: <IoInformationCircle className="h-5 w-5 text-yellow-500" />,
     error: <IoInformationCircle className="h-5 w-5 text-red-500" />,
-  };
+  }
 
   const NextNotice = () => {
     if (notice.length > 0) {
-      setString(notice[notice_index]);
-      setNotice(notice.slice(1));
-      notice_index++;
+      setString(notice[notice_index])
+      setNotice(notice.slice(1))
+      notice_index++
     } else {
-      setIsVisible(false);
+      setIsVisible(false)
     }
   }
 
   useEffect(() => {
-    setString("maimai.moe 关于近期账号安全问题的声明");
-    setIsVisible(true);
-    let temp = localStorage.getItem("token");
+    setString("maimai.moe 关于近期账号安全问题的声明")
+    setIsVisible(true)
+    let temp = localStorage.getItem("token")
     if (temp) {
-      setToken(temp);
+      setToken(temp)
     }
   }, [])
 
   useEffect(() => {
     if (token != "") {
-      var myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${token}`);
+      var myHeaders = new Headers()
+      myHeaders.append("Authorization", `Bearer ${token}`)
 
       var requestOptions = {
-        method: 'GET',
+        method: "GET",
         headers: myHeaders,
-      };
+      }
 
       fetch("https://dev.maimai.moe/api/user/me", requestOptions)
         .then(response => response.text())
         .then(result => {
-          const data = JSON.parse(result);
+          const data = JSON.parse(result)
           if (data?.id) {
-              setString("maimai.moe 关于近期账号安全问题的声明");
-              setIsVisible(true);
+            setString("maimai.moe 关于近期账号安全问题的声明")
+            setIsVisible(true)
           } else {
-            setString("你好");
+            setString("你好")
           }
         })
-        .catch(error => console.log('error', error));
+        .catch(error => console.log("error", error))
 
-      GetBindAccount();
-    }else{
-      setString("maimai.moe 关于近期账号安全问题的声明");
-      setIsVisible(true);
+      GetBindAccount()
+    } else {
+      setString("maimai.moe 关于近期账号安全问题的声明")
+      setIsVisible(true)
     }
   }, [token])
 
   useEffect(() => {
     if (string == "暂无通知" || string == "你好" || string == "") {
-      setIsVisible(false);
+      setIsVisible(false)
     }
-  }, [string]);
+  }, [string])
 
   const GetBindAccount = () => {
-    const myHeaders = new Headers();
-    myHeaders.append("accept", "application/json");
-    myHeaders.append("Authorization", `Bearer ${token}`);
+    const myHeaders = new Headers()
+    myHeaders.append("accept", "application/json")
+    myHeaders.append("Authorization", `Bearer ${token}`)
 
     const requestOptions = {
       method: "GET",
       headers: myHeaders,
-    };
+    }
     console.log("start fetch bind account")
     fetch("https://dev.maimai.moe/api/maimai/maiweb/accounts", requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
+      .then(response => response.text())
+      .then(result => {
         console.log("get data")
         const data = JSON.parse(result)
         if (data[0].server) {
           const updatedAccounts = data.map((account: any) => {
-            let from = "";
+            let from = ""
             if (!isNaN(Number(account.identifier))) {
-              from = "lxns";
+              from = "lxns"
             } else {
               if (account.identifier.length > 40) {
-                from = "maiweb";
+                from = "maiweb"
               } else {
-                from = "divingfish";
+                from = "divingfish"
               }
             }
             return {
               server: account.server,
               nickname: account.nickname,
               identifier: account.identifier,
-              from: from
-            };
-          });
-          setAccounts(updatedAccounts);
+              from: from,
+            }
+          })
+          setAccounts(updatedAccounts)
         }
         console.log(data)
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error)
-      });
+      })
   }
 
   const handleNoticeClick = () => {
-    setShowModal(true);
-  };
+    setShowModal(true)
+  }
 
   const closeModal = () => {
-    setShowModal(false);
-  };
+    setShowModal(false)
+  }
 
   return (
     <>
@@ -161,9 +158,9 @@ const Notice: React.FC<NoticeProps> = ({
               <div className="mr-3">{icons[type]}</div>
               <div className="flex-1 text-sm font-medium">{string}</div>
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsVisible(false);
+                onClick={e => {
+                  e.stopPropagation()
+                  setIsVisible(false)
                 }}
                 className="ml-auto rounded-md p-1 hover:bg-gray-200 hover:bg-opacity-50 transition-colors focus:outline-none"
                 aria-label="关闭"
@@ -190,11 +187,13 @@ const Notice: React.FC<NoticeProps> = ({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               className="bg-white rounded-xl max-w-4xl max-h-[95vh] overflow-hidden shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
               <div className="overflow-y-auto max-h-[65vh] p-8">
                 <div className="flex justify-between items-start mb-6">
-                  <h3 className="text-2xl font-bold text-gray-800">maimai.moe 关于近期账号安全问题的声明</h3>
+                  <h3 className="text-2xl font-bold text-gray-800">
+                    maimai.moe 关于近期账号安全问题的声明
+                  </h3>
                   <button
                     onClick={closeModal}
                     className="rounded-md p-2 hover:bg-gray-100 transition-colors focus:outline-none flex-shrink-0 ml-4"
@@ -213,8 +212,10 @@ const Notice: React.FC<NoticeProps> = ({
                   <p className="text-lg font-bold text-gray-800">尊敬的用户：</p>
 
                   <p className="text-sm leading-6">
-                    近期我们注意到全国范围内出现大规模<strong>游戏账号</strong>异常情况，为保障用户权益并证明Maimaimoe提供的相关服务的安全性，特此发布安全声明。
-                    我们的服务严格遵循只读原则，仅对数据进行读操作，未来也不会开发任何涉及<strong>游戏账号</strong>操作的写入服务。
+                    近期我们注意到全国范围内出现大规模<strong>游戏账号</strong>
+                    异常情况，为保障用户权益并证明Maimaimoe提供的相关服务的安全性，特此发布安全声明。
+                    我们的服务严格遵循只读原则，仅对数据进行读操作，未来也不会开发任何涉及
+                    <strong>游戏账号</strong>操作的写入服务。
                   </p>
 
                   <div>
@@ -237,8 +238,12 @@ const Notice: React.FC<NoticeProps> = ({
                       问题发生后，我们第一时间关闭了相关后端接口与前端功能。经过全面自查：
                     </p>
                     <ul className="text-sm leading-6 list-disc list-inside space-y-1">
-                      <li>后端接口逻辑检查：未发现任何写入服务接口，无任何可能导致账号异常的安全漏洞</li>
-                      <li>数据库访问日志审计：除正常的B50数据更新和用户查询操作外，未发现异常访问记录</li>
+                      <li>
+                        后端接口逻辑检查：未发现任何写入服务接口，无任何可能导致账号异常的安全漏洞
+                      </li>
+                      <li>
+                        数据库访问日志审计：除正常的B50数据更新和用户查询操作外，未发现异常访问记录
+                      </li>
                     </ul>
                     <p className="text-sm leading-6 mt-2">
                       MaimaiMoe网站账号未出现泄露，且大概率其他服务开发者数据也未曾出现泄露。
@@ -247,9 +252,7 @@ const Notice: React.FC<NoticeProps> = ({
 
                   <div>
                     <h4 className="text-lg font-bold text-gray-800 mb-3">安全建议</h4>
-                    <p className="text-sm leading-6 mb-2">
-                      鉴于可能存在的恶意攻击行为，建议您：
-                    </p>
+                    <p className="text-sm leading-6 mb-2">鉴于可能存在的恶意攻击行为，建议您：</p>
                     <ul className="text-sm leading-6 list-disc list-inside space-y-1">
                       <li>检查已绑定的第三方服务是否正常运行</li>
                       <li>及时解绑已停止服务的平台</li>
@@ -283,7 +286,7 @@ const Notice: React.FC<NoticeProps> = ({
         )}
       </AnimatePresence>
     </>
-  );
-};
+  )
+}
 
-export default Notice;
+export default Notice

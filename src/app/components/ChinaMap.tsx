@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
-import * as echarts from "echarts";
-import chinaGeoJson from "./china.json"; // 导入中国 GeoJSON 数据文件
+import React, { useEffect, useRef, useState } from "react"
+import * as echarts from "echarts"
+import chinaGeoJson from "./china.json" // 导入中国 GeoJSON 数据文件
 
 interface UserRegionData {
-  region_id: string;
-  region_name: string;
-  play_count: number;
-  created_at: string;
+  region_id: string
+  region_name: string
+  play_count: number
+  created_at: string
 }
 
 const ChinaMap = () => {
-  const chartRef = useRef(null); // 用于引用 DOM 元素
-  const [token, setToken] = useState<string | null>("");
-  const [userRegionData, setUserRegionData] = useState<UserRegionData[]>([]);
+  const chartRef = useRef(null) // 用于引用 DOM 元素
+  const [token, setToken] = useState<string | null>("")
+  const [userRegionData, setUserRegionData] = useState<UserRegionData[]>([])
   const [globalData, setgloablData] = useState([
     { name: "北京市", yearTimes: 0, dateTimes: 0, monthTimes: 0 },
     { name: "黑龙江省", yearTimes: 0, dateTimes: 0, monthTimes: 0 },
@@ -47,16 +47,16 @@ const ChinaMap = () => {
     { name: "台湾省", yearTimes: 0, dateTimes: 0, monthTimes: 0 },
     { name: "香港特别行政区", yearTimes: 0, dateTimes: 0, monthTimes: 0 },
     { name: "澳门特别行政区", yearTimes: 0, dateTimes: 0, monthTimes: 0 },
-    { name: "海南省", yearTimes: 0, dateTimes: 0, monthTimes: 0 }
-  ]);
+    { name: "海南省", yearTimes: 0, dateTimes: 0, monthTimes: 0 },
+  ])
 
   useEffect(() => {
     // 初始化 ECharts 实例
-    const chartInstance = echarts.init(chartRef.current);
+    const chartInstance = echarts.init(chartRef.current)
 
     // 注册中国地图 GeoJSON 数据
     // 报错暂不影响
-    echarts.registerMap("china", chinaGeoJson as any);
+    echarts.registerMap("china", chinaGeoJson as any)
 
     // 配置图表选项
     const options = {
@@ -67,19 +67,19 @@ const ChinaMap = () => {
       tooltip: {
         trigger: "item",
         formatter: function (params: any) {
-          const { name, data } = params;
+          const { name, data } = params
           if (data) {
-            const { dataTimes, monthTimes, yearTimes } = data;
+            const { dataTimes, monthTimes, yearTimes } = data
             return `
                             <div>
                                 <strong>${name}</strong><br/>
                                 出勤次数: ${yearTimes}<br/>
                             </div>
-                        `;
+                        `
           } else {
-            return `<div><strong>${name}</strong></div>`;
+            return `<div><strong>${name}</strong></div>`
           }
-        }
+        },
       },
       visualMap: {
         show: false,
@@ -126,27 +126,27 @@ const ChinaMap = () => {
             name: feature.name,
             yearTimes: feature.yearTimes,
             dataTimes: feature.dateTimes,
-            monthTimes: feature.monthTimes
-          }))
+            monthTimes: feature.monthTimes,
+          })),
         },
       ],
-    };
+    }
 
     // 设置图表选项
-    chartInstance.setOption(options);
+    chartInstance.setOption(options)
 
     // 组件卸载时销毁实例
     return () => {
-      chartInstance.dispose();
-    };
-  }, [globalData]);
+      chartInstance.dispose()
+    }
+  }, [globalData])
   useEffect(() => {
     // 初始化 ECharts 实例
-    const chartInstance = echarts.init(chartRef.current);
+    const chartInstance = echarts.init(chartRef.current)
 
     // 注册中国地图 GeoJSON 数据
     // 报错暂不影响
-    echarts.registerMap("china", chinaGeoJson as any);
+    echarts.registerMap("china", chinaGeoJson as any)
 
     // 配置图表选项
     const options = {
@@ -157,19 +157,19 @@ const ChinaMap = () => {
       tooltip: {
         trigger: "item",
         formatter: function (params: any) {
-          const { name, data } = params;
+          const { name, data } = params
           if (data) {
-            const { dataTimes, monthTimes, yearTimes } = data;
+            const { dataTimes, monthTimes, yearTimes } = data
             return `
                             <div>
                                 <strong>${name}</strong><br/>
                                 出勤次数: ${yearTimes}<br/>
                             </div>
-                        `;
+                        `
           } else {
-            return `<div><strong>${name}</strong></div>`;
+            return `<div><strong>${name}</strong></div>`
           }
-        }
+        },
       },
       visualMap: {
         show: false,
@@ -212,64 +212,64 @@ const ChinaMap = () => {
             name: feature.name,
             yearTimes: feature.yearTimes,
             dataTimes: feature.dateTimes,
-            monthTimes: feature.monthTimes
-          }))
+            monthTimes: feature.monthTimes,
+          })),
         },
       ],
-    };
+    }
 
     // 设置图表选项
-    chartInstance.setOption(options);
+    chartInstance.setOption(options)
 
     // 组件卸载时销毁实例
     return () => {
-      chartInstance.dispose();
-    };
-  }, [token]);
+      chartInstance.dispose()
+    }
+  }, [token])
 
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
-  }, []);
+    setToken(localStorage.getItem("token"))
+  }, [])
 
   useEffect(() => {
     if (token != "") {
-      const myHeaders = new Headers();
-      myHeaders.append("Accept", "application/json");
-      myHeaders.append("Authorization", `Bearer ${token}`);
+      const myHeaders = new Headers()
+      myHeaders.append("Accept", "application/json")
+      myHeaders.append("Authorization", `Bearer ${token}`)
 
       const requestOptions = {
         method: "GET",
         headers: myHeaders,
-      };
+      }
 
       fetch("https://dev.maimai.moe/api/maimai/maiweb/regions", requestOptions)
-        .then((response) => response.text())
-        .then((result) => {
-          const data = JSON.parse(result);
+        .then(response => response.text())
+        .then(result => {
+          const data = JSON.parse(result)
           if (data) {
-            setUserRegionData(data);
+            setUserRegionData(data)
           }
         })
-        .catch((error) => console.error(error));
+        .catch(error => console.error(error))
     }
-  }, [token]);
+  }, [token])
 
   useEffect(() => {
-    console.log(userRegionData);
+    console.log(userRegionData)
     if (userRegionData.length != 0) {
-      console.log(userRegionData.length);
+      console.log(userRegionData.length)
     }
-    updateGlobalData();
-  }, [userRegionData]);
+    updateGlobalData()
+  }, [userRegionData])
   const updateGlobalData = () => {
     if (!Array.isArray(userRegionData)) {
-      console.error('userRegionData is not an array', userRegionData);
-      return;
+      console.error("userRegionData is not an array", userRegionData)
+      return
     }
     // 创建一个新的数组，避免直接修改原状态
     const updatedData = globalData.map(item => {
       // 找到对应的区域数据
-      const userRegion = userRegionData.find(region => region.region_name === item.name);
+      const userRegion = userRegionData.find(region => region.region_name === item.name)
 
       // 如果找到了对应的区域数据，则更新
       if (userRegion) {
@@ -277,17 +277,17 @@ const ChinaMap = () => {
           ...item,
           yearTimes: userRegion.play_count, // 假设play_count对应yearTimes，按需求调整
           dateTimes: userRegion.play_count, // 假设play_count对应dateTimes，按需求调整
-          monthTimes: userRegion.play_count // 假设play_count对应monthTimes，按需求调整
-        };
+          monthTimes: userRegion.play_count, // 假设play_count对应monthTimes，按需求调整
+        }
       }
 
       // 如果没有找到，保持不变
-      return item;
-    });
+      return item
+    })
 
     // 更新状态
-    setgloablData(updatedData);
-  };
+    setgloablData(updatedData)
+  }
 
   return (
     <div
@@ -297,7 +297,7 @@ const ChinaMap = () => {
         height: "100%",
       }}
     ></div>
-  );
-};
+  )
+}
 
-export default ChinaMap;
+export default ChinaMap
