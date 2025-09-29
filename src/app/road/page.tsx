@@ -1,7 +1,7 @@
 'use client'
 
 import { getRoadList } from "@/utils/need"
-import NeedItem, { NeedItemProps } from "../components/NeedItem"
+import NeedItem, { NeedItemProps } from "./components/NeedItem"
 import SvgStrokedText from "../components/SvgStrokedText"
 import LoadingSpinner from "../components/LoadingSpinner"
 import {useEffect, useState} from "react"

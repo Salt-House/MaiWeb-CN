@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import TextScroller from '@/app/components/TextScroller'
+import TextScroller from './TextScroller'
 import { NamePlate, MaiBackGround, Icon, Trophie } from '../model'
 
 interface RenderItemProps {
