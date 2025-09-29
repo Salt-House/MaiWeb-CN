@@ -1,8 +1,7 @@
-'use client';
+"use client"
 
-
-import { useState, ReactNode } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, ReactNode } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
 const AnimatedComponentSub = ({ children }: { children: ReactNode }) => {
   return (
@@ -14,19 +13,23 @@ const AnimatedComponentSub = ({ children }: { children: ReactNode }) => {
     >
       {children}
     </motion.div>
-  );
-};
+  )
+}
 
-const AnimatedComponent = ({ children, isVisible }: { children: ReactNode; isVisible: boolean }) => {
+const AnimatedComponent = ({
+  children,
+  isVisible,
+}: {
+  children: ReactNode
+  isVisible: boolean
+}) => {
   return (
     <AnimatePresence>
       {isVisible && ( // 条件渲染
-        <AnimatedComponentSub>
-          {children}
-        </AnimatedComponentSub>
+        <AnimatedComponentSub>{children}</AnimatedComponentSub>
       )}
     </AnimatePresence>
-  );
-};
+  )
+}
 
-export default AnimatedComponent;
+export default AnimatedComponent

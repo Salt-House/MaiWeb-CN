@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 /**
  * PageTransition 进出场动画增强版
@@ -11,130 +11,137 @@
  * 6. will-change 优化，减少布局抖动
  */
 
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { usePathname } from 'next/navigation';
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import FrozenRouter from './HOC/FrozenRouter';
-import { cn } from '@/lib/utils';
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
+import { usePathname } from "next/navigation"
+import { ReactNode, useEffect, useRef, useState } from "react"
+import FrozenRouter from "./HOC/FrozenRouter"
+import { cn } from "@/lib/utils"
 
-type VariantName = 'fade' | 'fadeUp' | 'fadeDown' | 'slideLeft' | 'slideRight' | 'scaleFade' | 'none';
+type VariantName =
+  | "fade"
+  | "fadeUp"
+  | "fadeDown"
+  | "slideLeft"
+  | "slideRight"
+  | "scaleFade"
+  | "none"
 
 interface PageTransitionProps {
-  children: ReactNode;
+  children: ReactNode
   /** 预设动画名称 */
-  variant?: VariantName;
+  variant?: VariantName
   /** 动画时长 (s) */
-  duration?: number;
+  duration?: number
   /** framer-motion ease 值 */
-  ease?: any;
+  ease?: any
   /** 延迟 (s) */
-  delay?: number;
+  delay?: number
   /** 是否跳过首屏初始动画（客户端第一次渲染） */
-  skipInitial?: boolean;
+  skipInitial?: boolean
   /** pathname 稳定防抖时间 (ms) */
-  debounceDelay?: number;
+  debounceDelay?: number
   /** 自定义 className 追加到容器 */
-  className?: string;
+  className?: string
 }
 
 const VARIANT_BUILDERS: Record<VariantName, () => any> = {
   fade: () => ({
     initial: { opacity: 0 },
     in: { opacity: 1 },
-    out: { opacity: 0 }
+    out: { opacity: 0 },
   }),
   fadeUp: () => ({
     initial: { opacity: 0, y: 16 },
     in: { opacity: 1, y: 0 },
-    out: { opacity: 0, y: -16 }
+    out: { opacity: 0, y: -16 },
   }),
   fadeDown: () => ({
     initial: { opacity: 0, y: -16 },
     in: { opacity: 1, y: 0 },
-    out: { opacity: 0, y: 16 }
+    out: { opacity: 0, y: 16 },
   }),
   slideLeft: () => ({
     initial: { opacity: 0, x: 40 },
     in: { opacity: 1, x: 0 },
-    out: { opacity: 0, x: -40 }
+    out: { opacity: 0, x: -40 },
   }),
   slideRight: () => ({
     initial: { opacity: 0, x: -40 },
     in: { opacity: 1, x: 0 },
-    out: { opacity: 0, x: 40 }
+    out: { opacity: 0, x: 40 },
   }),
   scaleFade: () => ({
     initial: { opacity: 0, scale: 0.96 },
     in: { opacity: 1, scale: 1 },
-    out: { opacity: 0, scale: 0.98 }
+    out: { opacity: 0, scale: 0.98 },
   }),
   none: () => ({
     initial: { opacity: 1 },
     in: { opacity: 1 },
-    out: { opacity: 1 }
-  })
-};
+    out: { opacity: 1 },
+  }),
+}
 
 export default function PageTransition({
   children,
-  variant = 'fadeUp',
+  variant = "fadeUp",
   duration = 0.45,
-  ease = 'easeInOut',
+  ease = "easeInOut",
   delay = 0,
   skipInitial = true,
   debounceDelay = 60,
-  className
+  className,
 }: PageTransitionProps) {
-  const pathname = usePathname();
-  const prefersReducedMotion = useReducedMotion();
-  const isFirstRenderRef = useRef(true);
-  const [stableKey, setStableKey] = useState(pathname);
-  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pathname = usePathname()
+  const prefersReducedMotion = useReducedMotion()
+  const isFirstRenderRef = useRef(true)
+  const [stableKey, setStableKey] = useState(pathname)
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // 生成稳定 key：路径变化后等待 debounceDelay 毫秒再确认
   useEffect(() => {
-    if (debounceTimer.current) clearTimeout(debounceTimer.current);
-    debounceTimer.current = setTimeout(() => setStableKey(pathname), debounceDelay);
+    if (debounceTimer.current) clearTimeout(debounceTimer.current)
+    debounceTimer.current = setTimeout(() => setStableKey(pathname), debounceDelay)
     return () => {
-      if (debounceTimer.current) clearTimeout(debounceTimer.current);
-    };
-  }, [pathname, debounceDelay]);
+      if (debounceTimer.current) clearTimeout(debounceTimer.current)
+    }
+  }, [pathname, debounceDelay])
 
   useEffect(() => {
     // 一旦客户端完成第一次渲染，标记为 false
-    isFirstRenderRef.current = false;
-  }, []);
+    isFirstRenderRef.current = false
+  }, [])
 
   // reduced motion 时，无论选择什么 variant，都降级到简单淡入
-  const chosenVariantName: VariantName = prefersReducedMotion ? 'fade' : variant;
-  const variants = VARIANT_BUILDERS[chosenVariantName]();
+  const chosenVariantName: VariantName = prefersReducedMotion ? "fade" : variant
+  const variants = VARIANT_BUILDERS[chosenVariantName]()
 
   const transition = {
-    type: 'tween' as const,
+    type: "tween" as const,
     ease,
     duration,
-    delay
-  };
+    delay,
+  }
 
   // 首屏可跳过 initial -> in 的过渡，避免闪烁
-  const disableInitial = skipInitial && isFirstRenderRef.current;
+  const disableInitial = skipInitial && isFirstRenderRef.current
 
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={stableKey}
-        {...(!disableInitial && { initial: 'initial' })}
+        {...(!disableInitial && { initial: "initial" })}
         animate="in"
         exit="out"
         variants={variants}
         transition={transition}
-        className={cn('min-h-screen w-full', className)}
-        style={{ willChange: 'transform, opacity' }}
+        className={cn("min-h-screen w-full", className)}
+        style={{ willChange: "transform, opacity" }}
       >
         <FrozenRouter>{children}</FrozenRouter>
       </motion.div>
     </AnimatePresence>
-  );
+  )
 }
 
 // Loading transition component
@@ -161,7 +168,7 @@ export function LoadingTransition() {
         <span className="text-lg font-medium">加载中...</span>
       </motion.div>
     </motion.div>
-  );
+  )
 }
 
 // Smooth scroll component
@@ -175,5 +182,5 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     >
       {children}
     </motion.div>
-  );
+  )
 }

@@ -1,15 +1,15 @@
-import Link from "next/link";
-import { FaCalendarAlt, FaUser, FaLink } from 'react-icons/fa';
+import Link from "next/link"
+import { FaCalendarAlt, FaUser, FaLink } from "react-icons/fa"
 
 interface NewsCardProps {
-  title: string;
-  content: string;
-  image_url: string;
-  source: string;
-  source_url: string;
-  source_author: string;
-  source_created_at: string;
-  size?: 'sm' | 'mid'; // 添加尺寸属性
+  title: string
+  content: string
+  image_url: string
+  source: string
+  source_url: string
+  source_author: string
+  source_created_at: string
+  size?: "sm" | "mid" // 添加尺寸属性
 }
 
 export default function NewsCard({
@@ -20,22 +20,18 @@ export default function NewsCard({
   source_url,
   source_author,
   source_created_at,
-  size = 'mid'
+  size = "mid",
 }: NewsCardProps) {
   // 响应式尺寸设置
-  const cardWidth = size === 'sm' 
-    ? 'max-sm:w-[360px] w-[520px]' 
-    : 'w-full';
-  const imageHeight = 'pb-[56.25%]';
-  const titleSize = size === 'sm' 
-    ? 'max-sm:text-base text-lg' 
-    : 'text-xl';
-  const padding = size === 'sm' 
-    ? 'max-sm:p-2 p-3' 
-    : 'p-4';
+  const cardWidth = size === "sm" ? "max-sm:w-[360px] w-[520px]" : "w-full"
+  const imageHeight = "pb-[56.25%]"
+  const titleSize = size === "sm" ? "max-sm:text-base text-lg" : "text-xl"
+  const padding = size === "sm" ? "max-sm:p-2 p-3" : "p-4"
 
   return (
-    <div className={`${cardWidth} bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-[1.02]`}>
+    <div
+      className={`${cardWidth} bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-[1.02]`}
+    >
       <Link href={`/tool/news/${source_created_at}`} className="block relative">
         <div className={`relative w-full ${imageHeight} overflow-hidden`}>
           <img
@@ -78,5 +74,5 @@ export default function NewsCard({
         </div>
       </div>
     </div>
-  );
+  )
 }

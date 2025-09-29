@@ -1,25 +1,25 @@
-import React from 'react';
+import React from "react"
 
 interface SvgStrokedTextProps {
-  text: string;
-  strokeColor?: string;
-  strokeWidth?: number;
-  fill?: string;
-  fontSize?: number;
-  letterSpacing?: string | number;
-  width?: string | number;
-  height?: string | number;
+  text: string
+  strokeColor?: string
+  strokeWidth?: number
+  fill?: string
+  fontSize?: number
+  letterSpacing?: string | number
+  width?: string | number
+  height?: string | number
 }
 
 const SvgStrokedText: React.FC<SvgStrokedTextProps> = ({
   text,
-  strokeColor = '#000',
+  strokeColor = "#000",
   strokeWidth = 2,
-  fill = '#fff',
+  fill = "#fff",
   fontSize = 32,
-  letterSpacing = 'normal',
-  width = '100%',
-  height = 'auto',
+  letterSpacing = "normal",
+  width = "100%",
+  height = "auto",
 }) => {
   return (
     <svg width={width} height={height} viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
@@ -34,12 +34,12 @@ const SvgStrokedText: React.FC<SvgStrokedTextProps> = ({
         fontSize={fontSize}
         fontWeight="bold"
         letterSpacing={letterSpacing}
-        style={{ paintOrder: 'stroke' }}
+        style={{ paintOrder: "stroke" }}
       >
         {text}
       </text>
     </svg>
-  );
-};
+  )
+}
 
-export default SvgStrokedText;
+export default SvgStrokedText
