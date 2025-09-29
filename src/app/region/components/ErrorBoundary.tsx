@@ -1,15 +1,15 @@
-'use client';
+"use client"
 
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React, { Component, ErrorInfo, ReactNode } from "react"
 
 interface Props {
-  children: ReactNode;
-  fallback?: ReactNode;
+  children: ReactNode
+  fallback?: ReactNode
 }
 
 interface State {
-  hasError: boolean;
-  error?: Error;
+  hasError: boolean
+  error?: Error
 }
 
 /**
@@ -17,25 +17,25 @@ interface State {
  */
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
-    super(props);
-    this.state = { hasError: false };
+    super(props)
+    this.state = { hasError: false }
   }
 
   static getDerivedStateFromError(error: Error): State {
     // 更新状态以显示错误UI
-    return { hasError: true, error };
+    return { hasError: true, error }
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // 记录错误信息
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    console.error("ErrorBoundary caught an error:", error, errorInfo)
   }
 
   render() {
     if (this.state.hasError) {
       // 如果提供了自定义fallback，使用它
       if (this.props.fallback) {
-        return this.props.fallback;
+        return this.props.fallback
       }
 
       // 默认错误UI
@@ -55,13 +55,13 @@ class ErrorBoundary extends Component<Props, State> {
                 刷新页面
               </button>
               <button
-                onClick={() => window.location.href = '/'}
+                onClick={() => (window.location.href = "/")}
                 className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
               >
                 返回首页
               </button>
             </div>
-            {process.env.NODE_ENV === 'development' && this.state.error && (
+            {process.env.NODE_ENV === "development" && this.state.error && (
               <details className="mt-4 text-left">
                 <summary className="cursor-pointer text-sm text-gray-500">错误详情</summary>
                 <pre className="mt-2 text-xs text-red-600 overflow-auto">
@@ -71,11 +71,11 @@ class ErrorBoundary extends Component<Props, State> {
             )}
           </div>
         </div>
-      );
+      )
     }
 
-    return this.props.children;
+    return this.props.children
   }
 }
 
-export default ErrorBoundary;
+export default ErrorBoundary

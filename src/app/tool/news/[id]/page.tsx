@@ -1,22 +1,31 @@
-'use client'
+"use client"
 
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import Link from "next/link"
-import { FaCalendarAlt, FaUser, FaLink, FaArrowLeft, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import {
+  FaCalendarAlt,
+  FaUser,
+  FaLink,
+  FaArrowLeft,
+  FaChevronLeft,
+  FaChevronRight,
+} from "react-icons/fa"
 import LoadingSpinner from "@/app/components/LoadingSpinner"
 
 export default function NewDetailPage() {
   const [news, setNews] = useState<any[]>([])
   const param = useParams()
-  const [timeStamp, setTimeStamp] = useState(decodeURIComponent(Array.isArray(param.id) ? param.id[0] : param.id))
+  const [timeStamp, setTimeStamp] = useState(
+    decodeURIComponent(Array.isArray(param.id) ? param.id[0] : param.id)
+  )
   const [targetNews, setTargetNews] = useState<{
-    title: string,
-    content: string,
-    image_url: string,
-    source: string,
-    source_url: string,
-    source_author: string,
+    title: string
+    content: string
+    image_url: string
+    source: string
+    source_url: string
+    source_author: string
     source_created_at: string
   } | null>(null)
 
@@ -25,62 +34,68 @@ export default function NewDetailPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const textShadow = {
-    textShadow: '-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)'
-  };
+    textShadow:
+      "-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)",
+  }
 
   useEffect(() => {
-    let temp = '';
-    temp = localStorage.getItem('mainews') || '';
+    let temp = ""
+    temp = localStorage.getItem("mainews") || ""
     console.log(temp)
     if (temp) {
       setNews(JSON.parse(temp))
     } else {
-      alert('No news found')
+      alert("No news found")
     }
     console.log(timeStamp)
   }, [])
 
   useEffect(() => {
-    if (news.length === 0) return;
+    if (news.length === 0) return
     console.log(news)
-    const foundNews = news.find((item) => item.source_created_at === timeStamp);
+    const foundNews = news.find(item => item.source_created_at === timeStamp)
     setTargetNews(foundNews)
 
     // MARK: - 预留多图片处理
     // 处理图片数组
     if (foundNews) {
       // 假设图片URL可能在content中以某种格式存在，这里我们先添加主图片
-      const imageArray = [foundNews.image_url];
+      const imageArray = [foundNews.image_url]
 
       // 这里可以添加从content中提取其他图片的逻辑
       // 例如，如果content中包含图片链接，可以通过正则表达式提取
-      const imgRegex = /https?:\/\/\S+\.(jpg|jpeg|png|gif|webp)/gi;
-      const contentImages = foundNews.content.match(imgRegex) || [];
+      const imgRegex = /https?:\/\/\S+\.(jpg|jpeg|png|gif|webp)/gi
+      const contentImages = foundNews.content.match(imgRegex) || []
 
       // 过滤掉与主图片相同的URL
-      const uniqueContentImages = contentImages.filter((img: string) => img !== foundNews.image_url);
+      const uniqueContentImages = contentImages.filter((img: string) => img !== foundNews.image_url)
 
-      setImages([...imageArray, ...uniqueContentImages]);
+      setImages([...imageArray, ...uniqueContentImages])
     }
   }, [news, timeStamp])
 
   // 切换到上一张图片
   const prevImage = () => {
-    setCurrentImageIndex(prev => (prev === 0 ? images.length - 1 : prev - 1));
-  };
+    setCurrentImageIndex(prev => (prev === 0 ? images.length - 1 : prev - 1))
+  }
 
   // 切换到下一张图片
   const nextImage = () => {
-    setCurrentImageIndex(prev => (prev === images.length - 1 ? 0 : prev + 1));
-  };
+    setCurrentImageIndex(prev => (prev === images.length - 1 ? 0 : prev + 1))
+  }
 
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex justify-between items-center">
-          <Link href='/tool/news' className="inline-flex items-center text-white hover:scale-105 transition-colors">
+          <Link
+            href="/tool/news"
+            className="inline-flex items-center text-white hover:scale-105 transition-colors"
+          >
             <FaArrowLeft className="mr-2" />
-            <span className="text-xl font-bold" style={textShadow}>返回资讯列表</span>
+            <span className="text-xl font-bold" style={textShadow}>
+              返回资讯列表
+            </span>
           </Link>
           {/* <div className="text-3xl font-bold text-white" style={textShadow}>
             资讯详情
@@ -162,8 +177,10 @@ export default function NewDetailPage() {
                   </div>
 
                   <div className="prose prose-lg max-w-none">
-                    {targetNews.content.split('\n').map((paragraph, index) => (
-                      <p key={index} className="mb-4 text-gray-800">{paragraph}</p>
+                    {targetNews.content.split("\n").map((paragraph, index) => (
+                      <p key={index} className="mb-4 text-gray-800">
+                        {paragraph}
+                      </p>
                     ))}
 
                     {/* 添加转载授权说明 */}

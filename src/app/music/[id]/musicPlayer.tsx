@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
-import { useState, useRef } from 'react'
-import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaPlus, FaCheck } from 'react-icons/fa'
-import { motion } from 'framer-motion'
-import { usePlayer } from '@/app/context/PlayerContext'
-import DownloadButton from '@/app/components/button/DownloadButton'
+import { useState, useRef } from "react"
+import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaPlus, FaCheck } from "react-icons/fa"
+import { motion } from "framer-motion"
+import { usePlayer } from "@/app/context/PlayerContext"
+import DownloadButton from "@/app/components/button/DownloadButton"
 
 interface MusicPlayerProps {
   audioUrl: string
@@ -28,32 +28,33 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
     volume: globalVolume,
     setVolume: setGlobalVolume,
     currentTime: globalCurrentTime,
-    duration: globalDuration
+    duration: globalDuration,
   } = usePlayer()
 
-  const isCurrentTrack = currentTrack && (currentTrack.id === songId || currentTrack.audioUrl === audioUrl)
+  const isCurrentTrack =
+    currentTrack && (currentTrack.id === songId || currentTrack.audioUrl === audioUrl)
 
   const handleTogglePlay = () => {
     if (isCurrentTrack) {
       togglePlay()
     } else {
       playTrack({
-        id: songId || title || 'unknown',
-        title: title || '未知歌曲',
-        artist: artist || '未知艺术家',
+        id: songId || title || "unknown",
+        title: title || "未知歌曲",
+        artist: artist || "未知艺术家",
         audioUrl,
-        coverUrl: `https://assets2.lxns.net/maimai/jacket/${songId || 'default'}.png`
+        coverUrl: `https://assets2.lxns.net/maimai/jacket/${songId || "default"}.png`,
       })
     }
   }
 
   const handleAddToPlaylist = () => {
     addToPlaylist({
-      id: songId || title || 'unknown',
-      title: title || '未知歌曲',
-      artist: artist || '未知艺术家',
+      id: songId || title || "unknown",
+      title: title || "未知歌曲",
+      artist: artist || "未知艺术家",
       audioUrl,
-      coverUrl: `https://assets2.lxns.net/maimai/jacket/${songId || 'default'}.png`
+      coverUrl: `https://assets2.lxns.net/maimai/jacket/${songId || "default"}.png`,
     })
 
     setIsAddedToPlaylist(true)
@@ -78,10 +79,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
   }
 
   const formatTime = (time: number) => {
-    if (isNaN(time) || time === 0) return '0:00'
+    if (isNaN(time) || time === 0) return "0:00"
     const minutes = Math.floor(time / 60)
     const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
   }
 
   const currentTime = isCurrentTrack ? globalCurrentTime : 0
@@ -109,7 +110,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
               className="h-full bg-pink-400 rounded-full"
               style={{ width: `${progressPercentage}%` }}
               animate={{ width: `${progressPercentage}%` }}
-              transition={{ duration: 0.1, ease: 'linear' }}
+              transition={{ duration: 0.1, ease: "linear" }}
             />
           </div>
           <span className="text-xs text-gray-500 w-10 text-center">{formatTime(duration)}</span>
@@ -138,7 +139,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
 
           <DownloadButton
             url={audioUrl}
-            filename={`${title || 'music'}.mp3`}
+            filename={`${title || "music"}.mp3`}
             className="w-12 h-12 flex items-center justify-center rounded-full bg-[#F0F2F5] text-gray-600 border border-white/60 shadow-sm transition-colors"
           />
         </div>

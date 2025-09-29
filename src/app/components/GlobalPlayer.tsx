@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { usePlayer, PlaylistItem, PlayMode } from '../context/PlayerContext'
-import { useEffect, useRef, useState } from 'react'
-import { FaForward, FaBackward, FaList, FaTimes, FaRedo, FaRandom } from 'react-icons/fa'
+import { usePlayer, PlaylistItem, PlayMode } from "../context/PlayerContext"
+import { useEffect, useRef, useState } from "react"
+import { FaForward, FaBackward, FaList, FaTimes, FaRedo, FaRandom } from "react-icons/fa"
 import { FaCirclePlay, FaCirclePause } from "react-icons/fa6"
 
 export default function GlobalPlayer() {
@@ -21,7 +21,7 @@ export default function GlobalPlayer() {
     removeFromPlaylist,
     setProgress,
     setVolume,
-    togglePlayMode
+    togglePlayMode,
   } = usePlayer()
 
   const [showPlaylist, setShowPlaylist] = useState(false)
@@ -31,53 +31,53 @@ export default function GlobalPlayer() {
 
   // 设置媒体会话
   useEffect(() => {
-    if (!currentTrack) return;
+    if (!currentTrack) return
 
-    if ('mediaSession' in navigator) {
+    if ("mediaSession" in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentTrack.title,
         artist: currentTrack.artist,
-        artwork: [
-          { src: currentTrack.coverUrl, sizes: '512x512', type: 'image/jpeg' }
-        ]
-      });
+        artwork: [{ src: currentTrack.coverUrl, sizes: "512x512", type: "image/jpeg" }],
+      })
 
       // 注册媒体会话操作处理程序
-      navigator.mediaSession.setActionHandler('play', () => togglePlay());
-      navigator.mediaSession.setActionHandler('pause', () => togglePlay());
-      navigator.mediaSession.setActionHandler('previoustrack', () => previousTrack());
-      navigator.mediaSession.setActionHandler('nexttrack', () => nextTrack());
+      navigator.mediaSession.setActionHandler("play", () => togglePlay())
+      navigator.mediaSession.setActionHandler("pause", () => togglePlay())
+      navigator.mediaSession.setActionHandler("previoustrack", () => previousTrack())
+      navigator.mediaSession.setActionHandler("nexttrack", () => nextTrack())
 
       // 更新播放状态
-      navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+      navigator.mediaSession.playbackState = isPlaying ? "playing" : "paused"
     }
-  }, [currentTrack, isPlaying, togglePlay, previousTrack, nextTrack]);
+  }, [currentTrack, isPlaying, togglePlay, previousTrack, nextTrack])
 
   // 更新媒体会话播放状态
   useEffect(() => {
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.playbackState = isPlaying ? "playing" : "paused"
     }
-  }, [isPlaying]);
+  }, [isPlaying])
 
   // 更新媒体会话播放位置
   useEffect(() => {
     try {
-      if ('mediaSession' in navigator && 
-          duration > 0 && 
-          isFinite(duration) && 
-          isFinite(currentTime) && 
-          currentTime >= 0) {
+      if (
+        "mediaSession" in navigator &&
+        duration > 0 &&
+        isFinite(duration) &&
+        isFinite(currentTime) &&
+        currentTime >= 0
+      ) {
         navigator.mediaSession.setPositionState({
           duration: duration,
           playbackRate: 1,
-          position: currentTime
-        });
+          position: currentTime,
+        })
       }
     } catch (error) {
-      console.error('设置媒体会话位置状态失败:', error);
+      console.error("设置媒体会话位置状态失败:", error)
     }
-  }, [currentTime, duration]);
+  }, [currentTime, duration])
 
   // 处理进度条点击
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -93,11 +93,11 @@ export default function GlobalPlayer() {
 
   // 格式化时间
   const formatTime = (time: number) => {
-    if (isNaN(time)) return '0:00'
+    if (isNaN(time)) return "0:00"
 
     const minutes = Math.floor(time / 60)
     const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`
   }
 
   // 计算进度百分比
@@ -108,14 +108,16 @@ export default function GlobalPlayer() {
   }
 
   return (
-    <div id='musicPlayer' className="fixed bottom-5 left-5 z-50">
+    <div id="musicPlayer" className="fixed bottom-5 left-5 z-50">
       {/* 播放器主体 */}
-      <div className={`bg-white/90 backdrop-blur-md rounded-xl shadow-lg border-2 border-[rgb(155,244,236)] transition-all duration-300 ${isMinimized ? 'p-2' : 'p-3'}`}
-        style={{ width: isMinimized ? 'auto' : '18rem' }}>
-        <div className={`flex items-center ${isMinimized ? '' : 'space-x-3'}`}>
+      <div
+        className={`bg-white/90 backdrop-blur-md rounded-xl shadow-lg border-2 border-[rgb(155,244,236)] transition-all duration-300 ${isMinimized ? "p-2" : "p-3"}`}
+        style={{ width: isMinimized ? "auto" : "18rem" }}
+      >
+        <div className={`flex items-center ${isMinimized ? "" : "space-x-3"}`}>
           {/* 封面 - 添加点击事件切换最小化状态 */}
           <div
-            className={`flex-shrink-0 cursor-pointer transition-all duration-300 ${isMinimized ? 'w-10 h-10' : 'w-12 h-12'}`}
+            className={`flex-shrink-0 cursor-pointer transition-all duration-300 ${isMinimized ? "w-10 h-10" : "w-12 h-12"}`}
             onClick={() => setIsMinimized(!isMinimized)}
             title={isMinimized ? "展开播放器" : "最小化播放器"}
           >
@@ -129,9 +131,7 @@ export default function GlobalPlayer() {
           {/* 当不是最小化状态时显示的内容 */}
           {!isMinimized && (
             <div className="flex-1 min-w-0">
-              <div className="text-sm font-medium truncate text-black">
-                {currentTrack.title}
-              </div>
+              <div className="text-sm font-medium truncate text-black">{currentTrack.title}</div>
               {currentTrack.artist && (
                 <div className="text-xs truncate text-black/70 -mt-0.5 mb-0.5">
                   {currentTrack.artist}
@@ -171,7 +171,9 @@ export default function GlobalPlayer() {
               {playMode === PlayMode.SINGLE ? (
                 <div className="relative">
                   <FaRedo />
-                  <span className="absolute text-[8px] font-bold bottom-0 right-0 transform translate-x-1/4 translate-y-1/4">1</span>
+                  <span className="absolute text-[8px] font-bold bottom-0 right-0 transform translate-x-1/4 translate-y-1/4">
+                    1
+                  </span>
                 </div>
               ) : (
                 <FaRedo />
@@ -190,7 +192,11 @@ export default function GlobalPlayer() {
               onClick={togglePlay}
               className="w-10 h-10 flex items-center justify-center text-blue-500"
             >
-              {isPlaying ? <FaCirclePause className="w-8 h-8" /> : <FaCirclePlay className="w-8 h-8" />}
+              {isPlaying ? (
+                <FaCirclePause className="w-8 h-8" />
+              ) : (
+                <FaCirclePlay className="w-8 h-8" />
+              )}
             </button>
 
             <button
@@ -217,19 +223,15 @@ export default function GlobalPlayer() {
               <div className="p-3 text-center text-gray-500">播放列表为空</div>
             ) : (
               <ul className="divide-y divide-gray-100">
-                {playlist.map((item) => (
+                {playlist.map(item => (
                   <li
                     key={item.id}
-                    className={`flex items-center p-2 hover:bg-gray-50 ${currentTrack.id === item.id ? 'bg-blue-50' : ''
-                      }`}
+                    className={`flex items-center p-2 hover:bg-gray-50 ${
+                      currentTrack.id === item.id ? "bg-blue-50" : ""
+                    }`}
                   >
-                    <div
-                      className="flex-1 min-w-0 cursor-pointer"
-                      onClick={() => playTrack(item)}
-                    >
-                      <div className="text-sm font-medium truncate text-black">
-                        {item.title}
-                      </div>
+                    <div className="flex-1 min-w-0 cursor-pointer" onClick={() => playTrack(item)}>
+                      <div className="text-sm font-medium truncate text-black">{item.title}</div>
                     </div>
                     <button
                       onClick={() => removeFromPlaylist(item.id)}
