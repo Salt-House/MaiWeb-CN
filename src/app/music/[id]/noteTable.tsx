@@ -28,14 +28,14 @@ const NoteDetailItem = ({
   icon: React.ReactNode
   color: string
 }) => (
-  <div className="flex items-center justify-between w-full text-sm">
-    <div className="flex items-center space-x-2">
+  <div className="flex flex-col  items-center w-full text-sm">
+    <div className="flex items-center space-x-2 mb-2">
       <div style={{ color }} className="w-4 h-4">
         {icon}
       </div>
-      <span className="text-gray-600 font-medium">{label}</span>
+      {/* <span className="text-gray-600 font-medium">{label}</span> */}
     </div>
-    <span className="font-bold text-gray-800">{value}</span>
+    <span className="font-bold text-gray-800 justify-self-end">{value}</span>
   </div>
 )
 
@@ -57,7 +57,7 @@ export default function NoteTable({ song, chartType }: { song: Song; chartType: 
   }
 
   return (
-    <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+    <div className="w-full grid grid-cols-1 gap-6 mt-4">
       {songData.map((diff, idx) => {
         const diffColor =
           chartType === "utage"
@@ -82,7 +82,6 @@ export default function NoteTable({ song, chartType }: { song: Song; chartType: 
           <motion.div
             key={idx}
             className="p-5 rounded-2xl bg-[#F0F2F5] border border-slate-300/50 shadow-sm"
-            whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: idx * 0.1 }}
@@ -91,26 +90,24 @@ export default function NoteTable({ song, chartType }: { song: Song; chartType: 
               {/* Header */}
               <div className="flex items-center justify-between">
                 <div
-                  className="flex items-center justify-center min-w-20 h-9 px-3 rounded-lg text-white font-bold shadow-md"
+                  className="flex items-center justify-center sm:min-w-20 max-sm:w-10 h-9 px-3 rounded-lg text-white font-bold shadow-md"
                   style={{ backgroundColor: diffColor }}
                 >
                   {chartType === "utage" ? `${diff.level} | ${diff.kanji}` : diff.level_value}
                 </div>
+                <div className="flex flex-row sm:space-x-4 max-sm:space-x-1">
+                {noteDetails.map(item => (
+                  <NoteDetailItem key={item.label} {...item} />
+                ))}
+              </div>
                 <div className="text-right">
                   <div className="text-xs text-gray-500">Total Notes</div>
                   <div className="text-xl font-bold text-gray-800">{totalNotes}</div>
                 </div>
               </div>
 
-              {/* Divider */}
-              <div className="w-full h-px bg-gray-300 shadow-inner" />
-
               {/* Note Details */}
-              <div className="flex flex-col space-y-3">
-                {noteDetails.map(item => (
-                  <NoteDetailItem key={item.label} {...item} />
-                ))}
-              </div>
+
             </div>
           </motion.div>
         )

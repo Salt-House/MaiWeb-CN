@@ -21,7 +21,7 @@ export default function SongList({
 
   return (
     <div className="flex-col w-full max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
-      <div className="flex max-sm:flex-col max-sm:items-start justify-between items-center mb-6 px-4 max-sm:px-4">
+      <div className="flex max-sm:flex-col max-sm:items-center justify-around items-center max-sm:mx-auto sm:space-x-10 mb-6">
         <div className="text-lg font-medium max-sm:mb-3 text-black">
           当前分类：{currentCategory}
         </div>
