@@ -75,7 +75,7 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
         type="button"
         onClick={handleDownload}
         disabled={disabled || isDownloading}
-        className={`w-8 h-8 flex items-center justify-center text-white rounded-full transition-colors ${isDownloading ? "bg-[rgb(107,16,186)]" : "bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]"} ${className}`}
+        className={`w-10 h-10 flex items-center justify-center text-white rounded-full transition-colors ${isDownloading ? "bg-[rgb(107,16,186)]" : "bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]"} ${className}`}
         title="下载音频"
       >
         {isDownloading ? "..." : <FaDownload />}

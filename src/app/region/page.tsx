@@ -1,21 +1,11 @@
 "use client"
 
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import {
-  FaTools,
-  FaChevronDown,
-  FaChevronUp,
-  FaMapMarkerAlt,
-  FaSearch,
-  FaFilter,
-  FaStar,
-  FaMusic,
-  FaUsers,
-} from "react-icons/fa"
-import { motion, AnimatePresence } from "framer-motion"
-import PageTransitionWrapper from "../components/PageTransitionWrapper"
-import ErrorBoundary from "../components/ErrorBoundary"
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { FaTools, FaChevronDown, FaChevronUp, FaMapMarkerAlt, FaSearch, FaFilter, FaStar, FaMusic, FaUsers } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import PageTransitionWrapper from "../components/PageTransitionWrapper";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 export interface AreaCharacters {
   name: string

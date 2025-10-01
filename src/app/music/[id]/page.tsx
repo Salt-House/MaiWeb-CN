@@ -27,7 +27,7 @@ export default function SongDetail() {
   const [scores, setScores] = useState<SongScoreProps[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [chartType, setChartType] = useState<ChartType>(ChartType.DX)
+  const [chartType, setChartType] = useState<ChartType | null>(null)
 
   useEffect(() => {
     const fetchSongData = async () => {
@@ -49,12 +49,25 @@ export default function SongDetail() {
         }
 
         const data = await response.json()
+        const newSong = storedToken ? data.song : data[0]
 
-        if (storedToken) {
-          setSong(data.song)
-          setScores(data.scores || [])
+        if (newSong) {
+          setSong(newSong)
+          if (storedToken) {
+            setScores(data.scores || [])
+          } else {
+            setScores([])
+          }
+
+          if (newSong.difficulties.dx?.length) {
+            setChartType(ChartType.DX)
+          } else if (newSong.difficulties.standard?.length) {
+            setChartType(ChartType.STANDARD)
+          } else if (newSong.difficulties.utage?.length) {
+            setChartType(ChartType.UTAGE)
+          }
         } else {
-          setSong(data[0])
+          setSong(null)
           setScores([])
         }
       } catch (err) {
@@ -115,10 +128,16 @@ export default function SongDetail() {
           </div>
           <div className="md:col-span-2 space-y-8">
             <SongInfo song={song} />
-            <div>
-              <ChartTypeSwitcher chartType={chartType} setChartType={setChartType} />
-              <NoteTable song={song} chartType={chartType} />
-            </div>
+            {chartType && (
+              <div>
+                <ChartTypeSwitcher
+                  song={song}
+                  chartType={chartType}
+                  setChartType={setChartType}
+                />
+                <NoteTable song={song} chartType={chartType} />
+              </div>
+            )}
           </div>
         </div>
       </motion.div>
@@ -130,25 +149,32 @@ export default function SongDetail() {
  * 谱面类型切换组件
  */
 function ChartTypeSwitcher({
+  song,
   chartType,
   setChartType,
 }: {
+  song: Song
   chartType: ChartType
   setChartType: (type: ChartType) => void
 }) {
-  const tabs = [
-    { type: ChartType.STANDARD, label: "Standard" },
+  const availableCharts = [
     { type: ChartType.DX, label: "DX" },
-  ]
+    { type: ChartType.STANDARD, label: "Standard" },
+    { type: ChartType.UTAGE, label: "Utage" },
+  ].filter(chart => song.difficulties[chart.type]?.length > 0)
 
   return (
     <div className="flex justify-center mb-4">
       <div className="flex space-x-1 p-1 rounded-xl bg-gray-200/80">
-        {tabs.map(tab => (
+        {availableCharts.map(tab => (
           <button
             key={tab.type}
             onClick={() => setChartType(tab.type)}
-            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${chartType === tab.type ? "bg-white text-pink-500 shadow-sm" : "text-gray-500"}`}
+            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${
+              chartType === tab.type
+                ? "bg-white text-pink-500 shadow-sm"
+                : "text-gray-500"
+            }`}
           >
             {tab.label}
           </button>
@@ -263,18 +289,7 @@ function RecordPlayer({ song }: { song: Song }) {
             }}
           />
 
-          {/* Center hole */}
-          <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
-            style={{
-              width: "22%",
-              height: "22%",
-              backgroundColor: "white",
-              border: "2px solid rgba(0,0,0,0.08)",
-              boxShadow:
-                "inset 3px 3px 6px rgba(0,0,0,0.06), inset -3px -3px 6px rgba(255,255,255,0.6)",
-            }}
-          />
+            
         </div>
 
         {/* Tonearm */}

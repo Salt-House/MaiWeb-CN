@@ -125,22 +125,22 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
             className="w-12 h-12 flex items-center justify-center rounded-full bg-[#F0F2F5] text-gray-600 border border-white/60 shadow-sm transition-colors"
             title="添加到播放列表"
           >
-            {isAddedToPlaylist ? <FaCheck className="text-green-500" /> : <FaPlus />}
+            {isAddedToPlaylist ? <FaCheck className="size-6 text-green-500" /> : <FaPlus className="size-6" />}
           </motion.button>
 
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleTogglePlay}
-            className="w-20 h-20 flex items-center justify-center rounded-full bg-pink-400 text-white shadow-lg shadow-pink-400/30 transition-colors"
+            className="w-16 h-16 flex items-center justify-center rounded-full bg-pink-400 text-white shadow-lg shadow-pink-400/30 transition-colors"
           >
-            {displayIsPlaying ? <FaPause size={28} /> : <FaPlay size={28} className="ml-1" />}
+            {displayIsPlaying ? <FaPause size={20} /> : <FaPlay size={20} className="ml-1" />}
           </motion.button>
 
           <DownloadButton
             url={audioUrl}
             filename={`${title || "music"}.mp3`}
-            className="w-12 h-12 flex items-center justify-center rounded-full bg-[#F0F2F5] text-gray-600 border border-white/60 shadow-sm transition-colors"
+            className="w-12 h-12 ml-2 flex items-center justify-center rounded-full bg-[#F0F2F5] text-gray-600 border border-white/60 shadow-sm transition-colors"
           />
         </div>
 

@@ -1,17 +1,19 @@
-"use client"
+"use client";
 
-import AnimatedComponent from "@/app/components/AnimatedComponent"
-import ChinaMap from "@/app/components/ChinaMap"
-import LoadingSpinner from "@/app/components/LoadingSpinner"
-import Link from "next/link"
-import { useState, useEffect, use } from "react"
-import { FaArrowLeft } from "react-icons/fa"
-import { FaGear, FaRightFromBracket, FaArrowRight } from "react-icons/fa6"
-import { IoMdPeople } from "react-icons/io"
-import { BindAccount, FunctionStatus, ThirdAccount, UserHistorySub, UserProfile } from "../model"
-import RatingHistory from "@/app/components/RatingHistory"
-import SvgStrokedText from "@/app/components/SvgStrokedText"
-import PageTransitionWrapper from "@/app/components/PageTransitionWrapper"
+import AnimatedComponent from "@/app/components/AnimatedComponent";
+import ChinaMap from "@/app/components/ChinaMap";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
+import Link from "next/link";
+import { useState, useEffect, use } from "react";
+import { FaArrowLeft } from "react-icons/fa";
+import { FaGear, FaRightFromBracket, FaArrowRight } from "react-icons/fa6";
+import { IoMdPeople } from "react-icons/io";
+import { BindAccount, FunctionStatus, ThirdAccount, UserHistorySub, UserProfile } from "../model";
+import RatingHistory from "./components/RatingHistory";
+import SvgStrokedText from "@/app/components/SvgStrokedText";
+import PageTransitionWrapper from "@/app/components/PageTransitionWrapper";
+
+
 
 const defaultUserProfile: UserProfile = {
   id: "请刷新",
