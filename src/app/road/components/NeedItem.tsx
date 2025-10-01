@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import SvgStrokedText from "./SvgStrokedText"
 import { addRoadComment, addRoadStar } from "@/utils/need"
 
 interface NeedComment {

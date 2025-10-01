@@ -1,7 +1,7 @@
 // 动态按需加载 echarts，减小首屏 bundle
 import type * as EChartsType from "echarts"
 import { useEffect, useState, useRef } from "react"
-import { UserHistorySub } from "../user/model"
+import { UserHistorySub } from "../../model"
 
 export default function RatingHistory() {
   const [token, setToken] = useState<string | null>(null)
