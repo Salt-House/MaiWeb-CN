@@ -2,6 +2,7 @@
 
 import { ChartType, DifficultyInfo, getDifficultyColor, Song } from "../songModel"
 import { motion } from "framer-motion"
+import { useState } from "react"
 import { FaMusic } from "react-icons/fa" // Example icon
 
 // Helper to get total notes
@@ -16,28 +17,67 @@ const getTotalNotes = (diff: DifficultyInfo) => {
   return noteTypes.reduce((sum, type) => sum + (Number(diff[type]) || 0), 0)
 }
 
+const getNotesWeight = (diff: DifficultyInfo) => {
+  const piece =
+    101 /
+    (diff.tap_num +
+      diff.touch_num +
+      diff.hold_num * 2 +
+      diff.slide_num * 3 +
+      diff.break_num * 5)
+
+  // 保留小数点后四位
+  const toFixed4 = (n: number) => Number(n.toFixed(4))
+  return {
+    tap: {
+      num: diff.tap_num,
+      weight: toFixed4(piece),
+    },
+    hold: {
+      num: diff.hold_num,
+      weight: toFixed4(piece * 2),
+    },
+    slide: {
+      num: diff.slide_num,
+      weight: toFixed4(piece * 3),
+    },
+    touch: {
+      num: diff.touch_num,
+      weight: toFixed4(piece),
+    },
+    break: {
+      num: diff.break_num,
+      weight: toFixed4(piece * 5),
+    },
+  }
+}
+
 // Note type component
 const NoteDetailItem = ({
   label,
   value,
+  weight,
   icon,
   color,
 }: {
   label: string
   value: number | string
+  weight: number
   icon: React.ReactNode
   color: string
 }) => (
-  <div className="flex flex-col  items-center w-full text-sm">
-    <div className="flex items-center space-x-2 mb-2">
-      <div style={{ color }} className="w-4 h-4">
+  <div className="grid grid-cols-3 w-full text-sm items-center justify-items-start">
+    <div className="flex items-center space-x-2">
+      <div style={{ color }} className="w-4 h-4 flex items-center justify-center">
         {icon}
       </div>
-      {/* <span className="text-gray-600 font-medium">{label}</span> */}
+      <span className="text-gray-600 font-medium">{label}</span>
     </div>
-    <span className="font-bold text-gray-800 justify-self-end">{value}</span>
+    <span className="font-bold text-gray-800">总数：{value}</span>
+    <span className="text-xs text-gray-500">{weight}%/每个</span>
   </div>
 )
+
 
 export default function NoteTable({ song, chartType }: { song: Song; chartType: ChartType }) {
   let songData: DifficultyInfo[] = []
@@ -57,25 +97,26 @@ export default function NoteTable({ song, chartType }: { song: Song; chartType: 
   }
 
   return (
-    <div className="w-full grid grid-cols-1 gap-6 mt-4">
+    <div className="w-full grid sm:grid-cols-2 max-sm:grid-cols-1  gap-6 mt-4">
       {songData.map((diff, idx) => {
         const diffColor =
           chartType === "utage"
             ? "rgb(220, 56, 184)"
             : getDifficultyColor(diff.level_index as 0 | 1 | 2 | 3 | 4)
         const totalNotes = getTotalNotes(diff)
-
+        const weights = getNotesWeight(diff)
         const noteDetails = [
-          { label: "Tap", value: diff.tap_num, icon: <FaMusic />, color: "#FF7A7A" },
-          { label: "Hold", value: diff.hold_num, icon: <FaMusic />, color: "#FFB347" },
-          { label: "Slide", value: diff.slide_num, icon: <FaMusic />, color: "#47B3FF" },
+          { label: "Tap", value: diff.tap_num, weight: weights.tap.weight, icon: <FaMusic />, color: "#FF7A7A" },
+          { label: "Hold", value: diff.hold_num, weight: weights.hold.weight, icon: <FaMusic />, color: "#FFB347" },
+          { label: "Slide", value: diff.slide_num, weight: weights.slide.weight, icon: <FaMusic />, color: "#47B3FF" },
           {
             label: "Touch",
             value: chartType === ChartType.STANDARD ? "-" : diff.touch_num,
+            weight: weights.touch.weight,
             icon: <FaMusic />,
             color: "#47FFB3",
           },
-          { label: "Break", value: diff.break_num, icon: <FaMusic />, color: "#FF4747" },
+          { label: "Break", value: diff.break_num, weight: weights.break.weight, icon: <FaMusic />, color: "#FF4747" },
         ]
 
         return (
@@ -95,18 +136,20 @@ export default function NoteTable({ song, chartType }: { song: Song; chartType: 
                 >
                   {chartType === "utage" ? `${diff.level} | ${diff.kanji}` : diff.level_value}
                 </div>
-                <div className="flex flex-row sm:space-x-4 max-sm:space-x-1">
-                {noteDetails.map(item => (
-                  <NoteDetailItem key={item.label} {...item} />
-                ))}
+                <div className="flex flex-col">
+               
               </div>
                 <div className="text-right">
                   <div className="text-xs text-gray-500">Total Notes</div>
                   <div className="text-xl font-bold text-gray-800">{totalNotes}</div>
                 </div>
               </div>
-
+            <div className="w-full">
               {/* Note Details */}
+                {noteDetails.map(item => (
+                  <NoteDetailItem key={item.label} {...item} />
+                ))}
+            </div>
 
             </div>
           </motion.div>
