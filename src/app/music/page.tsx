@@ -76,6 +76,8 @@ export default function MusicPage() {
   const [selectedOption, setSelectedOption] = useState("category")
   // 添加一个状态来跟踪当前选择的分类名称
   const [currentCategory, setCurrentCategory] = useState<string>("最近更新")
+  // UI模式状态管理
+  const [isLegacyMode, setIsLegacyMode] = useState(false)
 
   const [filteredUrl, setFilteredUrl] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
@@ -102,6 +104,20 @@ export default function MusicPage() {
   }
 
   const defaultUrl = `version=${currentVersion}`
+
+  // 初始化时从localStorage读取UI模式设置
+  useEffect(() => {
+    const savedMode = localStorage.getItem("maimaimoe-music-ui-mode")
+    if (savedMode === "legacy") {
+      setIsLegacyMode(true)
+    }
+  }, [])
+
+  // 当UI模式改变时保存到localStorage
+  useEffect(() => {
+    localStorage.setItem("maimaimoe-music-ui-mode", isLegacyMode ? "legacy" : "modern")
+  }, [isLegacyMode])
+
   useEffect(() => {
     getSongs(defaultUrl)
   }, [])
@@ -217,60 +233,81 @@ export default function MusicPage() {
       >
         <Guide steps={steps} autoStart={true} mark={"musictour"} />
         <div className="border-4 relative border-white max-sm:w-[90%] bg-white rounded-2xl">
-          <div className="w-[900px] max-sm:w-full max-sm:h-96 mx-auto h-80 bg-white rounded-2xl flex flex-col justify-center items-center text-center border-4 border-pink-300">
-            <div
-              className="absolute -top-4 w-48 max-sm:h-10 h-20 text-3xl font-bold text-white"
-              style={textstroke}
-            >
-              音乐
-            </div>
-            <div className="flex flex-row max-sm:w-[90%] max-sm:flex-col max-sm:justify-center max-sm:items-center max-sm:space-x-0 max-sm:mt-0 max-sm:mb-0 space-x-16 -mt-4 mb-2">
-              <div className="w-80 h-12 max-sm:w-full max-sm:my-0 max-sm:mt-4 bg-pink-500 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-3">
-                <div className="text-white ml-2">按照</div>
-                <select
-                  className="w-40 h-9 rounded-full px-4 bg-transparent focus:outline-none focus:ring-2 focus:ring-pink-400 transition-all duration-300 border"
-                  value={selectedOption}
-                  onChange={e => setSelectedOption(e.target.value)}
-                >
-                  <option value="category">乐曲种类</option>
-                  {/* <option value="aeuio">あいうえお</option> */}
-                  <option value="level">等级</option>
-                  <option value="version">版本</option>
-                </select>
-                <div className="text-white ml-2">分类</div>
+          <div className="w-[900px] max-sm:w-full max-sm:h-96 mx-auto h-80 bg-white rounded-2xl flex flex-col justify-center text-center border-4 border-pink-300">
+            <div className="items-center">
+              <div
+                className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-48 max-sm:h-10 h-20 text-3xl font-bold text-white"
+                style={textstroke}
+              >
+                音乐
               </div>
-              <div className="w-80 max-sm:w-full h-12 bg-white border-4 border-pink-500 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5">
-                <div className="flex w-full h-full overflow-hidden">
-                  <div
-                    className="w-1/3 bg-pink-500 flex items-center justify-center border-r-4 border-pink-500"
-                    style={{ borderTopLeftRadius: "1rem", borderBottomLeftRadius: "1rem" }}
+              <div className="flex flex-row max-sm:w-[90%] max-sm:flex-col max-sm:justify-center max-sm:items-center max-sm:space-x-0 max-sm:mt-0 max-sm:mb-0 justify-center items-center space-x-16 mt-8 mb-2">
+                <div className="w-80 h-12 max-sm:w-full max-sm:my-0 max-sm:mt-4 bg-pink-500 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-3">
+                  <div className="text-white max-sm:ml-0 ml-2">按照</div>
+                  <select
+                    className="w-40 h-9 rounded-full px-4 bg-transparent focus:outline-none focus:ring-2 focus:ring-pink-400 transition-all duration-300 border"
+                    value={selectedOption}
+                    onChange={e => setSelectedOption(e.target.value)}
                   >
-                    <div className="text-white">搜索</div>
-                  </div>
-                  <div className="w-2/3 flex items-center justify-center">
-                    <input
-                      type="text"
-                      placeholder="乐曲名/别名/作曲家"
-                      className="w-[90%] h-9 bg-transparent text-black placeholder-gray-500 focus:outline-none transition-none"
-                      onChange={e => {
-                        if (e.target.value !== "") {
-                          getSongs(`keywords=${e.target.value}`)
-                        }
-                      }}
-                    />
+                    <option value="category">乐曲种类</option>
+                    {/* <option value="aeuio">あいうえお</option> */}
+                    <option value="level">等级</option>
+                    <option value="version">版本</option>
+                  </select>
+                  <div className="text-white max-sm:ml-0 ml-2">分类</div>
+                </div>
+                <div className="w-80 max-sm:w-full h-12 bg-white border-4 border-pink-500 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5">
+                  <div className="flex w-full h-full overflow-hidden">
+                    <div
+                      className="w-1/3 bg-pink-500 flex items-center justify-center border-r-4 border-pink-500"
+                      style={{ borderTopLeftRadius: "1rem", borderBottomLeftRadius: "1rem" }}
+                    >
+                      <div className="text-white">搜索</div>
+                    </div>
+                    <div className="w-2/3 flex items-center justify-center">
+                      <input
+                        type="text"
+                        placeholder="乐曲名/别名/作曲家"
+                        className="w-[90%] h-9 bg-transparent text-black placeholder-gray-500 focus:outline-none transition-none"
+                        onChange={e => {
+                          if (e.target.value !== "") {
+                            getSongs(`keywords=${e.target.value}`)
+                          }
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
+              <div className="h-[172px]">
+                {/* 根据选择的选项显示不同分类选项 */}
+                {selectedOption === "category" && <CategoryBar getSongs={getSongs} />}
+                {/* {selectedOption === 'aeuio' && <AeuioBar getSongs={getSongs} />} */}
+                {selectedOption === "level" && <LevelBar getSongs={getSongs} />}
+                {selectedOption === "version" && <VersionBar getSongs={getSongs} />}
+              </div>
             </div>
-            <div className="h-[172px]">
-              {/* 根据选择的选项显示不同分类选项 */}
-              {selectedOption === "category" && <CategoryBar getSongs={getSongs} />}
-              {/* {selectedOption === 'aeuio' && <AeuioBar getSongs={getSongs} />} */}
-              {selectedOption === "level" && <LevelBar getSongs={getSongs} />}
-              {selectedOption === "version" && <VersionBar getSongs={getSongs} />}
+            {/* UI模式切换勾选框 */}
+            <div className="flex justify-start mt-4 mb-8 ml-4 pl-4">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="legacy-mode-toggle"
+                  checked={isLegacyMode}
+                  onChange={e => setIsLegacyMode(e.target.checked)}
+                  className="w-4 h-4 text-pink-500 bg-white border-2 border-pink-300 rounded focus:ring-pink-500 focus:ring-2"
+                />
+                <label
+                  htmlFor="legacy-mode-toggle"
+                  className="text-sm font-medium text-gray-700 cursor-pointer select-none"
+                >
+                  使用经典UI
+                </label>
+              </div>
             </div>
+
             {/* AnimateVolume */}
-            <div className="absolute -bottom-8 max-sm:hidden flex space-x-2">
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 max-sm:hidden flex space-x-2">
               <div className="w-2 h-8 bg-pink-400 animate-volume"></div>
               <div className="w-2 h-10 bg-pink-300 animate-volume [animation-delay:0.1s]"></div>
               <div className="w-2 h-6 bg-pink-500 animate-volume [animation-delay:0.2s]"></div>
@@ -332,7 +369,12 @@ export default function MusicPage() {
           <div className="max-sm:w-full rounded-2xl">
             <div className="max-sm:w-full max-sm:pt-4 w-[80%] mx-auto min-h-60 rounded-2xl flex flex-col justify-center items-center text-center">
               {loading ? (
-                <SongList songs={songs} currentCategory={currentCategory} loading={true} />
+                <SongList
+                  songs={songs}
+                  currentCategory={currentCategory}
+                  loading={true}
+                  isLegacyMode={isLegacyMode}
+                />
               ) : error ? (
                 <div>错误: {error}</div>
               ) : songs.length === 0 ? (
@@ -341,7 +383,12 @@ export default function MusicPage() {
                   <div>{`没有找到相关乐曲……{{(>_<)}}`}</div>
                 </>
               ) : (
-                <SongList songs={songs} currentCategory={currentCategory} loading={false} />
+                <SongList
+                  songs={songs}
+                  currentCategory={currentCategory}
+                  loading={false}
+                  isLegacyMode={isLegacyMode}
+                />
               )}
             </div>
           </div>
