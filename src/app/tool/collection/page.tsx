@@ -347,7 +347,8 @@ export default function CollectionPage() {
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <>
+      <div className="container mx-auto py-8 px-4">
       <SvgStrokedText text="收藏品展示" height={100} strokeColor={"#ec4899"} strokeWidth={10} />
 
       {/* Tab导航 */}
@@ -621,12 +622,13 @@ export default function CollectionPage() {
           )}
         </AnimatePresence>
       </motion.div>
-      <PreviewModal
-        previewImage={previewImage}
-        condition={condition}
-        conditionLoading={conditionLoading}
-        onClose={closeImagePreview}
-      />
     </div>
+    <PreviewModal
+      previewImage={previewImage}
+      condition={condition}
+      conditionLoading={conditionLoading}
+      onClose={closeImagePreview}
+    />
+    </>
   )
 }
