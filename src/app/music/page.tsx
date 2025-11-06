@@ -12,7 +12,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import Notice from "../components/Notice"
 import PageTransitionWrapper from "../components/PageTransitionWrapper"
 
-const currentVersion = "25003"
+const currentVersion = "25004"
 
 const version: (keyof typeof versionIds)[] = [
   "maimai",
