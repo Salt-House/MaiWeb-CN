@@ -26,6 +26,7 @@ export default function RatingHistory() {
         try {
           const data = JSON.parse(result)
           if (data && Array.isArray(data)) {
+            // TODO 优化：移除调试日志或接入统一日志上报
             console.log("获取到的历史数据:", data)
             setRatingHistory(data)
           } else {
@@ -65,6 +66,7 @@ export default function RatingHistory() {
   }, [])
 
   useEffect(() => {
+    // TODO 优化：将 GetHistory 使用 useCallback 包裹并加入依赖，或在数据层统一请求
     if (token) {
       GetHistory()
     }
@@ -110,7 +112,7 @@ export default function RatingHistory() {
         chartInstance.current = null
       }
     }
-  }, [chartRef.current]) // 只在组件挂载和DOM元素更改时执行
+  }, [chartRef.current]) // TODO 优化：依赖 ref.current 可能导致 ESLint 告警；考虑改为 [] 并在数据变化处触发更新
 
   // 单独的函数用于更新图表
   const updateChart = () => {
@@ -123,6 +125,7 @@ export default function RatingHistory() {
       const dates = ratingHistory.map(item => item.active_until.split("T")[0])
       const ratings = ratingHistory.map(item => item.rating)
 
+      // TODO 优化：移除调试日志
       console.log("图表数据准备完成:", { dates, ratings })
 
       // 设置图表配置
@@ -135,6 +138,7 @@ export default function RatingHistory() {
         },
         tooltip: {
           trigger: "axis",
+          // TODO 优化：为 `params` 指定 ECharts 参数类型；并考虑自定义 tooltip 组件以提升可读性
           formatter: function (params: any) {
             const dataIndex = params[0].dataIndex
             return `日期: ${dates[dataIndex]}<br/>Rating: ${ratings[dataIndex]}`
@@ -165,6 +169,7 @@ export default function RatingHistory() {
         yAxis: {
           type: "value",
           min: 0,
+          // TODO 优化：根据数据动态计算最大值，如 `Math.max(...ratings) * 1.05`
           max: 16431,
           nameLocation: "middle",
           nameGap: 30,

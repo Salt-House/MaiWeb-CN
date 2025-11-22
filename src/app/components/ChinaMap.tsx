@@ -10,6 +10,7 @@ interface UserRegionData {
 }
 
 const ChinaMap = () => {
+  // TODO 类型：为 `chartRef` 添加明确类型 `useRef<HTMLDivElement | null>`
   const chartRef = useRef(null) // 用于引用 DOM 元素
   const [token, setToken] = useState<string | null>("")
   const [userRegionData, setUserRegionData] = useState<UserRegionData[]>([])
@@ -51,11 +52,13 @@ const ChinaMap = () => {
   ])
 
   useEffect(() => {
+    // TODO 优化：两个 `useEffect` 内部重复初始化图表逻辑，建议抽成函数并去重；同时对 window.resize 添加监听以自适应
     // 初始化 ECharts 实例
     const chartInstance = echarts.init(chartRef.current)
 
     // 注册中国地图 GeoJSON 数据
     // 报错暂不影响
+    // TODO 类型：避免使用 any；为 chinaGeoJson 定义 GeoJSON 类型
     echarts.registerMap("china", chinaGeoJson as any)
 
     // 配置图表选项
@@ -66,6 +69,7 @@ const ChinaMap = () => {
       },
       tooltip: {
         trigger: "item",
+        // TODO 类型：为 `params` 指定 ECharts 参数类型，避免使用 any
         formatter: function (params: any) {
           const { name, data } = params
           if (data) {
@@ -141,11 +145,13 @@ const ChinaMap = () => {
     }
   }, [globalData])
   useEffect(() => {
+    // TODO 优化：与上方 useEffect 重复；建议合并或根据依赖进行差异化更新
     // 初始化 ECharts 实例
     const chartInstance = echarts.init(chartRef.current)
 
     // 注册中国地图 GeoJSON 数据
     // 报错暂不影响
+    // TODO 类型：避免 any；封装注册逻辑
     echarts.registerMap("china", chinaGeoJson as any)
 
     // 配置图表选项
@@ -228,10 +234,12 @@ const ChinaMap = () => {
   }, [token])
 
   useEffect(() => {
+    // TODO 状态：`token` 初始化使用 null 更清晰，或统一从请求库读取
     setToken(localStorage.getItem("token"))
   }, [])
 
   useEffect(() => {
+    // TODO 网络：统一使用封装的请求工具（axios 实例）；添加错误重试与超时控制
     if (token != "") {
       const myHeaders = new Headers()
       myHeaders.append("Accept", "application/json")
@@ -255,6 +263,7 @@ const ChinaMap = () => {
   }, [token])
 
   useEffect(() => {
+    // TODO 日志：移除调试日志或使用统一日志组件
     console.log(userRegionData)
     if (userRegionData.length != 0) {
       console.log(userRegionData.length)
@@ -262,6 +271,7 @@ const ChinaMap = () => {
     updateGlobalData()
   }, [userRegionData])
   const updateGlobalData = () => {
+    // TODO 性能：考虑使用 `useMemo` 计算衍生数据；避免每次都映射全量数组
     if (!Array.isArray(userRegionData)) {
       console.error("userRegionData is not an array", userRegionData)
       return

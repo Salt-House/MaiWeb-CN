@@ -65,7 +65,9 @@ export default function RenderItem({
             GetCondition("icon", item.collection_id)
           }}
         >
+          {/* TODO 规范：移除颜色渐变（bg-gradient-to-*），保持纯色背景 */}
           <div className="aspect-square p-4 flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50">
+            {/* TODO 优化：使用 `next/image` 并在 next.config 中配置远程域名，提高图片加载与缓存效果 */}
             <img
               src={`${baseUrl}/${type}/${Number(item.collection_id)}.png`}
               alt={item.name}
@@ -102,7 +104,9 @@ export default function RenderItem({
             GetCondition("frame", item.collection_id)
           }}
         >
+          {/* TODO 规范：移除颜色渐变背景 */}
           <div className="aspect-[4/3] p-4 flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-50">
+            {/* TODO 优化：改用 `next/image` + 静态资源缓存 */}
             <img
               src={`https://static.maimai.moe/UI_Frame_${item.collection_id}.png`}
               alt={item.name}
@@ -164,7 +168,9 @@ export default function RenderItem({
             GetCondition("plate", item.collection_id)
           }}
         >
+          {/* TODO 规范：移除颜色渐变背景 */}
           <div className="aspect-[3/1] p-4 flex items-center justify-center bg-gradient-to-br from-green-50 to-emerald-50">
+            {/* TODO 优化：改用 `next/image`；远程域名需要在 next.config.ts 中声明 */}
             <img
               src={`https://static.maimai.moe/UI_Plate_${item.collection_id.toString().padStart(6, "0")}.png`}
               alt={item.name}

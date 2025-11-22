@@ -64,6 +64,9 @@ export default function QuestionnairePage() {
   const openModal = () => setIsModalOpen(true) // 打开弹窗
   const closeModal = () => setIsModalOpen(false) // 关闭弹窗
 
+  // TODO 可访问性：为所有表单控件添加 `<label>`、`aria-*` 属性；提供键盘操作提示
+  // TODO 网络：统一使用请求封装；添加错误处理与重试策略
+  // TODO 规范：移除渐变色背景，统一纯色设计
   return (
     <>
       <img src="/img/bg_shines.png" className="fixed" alt="" />

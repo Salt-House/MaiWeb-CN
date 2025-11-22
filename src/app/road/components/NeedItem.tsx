@@ -177,6 +177,7 @@ export default function NeedItem(props: NeedItemProps) {
             <span className="text-xs text-gray-600 font-medium">{props.progress}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
+            {/* TODO 规范：移除渐变背景（bg-gradient-to-*），统一纯色设计 */}
             <div
               className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
               style={{ width: `${Math.min(props.progress, 100)}%` }}

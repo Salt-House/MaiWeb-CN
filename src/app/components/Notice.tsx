@@ -57,6 +57,7 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
   }, [])
 
   useEffect(() => {
+    // TODO 网络：统一使用封装的请求工具（axios 实例）；添加错误重试与超时
     if (token != "") {
       var myHeaders = new Headers()
       myHeaders.append("Authorization", `Bearer ${token}`)
@@ -77,6 +78,7 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
         })
         .catch(error => console.log("error", error))
 
+      // TODO 数据：合并账号绑定查询与用户信息查询，减少请求次数
       GetBindAccount()
     } else {
       setString(
@@ -93,6 +95,7 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
   }, [string])
 
   const GetBindAccount = () => {
+    // TODO 类型：避免使用 any；为返回数据定义接口类型
     const myHeaders = new Headers()
     myHeaders.append("accept", "application/json")
     myHeaders.append("Authorization", `Bearer ${token}`)
@@ -101,10 +104,12 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
       method: "GET",
       headers: myHeaders,
     }
+    // TODO 日志：移除调试日志或统一收敛到日志系统
     console.log("start fetch bind account")
     fetch("https://dev.maimai.moe/api/maimai/maiweb/accounts", requestOptions)
       .then(response => response.text())
       .then(result => {
+        // TODO 日志：移除调试日志
         console.log("get data")
         const data = JSON.parse(result)
         if (data[0].server) {

@@ -67,18 +67,21 @@ const Button: React.FC<ButtonProps> = ({
       variantClasses += "active:border-[rgb(115,204,196)] focus:ring-[rgb(155,244,236)]"
       break
     case "secondary":
+      // TODO 规范：移除渐变色变体，统一纯色主题；必要时使用阴影替代
       variantClasses =
         "bg-gradient-to-r from-blue-400 to-purple-500 text-white border-2 border-white/20 "
       variantClasses += "hover:from-blue-500 hover:to-purple-600 hover:shadow-xl "
       variantClasses += "active:from-blue-600 active:to-purple-700 focus:ring-purple-300"
       break
     case "accent":
+      // TODO 规范：移除渐变色变体，统一纯色主题
       variantClasses =
         "bg-gradient-to-r from-pink-400 to-orange-400 text-white border-2 border-white/30 "
       variantClasses += "hover:from-pink-500 hover:to-orange-500 hover:shadow-xl "
       variantClasses += "active:from-pink-600 active:to-orange-600 focus:ring-pink-300"
       break
     case "gradient":
+      // TODO 规范：移除渐变色变体，统一纯色主题
       variantClasses = "bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 text-white "
       variantClasses += "hover:from-blue-500 hover:via-purple-600 hover:to-pink-500 "
       variantClasses += "hover:shadow-xl hover:shadow-purple-500/25 "

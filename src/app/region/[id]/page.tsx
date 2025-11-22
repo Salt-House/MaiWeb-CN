@@ -158,6 +158,7 @@ export default function AreaDetailPage({ params }: PageProps) {
               </h1>
 
               <div className="relative">
+                {/* TODO 优化：改用 `next/image` 提升加载性能；为回退图添加 `alt` 更清晰 */}
                 <img
                   src={`/img/version/${area.area_id}.png`}
                   className="w-96 h-96 object-contain mx-auto animate-floatUpDown transition-all duration-300 ease-in-out max-sm:w-64 max-sm:h-64"
@@ -213,6 +214,7 @@ export default function AreaDetailPage({ params }: PageProps) {
                   </span>
                 </div>
 
+                {/* TODO 性能：角色列表较长时建议使用虚拟化（react-window/react-virtualized）；并为 `character` 定义类型 */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {area.characters.map((character, index) => (
                     <div
@@ -301,6 +303,7 @@ export default function AreaDetailPage({ params }: PageProps) {
                   </span>
                 </div>
 
+                {/* TODO 性能：歌曲列表较长时建议使用虚拟化；并缓存排序/过滤结果到 `useMemo` */}
                 <div className="grid grid-cols-1 gap-4">
                   {area.songs.map((song, index) => (
                     <div
@@ -310,6 +313,7 @@ export default function AreaDetailPage({ params }: PageProps) {
                       <div className="flex items-center space-x-6">
                         {/* 歌曲封面 */}
                         <div className="flex-shrink-0">
+                          {/* TODO 优化：改用 `next/image`；并使用本地占位符以优化 LCP */}
                           <img
                             src={`${baseurl}${song.song_id}.png`}
                             className="w-20 h-20 rounded-lg border-2 border-pink-300 object-cover shadow-md"

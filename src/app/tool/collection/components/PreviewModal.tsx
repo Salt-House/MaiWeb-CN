@@ -117,6 +117,7 @@ export default function PreviewModal({
                       </div>
                     </div>
                   ) : (
+                    //TODO 优化：改用 `next/image`；并根据容器大小设置 `sizes` 以提升响应式表现
                     <img
                       src={getImageUrl() || ""}
                       alt={previewImage.name}

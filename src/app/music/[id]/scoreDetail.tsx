@@ -168,14 +168,17 @@ function ScoreCard({
         </div>
         <div className="flex-1 grid grid-cols-2 gap-4">
           <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-[#F0F2F5] border border-white/60 shadow-sm">
+            {/* TODO 优化：改用 `next/image`；将评级图标静态导入，避免运行时路径拼接 */}
             <img src={getRateImage(score.achievements) || ""} alt="" className="h-8 mb-1" />
             <p className="text-lg font-bold text-gray-800">{score.achievements.toFixed(4)}%</p>
           </div>
           <div className="flex items-center justify-center space-x-4">
             {getFCImage(score.fc as any) && (
+              /* TODO 优化：改用 `next/image`；并为 `fc` 值建立严格类型 */
               <img src={getFCImage(score.fc as any)!} className="h-10" />
             )}
             {getFSImage(score.fs as any) && (
+              /* TODO 优化：改用 `next/image`；修复 `getFSImage` 中可能的资源路径拼写错误（ggrade） */
               <img src={getFSImage(score.fs as any)!} className="h-10" />
             )}
           </div>

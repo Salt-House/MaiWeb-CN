@@ -34,11 +34,13 @@ export default function NewsCard({
     >
       <Link href={`/tool/news/${source_created_at}`} className="block relative">
         <div className={`relative w-full ${imageHeight} overflow-hidden`}>
+          {/* TODO 优化：改用 `next/image`；并移除渐变遮罩以遵循 UI 规范 */}
           <img
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-110"
             src={image_url}
             alt={title}
           />
+          {/* TODO 规范：移除颜色渐变背景（bg-gradient-to-*），改用纯色半透明遮罩 */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
           <div className="absolute bottom-0 left-0 p-4 w-full">
             <span className="inline-block px-3 py-1 text-xs font-semibold text-white bg-purple-500 rounded-full mb-2">

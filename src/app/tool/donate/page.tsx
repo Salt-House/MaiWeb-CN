@@ -53,10 +53,12 @@ export default function DonatePage() {
           ))}
         </div>
         <div className="max-sm:w-[300px] max-sm:mt-2 max-sm:h-[100px] w-[400px] h-[500px] rounded-2xl bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg">
+          {/* TODO 优化：改用 `next/image` 加载收款码以提升清晰度与缓存 */}
           <img src={plan} className="rounded-2xl" alt="" />
         </div>
         <div className="relative max-sm:hidden w-[300px] h-[300px] flex flex-col justify-start items-start p-3 space-y-5 rounded-2xl bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg">
           <label className="pl-4 font-bold text-black">请填入您的支付单号</label>
+          {/* TODO 规范：移除输入框渐变背景，统一纯色设计；补充 `<label>` 关联与输入校验 */}
           <input
             className="w-11/12 mx-3  px-4 py-2 my-2 text-gray-700 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-lg shadow-md border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-blue-400 hover:shadow-lg transition duration-300"
             type="text"
@@ -85,6 +87,7 @@ export default function DonatePage() {
               ✕
             </button>
             <h2 className="text-xl  mb-4 text-gray-800">提醒</h2>
+            {/* TODO 优化：改用 `next/image`；为图片提供明确的 `alt` 描述 */}
             <img src="/img/chara.png" alt="" />
             <p className="text-gray-600 mt-10 mb-4 text-center">{display}</p>
             <button

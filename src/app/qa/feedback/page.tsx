@@ -127,6 +127,7 @@ export default function FeedbackPage() {
 
         {/* 反馈表单 */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          {/* TODO 规范：移除渐变背景（bg-gradient-to-*），统一纯色主题；为标题区域添加语义标签 */}
           <div className="px-8 py-6 bg-gradient-to-r from-blue-600 to-indigo-600">
             <h2 className="text-xl font-semibold text-white">填写反馈信息</h2>
           </div>
@@ -261,6 +262,7 @@ export default function FeedbackPage() {
                   </div>
                 </div>
               )}
+              {/* TODO 规范：移除按钮渐变色（bg-gradient-to-*）；补充 `aria-busy` 状态与键盘可达性 */}
               <button
                 type="submit"
                 disabled={isSubmitting}

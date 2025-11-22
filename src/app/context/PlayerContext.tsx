@@ -51,11 +51,13 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 
   // 初始化音频元素
   useEffect(() => {
+    // TODO 优化：封装音频元素初始化到独立函数，避免重复；在 SSR 环境检测 window
     const audio = new Audio()
     audio.volume = volume
     audioRef.current = audio
 
     // 监听音频事件
+    // TODO 事件：提取具名回调以便在 cleanup 中正确移除监听
     audio.addEventListener("timeupdate", () => {
       setCurrentTime(audio.currentTime)
     })
@@ -69,6 +71,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       audio.pause()
       audio.src = ""
+      // TODO 清理：当前移除监听使用不同匿名函数，无法正确移除；需保存同一函数引用
       audio.removeEventListener("timeupdate", () => {})
       audio.removeEventListener("loadedmetadata", () => {})
       audio.removeEventListener("ended", handleTrackEnded)
@@ -128,6 +131,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
     const savedCurrentTrack = localStorage.getItem("music_current_track")
     const savedVolume = localStorage.getItem("music_volume")
     const savedPlayMode = localStorage.getItem("music_play_mode")
+    // TODO 容错：为 JSON.parse 添加 try/catch；并校验对象结构
 
     if (savedPlaylist) {
       setPlaylist(JSON.parse(savedPlaylist))
@@ -152,6 +156,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 
   // 保存播放列表和播放模式到本地存储
   useEffect(() => {
+    // TODO 存储：考虑节流写入或在页面卸载时写入，减少频繁 localStorage 操作
     if (playlist.length > 0) {
       localStorage.setItem("music_playlist", JSON.stringify(playlist))
     }
@@ -335,6 +340,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 
   // 设置进度
   const setProgress = (progress: number) => {
+    // TODO 边界：约束 progress 到 [0,1]；并处理 duration 为 NaN 的情况
     if (!audioRef.current) return
 
     const newTime = progress * audioRef.current.duration
@@ -344,6 +350,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 
   // 设置音量
   const setVolumeValue = (newVolume: number) => {
+    // TODO 边界：将音量范围限制为 [0,1]；并同步到 localStorage
     if (!audioRef.current) return
 
     audioRef.current.volume = newVolume
