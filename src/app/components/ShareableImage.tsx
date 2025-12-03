@@ -168,6 +168,7 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
           </div>
           <div className="m-1 rounded-2xl border-white border-4">
             <div className=" border-4 rounded-xl bg-blue-500 border-blue-500">
+              {/* TODO 优化：改用 `next/image` 并在 next.config.ts 中配置远程域名，以获得自动优化与缓存 */}
               <img
                 className="size-20 rounded-xl"
                 src={`${baseUrl}/jacket/${props.id}.png`}
@@ -181,6 +182,7 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
             <hr className="border-dashed" />
             <div className={`text-2xl flex font-bold ${nameColor}`}>
               <p className="w-[100px]">{props.achievements}</p>
+              {/* TODO 优化：改用 `next/image`；将评分勋章使用静态导入，避免运行时路径错误 */}
               <img src={`${achievements}`} className="w-[70px]" alt="" />{" "}
             </div>
             <div className="text-sm flex">
@@ -194,6 +196,7 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
               </p>
               {fc != null ? (
                 <>
+                  {/* TODO 优化：改用 `next/image`；统一资源路径管理 */}
                   <img src={fc} className="w-[22px] h-[22px]" alt="" />
                 </>
               ) : (
@@ -201,6 +204,7 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
               )}
               {fs != null ? (
                 <>
+                  {/* TODO 优化：改用 `next/image`；统一资源路径管理 */}
                   <img src={fs} className="w-[22px] h-[22px]" alt="" />
                 </>
               ) : (

@@ -148,6 +148,7 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
+              {/* TODO 优化：改用 `next/image`，并在 next.config 中配置远程图片域名 */}
               <img
                 src={token ? avatarUrl : defaultAvatarUrl}
                 alt="用户头像"

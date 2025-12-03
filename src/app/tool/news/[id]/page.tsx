@@ -111,6 +111,7 @@ export default function NewDetailPage() {
                 <div className="relative">
                   {images.length > 0 && (
                     <>
+                      {/* TODO 优化：改用 `next/image`；启用 `sizes` 与 `priority` 以提升首屏加载 */}
                       <img
                         src={images[currentImageIndex]}
                         alt={`${targetNews.title} - 图片 ${currentImageIndex + 1}`}
@@ -177,6 +178,7 @@ export default function NewDetailPage() {
                   </div>
 
                   <div className="prose prose-lg max-w-none">
+                    {/* TODO 安全：后端返回的富文本需进行 XSS 处理；前端渲染富文本时避免直接拼接，使用安全渲染组件 */}
                     {targetNews.content.split("\n").map((paragraph, index) => (
                       <p key={index} className="mb-4 text-gray-800">
                         {paragraph}

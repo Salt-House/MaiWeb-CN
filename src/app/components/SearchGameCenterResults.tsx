@@ -94,6 +94,8 @@ export default function SearchGameCenterResults(props: SearchGameCenterResultsPr
                 <p className="text-sm text-gray-500 mt-2">请尝试调整搜索条件或范围</p>
               </div>
             ) : (
+              // TODO 性能：结果列表较长时建议使用列表虚拟化（如 react-window / react-virtualized）
+              // TODO 性能：将排序与映射使用 `useMemo` 缓存，避免每次渲染重复计算
               <div className="max-h-[400px] overflow-y-auto pr-1 arcade-results">
                 {arcadeResults
                   .sort((a, b) => (a.distance || Infinity) - (b.distance || Infinity))

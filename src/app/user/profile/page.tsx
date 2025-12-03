@@ -13,6 +13,7 @@ import RatingHistory from "./components/RatingHistory";
 import SvgStrokedText from "@/app/components/SvgStrokedText";
 import PageTransitionWrapper from "@/app/components/PageTransitionWrapper";
 
+// TODO 优化：移除未使用的导入（AnimatedComponent、Link、use、PageTransitionWrapper），减少包体积与编译时间
 
 
 const defaultUserProfile: UserProfile = {
@@ -29,6 +30,7 @@ const defaultUserProfile: UserProfile = {
   mai_frame_id: null,
 }
 
+// TODO 优化：`baseUrl` 使用 const 并集中配置（env/config），避免散落于页面
 let baseUrl = "https://assets2.lxns.net/maimai"
 
 export default function UserProfilePage() {
@@ -44,11 +46,13 @@ export default function UserProfilePage() {
   const [divingfishpassword, setDivingFishPassword] = useState<string>("")
   const [qr_code, setQrCode] = useState<string>("")
   const [ratingHistory, setRatingHistory] = useState<UserHistorySub[]>([])
+  // TODO 优化：`bindaccount` 未重新赋值可使用 const；避免未使用的 setter 减少不必要状态
   let [bindaccount, setBindAccount] = useState<BindAccount>({
     islxns: false,
     isdivingfish: false,
     isarcaed: false,
   })
+  // TODO 优化：`setFunctionStatus` 未使用；确认是否需要此状态或移除
   const [functionStatus, setFunctionStatus] = useState<FunctionStatus>({
     BUpdate: true,
     CycleReport: false,
@@ -75,13 +79,16 @@ export default function UserProfilePage() {
       headers: myHeaders,
     }
     // console.log("start fetch bind account")
+    // TODO 优化：为返回结果定义类型；统一错误处理与重试策略（如指数退避）
     fetch("https://dev.maimai.moe/api/maimai/maiweb/accounts", requestOptions)
       .then(response => response.text())
       .then(result => {
+        // TODO 优化：移除调试日志或使用统一日志上报
         console.log("get data")
         try {
           const data = JSON.parse(result)
           if (data[0].server) {
+            // TODO 优化：避免使用 any，定义 Account 接口
             setAccounts(
               data.map((account: any) => ({
                 server: account.server,
@@ -141,12 +148,14 @@ export default function UserProfilePage() {
       headers: myHeaders,
     }
 
+    // TODO 优化：密码传输应走 HTTPS 且避免通过 QueryString 传递敏感信息，改为 Body + HTTPS；并考虑后端节流与防刷
     fetch(
       `https://dev.maimai.moe/api/maimai/maiweb/accounts/divingfish?username=${divingfishusername}&password=${divingfishpassword}`,
       requestOptions
     )
       .then(response => {
         const statusCode = response.status
+        // TODO 优化：移除调试日志或改为统一日志组件
         console.log(`Status Code: ${statusCode}`)
         if (statusCode === 200) {
           alert("绑定成功")
@@ -426,6 +435,7 @@ export default function UserProfilePage() {
                       }
                     >
                       {/* 左侧头像 */}
+                      {/* TODO 优化：改用 `next/image` 优化图片加载与 LCP */}
                       <div className="flex justify-center items-center mr-4">
                         {token == null || userdata.mai_icon_id == null ? (
                           <img
@@ -450,6 +460,7 @@ export default function UserProfilePage() {
                       <div className="flex-1 flex flex-col justify-between h-24">
                         {/* Rating值 */}
                         <div className="flex items-center">
+                          {/* TODO 优化：遵循 UI 规范，移除渐变色（bg-gradient-to-*） */}
                           <span className="relative max-sm:hidden bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-clip">
                             <SvgStrokedText
                               text={`Rating: ${userdata.mai_rating}`}
@@ -463,6 +474,7 @@ export default function UserProfilePage() {
 
                             <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent z-0"></div>
                           </span>
+                          {/* TODO 优化：遵循 UI 规范，移除渐变色（bg-gradient-to-*） */}
                           <span className="relative sm:hidden bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-clip">
                             <SvgStrokedText
                               text={`Rating: ${userdata.mai_rating}`}
@@ -490,6 +502,7 @@ export default function UserProfilePage() {
 
                         {/* 称号 */}
                         <div className="flex justify-start w-full">
+                          {/* TODO 优化：遵循 UI 规范，移除渐变色（bg-gradient-to-*） */}
                           <span className="inline-block max-sm:hidden bg-gradient-to-b from-gray-100 via-gray-300 to-gray-100 px-4 py-0 rounded-3xl border-2 border-gray-400 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.8)] text-center text-gray-700 italic text-sm w-64 truncate">
                             欢迎来到 maimai.moe!
                           </span>
@@ -903,12 +916,14 @@ export default function UserProfilePage() {
       {userdata.username == "请刷新" ? (
         <>
           <div className="flex flex-col text-center text-xl text-white">
+            {/* TODO 优化：遵循 UI 规范，移除渐变色（bg-gradient-to-*） */}
             <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 py-2 px-4 rounded-xl shadow-lg mb-4">
               <span className="text-3xl">🤯</span>
               <h1 className="text-2xl font-bold text-white tracking-wide">
                 5s内无跳转表明登录状态已过期
               </h1>
             </div>
+            {/* TODO 优化：遵循 UI 规范，移除渐变色（bg-gradient-to-*） */}
             <button
               onClick={LogOut}
               className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-red-500 to-pink-600 p-2 px-5 text-white font-bold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 border-white/30"

@@ -76,6 +76,7 @@ export default function BestPage() {
   }, [])
   useEffect(() => {
     if (token) {
+      // TODO 网络：统一封装请求；移除多处 console.log；添加错误重试
       GetBindAccount()
       var myHeaders = new Headers()
       myHeaders.append("Authorization", `Bearer ${token}`)
@@ -90,6 +91,7 @@ export default function BestPage() {
         .then(result => {
           const data = JSON.parse(result)
           setUser(data)
+          // TODO 日志：移除调试日志或上报到统一日志系统
           console.log(data)
         })
         .catch(error => console.log("error", error))
@@ -105,6 +107,7 @@ export default function BestPage() {
   }, [nowFrom])
 
   const GetBindAccount = () => {
+    // TODO 类型：避免使用 any；将返回数据映射至强类型结构
     setIsLoading(true)
     const myHeaders = new Headers()
     myHeaders.append("accept", "application/json")
@@ -114,10 +117,12 @@ export default function BestPage() {
       method: "GET",
       headers: myHeaders,
     }
+    // TODO 日志：移除
     console.log("start fetch bind account")
     fetch("https://dev.maimai.moe/api/maimai/maiweb/accounts", requestOptions)
       .then(response => response.text())
       .then(result => {
+        // TODO 日志：移除
         console.log("get data")
         const data = JSON.parse(result)
         if (data[0].server) {
@@ -150,6 +155,7 @@ export default function BestPage() {
       })
   }
   const GetBest50 = () => {
+    // TODO 性能：对长列表的渲染进行虚拟化；对数据处理使用 `useMemo` 缓存
     setIsLoading(true)
     let nickname = ""
     if (nowFrom == "divingfish") {
@@ -215,6 +221,7 @@ export default function BestPage() {
                 type: song.type,
               })
             })
+          // TODO 日志：移除
           console.log(data)
           setBest35(ArcaedGradeB35)
           setBest15(ArcaedGradeB15)
@@ -279,6 +286,7 @@ export default function BestPage() {
                 type: song.type,
               })
             })
+          // TODO 日志：移除
           console.log(data)
           setBest35(ArcaedGradeB35)
           setBest15(ArcaedGradeB15)
@@ -291,6 +299,7 @@ export default function BestPage() {
           setIsLoading(false)
         })
     } else if (nowFrom == "maiweb") {
+      // TODO 日志：移除
       console.log("开始从maiweb获取数据")
       const myHeaders = new Headers()
       myHeaders.append("Accept", "application/json")
@@ -300,6 +309,7 @@ export default function BestPage() {
         method: "GET",
         headers: myHeaders,
       }
+      // TODO 日志：移除
       console.log("发起请求")
       fetch("https://dev.maimai.moe/api/maimai/maiweb/bests", requestOptions)
         .then(response => response.text())
@@ -341,6 +351,7 @@ export default function BestPage() {
                 type: song.type,
               })
             })
+          // TODO 日志：移除
           console.log(data)
           setBest35(ArcaedGradeB35)
           setBest15(ArcaedGradeB15)

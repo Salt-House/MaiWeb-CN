@@ -236,9 +236,11 @@ const SearchGameCenter = () => {
     const name = encodeURIComponent(target.arcade_name) // 编码避免中文或特殊字符问题
     let url = ""
 
+    // TODO 兼容性：根据 UA 判断平台并提供对应 scheme（Android/IOS）；允许用户选择地图 App
     // Android：尝试打开高德地图 App
     url = `androidamap://navi?sourceApplication=yourapp&lat=${target.arcade_lat}&lon=${target.arcade_lng}&dev=0&style=2&poiname=${name}`
 
+    // TODO 体验：回退策略建议缩短等待时间或提供提示；同时在不可见页面时避免自动跳转
     // 回退策略：5秒后跳转到高德地图网页版
     setTimeout(() => {
       window.location.href = `https://uri.amap.com/navigation?to=${target.arcade_lng},${target.arcade_lat},${name}&mode=car&policy=1`
@@ -369,6 +371,8 @@ const SearchGameCenter = () => {
                     <option value={10000}>10公里范围</option>
                     <option value={20000}>20公里范围</option>
                   </select>
+                  {/* TODO 可访问性：为选择器添加关联的 `<label>` 与 `aria-label`，增强键盘友好性 */}
+                  {/* TODO 规范：移除颜色渐变（bg-gradient-to-*），替换为纯色或阴影 */}
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-gradient-to-r from-transparent to-pink-200">
                     <svg
                       className="h-4 w-4 text-pink-600"
@@ -387,11 +391,13 @@ const SearchGameCenter = () => {
                 </motion.div>
 
                 {/* 排序方式选择器 */}
+                {/* TODO 规范：移除颜色渐变（bg-gradient-to-*），保持统一的纯色主题 */}
                 <motion.div
                   className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg"
                   whileHover={{ boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.3)" }}
                   transition={{ duration: 0.2 }}
                 >
+                  {/* TODO 可访问性：为排序选择器添加 `<label>` 或 `aria-labelledby` */}
                   <select
                     className="w-full h-9 py-1.5 px-4 appearance-none bg-transparent text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-400"
                     value={searchGameCenter.sort}
@@ -399,6 +405,7 @@ const SearchGameCenter = () => {
                   >
                     <option value="distance">按距离排序</option>
                   </select>
+                  {/* TODO 规范：移除颜色渐变（bg-gradient-to-*） */}
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-gradient-to-r from-transparent to-pink-200">
                     <svg
                       className="h-4 w-4 text-pink-600"
@@ -417,6 +424,8 @@ const SearchGameCenter = () => {
                 </motion.div>
 
                 {/* 获取定位按钮 */}
+                {/* TODO 性能：为定位请求添加节流/去抖；使用 GeolocationOptions（timeout、enableHighAccuracy） */}
+                {/* TODO 规范：按钮配色避免使用渐变色（bg-gradient-to-*） */}
                 <motion.button
                   onClick={getLocation}
                   className="flex items-center justify-center h-10 px-4 rounded-full bg-gradient-to-r from-pink-200 to-pink-300 border-2 border-pink-400 shadow-lg gap-2 max-sm:w-10 max-sm:h-10 max-sm:px-0 max-sm:gap-0"
@@ -481,6 +490,7 @@ const SearchGameCenter = () => {
                 className="relative min-w-[250px] flex-1 max-w-[350px] max-sm:min-w-[200px]"
                 transition={{ duration: 0.2 }}
               >
+                {/* TODO 规范：移除颜色渐变，采用纯色背景；并添加 `<label>` 关联与 `aria-describedby` */}
                 <input
                   type="text"
                   placeholder="请输入机厅名称（可选）"
@@ -496,6 +506,7 @@ const SearchGameCenter = () => {
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
               >
+                {/* TODO 规范：移除颜色渐变；将 loading spinner 改为组件以保持一致性 */}
                 <motion.button
                   className="px-8 py-2.5 h-11 rounded-full bg-gradient-to-r from-pink-300 to-pink-400 hover:from-pink-400 hover:to-pink-500 text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-pink-500 max-sm:px-6 max-sm:text-base"
                   onClick={GetGameCenter}

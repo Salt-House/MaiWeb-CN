@@ -31,6 +31,7 @@ export default function GlobalPlayer() {
 
   // 设置媒体会话
   useEffect(() => {
+    // TODO 优化：为媒体会话设置添加错误边界与特性检测封装；减少重复注册
     if (!currentTrack) return
 
     if ("mediaSession" in navigator) {
@@ -53,6 +54,7 @@ export default function GlobalPlayer() {
 
   // 更新媒体会话播放状态
   useEffect(() => {
+    // TODO 性能：节流频繁的状态更新；在不可见时跳过更新以节省资源
     if ("mediaSession" in navigator) {
       navigator.mediaSession.playbackState = isPlaying ? "playing" : "paused"
     }
@@ -121,6 +123,7 @@ export default function GlobalPlayer() {
             onClick={() => setIsMinimized(!isMinimized)}
             title={isMinimized ? "展开播放器" : "最小化播放器"}
           >
+            {/* TODO 优化：改用 `next/image` 并开启优先加载（priority）以优化播放器封面显示 */}
             <img
               src={currentTrack.coverUrl}
               alt={currentTrack.title}

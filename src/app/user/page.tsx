@@ -193,7 +193,8 @@ export default function UserPage() {
                       >
                         <FaArrowLeft className="mr-1" /> 返回登录
                       </button>
-                      <img src="/img/logo.png" className="w-48" alt="" />
+                      {/* TODO 优化：改用 `next/image` 加载 Logo；为图片添加更明确的 alt 文本 */}
+                      <img src="/img/logo.png" className="w-48" alt="网站 Logo" />
                       <h1 className="text-2xl font-bold">舞萌萌账号注册</h1>
                       {isLoading ? (
                         <LoadingSpinner />
@@ -244,7 +245,8 @@ export default function UserPage() {
                           >
                             <FaArrowLeft className="mr-1" /> 返回登录
                           </button>
-                          <img src="/img/logo.png" className="w-48" alt="" />
+                          {/* TODO 优化：改用 `next/image` 加载 Logo；移除渐变样式以遵循 UI 规范 */}
+                          <img src="/img/logo.png" className="w-48" alt="网站 Logo" />
                           <h1 className="text-2xl font-bold">忘记密码</h1>
                           {isLoading ? (
                             <LoadingSpinner />
@@ -292,7 +294,8 @@ export default function UserPage() {
                       </>
                     ) : (
                       <div className="h-full flex flex-col p-2 justify-center items-center space-y-2">
-                        <img src="/img/logo.png" className="w-48" alt="" />
+                        {/* TODO 优化：改用 `next/image` 加载 Logo；移除渐变色背景，统一纯色主题 */}
+                        <img src="/img/logo.png" className="w-48" alt="网站 Logo" />
                         <h1 className="text-2xl font-bold">舞萌萌账号登录</h1>
                         {isLoading ? (
                           <LoadingSpinner />
@@ -349,11 +352,12 @@ export default function UserPage() {
                   <h1 className="w-[80px] font-bold text-2xl">
                     使用<br></br>舞萌萌
                   </h1>
+                  {/* TODO 优化：改用 `next/image`；为图片添加描述性 alt */}
                   <img
                     src="/img/arrowright.png"
                     onClick={() => setIsHovered(true)}
                     className="animate-leftToRight"
-                    alt=""
+                    alt="箭头指示图标"
                   />
                 </div>
               </>

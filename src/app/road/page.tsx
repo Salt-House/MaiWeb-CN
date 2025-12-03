@@ -93,6 +93,7 @@ export default function RoadPage() {
   }
 
   useEffect(() => {
+    // TODO 日志：移除调试日志；或在开发模式下使用条件日志
     console.log(needs)
   }, [needs])
   return (
@@ -133,6 +134,7 @@ export default function RoadPage() {
                 )
               ).map(([statusStr, items]) => (
                 <div key={statusStr} className="w-full">
+                  {/* TODO 性能：列表较长时建议虚拟化；并为 `NeedItem` 使用 `memo` 避免不必要重渲染 */}
                   <h2
                     className={`text-xl font-bold mb-6 ${transformColorStatus(parseInt(statusStr))}`}
                   >
