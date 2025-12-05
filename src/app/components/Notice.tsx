@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react"
+import { CONFIG } from "@/config/api"
 import { motion, AnimatePresence } from "framer-motion"
 import { IoMdClose } from "react-icons/io"
 import { IoInformationCircle } from "react-icons/io5"
@@ -67,7 +68,7 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
         headers: myHeaders,
       }
 
-      fetch("https://dev.maimai.moe/api/user/me", requestOptions)
+      fetch(`${CONFIG.API.ENDPOINTS.API}/user/me`, requestOptions)
         .then(response => response.text())
         .then(result => {
           const data = JSON.parse(result)
@@ -106,7 +107,7 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
     }
     // TODO 日志：移除调试日志或统一收敛到日志系统
     console.log("start fetch bind account")
-    fetch("https://dev.maimai.moe/api/maimai/maiweb/accounts", requestOptions)
+    fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts`, requestOptions)
       .then(response => response.text())
       .then(result => {
         // TODO 日志：移除调试日志

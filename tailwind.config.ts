@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
 
 const config: Config = {
   content: [
@@ -10,39 +10,34 @@ const config: Config = {
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       keyframes: {
         marquee: {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(calc(-50% - 1rem))' }
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(calc(-50% - 1rem))" },
         },
       },
       animation: {
-        "test": "test 1s infinite",
-        "moveStar": "moveStar 3s linear infinite",
-        "moveDot": "moveDot 30s linear infinite",
-        "volume": "volume 1s infinite",
-        "leftToRight": "leftToRight 2s ease-in-out infinite",
+        test: "test 1s infinite",
+        moveStar: "moveStar 3s linear infinite",
+        moveDot: "moveDot 30s linear infinite",
+        volume: "volume 1s infinite",
+        leftToRight: "leftToRight 2s ease-in-out infinite",
         "text-scroll": "textScroll 5s linear infinite",
         "text-scroll-region": "textScrollRegionName 5s linear infinite",
-        "floatUpDown":"floatUpDown 4s ease-in-out infinite",
-        'marquee': 'marquee 10s linear infinite',
-        'textScroll': 'textScroll 15s linear infinite',
+        floatUpDown: "floatUpDown 4s ease-in-out infinite",
+        marquee: "marquee 10s linear infinite",
+        textScroll: "textScroll 15s linear infinite",
       },
       fontFamily: {
-        douyin: ['DouyinSansBold', 'sans-serif'], // 自定义字体
+        douyin: ["DouyinSansBold", "sans-serif"], // 自定义字体
       },
       boxShadow: {
-        'text': '2px 2px 5px rgba(255, 255, 255, 0.8)', // 自定义文字阴影
+        text: "2px 2px 5px rgba(255, 255, 255, 0.8)", // 自定义文字阴影
       },
     },
   },
-  plugins: [
-    require('tailwind-scrollbar-hide'),
-    require('tailwindcss-text-stroke'),
-    require('@tailwindcss/line-clamp'),
-  ],
-};
-export default config;
+  plugins: [require("tailwind-scrollbar-hide"), require("tailwindcss-text-stroke")],
+}
+export default config

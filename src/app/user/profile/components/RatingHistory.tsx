@@ -2,6 +2,7 @@
 import type * as EChartsType from "echarts"
 import { useEffect, useState, useRef } from "react"
 import { UserHistorySub } from "../../model"
+import { CONFIG } from "@/config/api"
 
 export default function RatingHistory() {
   const [token, setToken] = useState<string | null>(null)
@@ -20,7 +21,7 @@ export default function RatingHistory() {
       headers: myHeaders,
     }
 
-    fetch("https://dev.maimai.moe/api/maimai/maiweb/histories/ratings", requestOptions)
+    fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/histories/ratings`, requestOptions)
       .then(response => response.text())
       .then(result => {
         try {

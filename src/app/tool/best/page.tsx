@@ -10,6 +10,8 @@ import Link from "next/link"
 import { use, useEffect, useState } from "react"
 import { Step } from "react-joyride"
 import dynamic from "next/dynamic"
+import { CONFIG } from "@/config/api"
+
 // 动态引入缩放组件，避免在其它页面提前加载大体积库
 const TransformWrapper = dynamic(
   () => import("react-zoom-pan-pinch").then(m => m.TransformWrapper),
@@ -49,7 +51,7 @@ export default function BestPage() {
   const [rating35, setRating35] = useState<any>()
   const [rating15, setRating15] = useState<any>()
   const [token, setToken] = useState<string | null>()
-  let baseUrl = "https://assets2.lxns.net/maimai"
+  let baseUrl = CONFIG.ASSETS.MAIMAI.BASE
   let ArcaedGradeB35: MusicGradeProps[] = []
   let ArcaedGradeB15: MusicGradeProps[] = []
   const [nowFrom, setNowFrom] = useState<string | null>("暂无可用数据源")
@@ -81,12 +83,12 @@ export default function BestPage() {
       var myHeaders = new Headers()
       myHeaders.append("Authorization", `Bearer ${token}`)
 
-      var requestOptions = {
+      const requestOptions = {
         method: "GET",
         headers: myHeaders,
       }
 
-      fetch("https://dev.maimai.moe/api/user/me", requestOptions)
+      fetch(`${CONFIG.API.ENDPOINTS.API}/user/me`, requestOptions)
         .then(response => response.text())
         .then(result => {
           const data = JSON.parse(result)
@@ -119,7 +121,7 @@ export default function BestPage() {
     }
     // TODO 日志：移除
     console.log("start fetch bind account")
-    fetch("https://dev.maimai.moe/api/maimai/maiweb/accounts", requestOptions)
+    fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts`, requestOptions)
       .then(response => response.text())
       .then(result => {
         // TODO 日志：移除
@@ -180,7 +182,7 @@ export default function BestPage() {
         firstWord = tmp[0]
       }
       fetch(
-        `https://dev.maimai.moe/api/maimai/divingfish/bests?username=${firstWord}`,
+        `${CONFIG.API.ENDPOINTS.API}/maimai/divingfish/bests?username=${firstWord}`,
         requestOptions
       )
         .then(response => response.text())
@@ -247,7 +249,7 @@ export default function BestPage() {
         headers: myHeaders,
       }
 
-      fetch(`https://dev.maimai.moe/api/maimai/lxns/bests?friend_code=${nickname}`, requestOptions)
+      fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/lxns/bests?friend_code=${nickname}`, requestOptions)
         .then(response => response.text())
         .then(result => {
           localStorage.setItem("best", result)
@@ -311,7 +313,7 @@ export default function BestPage() {
       }
       // TODO 日志：移除
       console.log("发起请求")
-      fetch("https://dev.maimai.moe/api/maimai/maiweb/bests", requestOptions)
+      fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/bests`, requestOptions)
         .then(response => response.text())
         .then(result => {
           localStorage.setItem("best", result)
@@ -407,7 +409,7 @@ export default function BestPage() {
       body: raw,
     }
 
-    fetch("https://dev.maimai.moe/email/best-song-list", requestOptions)
+    fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/best-song-list`, requestOptions)
       .then(response => response.blob())
       .then(blob => {
         setButtonStatus(false)

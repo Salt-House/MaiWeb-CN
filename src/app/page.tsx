@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { SetStateAction, useEffect, useState } from "react"
+import { CONFIG } from "@/config/api"
 import ChinaMap from "./components/ChinaMap"
 import { FiChevronRight } from "react-icons/fi"
 import NewsCard from "./components/NewsCard"
@@ -144,7 +145,7 @@ export default function Home() {
 
     try {
       const response = await fetch(
-        `https://dev.maimai.moe/api/maimai/maiweb/news?limit=${limit}&offset=${offset}`,
+        `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/news?limit=${limit}&offset=${offset}`,
         requestOptions
       )
       const result = await response.text()

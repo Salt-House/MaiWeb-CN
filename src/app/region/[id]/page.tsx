@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { CONFIG } from "@/config/api"
 import { Area } from "../page"
 import type { AreaCharacters, AreaSong } from "../page"
 import Link from "next/link"
@@ -42,11 +43,11 @@ export default function AreaDetailPage({ params }: PageProps) {
     textShadow:
       "-2px -2px 4px rgba(236, 72, 153, 1), 2px -2px 4px rgba(236, 72, 153, 1), -2px 2px 2px rgba(236, 72, 153, 1), 2px 2px 2px rgba(236, 72, 153, 1)",
   }
-  const baseurl = "https://assets2.lxns.net/maimai/jacket/"
+  const baseurl = CONFIG.ASSETS.MAIMAI.JACKET + "/"
 
   const GetAreaDetail = () => {
     setLoading(true)
-    fetch(`https://dev.maimai.moe/email/getOneArea?language=${language}&area_id=${params.id}`, {
+    fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/getOneArea?language=${language}&area_id=${params.id}`, {
       method: "GET",
       headers: {
         Accept: "application/json",

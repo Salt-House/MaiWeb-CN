@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import * as echarts from "echarts"
+import { CONFIG } from "@/config/api"
 import chinaGeoJson from "./china.json" // 导入中国 GeoJSON 数据文件
 
 interface UserRegionData {
@@ -250,7 +251,7 @@ const ChinaMap = () => {
         headers: myHeaders,
       }
 
-      fetch("https://dev.maimai.moe/api/maimai/maiweb/regions", requestOptions)
+      fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/regions`, requestOptions)
         .then(response => response.text())
         .then(result => {
           const data = JSON.parse(result)

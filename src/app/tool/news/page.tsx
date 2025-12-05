@@ -7,6 +7,7 @@ import LoadingSpinner from "@/app/components/LoadingSpinner"
 import NewsCard from "@/app/components/NewsCard"
 import { FaCalendarAlt, FaUser, FaLink } from "react-icons/fa"
 import axios from "axios"
+import { CONFIG } from "@/config/api"
 
 interface NewsProps {
   title: string
@@ -30,7 +31,7 @@ export default function NewsPage() {
 
   const getNews = async (limit: number, offset: number): Promise<NewsProps[]> => {
     try {
-      const response = await axios.get(`https://dev.maimai.moe/api/maimai/maiweb/news`, {
+      const response = await axios.get(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/news`, {
         params: { limit, offset },
       })
 

@@ -1,8 +1,9 @@
 "use client"
 
-import { motion } from 'framer-motion'
-import TextScroller from './TextScroller'
-import { NamePlate, MaiBackGround, Icon, Trophie } from '../model'
+import { motion } from "framer-motion"
+import TextScroller from "./TextScroller"
+import { NamePlate, MaiBackGround, Icon, Trophie } from "../model"
+import { CONFIG } from "@/config/api"
 
 interface RenderItemProps {
   item: NamePlate | MaiBackGround | Icon | Trophie
@@ -11,7 +12,7 @@ interface RenderItemProps {
   GetCondition: (type: string, id: string) => void
 }
 
-const baseUrl = "https://assets2.lxns.net/maimai"
+const baseUrl = CONFIG.ASSETS.MAIMAI.BASE
 
 /**
  * 渲染收藏品项目组件
@@ -108,7 +109,7 @@ export default function RenderItem({
           <div className="aspect-[4/3] p-4 flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-50">
             {/* TODO 优化：改用 `next/image` + 静态资源缓存 */}
             <img
-              src={`https://static.maimai.moe/UI_Frame_${item.collection_id}.png`}
+              src={`${CONFIG.ASSETS.STATIC}/UI_Frame_${item.collection_id}.png`}
               alt={item.name}
               className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
               loading="lazy"
@@ -172,7 +173,7 @@ export default function RenderItem({
           <div className="aspect-[3/1] p-4 flex items-center justify-center bg-gradient-to-br from-green-50 to-emerald-50">
             {/* TODO 优化：改用 `next/image`；远程域名需要在 next.config.ts 中声明 */}
             <img
-              src={`https://static.maimai.moe/UI_Plate_${item.collection_id.toString().padStart(6, "0")}.png`}
+              src={`${CONFIG.ASSETS.STATIC}/UI_Plate_${item.collection_id.toString().padStart(6, "0")}.png`}
               alt={item.name}
               className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
               loading="lazy"

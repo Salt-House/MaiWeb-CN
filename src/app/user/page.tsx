@@ -6,6 +6,7 @@ import ChinaMap from "../components/ChinaMap"
 import { redirect } from "next/dist/server/api-utils"
 import LoadingSpinner from "../components/LoadingSpinner"
 import { FaArrowLeft } from "react-icons/fa"
+import { CONFIG } from "@/config/api"
 
 export default function UserPage() {
   const [username, setUsername] = useState("")
@@ -41,7 +42,7 @@ export default function UserPage() {
       body: raw,
     }
 
-    fetch("https://dev.maimai.moe/api/auth/register", requestOptions)
+    fetch(`${CONFIG.API.ENDPOINTS.API}/auth/register`, requestOptions)
       .then(async response => {
         const statusCode = response.status
         const data = await response.json()
@@ -81,7 +82,7 @@ export default function UserPage() {
       headers: myHeaders,
       body: urlencoded,
     }
-    fetch("https://dev.maimai.moe/api/auth/jwt/login", requestOptions)
+    fetch(`${CONFIG.API.ENDPOINTS.API}/auth/jwt/login`, requestOptions)
       .then(response => response.text())
       .then(result => {
         const data = JSON.parse(result)
@@ -110,7 +111,7 @@ export default function UserPage() {
 
   const sendVerificationEmail = () => {
     setIsLoading(true)
-    fetch(`https://dev.maimai.moe/email/verify/email?email=${email}`)
+    fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/verify/email?email=${email}`)
       .then(async response => {
         const data = await response.json()
         if (response.ok) {
@@ -140,7 +141,7 @@ export default function UserPage() {
       body: raw,
     }
 
-    fetch("https://dev.maimai.moe/email/change_password", requestOptions)
+    fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/change_password`, requestOptions)
       .then(async response => {
         const data = await response.json()
         if (response.ok) {

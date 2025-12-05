@@ -1,9 +1,10 @@
 /**
  * 路线相关API请求函数
  */
+import { CONFIG } from "@/config/api"
 
 // API基础URL
-const BASE_URL = "https://dev.maimai.moe/email"
+const BASE_URL = CONFIG.API.ENDPOINTS.EMAIL
 
 /**
  * 获取路线列表

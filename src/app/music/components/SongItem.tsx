@@ -4,6 +4,7 @@ import { usePlayer } from "@/app/context/PlayerContext"
 import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { CONFIG } from "@/config/api"
 
 interface SongItemProps {
   song: Song
@@ -27,14 +28,14 @@ export default function SongItem({ song, index, totalSongs, displayMode }: SongI
    * @param song 要添加的歌曲对象
    */
   const handleAddToPlaylist = (song: Song) => {
-    const audioUrl = `https://assets2.lxns.net/maimai/music/${song.id}.mp3`
+    const audioUrl = `${CONFIG.ASSETS.MAIMAI.MUSIC}/${song.id}.mp3`
 
     addToPlaylist({
       id: `${song.id}`,
       title: song.title,
       artist: song.artist,
       audioUrl,
-      coverUrl: `https://assets2.lxns.net/maimai/jacket/${song.id || "default"}.png`,
+      coverUrl: `${CONFIG.ASSETS.MAIMAI.JACKET}/${song.id || "default"}.png`,
     })
 
     // 更新状态，标记该歌曲已添加
@@ -56,7 +57,7 @@ export default function SongItem({ song, index, totalSongs, displayMode }: SongI
       transition={{ type: "spring", stiffness: 260, damping: 18, mass: 0.5 }}
     >
       <a
-        href={`https://dev.maimai.moe/music/${song.id}`}
+        href={`${CONFIG.API.WEB.MUSIC}/${song.id}`}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => localStorage.setItem(`song_${song.id}`, JSON.stringify(song))}
@@ -115,7 +116,7 @@ export default function SongItem({ song, index, totalSongs, displayMode }: SongI
             {/* 专辑图贴纸区域（进一步内缩，露出更多环形） */}
             <div className="absolute inset-2 rounded-full overflow-hidden">
               <Image
-                src={`https://assets2.lxns.net/maimai/jacket/${song.id}.png`}
+                src={`${CONFIG.ASSETS.MAIMAI.JACKET}/${song.id}.png`}
                 alt={song.title}
                 className="rounded-full object-cover"
                 style={{

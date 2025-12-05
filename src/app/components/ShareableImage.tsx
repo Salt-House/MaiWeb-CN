@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useRef, useState } from "react"
 import domtoimage from "dom-to-image"
 import LoadingSpinner from "./LoadingSpinner"
 import { UserProfile } from "../user/model"
+import { CONFIG } from "@/config/api"
 
 interface MusicGradeProps {
   id: number
@@ -18,7 +19,7 @@ interface MusicGradeProps {
   type: string
 }
 
-let baseUrl = "https://assets2.lxns.net/maimai"
+let baseUrl = CONFIG.ASSETS.MAIMAI.BASE
 
 interface ShareableImageSubProps extends MusicGradeProps {
   index: number

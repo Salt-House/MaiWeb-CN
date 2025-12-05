@@ -6,6 +6,7 @@ import SongItem from "./components/SongItem"
 import { usePlayer } from "@/app/context/PlayerContext"
 import { Song, getDifficultyColor, getGenreColor, transferText } from "@/app/music/songModel"
 import Image from "next/image"
+import { CONFIG } from "@/config/api"
 
 interface SongListProps {
   songs: Song[]
@@ -84,14 +85,14 @@ function SongListLegacy({
   const [orderSongs, setOrderSongs] = useState<Song[]>([])
 
   const handleAddToPlaylist = (song: Song) => {
-    const audioUrl = `https://assets2.lxns.net/maimai/music/${song.id}.mp3`
+    const audioUrl = `${CONFIG.ASSETS.MAIMAI.MUSIC}/${song.id}.mp3`
 
     addToPlaylist({
       id: `${song.id}`,
       title: song.title,
       artist: song.artist,
       audioUrl,
-      coverUrl: `https://assets2.lxns.net/maimai/jacket/${song.id || "default"}.png`,
+      coverUrl: `${CONFIG.ASSETS.MAIMAI.JACKET}/${song.id || "default"}.png`,
     })
 
     // 更新状态，标记该歌曲已添加
@@ -140,7 +141,7 @@ function SongListLegacy({
                   key={`${song.id}-${index}`}
                 >
                   <a
-                    href={`https://dev.maimai.moe/music/${song.id}`}
+                    href={`${CONFIG.API.WEB.MUSIC}/${song.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => localStorage.setItem(`song_${song.id}`, JSON.stringify(song))}
@@ -149,7 +150,7 @@ function SongListLegacy({
                       {/* 左侧曲绘封面 */}
                       <div className="max-sm:size-24 relative w-36 h-36 flex-shrink-0">
                         <Image
-                          src={`https://assets2.lxns.net/maimai/jacket/${song.id}.png`}
+                          src={`${CONFIG.ASSETS.MAIMAI.JACKET}/${song.id}.png`}
                           alt={song.title}
                           className="rounded-xl object-cover"
                           fill
