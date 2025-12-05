@@ -11,8 +11,9 @@ import SearchForm from "./components/SearchForm"
 import RenderItem from "./components/RenderItem"
 import LoadMoreButton from "./components/LoadMoreButton"
 import PreviewModal from "./components/PreviewModal"
+import { CONFIG } from "@/config/api"
 
-let baseUrl = "https://assets2.lxns.net/maimai"
+let baseUrl = CONFIG.ASSETS.MAIMAI.BASE
 
 // 统一的数据获取函数
 const fetchData = async (url: string) => {
@@ -88,7 +89,7 @@ export default function CollectionPage() {
     let collection_id = (id as string | number).toString().padStart(6, "0")
 
     fetch(
-      `https://dev.maimai.moe/email/condition?type=${type}&colletion_id=${collection_id}`,
+      `${CONFIG.API.ENDPOINTS.EMAIL}/condition?type=${type}&colletion_id=${collection_id}`,
       requestOptions
     )
       .then(response => response.text())
@@ -113,11 +114,11 @@ export default function CollectionPage() {
     let imageUrl = ""
     switch (type) {
       case "frame":
-        imageUrl = `https://static.maimai.moe/UI_Frame_${item.collection_id}.png`
+        imageUrl = `${CONFIG.ASSETS.STATIC}/UI_Frame_${item.collection_id}.png`
         break
       case "nameplate":
       case "plate":
-        imageUrl = `https://static.maimai.moe/UI_Plate_${item.collection_id}.png`
+        imageUrl = `${CONFIG.ASSETS.STATIC}/UI_Plate_${item.collection_id}.png`
         break
       case "icon":
         imageUrl = `${baseUrl}/${type}/${item.collection_id}.png`
@@ -199,9 +200,7 @@ export default function CollectionPage() {
 
     // 获取数据
     try {
-      // const apiUrl = `https://dev.maimai.moe/api/maimai/${endpoint}?${queryParams.toString()}`;
-      // const apiUrl = `http://localhost:33043/list?${queryParams.toString()}`;
-      const apiUrl = `https://dev.maimai.moe/email/list?${queryParams.toString()}`
+      const apiUrl = `${CONFIG.API.ENDPOINTS.EMAIL}/list?${queryParams.toString()}`
       console.log("API请求URL:", apiUrl)
 
       const data = await fetchData(apiUrl)
@@ -276,10 +275,10 @@ export default function CollectionPage() {
   }
 
   const loadOptions = async () => {
-    const trophyData = await fetchData("https://dev.maimai.moe/email/options?type=trophies")
-    const nameplateData = await fetchData("https://dev.maimai.moe/email/options?type=plate")
-    const frameData = await fetchData("https://dev.maimai.moe/email/options?type=frames")
-    const iconData = await fetchData("https://dev.maimai.moe/email/options?type=icon")
+    const trophyData = await fetchData(`${CONFIG.API.ENDPOINTS.EMAIL}/options?type=trophies`)
+    const nameplateData = await fetchData(`${CONFIG.API.ENDPOINTS.EMAIL}/options?type=plate`)
+    const frameData = await fetchData(`${CONFIG.API.ENDPOINTS.EMAIL}/options?type=frames`)
+    const iconData = await fetchData(`${CONFIG.API.ENDPOINTS.EMAIL}/options?type=icon`)
     setTtrophyGenreOptions(trophyData.options)
     setNameplateGenreOptions(nameplateData.options)
     setFrameGenreOptions(frameData.options)
@@ -349,286 +348,292 @@ export default function CollectionPage() {
   return (
     <>
       <div className="container mx-auto py-8 px-4">
-      <SvgStrokedText text="收藏品展示" height={100} strokeColor={"#ec4899"} strokeWidth={10} />
+        <SvgStrokedText text="收藏品展示" height={100} strokeColor={"#ec4899"} strokeWidth={10} />
 
-      {/* Tab导航 */}
-      <TabNavigation
-        activeTab={activeTab}
-        onTabChange={tab => {
-          setActiveTab(tab)
-          loadData(tab)
-        }}
+        {/* Tab导航 */}
+        <TabNavigation
+          activeTab={activeTab}
+          onTabChange={tab => {
+            setActiveTab(tab)
+            loadData(tab)
+          }}
+        />
+
+        {/* 搜索区域 */}
+        <SearchForm
+          activeTab={activeTab}
+          searchTerm={searchTerm}
+          searchColor={searchColor}
+          searchGenre={searchGenre}
+          isSearching={isSearching}
+          colorOptions={colorOptions}
+          activeGenreOptions={activeGenreOptions}
+          onSearchTermChange={setSearchTerm}
+          onSearchColorChange={setSearchColor}
+          onSearchGenreChange={setSearchGenre}
+          onSearch={handleSearch}
+        />
+
+        {/* 内容区域 */}
+        <motion.div
+          className="bg-pink-50 rounded-lg p-6 shadow-lg border border-pink-200"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <AnimatePresence mode="wait">
+            {activeTab === "icon" && (
+              <motion.div
+                key="icon"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.h2
+                  className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  玩家头像
+                </motion.h2>
+
+                {Icons.length === 0 ? (
+                  <motion.div
+                    className="flex justify-center py-12"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <LoadingSpinner size="sm" message="Loading" description="加载头像数据源" />
+                  </motion.div>
+                ) : (
+                  <>
+                    <motion.div
+                      className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2, staggerChildren: 0.05 }}
+                    >
+                      {Icons.map((item, index) => (
+                        <motion.div
+                          key={item.collection_id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.02 }}
+                        >
+                          <RenderItem
+                            item={item}
+                            type="icon"
+                            openImagePreview={openImagePreview}
+                            GetCondition={GetCondition}
+                          />
+                        </motion.div>
+                      ))}
+                    </motion.div>
+
+                    {/* 加载更多按钮 */}
+                    {hasMore.icon && (
+                      <LoadMoreButton loadMore={() => loadMore("icon")} isSearching={isSearching} />
+                    )}
+                  </>
+                )}
+              </motion.div>
+            )}
+            {activeTab === "frame" && (
+              <motion.div
+                key="frame"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.h2
+                  className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  游戏背景
+                </motion.h2>
+                {MaiBackGround.length === 0 ? (
+                  <motion.div
+                    className="flex justify-center py-12"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <LoadingSpinner size="sm" message="Loading" description="加载背景数据源" />
+                  </motion.div>
+                ) : (
+                  <>
+                    <motion.div
+                      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2, staggerChildren: 0.05 }}
+                    >
+                      {MaiBackGround.map((item, index) => (
+                        <motion.div
+                          key={item.collection_id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.02 }}
+                        >
+                          <RenderItem
+                            item={item}
+                            type="frame"
+                            openImagePreview={openImagePreview}
+                            GetCondition={GetCondition}
+                          />
+                        </motion.div>
+                      ))}
+                    </motion.div>
+
+                    {/* 加载更多按钮 */}
+                    {hasMore.frame && (
+                      <LoadMoreButton
+                        loadMore={() => loadMore("frame")}
+                        isSearching={isSearching}
+                      />
+                    )}
+                  </>
+                )}
+              </motion.div>
+            )}
+            {activeTab === "nameplate" && (
+              <motion.div
+                key="nameplate"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.h2
+                  className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  玩家名牌
+                </motion.h2>
+                {namePlates.length === 0 ? (
+                  <motion.div
+                    className="flex justify-center py-12"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <LoadingSpinner size="sm" message="Loading" description="加载名牌数据源" />
+                  </motion.div>
+                ) : (
+                  <>
+                    <motion.div
+                      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2, staggerChildren: 0.05 }}
+                    >
+                      {namePlates.map((item, index) => (
+                        <motion.div
+                          key={item.collection_id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.02 }}
+                        >
+                          <RenderItem
+                            item={item}
+                            type="plate"
+                            openImagePreview={openImagePreview}
+                            GetCondition={GetCondition}
+                          />
+                        </motion.div>
+                      ))}
+                    </motion.div>
+
+                    {/* 加载更多按钮 */}
+                    {hasMore.nameplate && (
+                      <LoadMoreButton
+                        loadMore={() => loadMore("nameplate")}
+                        isSearching={isSearching}
+                      />
+                    )}
+                  </>
+                )}
+              </motion.div>
+            )}
+
+            {activeTab === "trophy" && (
+              <motion.div
+                key="trophy"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.h2
+                  className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  游戏奖杯
+                </motion.h2>
+                {Trophies.length === 0 ? (
+                  <motion.div
+                    className="flex justify-center py-12"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <LoadingSpinner size="sm" message="Loading" description="加载奖杯数据源" />
+                  </motion.div>
+                ) : (
+                  <>
+                    <motion.div
+                      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2, staggerChildren: 0.05 }}
+                    >
+                      {Trophies.map((item, index) => (
+                        <motion.div
+                          key={item.collection_id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.02 }}
+                        >
+                          <RenderItem
+                            item={item}
+                            type="trophy"
+                            openImagePreview={openImagePreview}
+                            GetCondition={GetCondition}
+                          />
+                        </motion.div>
+                      ))}
+                    </motion.div>
+
+                    {/* 加载更多按钮 */}
+                    {hasMore.trophy && (
+                      <LoadMoreButton
+                        loadMore={() => loadMore("trophy")}
+                        isSearching={isSearching}
+                      />
+                    )}
+                  </>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+      <PreviewModal
+        previewImage={previewImage}
+        condition={condition}
+        conditionLoading={conditionLoading}
+        onClose={closeImagePreview}
       />
-
-      {/* 搜索区域 */}
-      <SearchForm
-        activeTab={activeTab}
-        searchTerm={searchTerm}
-        searchColor={searchColor}
-        searchGenre={searchGenre}
-        isSearching={isSearching}
-        colorOptions={colorOptions}
-        activeGenreOptions={activeGenreOptions}
-        onSearchTermChange={setSearchTerm}
-        onSearchColorChange={setSearchColor}
-        onSearchGenreChange={setSearchGenre}
-        onSearch={handleSearch}
-      />
-
-      {/* 内容区域 */}
-      <motion.div
-        className="bg-pink-50 rounded-lg p-6 shadow-lg border border-pink-200"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <AnimatePresence mode="wait">
-          {activeTab === "icon" && (
-            <motion.div
-              key="icon"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.2 }}
-            >
-              <motion.h2
-                className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                玩家头像
-              </motion.h2>
-
-              {Icons.length === 0 ? (
-                <motion.div
-                  className="flex justify-center py-12"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <LoadingSpinner size="sm" message="Loading" description="加载头像数据源" />
-                </motion.div>
-              ) : (
-                <>
-                  <motion.div
-                    className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2, staggerChildren: 0.05 }}
-                  >
-                    {Icons.map((item, index) => (
-                      <motion.div
-                        key={item.collection_id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.02 }}
-                      >
-                        <RenderItem
-                          item={item}
-                          type="icon"
-                          openImagePreview={openImagePreview}
-                          GetCondition={GetCondition}
-                        />
-                      </motion.div>
-                    ))}
-                  </motion.div>
-
-                  {/* 加载更多按钮 */}
-                  {hasMore.icon && (
-                    <LoadMoreButton loadMore={() => loadMore("icon")} isSearching={isSearching} />
-                  )}
-                </>
-              )}
-            </motion.div>
-          )}
-          {activeTab === "frame" && (
-            <motion.div
-              key="frame"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.2 }}
-            >
-              <motion.h2
-                className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                游戏背景
-              </motion.h2>
-              {MaiBackGround.length === 0 ? (
-                <motion.div
-                  className="flex justify-center py-12"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <LoadingSpinner size="sm" message="Loading" description="加载背景数据源" />
-                </motion.div>
-              ) : (
-                <>
-                  <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2, staggerChildren: 0.05 }}
-                  >
-                    {MaiBackGround.map((item, index) => (
-                      <motion.div
-                        key={item.collection_id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.02 }}
-                      >
-                        <RenderItem
-                          item={item}
-                          type="frame"
-                          openImagePreview={openImagePreview}
-                          GetCondition={GetCondition}
-                        />
-                      </motion.div>
-                    ))}
-                  </motion.div>
-
-                  {/* 加载更多按钮 */}
-                  {hasMore.frame && (
-                    <LoadMoreButton loadMore={() => loadMore("frame")} isSearching={isSearching} />
-                  )}
-                </>
-              )}
-            </motion.div>
-          )}
-          {activeTab === "nameplate" && (
-            <motion.div
-              key="nameplate"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.2 }}
-            >
-              <motion.h2
-                className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                玩家名牌
-              </motion.h2>
-              {namePlates.length === 0 ? (
-                <motion.div
-                  className="flex justify-center py-12"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <LoadingSpinner size="sm" message="Loading" description="加载名牌数据源" />
-                </motion.div>
-              ) : (
-                <>
-                  <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2, staggerChildren: 0.05 }}
-                  >
-                    {namePlates.map((item, index) => (
-                      <motion.div
-                        key={item.collection_id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.02 }}
-                      >
-                        <RenderItem
-                          item={item}
-                          type="plate"
-                          openImagePreview={openImagePreview}
-                          GetCondition={GetCondition}
-                        />
-                      </motion.div>
-                    ))}
-                  </motion.div>
-
-                  {/* 加载更多按钮 */}
-                  {hasMore.nameplate && (
-                    <LoadMoreButton
-                      loadMore={() => loadMore("nameplate")}
-                      isSearching={isSearching}
-                    />
-                  )}
-                </>
-              )}
-            </motion.div>
-          )}
-
-          {activeTab === "trophy" && (
-            <motion.div
-              key="trophy"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.2 }}
-            >
-              <motion.h2
-                className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                游戏奖杯
-              </motion.h2>
-              {Trophies.length === 0 ? (
-                <motion.div
-                  className="flex justify-center py-12"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <LoadingSpinner size="sm" message="Loading" description="加载奖杯数据源" />
-                </motion.div>
-              ) : (
-                <>
-                  <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2, staggerChildren: 0.05 }}
-                  >
-                    {Trophies.map((item, index) => (
-                      <motion.div
-                        key={item.collection_id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.02 }}
-                      >
-                        <RenderItem
-                          item={item}
-                          type="trophy"
-                          openImagePreview={openImagePreview}
-                          GetCondition={GetCondition}
-                        />
-                      </motion.div>
-                    ))}
-                  </motion.div>
-
-                  {/* 加载更多按钮 */}
-                  {hasMore.trophy && (
-                    <LoadMoreButton loadMore={() => loadMore("trophy")} isSearching={isSearching} />
-                  )}
-                </>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    </div>
-    <PreviewModal
-      previewImage={previewImage}
-      condition={condition}
-      conditionLoading={conditionLoading}
-      onClose={closeImagePreview}
-    />
     </>
   )
 }

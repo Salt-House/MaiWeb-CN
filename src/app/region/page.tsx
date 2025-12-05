@@ -1,11 +1,22 @@
 "use client"
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { FaTools, FaChevronDown, FaChevronUp, FaMapMarkerAlt, FaSearch, FaFilter, FaStar, FaMusic, FaUsers } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
-import PageTransitionWrapper from "../components/PageTransitionWrapper";
-import ErrorBoundary from "./components/ErrorBoundary";
+import Link from "next/link"
+import { CONFIG } from "@/config/api"
+import { useEffect, useState } from "react"
+import {
+  FaTools,
+  FaChevronDown,
+  FaChevronUp,
+  FaMapMarkerAlt,
+  FaSearch,
+  FaFilter,
+  FaStar,
+  FaMusic,
+  FaUsers,
+} from "react-icons/fa"
+import { motion, AnimatePresence } from "framer-motion"
+import PageTransitionWrapper from "../components/PageTransitionWrapper"
+import ErrorBoundary from "./components/ErrorBoundary"
 
 export interface AreaCharacters {
   name: string
@@ -142,7 +153,7 @@ export default function RegionPage() {
       headers: myHeaders,
     }
 
-    fetch(`https://dev.maimai.moe/email/area/list?language=${lang}`, requestOptions)
+    fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/area/list?language=${lang}`, requestOptions)
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { CONFIG } from "@/config/api"
 import { FaBars, FaTimes } from "react-icons/fa"
 import { useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -30,7 +31,7 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
         headers: myHeaders,
       }
 
-      fetch("https://dev.maimai.moe/api/user/me", requestOptions)
+      fetch(`${CONFIG.API.ENDPOINTS.API}/user/me`, requestOptions)
         .then(response => response.text())
         .then(result => {
           try {
@@ -47,7 +48,7 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
   }, [])
 
   // 头像URL
-  const baseUrl = "https://assets2.lxns.net/maimai"
+  const baseUrl = `${CONFIG.ASSETS.BASE}/maimai`
   const avatarUrl = `${baseUrl}/icon/${userIconId}.png`
   const defaultAvatarUrl = `${baseUrl}/icon/1.png`
 

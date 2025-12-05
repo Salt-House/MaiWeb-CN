@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { CONFIG } from "@/config/api"
 
 export default function FeedbackPage() {
   const [formData, setFormData] = useState({
@@ -43,7 +44,7 @@ export default function FeedbackPage() {
     }
 
     try {
-      const response = await fetch("https://dev.maimai.moe/email/sendbug", requestOptions)
+      const response = await fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/sendbug`, requestOptions)
       const result = await response.text()
 
       if (response.ok) {

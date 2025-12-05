@@ -1,9 +1,10 @@
 // utils/request.ts
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
+import { CONFIG } from "@/config/api"
 
 const isServer = typeof window === "undefined"
 
-const baseURL = process.env.NEXT_PUBLIC_API_BASE || "https://api.example.com"
+const baseURL = CONFIG.API.BASE
 
 class Http {
   // Axios 实例

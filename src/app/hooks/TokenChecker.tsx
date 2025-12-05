@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
+import { CONFIG } from "@/config/api"
 import LoadingSpinner from "../components/LoadingSpinner"
 
 /**
@@ -20,7 +21,7 @@ export default function TokenChecker() {
     if (!token) return
     const checkToken = async () => {
       try {
-        const response = await fetch("https://dev.maimai.moe/api/user/me", {
+        const response = await fetch(`${CONFIG.API.ENDPOINTS.API}/user/me`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

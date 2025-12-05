@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { Condition } from "../model"
+import { CONFIG } from "@/config/api"
 
 interface PreviewModalProps {
   previewImage: {
@@ -36,7 +37,7 @@ export default function PreviewModal({
     setIsMounted(true)
   }, [])
 
-  const baseUrl = "https://assets2.lxns.net/maimai"
+  const baseUrl = CONFIG.ASSETS.MAIMAI.BASE
 
   // 根据类型生成正确的图片URL
   const getImageUrl = () => {

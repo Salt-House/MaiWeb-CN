@@ -20,6 +20,7 @@ import { FaArrowLeft } from "react-icons/fa"
 import { FaBilibili } from "react-icons/fa6"
 import { motion, Variants } from "framer-motion"
 import Image from "next/image"
+import { CONFIG } from "@/config/api"
 
 export default function SongDetail() {
   const params = useParams()
@@ -34,11 +35,11 @@ export default function SongDetail() {
       setLoading(true)
       try {
         const storedToken = localStorage.getItem("token")
-        let url = `https://dev.maimai.moe/api/maimai/songs?id=${params.id}&page=1&page_size=1`
+        let url = `${CONFIG.API.ENDPOINTS.API}/maimai/songs?id=${params.id}&page=1&page_size=1`
         const headers: HeadersInit = { Accept: "application/json" }
 
         if (storedToken) {
-          url = `https://dev.maimai.moe/api/maimai/maiweb/minfo?id=${params.id}`
+          url = `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/minfo?id=${params.id}`
           headers["Authorization"] = `Bearer ${storedToken}`
         }
 
@@ -119,7 +120,7 @@ export default function SongDetail() {
             <RecordPlayer song={song} />
             <div className="w-full">
               <MusicPlayer
-                audioUrl={`https://assets2.lxns.net/maimai/music/${song.id}.mp3`}
+                audioUrl={`${CONFIG.ASSETS.MAIMAI.MUSIC}/${song.id}.mp3`}
                 title={song.title}
                 artist={song.artist}
                 songId={song.id.toString()}
@@ -130,11 +131,7 @@ export default function SongDetail() {
             <SongInfo song={song} />
             {chartType && (
               <div>
-                <ChartTypeSwitcher
-                  song={song}
-                  chartType={chartType}
-                  setChartType={setChartType}
-                />
+                <ChartTypeSwitcher song={song} chartType={chartType} setChartType={setChartType} />
                 <NoteTable song={song} chartType={chartType} />
               </div>
             )}
@@ -171,9 +168,7 @@ function ChartTypeSwitcher({
             key={tab.type}
             onClick={() => setChartType(tab.type)}
             className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${
-              chartType === tab.type
-                ? "bg-white text-pink-500 shadow-sm"
-                : "text-gray-500"
+              chartType === tab.type ? "bg-white text-pink-500 shadow-sm" : "text-gray-500"
             }`}
           >
             {tab.label}
@@ -254,7 +249,7 @@ function RecordPlayer({ song }: { song: Song }) {
               animate={isPlaying ? "spinning" : "stopped"}
             >
               <Image
-                src={`https://assets2.lxns.net/maimai/jacket/${song.id}.png`}
+                src={`${CONFIG.ASSETS.MAIMAI.JACKET}/${song.id}.png`}
                 alt={song.title}
                 className="object-cover"
                 fill
@@ -288,8 +283,6 @@ function RecordPlayer({ song }: { song: Song }) {
                 "inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.2)",
             }}
           />
-
-            
         </div>
 
         {/* Tonearm */}

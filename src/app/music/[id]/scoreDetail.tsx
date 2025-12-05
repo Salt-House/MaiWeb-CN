@@ -5,6 +5,7 @@ import { Song, getDifficultyColor, SongScoreProps, ChartType } from "../songMode
 import { FaChevronDown, FaChevronUp, FaTrophy, FaStar, FaSync } from "react-icons/fa"
 import { motion, AnimatePresence } from "framer-motion"
 import LoadingSpinner from "@/app/components/LoadingSpinner"
+import { CONFIG } from "@/config/api"
 
 export default function ScoreDetail({ song, scores }: { song: Song; scores?: SongScoreProps[] }) {
   const [loading, setLoading] = useState(true)
@@ -32,7 +33,7 @@ export default function ScoreDetail({ song, scores }: { song: Song; scores?: Son
 
       try {
         const response = await fetch(
-          `https://dev.maimai.moe/api/maimai/maiweb/minfo?id=${song.id}`,
+          `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/minfo?id=${song.id}`,
           {
             headers: { Authorization: `Bearer ${storedToken}` },
           }

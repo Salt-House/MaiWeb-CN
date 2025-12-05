@@ -11,6 +11,7 @@ import { FaFilter, FaTimes } from "react-icons/fa"
 import { AnimatePresence, motion } from "framer-motion"
 import Notice from "../components/Notice"
 import PageTransitionWrapper from "../components/PageTransitionWrapper"
+import { CONFIG } from "@/config/api"
 
 const currentVersion = "25004"
 
@@ -162,7 +163,7 @@ export default function MusicPage() {
       setLoadingMore(true)
     }
 
-    const baseUrl = "https://dev.maimai.moe/api/maimai/songs?"
+    const baseUrl = `${CONFIG.API.ENDPOINTS.API}/maimai/songs?`
     const url = `${baseUrl}${filteredUrl}&page=${page}&page_size=100`
 
     if (!songs) {

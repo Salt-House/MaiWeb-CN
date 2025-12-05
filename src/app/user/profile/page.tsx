@@ -1,20 +1,20 @@
-"use client";
+"use client"
 
-import AnimatedComponent from "@/app/components/AnimatedComponent";
-import ChinaMap from "@/app/components/ChinaMap";
-import LoadingSpinner from "@/app/components/LoadingSpinner";
-import Link from "next/link";
-import { useState, useEffect, use } from "react";
-import { FaArrowLeft } from "react-icons/fa";
-import { FaGear, FaRightFromBracket, FaArrowRight } from "react-icons/fa6";
-import { IoMdPeople } from "react-icons/io";
-import { BindAccount, FunctionStatus, ThirdAccount, UserHistorySub, UserProfile } from "../model";
-import RatingHistory from "./components/RatingHistory";
-import SvgStrokedText from "@/app/components/SvgStrokedText";
-import PageTransitionWrapper from "@/app/components/PageTransitionWrapper";
+import AnimatedComponent from "@/app/components/AnimatedComponent"
+import ChinaMap from "@/app/components/ChinaMap"
+import LoadingSpinner from "@/app/components/LoadingSpinner"
+import Link from "next/link"
+import { useState, useEffect, use } from "react"
+import { FaArrowLeft } from "react-icons/fa"
+import { FaGear, FaRightFromBracket, FaArrowRight } from "react-icons/fa6"
+import { IoMdPeople } from "react-icons/io"
+import { BindAccount, FunctionStatus, ThirdAccount, UserHistorySub, UserProfile } from "../model"
+import RatingHistory from "./components/RatingHistory"
+import SvgStrokedText from "@/app/components/SvgStrokedText"
+import PageTransitionWrapper from "@/app/components/PageTransitionWrapper"
+import { CONFIG } from "@/config/api"
 
 // TODO 优化：移除未使用的导入（AnimatedComponent、Link、use、PageTransitionWrapper），减少包体积与编译时间
-
 
 const defaultUserProfile: UserProfile = {
   id: "请刷新",
@@ -31,7 +31,7 @@ const defaultUserProfile: UserProfile = {
 }
 
 // TODO 优化：`baseUrl` 使用 const 并集中配置（env/config），避免散落于页面
-let baseUrl = "https://assets2.lxns.net/maimai"
+let baseUrl = CONFIG.ASSETS.MAIMAI.BASE
 
 export default function UserProfilePage() {
   const [showGuide, setShowGuide] = useState(false)
@@ -80,7 +80,7 @@ export default function UserProfilePage() {
     }
     // console.log("start fetch bind account")
     // TODO 优化：为返回结果定义类型；统一错误处理与重试策略（如指数退避）
-    fetch("https://dev.maimai.moe/api/maimai/maiweb/accounts", requestOptions)
+    fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts`, requestOptions)
       .then(response => response.text())
       .then(result => {
         // TODO 优化：移除调试日志或使用统一日志上报
@@ -118,7 +118,7 @@ export default function UserProfilePage() {
     }
 
     fetch(
-      `https://dev.maimai.moe/api/maimai/maiweb/accounts/lxns?personal_token=${lxnstoken}`,
+      `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts/lxns?personal_token=${lxnstoken}`,
       requestOptions
     )
       .then(response => {
@@ -150,7 +150,7 @@ export default function UserProfilePage() {
 
     // TODO 优化：密码传输应走 HTTPS 且避免通过 QueryString 传递敏感信息，改为 Body + HTTPS；并考虑后端节流与防刷
     fetch(
-      `https://dev.maimai.moe/api/maimai/maiweb/accounts/divingfish?username=${divingfishusername}&password=${divingfishpassword}`,
+      `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts/divingfish?username=${divingfishusername}&password=${divingfishpassword}`,
       requestOptions
     )
       .then(response => {
@@ -182,7 +182,7 @@ export default function UserProfilePage() {
     }
 
     fetch(
-      `https://dev.maimai.moe/api/maimai/maiweb/accounts/arcade?qr_code=${qr_code}`,
+      `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts/arcade?qr_code=${qr_code}`,
       requestOptions
     )
       .then(response => {
@@ -228,7 +228,7 @@ export default function UserProfilePage() {
       await new Promise(resolve => setTimeout(resolve, 1000))
 
       const response = await fetch(
-        "https://dev.maimai.moe/api/maimai/maiweb/accounts",
+        `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts`,
         requestOptions
       )
 
@@ -429,8 +429,8 @@ export default function UserProfilePage() {
                           ? { backgroundImage: `url(${baseUrl}/plate/1.png)` }
                           : {
                               backgroundImage: userdata?.mai_nameplate_id
-                                ? `url(src="https://static.maimai.moe/UI_Plate_"${userdata.mai_nameplate_id.toString().padStart(6, "0")}.png)`
-                                : "url(https://static.maimai.moe/UI_Plate_000101.png)",
+                                ? `url("${CONFIG.ASSETS.STATIC}/UI_Plate_${userdata.mai_nameplate_id.toString().padStart(6, "0")}.png")`
+                                : `url("${CONFIG.ASSETS.STATIC}/UI_Plate_000101.png")`,
                             }
                       }
                     >
@@ -446,7 +446,8 @@ export default function UserProfilePage() {
                         ) : (
                           <img
                             src={
-                              "https://static.maimai.moe/UI_Icon_" +
+                              CONFIG.ASSETS.STATIC +
+                              "/UI_Icon_" +
                               userdata.mai_icon_id.toString().padStart(6, "0") +
                               ".png"
                             }
@@ -878,7 +879,7 @@ export default function UserProfilePage() {
         headers: myHeaders,
       }
 
-      fetch("https://dev.maimai.moe/api/user/me", requestOptions)
+      fetch(`${CONFIG.API.ENDPOINTS.API}/user/me`, requestOptions)
         .then(response => response.text())
         .then(result => {
           // console.log(result);

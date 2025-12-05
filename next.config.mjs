@@ -1,21 +1,22 @@
 import bundleAnalyzer from '@next/bundle-analyzer'
 
 /** @type {import('next').NextConfig} */
+const assetsUrl = new URL(process.env.NEXT_PUBLIC_ASSETS_BASE || "https://assets2.lxns.net");
+const staticUrl = new URL(process.env.NEXT_PUBLIC_STATIC_BASE || "https://static.maimai.moe");
+
 const nextConfig = {
     reactStrictMode: false,
     images: {
         unoptimized: true,
         remotePatterns: [
             {
-                protocol: 'https',
-                hostname: 'assets2.lxns.net',
-                // 若只想放某条目录，可以写 '/maimai/jacket/**'
+                protocol: assetsUrl.protocol.replace(':', ''),
+                hostname: assetsUrl.hostname,
                 pathname: '/**',
             },
             {
-                protocol: 'https',
-                hostname: 'static.maimai.moe',
-                // 若只想放某条目录，可以写 '/maimai/jacket/**'
+                protocol: staticUrl.protocol.replace(':', ''),
+                hostname: staticUrl.hostname,
                 pathname: '/**',
             },
         ],

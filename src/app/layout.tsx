@@ -231,6 +231,16 @@ export default function RootLayout({
                   </a>
                 </div>
                 <div className="text-black my-2">© 2024 Salt House. All rights reserved.</div>
+                <div className="text-black mb-4 text-sm">
+                  <a
+                    href="https://beian.miit.gov.cn/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-pink-500 transition-colors"
+                  >
+                    豫ICP备2025156150号
+                  </a>
+                </div>
               </div>
             </div>
             <Link href={"/"} className="top-4 left-4 size-40 max-sm:hidden">

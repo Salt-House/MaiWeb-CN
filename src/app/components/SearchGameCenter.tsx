@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
+import { CONFIG } from "@/config/api"
 import { FcClock } from "react-icons/fc"
 // 移除直接引入 framer-motion，结果列表改为动态组件以减小首屏 bundle
 import dynamic from "next/dynamic"
@@ -112,7 +113,7 @@ const SearchGameCenter = () => {
     }
 
     fetch(
-      `https://dev.maimai.moe/email/transfer/tencent/address2latlng?address=${address}`,
+      `${CONFIG.API.ENDPOINTS.EMAIL}/transfer/tencent/address2latlng?address=${address}`,
       requestOptions
     )
       .then(response => response.text())
@@ -174,7 +175,7 @@ const SearchGameCenter = () => {
     }
 
     // 构建查询URL
-    let baseurl = "https://dev.maimai.moe/email/search_gamecenter?"
+    let baseurl = `${CONFIG.API.ENDPOINTS.EMAIL}/search_gamecenter?`
     for (const key in searchParams) {
       if (
         searchParams[key] !== undefined &&
