@@ -6,7 +6,6 @@ import { CONFIG } from "@/config/api"
 import { FcClock } from "react-icons/fc"
 // 移除直接引入 framer-motion，结果列表改为动态组件以减小首屏 bundle
 import dynamic from "next/dynamic"
-import { ExceptOptions } from "type-fest/source/except"
 import { motion } from "framer-motion"
 
 // 接口定义
