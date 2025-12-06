@@ -212,8 +212,7 @@ export default function RootLayout({
                     <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/Maimap.png')] bg-no-repeat bg-contain bg-center"></div>
                   </a>
                   <a href="https://github.com/Salt-House/MaiWeb-CN" className="group">
-                    {/* TODO 规范：移除渐变背景（bg-gradient-to-*），统一纯色设计以符合项目规则 */}
-                    <div className="w-48 h-16 bg-gradient-to-r from-purple-500/90 to-pink-500/90 flex items-center justify-center rounded-lg shadow-md border-2 border-white/20 transition-transform group-hover:scale-105">
+                    <div className="w-48 h-16 bg-black flex items-center justify-center rounded-lg shadow-md border-2 border-white/20 transition-transform group-hover:scale-105">
                       <div className="flex items-center space-x-2">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -245,8 +244,14 @@ export default function RootLayout({
             </div>
             <Link href={"/"} className="top-4 left-4 size-40 max-sm:hidden">
               <div className="fixed top-2 left-14 size-40 flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
-                {/* TODO 优化：改用 `next/image` 加载 Logo；设置 `priority` 提升首屏展示 */}
-                <img src="/img/circle/logo.png" className="scale-125" alt="网站 Logo" />
+                <Image
+                  src="/img/circle/logo.png"
+                  className="scale-125 object-contain"
+                  alt="网站 Logo"
+                  width={160}
+                  height={160}
+                  priority
+                />
               </div>
             </Link>
             <UserLogin />

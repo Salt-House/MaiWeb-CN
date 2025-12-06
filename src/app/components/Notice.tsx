@@ -47,9 +47,6 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
   }
 
   useEffect(() => {
-    setString(
-      "当前查分器手动导入不可用，自动导入将在每天上午9点与下午18点进行。下周完成国内域名备案后将迁移至国内，网站整体速度与服务稳定性将有明显提升"
-    )
     setIsVisible(true)
     let temp = localStorage.getItem("token")
     if (temp) {
@@ -72,8 +69,7 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
         .then(response => response.text())
         .then(result => {
           const data = JSON.parse(result)
-          const msg =
-            "当前查分器手动导入不可用，自动导入将在每天上午9点与下午18点进行。下周完成国内域名备案后将迁移至国内，网站整体速度与服务稳定性将有明显提升"
+          const msg = ""
           setString(msg)
           setIsVisible(true)
         })
@@ -82,9 +78,6 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
       // TODO 数据：合并账号绑定查询与用户信息查询，减少请求次数
       GetBindAccount()
     } else {
-      setString(
-        "当前查分器手动导入不可用，自动导入将在每天上午9点与下午18点进行。下周完成国内域名备案后将迁移至国内，网站整体速度与服务稳定性将有明显提升"
-      )
       setIsVisible(true)
     }
   }, [token])
