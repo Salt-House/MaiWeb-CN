@@ -5,6 +5,11 @@ const assetsUrl = new URL(process.env.NEXT_PUBLIC_ASSETS_BASE || "https://assets
 const staticUrl = new URL(process.env.NEXT_PUBLIC_STATIC_BASE || "https://static.maimai.moe")
 
 const nextConfig = {
+  env: {
+    NEXT_PUBLIC_API_BASE: "http://maimaimoe.cn",
+    NEXT_PUBLIC_ASSETS_BASE: "https://assets2.lxns.net",
+    NEXT_PUBLIC_STATIC_BASE: "http://img.maimaimoe.cn/Texture2D",
+  },
   reactStrictMode: false,
   images: {
     unoptimized: true,
