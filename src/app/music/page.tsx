@@ -13,7 +13,7 @@ import Notice from "../components/Notice"
 import PageTransitionWrapper from "../components/PageTransitionWrapper"
 import { CONFIG } from "@/config/api"
 
-const currentVersion = "25004"
+const currentVersion = "25005"
 
 const version: (keyof typeof versionIds)[] = [
   "maimai",
