@@ -1,12 +1,12 @@
 // src/config/api.ts
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE || "http://maimaimoe.cn"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE || "https://maimaimoe.cn"
 if (process.env.NODE_ENV === "production" && !process.env.NEXT_PUBLIC_API_BASE) {
   // 强制生产环境使用正确的 API 地址，防止 dev.maimai.moe 被意外注入
   // 除非显式设置了环境变量
 }
 const ASSETS_BASE_URL = process.env.NEXT_PUBLIC_ASSETS_BASE || "https://assets2.lxns.net"
-const STATIC_BASE_URL = process.env.NEXT_PUBLIC_STATIC_BASE || "http://img.maimaimoe.cn/Texture2D"
+const STATIC_BASE_URL = process.env.NEXT_PUBLIC_STATIC_BASE || "https://img.maimaimoe.cn/Texture2D"
 
 export const CONFIG = {
   API: {
