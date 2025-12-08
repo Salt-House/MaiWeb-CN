@@ -37,5 +37,7 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "prettier.requireConfig": true,
-    "prettier.configPath": ".prettierrc.json"
+    "prettier.configPath": ".prettierrc.json",
+    "todo-tree.tree.showBadges": false,
+    "todo-tree.tree.showCountsInTree": true
 }

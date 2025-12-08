@@ -34,7 +34,7 @@ class Http {
     this.instance.interceptors.response.use(
       (response: AxiosResponse) => {
         // 可根据返回结构自定义
-        if (response.data.code !== 0) {
+        if (response.data.code !== undefined && response.data.code !== 0) {
           console.warn("业务错误:", response.data.message)
           return Promise.reject(response.data)
         }
