@@ -1,14 +1,20 @@
 "use client"
 import React, { useState, useEffect } from "react"
-import { CONFIG } from "@/config/api"
 import { motion, AnimatePresence } from "framer-motion"
 import { IoMdClose } from "react-icons/io"
 import { IoInformationCircle } from "react-icons/io5"
 import { ThirdAccount } from "../user/model"
+import http from "@/utils/request"
 
 interface NoticeProps {
   type?: "info" | "success" | "warning" | "error"
   duration?: number // 自动关闭的时间（毫秒），如不设置则不自动关闭
+}
+
+interface RawAccount {
+  server: string
+  nickname: string
+  identifier: string
 }
 
 const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
@@ -55,31 +61,52 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
   }, [])
 
   useEffect(() => {
-    // TODO 网络：统一使用封装的请求工具（axios 实例）；添加错误重试与超时
-    if (token != "") {
-      var myHeaders = new Headers()
-      myHeaders.append("Authorization", `Bearer ${token}`)
+    const fetchData = async () => {
+      if (token !== "") {
+        try {
+          // 并行请求用户信息和账号绑定信息，提高效率
+          const [userResult, accountsData] = await Promise.all([
+            http.get<any>("/api/user/me", null, { retry: 3 }),
+            http.get<RawAccount[]>("/api/maimai/maiweb/accounts", null, { retry: 3 }),
+          ])
 
-      var requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      }
-
-      fetch(`${CONFIG.API.ENDPOINTS.API}/user/me`, requestOptions)
-        .then(response => response.text())
-        .then(result => {
-          const data = JSON.parse(result)
+          // 处理用户信息请求结果
+          // const data = userResult // 已经在http拦截器中处理了response.data
           const msg = ""
           setString(msg)
           setIsVisible(true)
-        })
-        .catch(error => console.log("error", error))
 
-      // TODO 数据：合并账号绑定查询与用户信息查询，减少请求次数
-      GetBindAccount()
-    } else {
-      setIsVisible(true)
+          // 处理账号绑定信息
+          if (Array.isArray(accountsData) && accountsData.length > 0 && accountsData[0].server) {
+            const updatedAccounts: ThirdAccount[] = accountsData.map(account => {
+              let from = ""
+              if (!isNaN(Number(account.identifier))) {
+                from = "lxns"
+              } else {
+                if (account.identifier.length > 40) {
+                  from = "maiweb"
+                } else {
+                  from = "divingfish"
+                }
+              }
+              return {
+                server: account.server,
+                nickname: account.nickname,
+                identifier: account.identifier,
+                from: from,
+              }
+            })
+            setAccounts(updatedAccounts)
+          }
+        } catch (error) {
+          // 错误处理，已移除调试日志
+        }
+      } else {
+        setIsVisible(true)
+      }
     }
+
+    fetchData()
   }, [token])
 
   useEffect(() => {
@@ -87,52 +114,6 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
       setIsVisible(false)
     }
   }, [string])
-
-  const GetBindAccount = () => {
-    // TODO 类型：避免使用 any；为返回数据定义接口类型
-    const myHeaders = new Headers()
-    myHeaders.append("accept", "application/json")
-    myHeaders.append("Authorization", `Bearer ${token}`)
-
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-    }
-    // TODO 日志：移除调试日志或统一收敛到日志系统
-    console.log("start fetch bind account")
-    fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts`, requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        // TODO 日志：移除调试日志
-        console.log("get data")
-        const data = JSON.parse(result)
-        if (data[0].server) {
-          const updatedAccounts = data.map((account: any) => {
-            let from = ""
-            if (!isNaN(Number(account.identifier))) {
-              from = "lxns"
-            } else {
-              if (account.identifier.length > 40) {
-                from = "maiweb"
-              } else {
-                from = "divingfish"
-              }
-            }
-            return {
-              server: account.server,
-              nickname: account.nickname,
-              identifier: account.identifier,
-              from: from,
-            }
-          })
-          setAccounts(updatedAccounts)
-        }
-        console.log(data)
-      })
-      .catch(error => {
-        console.error(error)
-      })
-  }
 
   const handleNoticeClick = () => {
     setShowModal(true)
