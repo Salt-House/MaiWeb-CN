@@ -161,13 +161,13 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
   }
   return (
     <>
-      <div className="w-[280px] h-[110px] m-2 border-white border-2 rounded-xl">
+      <div className="w-full h-[110px] border-white border-2 rounded-xl overflow-hidden relative">
         <div className="relative w-full text-white h-full border-2 border-blue-500 rounded-xl flex">
           <div className={`absolute z-[-2] w-full h-full ${bg}`}></div>
           <div className="absolute z-[-1] w-full h-full">
             <div className="absolute bottom-0 w-full h-[20px] bg-white"></div>
           </div>
-          <div className="m-1 rounded-2xl border-white border-4">
+          <div className="m-1 rounded-2xl border-white border-4 shrink-0">
             <div className=" border-4 rounded-xl bg-blue-500 border-blue-500">
               {/* TODO 优化：改用 `next/image` 并在 next.config.ts 中配置远程域名，以获得自动优化与缓存 */}
               <img
@@ -178,39 +178,44 @@ export function ShareableImageSub(props: ShareableImageSubProps) {
               />
             </div>
           </div>
-          <div className="pt-1">
-            <p className={`w-[130px] truncate text-sm ${nameColor}`}>{props.title}</p>
-            <hr className="border-dashed" />
-            <div className={`text-2xl flex font-bold ${nameColor}`}>
-              <p className="w-[100px]">{props.achievements}</p>
-              {/* TODO 优化：改用 `next/image`；将评分勋章使用静态导入，避免运行时路径错误 */}
-              <img src={`${achievements}`} className="w-[70px]" alt="" />{" "}
-            </div>
-            <div className="text-sm flex">
-              <p>DxScore: {props.dx_score}</p>
-            </div>
-            <div className="font-bold mt-1 flex items-center text-black">
-              <p className="w-[30px]">#{props.index + 1}</p>
-              <p className="w-[80px] text-sm">
-                {props.level_value}-{">"}
-                {props.dx_rating}
-              </p>
-              {fc != null ? (
-                <>
-                  {/* TODO 优化：改用 `next/image`；统一资源路径管理 */}
-                  <img src={fc} className="w-[22px] h-[22px]" alt="" />
-                </>
-              ) : (
-                <div className="w-[15px] h-[15px] rounded-full bg-gray-500"></div>
+          <div className="pt-1 flex-1 min-w-0 pr-2 flex flex-col">
+            <p className={`w-full truncate text-sm ${nameColor}`}>{props.title}</p>
+            <hr className="border-dashed my-0.5" />
+            <div className={`flex items-center justify-between ${nameColor} flex-1`}>
+              <div className="flex flex-col justify-center">
+                <span className="text-2xl font-bold leading-none">{props.achievements}</span>
+                <span className="text-xs mt-0.5">DxScore: {props.dx_score}</span>
+              </div>
+              {achievements && (
+                <img src={achievements} className="h-10 w-auto object-contain" alt="rank" />
               )}
-              {fs != null ? (
-                <>
-                  {/* TODO 优化：改用 `next/image`；统一资源路径管理 */}
-                  <img src={fs} className="w-[22px] h-[22px]" alt="" />
-                </>
-              ) : (
-                <div className="w-[15px] h-[15px] rounded-full bg-gray-300"></div>
-              )}
+            </div>
+            <div className="font-bold mt-1 flex items-center text-black justify-between">
+              <div className="flex items-center">
+                <p className="w-[30px]">#{props.index + 1}</p>
+                <p className="text-sm">
+                  {props.level_value}-{">"}
+                  {props.dx_rating}
+                </p>
+              </div>
+              <div className="flex items-center gap-1">
+                {fc != null ? (
+                  <>
+                    {/* TODO 优化：改用 `next/image`；统一资源路径管理 */}
+                    <img src={fc} className="w-[22px] h-[22px]" alt="" />
+                  </>
+                ) : (
+                  <div className="w-[15px] h-[15px] rounded-full bg-gray-500"></div>
+                )}
+                {fs != null ? (
+                  <>
+                    {/* TODO 优化：改用 `next/image`；统一资源路径管理 */}
+                    <img src={fs} className="w-[22px] h-[22px]" alt="" />
+                  </>
+                ) : (
+                  <div className="w-[15px] h-[15px] rounded-full bg-gray-300"></div>
+                )}
+              </div>
             </div>
           </div>
         </div>

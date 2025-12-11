@@ -9,18 +9,7 @@ import { UserProfile } from "@/app/user/model"
 import Link from "next/link"
 import { use, useEffect, useState } from "react"
 import { Step } from "react-joyride"
-import dynamic from "next/dynamic"
 import { CONFIG } from "@/config/api"
-
-// 动态引入缩放组件，避免在其它页面提前加载大体积库
-const TransformWrapper = dynamic(
-  () => import("react-zoom-pan-pinch").then(m => m.TransformWrapper),
-  { ssr: false }
-)
-const TransformComponent = dynamic(
-  () => import("react-zoom-pan-pinch").then(m => m.TransformComponent),
-  { ssr: false }
-)
 
 // 定义MusicGradeProps接口
 interface MusicGradeProps {
@@ -367,8 +356,6 @@ export default function BestPage() {
         })
     }
   }
-  const [canControl, setCanControl] = useState(true)
-  const [isMinimized, setIsMinimized] = useState(false)
   const steps: Step[] = [
     {
       target: "#b50control",
@@ -377,7 +364,7 @@ export default function BestPage() {
     },
     {
       target: "#b50",
-      content: "这里会显示b50信息，可以任意的拖拽放大缩小",
+      content: "这里会显示b50信息",
     },
   ]
 
@@ -425,7 +412,7 @@ export default function BestPage() {
 
   return (
     <>
-      <div className="relative max-sm:w-[90%] w-[900px] p-5 flex flex-col justify-center items-center mx-auto">
+      <div className="relative w-full max-w-[1600px] p-5 flex flex-col justify-center items-center mx-auto">
         <Guide steps={steps} autoStart={true} mark={"b50tour"} />
 
         <div className="mb-8 max-sm:w-full w-full max-w-[900px] space-y-4">
@@ -496,92 +483,43 @@ export default function BestPage() {
             </div>
           </div>
         </div>
-        <div
-          className={`fixed bottom-48 right-5 z-[5] transition-transform duration-300 ease-in-out ${
-            isMinimized ? "translate-x-[calc(100%-2rem)]" : "translate-x-0"
-          }`}
-        >
-          <button
-            className="px-4 py-2 bg-white/90 hover:bg-white border border-gray-200 hover:border-gray-300 rounded-lg shadow-lg hover:shadow-xl text-gray-700 hover:text-gray-900 font-medium text-sm backdrop-blur-sm transition-all duration-200 ease-in-out active:scale-95 whitespace-nowrap"
-            onClick={() => setCanControl(!canControl)}
-          >
-            <span className="flex items-center gap-2">
-              <span
-                className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-                  canControl ? "bg-red-500" : "bg-green-500"
-                }`}
-              ></span>
-              <span
-                className={`transition-all duration-300 ${
-                  isMinimized ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
-                }`}
-              >
-                {canControl ? "禁用缩放以滚动页面" : "启用缩放"}
-              </span>
-            </span>
-          </button>
 
-          {/* 最小化/展开切换按钮 */}
-          <button
-            className="absolute -left-8 top-1/2 -translate-y-1/2 w-6 h-8 bg-white/90 hover:bg-white border border-gray-200 hover:border-gray-300 rounded-l-lg shadow-lg backdrop-blur-sm transition-all duration-200 ease-in-out hover:shadow-xl active:scale-95 flex items-center justify-center"
-            onClick={() => setIsMinimized(!isMinimized)}
-            title={isMinimized ? "展开控制面板" : "收起控制面板"}
-          >
-            <svg
-              className={`w-3 h-3 text-gray-600 transition-transform duration-300 ${
-                isMinimized ? "rotate-180" : ""
-              }`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <TransformWrapper disabled={!canControl} limitToBounds={false} minScale={0.3} maxScale={10}>
-          {() => (
-            <TransformComponent>
-              <div
-                id="b50"
-                className="relative max-sm:w-[420px] w-[1600px] max-sm:grid max-sm:grid-cols-5 max-sm:gap-x-[300px] flex flex-row justify-center sm:flex-wrap"
-              >
-                {isLoading ? (
+        <div className="w-full flex flex-col items-center">
+          <div id="b50" className="w-full max-w-[1600px] px-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 w-full justify-items-center">
+              {isLoading ? (
+                <div className="col-span-full flex justify-center">
                   <LoadingSpinner />
-                ) : (
-                  <>
-                    {best35 && best35.length > 0 ? (
-                      best35.map((song: any, index: number) => {
-                        return <ShareableImageSub key={song.id} {...song} index={index} />
-                      })
-                    ) : (
-                      <div className="">暂无数据</div>
-                    )}
-                  </>
-                )}
-                <hr className="w-full mx-auto  border-t-4 border-gray-400 my-5" />
-              </div>
-              <div className="relative max-sm:w-[420px] w-[1600px] max-sm:grid max-sm:grid-cols-5 max-sm:gap-x-[300px] flex flex-row justify-center sm:flex-wrap">
-                {isLoading ? (
-                  <></>
-                ) : (
-                  <>
-                    {best15 &&
-                      best15.map((song: any, index: number) => {
-                        return <ShareableImageSub key={song.id} {...song} index={index} />
-                      })}
-                  </>
-                )}
-              </div>
-            </TransformComponent>
-          )}
-        </TransformWrapper>
+                </div>
+              ) : (
+                <>
+                  {best35 && best35.length > 0 ? (
+                    best35.map((song: any, index: number) => {
+                      return <ShareableImageSub key={song.id} {...song} index={index} />
+                    })
+                  ) : (
+                    <div className="col-span-full text-center">暂无数据</div>
+                  )}
+                </>
+              )}
+            </div>
+
+            <hr className="w-full mx-auto border-t-4 border-gray-400 my-5" />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 w-full justify-items-center">
+              {isLoading ? (
+                <></>
+              ) : (
+                <>
+                  {best15 &&
+                    best15.map((song: any, index: number) => {
+                      return <ShareableImageSub key={song.id} {...song} index={index} />
+                    })}
+                </>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </>
   )
