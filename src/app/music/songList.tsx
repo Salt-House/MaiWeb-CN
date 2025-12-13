@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { FaSearch, FaFilter, FaTimes, FaPlay, FaPlus, FaCheck } from "react-icons/fa"
 import LoadingSpinner from "../components/LoadingSpinner"
 import SongItem from "./components/SongItem"
+import SongItemSkeleton from "./components/SongItemSkeleton"
 import { usePlayer } from "@/app/context/PlayerContext"
 import { Song, getDifficultyColor, getGenreColor, transferText } from "@/app/music/songModel"
 import Image from "next/image"
@@ -48,21 +49,19 @@ function SongList({
       </div>
 
       <div className="w-full flex flex-wrap justify-center items-center">
-        {loading ? (
-          <div className="flex justify-center items-center py-10">
-            <LoadingSpinner size="sm" message="加载中..." description="正在获取乐曲数据" />
-          </div>
-        ) : (
-          songs.map((song, index) => (
-            <SongItem
-              key={`${song.id}-${index}`}
-              song={song}
-              index={index}
-              totalSongs={songs.length}
-              displayMode={displayMode}
-            />
-          ))
-        )}
+        {loading
+          ? Array.from({ length: 12 }).map((_, index) => (
+              <SongItemSkeleton key={`skeleton-${index}`} />
+            ))
+          : songs.map((song, index) => (
+              <SongItem
+                key={`${song.id}-${index}`}
+                song={song}
+                index={index}
+                totalSongs={songs.length}
+                displayMode={displayMode}
+              />
+            ))}
       </div>
     </div>
   )

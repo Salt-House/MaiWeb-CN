@@ -1,6 +1,7 @@
 "use client"
 
 import LoadingSpinner from "@/app/components/LoadingSpinner"
+import CollectionItemSkeleton from "./components/CollectionItemSkeleton"
 import SvgStrokedText from "@/app/components/SvgStrokedText"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
@@ -399,12 +400,14 @@ export default function CollectionPage() {
 
                 {Icons.length === 0 ? (
                   <motion.div
-                    className="flex justify-center py-12"
+                    className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <LoadingSpinner size="sm" message="Loading" description="加载头像数据源" />
+                    {Array.from({ length: 30 }).map((_, i) => (
+                      <CollectionItemSkeleton key={i} type="icon" />
+                    ))}
                   </motion.div>
                 ) : (
                   <>
@@ -455,12 +458,14 @@ export default function CollectionPage() {
                 </div>
                 {MaiBackGround.length === 0 ? (
                   <motion.div
-                    className="flex justify-center py-12"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <LoadingSpinner size="sm" message="Loading" description="加载背景数据源" />
+                    {Array.from({ length: 12 }).map((_, i) => (
+                      <CollectionItemSkeleton key={i} type="frame" />
+                    ))}
                   </motion.div>
                 ) : (
                   <>
@@ -514,12 +519,14 @@ export default function CollectionPage() {
                 </div>
                 {namePlates.length === 0 ? (
                   <motion.div
-                    className="flex justify-center py-12"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <LoadingSpinner size="sm" message="Loading" description="加载名牌数据源" />
+                    {Array.from({ length: 12 }).map((_, i) => (
+                      <CollectionItemSkeleton key={i} type="plate" />
+                    ))}
                   </motion.div>
                 ) : (
                   <>
@@ -574,12 +581,14 @@ export default function CollectionPage() {
                 </div>
                 {Trophies.length === 0 ? (
                   <motion.div
-                    className="flex justify-center py-12"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <LoadingSpinner size="sm" message="Loading" description="加载奖杯数据源" />
+                    {Array.from({ length: 15 }).map((_, i) => (
+                      <CollectionItemSkeleton key={i} type="trophy" />
+                    ))}
                   </motion.div>
                 ) : (
                   <>
