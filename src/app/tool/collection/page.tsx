@@ -376,7 +376,7 @@ export default function CollectionPage() {
 
         {/* 内容区域 */}
         <motion.div
-          className="bg-pink-50 rounded-lg p-6 shadow-lg border border-pink-200"
+          className="min-h-[500px]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
@@ -390,14 +390,12 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <motion.h2
-                  className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  玩家头像
-                </motion.h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800">玩家头像</h2>
+                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    Total: {Icons.length}
+                  </span>
+                </div>
 
                 {Icons.length === 0 ? (
                   <motion.div
@@ -449,14 +447,12 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <motion.h2
-                  className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  游戏背景
-                </motion.h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800">游戏背景</h2>
+                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    Total: {MaiBackGround.length}
+                  </span>
+                </div>
                 {MaiBackGround.length === 0 ? (
                   <motion.div
                     className="flex justify-center py-12"
@@ -510,14 +506,12 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <motion.h2
-                  className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  玩家名牌
-                </motion.h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800">玩家名牌</h2>
+                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    Total: {namePlates.length}
+                  </span>
+                </div>
                 {namePlates.length === 0 ? (
                   <motion.div
                     className="flex justify-center py-12"
@@ -572,14 +566,12 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <motion.h2
-                  className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  游戏奖杯
-                </motion.h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800">游戏奖杯</h2>
+                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    Total: {Trophies.length}
+                  </span>
+                </div>
                 {Trophies.length === 0 ? (
                   <motion.div
                     className="flex justify-center py-12"

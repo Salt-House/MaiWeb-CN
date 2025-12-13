@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
@@ -118,13 +119,16 @@ export default function PreviewModal({
                       </div>
                     </div>
                   ) : (
-                    //TODO 优化：改用 `next/image`；并根据容器大小设置 `sizes` 以提升响应式表现
-                    <img
-                      src={getImageUrl() || ""}
-                      alt={previewImage.name}
-                      className="max-w-full max-h-64 sm:max-h-80 lg:max-h-96 object-contain rounded-lg shadow-lg"
-                      loading="lazy"
-                    />
+                    <div className="relative w-full h-64 sm:h-80 lg:h-96">
+                      <Image
+                        src={getImageUrl() || ""}
+                        alt={previewImage.name}
+                        fill
+                        className="object-contain rounded-lg shadow-lg"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        priority={false}
+                      />
+                    </div>
                   )}
                 </div>
 

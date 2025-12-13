@@ -11,34 +11,38 @@ export default function RatingHistory() {
   const chartInstance = useRef<EChartsType.ECharts | null>(null)
   const echartsModuleRef = useRef<typeof import("echarts") | null>(null)
 
-  const GetHistory = () => {
-    const myHeaders = new Headers()
-    myHeaders.append("Accept", "application/json")
-    myHeaders.append("Authorization", `Bearer ${token}`)
+  useEffect(() => {
+    if (!token) return
 
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
+    const fetchHistory = () => {
+      const myHeaders = new Headers()
+      myHeaders.append("Accept", "application/json")
+      myHeaders.append("Authorization", `Bearer ${token}`)
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      }
+
+      fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/histories/ratings`, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          try {
+            const data = JSON.parse(result)
+            if (data && Array.isArray(data)) {
+              setRatingHistory(data)
+            } else {
+              console.error("获取历史数据格式不正确:", data)
+            }
+          } catch (error) {
+            console.error("解析历史数据失败:", error)
+          }
+        })
+        .catch(error => console.error("请求数据失败:", error))
     }
 
-    fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/histories/ratings`, requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        try {
-          const data = JSON.parse(result)
-          if (data && Array.isArray(data)) {
-            // TODO 优化：移除调试日志或接入统一日志上报
-            console.log("获取到的历史数据:", data)
-            setRatingHistory(data)
-          } else {
-            console.error("获取历史数据格式不正确:", data)
-          }
-        } catch (error) {
-          console.error("解析历史数据失败:", error)
-        }
-      })
-      .catch(error => console.error("请求数据失败:", error))
-  }
+    fetchHistory()
+  }, [token])
 
   // 导出图表为图片
   const exportChart = () => {
@@ -65,13 +69,6 @@ export default function RatingHistory() {
       setToken(storedToken)
     }
   }, [])
-
-  useEffect(() => {
-    // TODO 优化：将 GetHistory 使用 useCallback 包裹并加入依赖，或在数据层统一请求
-    if (token) {
-      GetHistory()
-    }
-  }, [token])
 
   useEffect(() => {
     // 确保DOM已经加载
@@ -113,7 +110,7 @@ export default function RatingHistory() {
         chartInstance.current = null
       }
     }
-  }, [chartRef.current]) // TODO 优化：依赖 ref.current 可能导致 ESLint 告警；考虑改为 [] 并在数据变化处触发更新
+  }, [])
 
   // 单独的函数用于更新图表
   const updateChart = () => {
@@ -126,9 +123,6 @@ export default function RatingHistory() {
       const dates = ratingHistory.map(item => item.active_until.split("T")[0])
       const ratings = ratingHistory.map(item => item.rating)
 
-      // TODO 优化：移除调试日志
-      console.log("图表数据准备完成:", { dates, ratings })
-
       // 设置图表配置
       chartInstance.current.setOption({
         title: {
@@ -139,10 +133,13 @@ export default function RatingHistory() {
         },
         tooltip: {
           trigger: "axis",
-          // TODO 优化：为 `params` 指定 ECharts 参数类型；并考虑自定义 tooltip 组件以提升可读性
-          formatter: function (params: any) {
-            const dataIndex = params[0].dataIndex
-            return `日期: ${dates[dataIndex]}<br/>Rating: ${ratings[dataIndex]}`
+          formatter: function (params: EChartsType.TooltipComponentFormatterCallbackParams) {
+            if (Array.isArray(params) && params.length > 0) {
+              const param = params[0]
+              const dataIndex = param.dataIndex
+              return `日期: ${dates[dataIndex]}<br/>Rating: ${ratings[dataIndex]}`
+            }
+            return ""
           },
         },
         dataZoom: [
@@ -169,9 +166,9 @@ export default function RatingHistory() {
         },
         yAxis: {
           type: "value",
-          min: 0,
-          // TODO 优化：根据数据动态计算最大值，如 `Math.max(...ratings) * 1.05`
-          max: 16431,
+          scale: true,
+          min: (value: { min: number; max: number }) => Math.floor(value.min * 0.99),
+          max: (value: { min: number; max: number }) => Math.ceil(value.max * 1.01),
           nameLocation: "middle",
           nameGap: 30,
         },
