@@ -8,11 +8,19 @@ import { useState, useEffect, use } from "react"
 import { FaArrowLeft } from "react-icons/fa"
 import { FaGear, FaRightFromBracket, FaArrowRight } from "react-icons/fa6"
 import { IoMdPeople } from "react-icons/io"
-import { BindAccount, FunctionStatus, ThirdAccount, UserHistorySub, UserProfile } from "../model"
+import {
+  BindAccount,
+  FunctionStatus,
+  ThirdAccount,
+  UserHistorySub,
+  UserProfile,
+  AccountResponse,
+} from "../model"
 import RatingHistory from "./components/RatingHistory"
 import SvgStrokedText from "@/app/components/SvgStrokedText"
 import PageTransitionWrapper from "@/app/components/PageTransitionWrapper"
 import { CONFIG } from "@/config/api"
+import http from "@/utils/request"
 
 // TODO 优化：移除未使用的导入（AnimatedComponent、Link、use、PageTransitionWrapper），减少包体积与编译时间
 
@@ -68,136 +76,84 @@ export default function UserProfilePage() {
       "-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)",
   }
 
-  const GetBindAccount = () => {
+  const GetBindAccount = async () => {
     setIsLoading(true)
-    const myHeaders = new Headers()
-    myHeaders.append("accept", "application/json")
-    myHeaders.append("Authorization", `Bearer ${token}`)
-
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-    }
-    // console.log("start fetch bind account")
-    // TODO 优化：为返回结果定义类型；统一错误处理与重试策略（如指数退避）
-    fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts`, requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        // TODO 优化：移除调试日志或使用统一日志上报
-        console.log("get data")
-        try {
-          const data = JSON.parse(result)
-          if (data[0].server) {
-            // TODO 优化：避免使用 any，定义 Account 接口
-            setAccounts(
-              data.map((account: any) => ({
-                server: account.server,
-                nickname: account.nickname,
-                identifier: account.identifier,
-                from: "none",
-              }))
-            )
-          }
-          setIsLoading(false)
-        } catch (e) {
-          setIsLoading(false)
-        }
+    try {
+      const data = await http.get<AccountResponse[]>("/api/maimai/maiweb/accounts", undefined, {
+        retry: 3,
+        retryDelay: 1000,
       })
-      .catch(error => console.error(error))
+
+      // console.log("get data")
+      if (data && Array.isArray(data) && data.length > 0 && data[0].server) {
+        setAccounts(
+          data.map(account => ({
+            server: account.server,
+            nickname: account.nickname,
+            identifier: account.identifier,
+            from: "none",
+          }))
+        )
+      }
+    } catch (error) {
+      console.error("Failed to fetch bind account:", error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const BindLxns = () => {
+  const BindLxns = async () => {
     setBindIsLoading(true)
-    const myHeaders = new Headers()
-    myHeaders.append("accept", "application/json")
-    myHeaders.append("Authorization", `Bearer ${token}`)
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-    }
-
-    fetch(
-      `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts/lxns?personal_token=${lxnstoken}`,
-      requestOptions
-    )
-      .then(response => {
-        const statusCode = response.status
-        console.log(`Status Code: ${statusCode}`)
-        if (statusCode === 200) {
-          alert("绑定成功")
-          setLink("")
-          setBindIsLoading(false)
-        } else {
-          alert("绑定失败")
-          setBindIsLoading(false)
-        }
+    try {
+      await http.post(`/api/maimai/maiweb/accounts/lxns`, null, {
+        params: { personal_token: lxnstoken },
+        retry: 3,
       })
-      .then(result => {})
-      .catch(error => console.error(error))
+      alert("绑定成功")
+      setLink("")
+    } catch (error) {
+      console.error(error)
+      alert("绑定失败")
+    } finally {
+      setBindIsLoading(false)
+    }
   }
 
-  const BindDivifish = () => {
+  const BindDivifish = async () => {
     setBindIsLoading(true)
-    const myHeaders = new Headers()
-    myHeaders.append("accept", "application/json")
-    myHeaders.append("Authorization", `Bearer ${token}`)
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-    }
-
-    // TODO 优化：密码传输应走 HTTPS 且避免通过 QueryString 传递敏感信息，改为 Body + HTTPS；并考虑后端节流与防刷
-    fetch(
-      `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts/divingfish?username=${divingfishusername}&password=${divingfishpassword}`,
-      requestOptions
-    )
-      .then(response => {
-        const statusCode = response.status
-        // TODO 优化：移除调试日志或改为统一日志组件
-        console.log(`Status Code: ${statusCode}`)
-        if (statusCode === 200) {
-          alert("绑定成功")
-          setLink("")
-          setBindIsLoading(false)
-        } else {
-          alert("绑定失败")
-          setBindIsLoading(false)
-        }
+    try {
+      // TODO 优化：密码传输应走 HTTPS 且避免通过 QueryString 传递敏感信息，改为 Body + HTTPS；并考虑后端节流与防刷
+      await http.post(`/api/maimai/maiweb/accounts/divingfish`, null, {
+        params: {
+          username: divingfishusername,
+          password: divingfishpassword,
+        },
+        retry: 3,
       })
-      // .then((result) => console.log(result))
-      .catch(error => console.error(error))
+      alert("绑定成功")
+      setLink("")
+    } catch (error) {
+      console.error(error)
+      alert("绑定失败")
+    } finally {
+      setBindIsLoading(false)
+    }
   }
 
-  const BindArcade = () => {
+  const BindArcade = async () => {
     setBindIsLoading(true)
-    const myHeaders = new Headers()
-    myHeaders.append("Accept", "application/json")
-    myHeaders.append("Authorization", `Bearer ${token}`)
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-    }
-
-    fetch(
-      `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts/arcade?qr_code=${qr_code}`,
-      requestOptions
-    )
-      .then(response => {
-        const statusCode = response.status
-        console.log(`Status Code: ${statusCode}`)
-        if (statusCode === 200) {
-          alert("绑定成功")
-          setBindIsLoading(false)
-        } else {
-          alert("绑定失败")
-          setBindIsLoading(false)
-        }
+    try {
+      await http.post(`/api/maimai/maiweb/accounts/arcade`, null, {
+        params: { qr_code: qr_code },
+        retry: 3,
       })
-      // .then((result) => console.log(result))
-      .catch(error => console.error(error))
+      alert("绑定成功")
+    } catch (error) {
+      console.error(error)
+      alert("绑定失败")
+    } finally {
+      setBindIsLoading(false)
+    }
   }
 
   const LogOut = () => {
@@ -214,39 +170,24 @@ export default function UserProfilePage() {
   const RefreshData = async () => {
     setShowGuide(false)
     setIsLoading(true)
-    const myHeaders = new Headers()
-    myHeaders.append("accept", "application/json")
-    myHeaders.append("Authorization", `Bearer ${token}`)
-
-    const requestOptions = {
-      method: "PUT",
-      headers: myHeaders,
-    }
 
     try {
       // 添加延迟避免频繁请求
       await new Promise(resolve => setTimeout(resolve, 1000))
 
-      const response = await fetch(
-        `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts`,
-        requestOptions
-      )
+      await http.put("/api/maimai/maiweb/accounts", undefined, {
+        retry: 3,
+      })
 
-      if (response.status === 429) {
-        alert("请求过于频繁，请稍后再试")
-        setIsLoading(false)
-        return
-      }
-
-      if (response.status === 200) {
-        alert("刷新成功")
-        window.location.href = "/user/profile"
-      } else {
-        alert("刷新失败")
-      }
-    } catch (error) {
+      alert("刷新成功")
+      window.location.href = "/user/profile"
+    } catch (error: any) {
       console.error("刷新数据失败:", error)
-      alert("刷新失败，请稍后重试")
+      if (error?.response?.status === 429) {
+        alert("请求过于频繁，请稍后再试")
+      } else {
+        alert("刷新失败，请稍后重试")
+      }
     } finally {
       setIsLoading(false)
     }

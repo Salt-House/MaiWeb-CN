@@ -73,10 +73,12 @@ class Http {
 
         config.__retryCount += 1
 
+        const delay = (config.retryDelay || 1000) * Math.pow(2, config.__retryCount - 1)
+
         const backoff = new Promise(resolve => {
           setTimeout(() => {
             resolve(null)
-          }, config.retryDelay || 1000)
+          }, delay)
         })
 
         await backoff
@@ -86,21 +88,36 @@ class Http {
   }
 
   // TODO 优化：为 `params` 指定具体类型，避免使用 any；同时考虑在调用处通过泛型约束返回数据结构
-  get<T>(url: string, params?: any, config?: AxiosRequestConfig & { retry?: number }): Promise<T> {
+  get<T>(
+    url: string,
+    params?: any,
+    config?: AxiosRequestConfig & { retry?: number; retryDelay?: number }
+  ): Promise<T> {
     return this.instance.get(url, { params, ...config })
   }
 
   // TODO 优化：为 `data` 指定明确的类型；建议统一返回类型结构并在此处做最小封装，避免过度耦合响应拦截器
-  post<T>(url: string, data?: any, config?: AxiosRequestConfig & { retry?: number }): Promise<T> {
+  post<T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig & { retry?: number; retryDelay?: number }
+  ): Promise<T> {
     return this.instance.post(url, data, config)
   }
 
   // TODO 优化：避免 `any`；考虑将 `AxiosRequestConfig` 透传并在调用侧定义数据模型
-  put<T>(url: string, data?: any, config?: AxiosRequestConfig & { retry?: number }): Promise<T> {
+  put<T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig & { retry?: number; retryDelay?: number }
+  ): Promise<T> {
     return this.instance.put(url, data, config)
   }
 
-  delete<T>(url: string, config?: AxiosRequestConfig & { retry?: number }): Promise<T> {
+  delete<T>(
+    url: string,
+    config?: AxiosRequestConfig & { retry?: number; retryDelay?: number }
+  ): Promise<T> {
     return this.instance.delete(url, config)
   }
 }

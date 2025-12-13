@@ -37,3 +37,9 @@ export interface UserHistorySub {
   rating_b15: number
   active_until: string
 }
+
+export interface AccountResponse {
+  server: string
+  nickname: string
+  identifier: string
+}
