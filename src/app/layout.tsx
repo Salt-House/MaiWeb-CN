@@ -8,7 +8,6 @@ import { PlayerProvider } from "./context/PlayerContext"
 import GlobalPlayer from "./components/GlobalPlayer"
 import MobileNavigation from "./components/Navigation"
 import Notice from "./components/Notice"
-import PageTransition from "./components/PageTransitionWrapper"
 import Image from "next/image"
 import RoatatingCircle from "@/app/components/circle/RoatatingCircle"
 
@@ -64,30 +63,6 @@ export default function RootLayout({
             </Link>
 
             {/* BackGround Layer */}
-            {/* <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-1] bg-[url('/img/bg_shines.png')]">
-            </div>
-            <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-2]">
-              <div className="w-[10px] h-[200px]">
-              </div>
-              <div className="flex justify-center max-sm:hidden max-md:hidden max-lg:hidden max-xl:hidden">
-                <div className="w-[1000px] h-[600px] max-xl:h-[400px] max-xl:w-[300px]  bg-[url('/img/chara-left.png')] bg-no-repeat bg-contain bg-left "></div>
-                <div className="relative w-[1200px] h-[500px] flex justify-center items-center space-x-10">
-                  <img src="/img/front_left.png" className="absolute -left-20 w-[400px] z-[1]" alt="" />
-                  <img src="/img/rainbow.png" className="absolute top-0 w-[600px] z-[-1]" alt="" />
-                  <img src="/img/front_right.png" className="absolute -right-28 w-[400px] z-[1]" alt="" />
-                </div>
-                <div className="w-[1000px] h-[600px] max-xl:h-[400px] max-xl:w-[300px] bg-[url('/img/chara-right.png')] bg-no-repeat bg-contain bg-right"></div>
-              </div>
-            </div>
-            <StarMove />
-            <div className="fixed w-full max-sm:w-full h-full mt-[-80px] bg-[url('/img/bg_pattern.png')] z-[-3] animate-moveDot"></div> */}
-            {/* 
-                        <Image
-                            src={"/img/circle/bg_pc.png"}
-                            alt=""
-                            width={1920}
-                            height={1080}
-                        /> */}
             <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-1] bg-cover">
               <div className="fixed w-full h-full z-[-2]">
                 <Image
@@ -148,7 +123,7 @@ export default function RootLayout({
             {/* 使用新的客户端导航组件 */}
             <MobileNavigation textstroke={textstroke} />
             {/* 页面内容 */}
-            <PageTransition>{children}</PageTransition>
+            {children}
             {/* 底部鸣谢 */}
             <div className=" overflow-x-auto ">
               {/* thanks */}

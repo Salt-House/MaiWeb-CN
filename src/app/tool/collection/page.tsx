@@ -3,7 +3,7 @@
 import CollectionItemSkeleton from "./components/CollectionItemSkeleton"
 import SvgStrokedText from "@/app/components/SvgStrokedText"
 import { motion, AnimatePresence } from "framer-motion"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { NamePlate, MaiBackGround, Icon, Trophie, Condition } from "./model"
 import TabNavigation from "./components/TabNavigation"
 import SearchForm from "./components/SearchForm"
@@ -49,7 +49,7 @@ export default function CollectionPage() {
   const [isSearching, setIsSearching] = useState<boolean>(false)
 
   // 分页相关状态
-  const [currentPage, setCurrentPage] = useState<Record<string, number>>({
+  const currentPageRef = useRef<Record<string, number>>({
     icon: 1,
     frame: 1,
     nameplate: 1,
@@ -166,7 +166,7 @@ export default function CollectionPage() {
       // 构建查询参数
       const queryParams = new URLSearchParams()
       queryParams.append("type", type)
-      queryParams.append("page", append ? (currentPage[type] + 1).toString() : "1")
+      queryParams.append("page", append ? (currentPageRef.current[type] + 1).toString() : "1")
       queryParams.append("page_size", pageSize.toString())
 
       // 添加搜索参数
@@ -225,10 +225,7 @@ export default function CollectionPage() {
             }
 
             // 更新页码
-            setCurrentPage(prev => ({
-              ...prev,
-              [type]: prev[type] + 1,
-            }))
+            currentPageRef.current[type] += 1
 
             // 检查是否还有更多数据
             setHasMore(prev => ({
@@ -240,10 +237,7 @@ export default function CollectionPage() {
             setter(data.collections || [])
 
             // 重置页码
-            setCurrentPage(prev => ({
-              ...prev,
-              [type]: 1,
-            }))
+            currentPageRef.current[type] = 1
 
             // 检查是否还有更多数据
             setHasMore(prev => ({
@@ -260,7 +254,7 @@ export default function CollectionPage() {
         setIsSearching(false)
       }
     },
-    [currentPage, pageSize]
+    [pageSize]
   )
 
   // 加载更多数据
@@ -303,12 +297,8 @@ export default function CollectionPage() {
 
   // 初始加载
   useEffect(() => {
-    loadData("icon")
-    loadData("frame")
-    loadData("nameplate")
-    loadData("trophy")
     loadOptions()
-  }, [loadData])
+  }, [])
 
   useEffect(() => {
     refreshData(activeTab)
