@@ -11,26 +11,22 @@ const Joyride = dynamic(() => import("react-joyride"), {
 
 interface GuideProps {
   steps: Step[]
-  run?: boolean
-  autoStart?: boolean
   mark: string
 }
 
-const Guide = ({ steps, autoStart = true, mark }: GuideProps) => {
+const Guide = ({ steps, mark }: GuideProps) => {
   const [isRunning, setIsRunning] = useState(false)
   const [isBrowser, setIsBrowser] = useState(false)
   const [stepIndex, setStepIndex] = useState(0)
-  const [run, setRun] = useState(true)
 
   useEffect(() => {
     const hideTour = localStorage.getItem(mark)
     if (hideTour !== "true") {
-      setRun(true)
       setStepIndex(0)
       setIsBrowser(true)
       setIsRunning(true)
     }
-  }, [])
+  }, [mark])
 
   const updateCustomSpotlight = (targetElement: HTMLElement | null) => {
     const spotlight = document.querySelector(".react-joyride__spotlight") as HTMLElement
@@ -71,7 +67,7 @@ const Guide = ({ steps, autoStart = true, mark }: GuideProps) => {
 
     // 处理 tour 结束
     if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
-      setRun(false)
+      setIsRunning(false)
       setStepIndex(0)
       localStorage.setItem(mark, "true") // 👈 加这个
     }

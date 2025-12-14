@@ -1,12 +1,13 @@
 // 动态按需加载 echarts，减小首屏 bundle
 import type * as EChartsType from "echarts"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 import { UserHistorySub } from "../../model"
 import { CONFIG } from "@/config/api"
 
 export default function RatingHistory() {
   const [token, setToken] = useState<string | null>(null)
   const [ratingHistory, setRatingHistory] = useState<UserHistorySub[]>([])
+  const [chartInited, setChartInited] = useState(false)
   const chartRef = useRef<HTMLDivElement>(null)
   const chartInstance = useRef<EChartsType.ECharts | null>(null)
   const echartsModuleRef = useRef<typeof import("echarts") | null>(null)
@@ -70,50 +71,8 @@ export default function RatingHistory() {
     }
   }, [])
 
-  useEffect(() => {
-    // 确保DOM已经加载
-    if (!chartRef.current) {
-      return
-    }
-
-    // 动态加载 echarts 并初始化
-    ;(async () => {
-      if (!echartsModuleRef.current) {
-        echartsModuleRef.current = await import("echarts")
-      }
-      const echarts = echartsModuleRef.current
-      if (chartInstance.current) {
-        chartInstance.current.dispose()
-      }
-      chartInstance.current = echarts.init(chartRef.current!)
-      chartInstance.current.resize()
-
-      // 数据加载完成后更新图表
-      if (ratingHistory.length > 0) {
-        updateChart()
-      }
-    })()
-
-    // 窗口大小变化时重新调整图表大小
-    const handleResize = () => {
-      chartInstance.current?.resize()
-    }
-    window.addEventListener("resize", handleResize)
-
-    // 数据加载完成后更新图表放到动态加载回调中
-
-    // 清理函数
-    return () => {
-      window.removeEventListener("resize", handleResize)
-      if (chartInstance.current) {
-        chartInstance.current.dispose()
-        chartInstance.current = null
-      }
-    }
-  }, [])
-
   // 单独的函数用于更新图表
-  const updateChart = () => {
+  const updateChart = useCallback(() => {
     if (!chartInstance.current || ratingHistory.length === 0) {
       return
     }
@@ -226,12 +185,58 @@ export default function RatingHistory() {
     } catch (error) {
       console.error("设置图表配置失败:", error)
     }
-  }
+  }, [ratingHistory])
+
+  useEffect(() => {
+    // 确保DOM已经加载
+    if (!chartRef.current) {
+      return
+    }
+
+    let mounted = true
+
+    // 动态加载 echarts 并初始化
+    ;(async () => {
+      if (!echartsModuleRef.current) {
+        echartsModuleRef.current = await import("echarts")
+      }
+
+      if (!mounted) return
+
+      const echarts = echartsModuleRef.current
+      if (chartInstance.current) {
+        chartInstance.current.dispose()
+      }
+      chartInstance.current = echarts.init(chartRef.current!)
+      chartInstance.current.resize()
+
+      setChartInited(true)
+    })()
+
+    // 窗口大小变化时重新调整图表大小
+    const handleResize = () => {
+      chartInstance.current?.resize()
+    }
+    window.addEventListener("resize", handleResize)
+
+    // 清理函数
+    return () => {
+      mounted = false
+      window.removeEventListener("resize", handleResize)
+      if (chartInstance.current) {
+        chartInstance.current.dispose()
+        chartInstance.current = null
+      }
+      setChartInited(false)
+    }
+  }, [])
 
   // 当历史数据发生变化时更新图表
   useEffect(() => {
-    updateChart()
-  }, [ratingHistory])
+    if (chartInited && ratingHistory.length > 0) {
+      updateChart()
+    }
+  }, [ratingHistory, chartInited, updateChart])
 
   return (
     <div className="flex flex-col items-center w-full">

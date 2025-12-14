@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react"
 import { Song, getDifficultyColor, SongScoreProps, ChartType } from "../songModel"
-import { FaChevronDown, FaChevronUp, FaTrophy, FaStar, FaSync } from "react-icons/fa"
+import { FaChevronDown } from "react-icons/fa"
 import { motion, AnimatePresence } from "framer-motion"
 import LoadingSpinner from "@/app/components/LoadingSpinner"
 import { CONFIG } from "@/config/api"
+import Image from "next/image"
 
 export default function ScoreDetail({ song, scores }: { song: Song; scores?: SongScoreProps[] }) {
   const [loading, setLoading] = useState(true)
@@ -170,17 +171,40 @@ function ScoreCard({
         <div className="flex-1 grid grid-cols-2 gap-4">
           <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-[#F0F2F5] border border-white/60 shadow-sm">
             {/* TODO 优化：改用 `next/image`；将评级图标静态导入，避免运行时路径拼接 */}
-            <img src={getRateImage(score.achievements) || ""} alt="" className="h-8 mb-1" />
+            {getRateImage(score.achievements) && (
+              <Image
+                src={getRateImage(score.achievements)!}
+                alt="Achievement Rate"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="h-8 mb-1 w-auto"
+              />
+            )}
             <p className="text-lg font-bold text-gray-800">{score.achievements.toFixed(4)}%</p>
           </div>
           <div className="flex items-center justify-center space-x-4">
-            {getFCImage(score.fc as any) && (
+            {getFCImage(score.fc) && (
               /* TODO 优化：改用 `next/image`；并为 `fc` 值建立严格类型 */
-              <img src={getFCImage(score.fc as any)!} className="h-10" />
+              <Image
+                src={getFCImage(score.fc)!}
+                alt="Full Combo"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="h-10 w-auto"
+              />
             )}
-            {getFSImage(score.fs as any) && (
+            {getFSImage(score.fs) && (
               /* TODO 优化：改用 `next/image`；修复 `getFSImage` 中可能的资源路径拼写错误（ggrade） */
-              <img src={getFSImage(score.fs as any)!} className="h-10" />
+              <Image
+                src={getFSImage(score.fs)!}
+                alt="Full Sync"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="h-10 w-auto"
+              />
             )}
           </div>
         </div>
@@ -230,7 +254,7 @@ function getFSImage(fs: string | null): string | null {
   const map: { [key: string]: string } = {
     fsdp: "/img/grade/fsdp.webp",
     fsd: "/img/grade/fsd.webp",
-    fsp: "/img/ggrade/fsp.webp",
+    fsp: "/img/grade/fsp.webp",
     fs: "/img/grade/fs.webp",
     sync: "/img/grade/sync.webp",
   }

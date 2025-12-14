@@ -15,7 +15,6 @@ interface NewsCardProps {
 
 export default function NewsCard({
   title,
-  content,
   image_url,
   source,
   source_url,

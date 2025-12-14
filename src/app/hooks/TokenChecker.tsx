@@ -11,7 +11,7 @@ export default function TokenChecker() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [token, setToken] = useState<string>("")
   useEffect(() => {
-    let temp = localStorage.getItem("token")
+    const temp = localStorage.getItem("token")
     if (temp) {
       setToken(temp)
     }
@@ -51,7 +51,7 @@ export default function TokenChecker() {
         <>
           <div className="flex space-x-5">
             <LoadingSpinner size={"ultrasm"} message={""} description={""} />
-            <h1>"验证中"</h1>
+            <h1>&quot;验证中&quot;</h1>
           </div>
         </>
       ) : (

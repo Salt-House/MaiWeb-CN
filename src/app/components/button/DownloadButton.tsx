@@ -4,7 +4,6 @@ import { FaDownload } from "react-icons/fa"
 interface DownloadButtonProps {
   url: string
   filename?: string
-  children?: React.ReactNode
   className?: string
   disabled?: boolean
   onDownloadStart?: () => void
@@ -15,7 +14,6 @@ interface DownloadButtonProps {
 const DownloadButton: React.FC<DownloadButtonProps> = ({
   url,
   filename,
-  children = "下载",
   className = "",
   disabled = false,
   onDownloadStart,

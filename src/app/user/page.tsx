@@ -1,10 +1,7 @@
 "use client"
 
-import Link from "next/link"
 import { useEffect, useState } from "react"
 import Image from "next/image"
-import ChinaMap from "../components/ChinaMap"
-import { redirect } from "next/dist/server/api-utils"
 import LoadingSpinner from "../components/LoadingSpinner"
 import { FaArrowLeft } from "react-icons/fa"
 import { CONFIG } from "@/config/api"
@@ -15,9 +12,6 @@ export default function UserPage() {
   const [email, setEmail] = useState("")
   const [token, setToken] = useState<string | null>()
   const [isHovered, setIsHovered] = useState(true)
-  const [thirdalignment, setthirdalignment] = useState<string | null>(null)
-  const [loginHint, setLoginHint] = useState<string | null>("请选择登录方式")
-  const [agree, setAgree] = useState<boolean>(false)
   const [register, setRegister] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState(false)
   const [forgotPassword, setForgotPassword] = useState(false)

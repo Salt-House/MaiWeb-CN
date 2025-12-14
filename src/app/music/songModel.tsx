@@ -60,8 +60,8 @@ export interface SongScoreProps {
   level: string
   level_index: number
   achievements: number
-  fc: number
-  fs: number
+  fc: string
+  fs: string
   dx_score: number
   dx_rating: number
   rate: number

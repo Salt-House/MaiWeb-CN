@@ -1,8 +1,8 @@
 "use client"
 
-import { usePlayer, PlaylistItem, PlayMode } from "../context/PlayerContext"
+import { usePlayer, PlayMode } from "../context/PlayerContext"
 import { useEffect, useRef, useState } from "react"
-import { FaForward, FaBackward, FaList, FaTimes, FaRedo, FaRandom } from "react-icons/fa"
+import { FaForward, FaBackward, FaList, FaTimes, FaRedo } from "react-icons/fa"
 import { FaCirclePlay, FaCirclePause } from "react-icons/fa6"
 import Image from "next/image"
 
@@ -13,7 +13,6 @@ export default function GlobalPlayer() {
     isPlaying,
     currentTime,
     duration,
-    volume,
     playMode,
     togglePlay,
     nextTrack,
@@ -21,7 +20,6 @@ export default function GlobalPlayer() {
     playTrack,
     removeFromPlaylist,
     setProgress,
-    setVolume,
     togglePlayMode,
   } = usePlayer()
 
@@ -51,7 +49,7 @@ export default function GlobalPlayer() {
         navigator.mediaSession.setActionHandler("pause", null)
         navigator.mediaSession.setActionHandler("previoustrack", null)
         navigator.mediaSession.setActionHandler("nexttrack", null)
-      } catch (e) {
+      } catch {
         // 忽略清理错误
       }
     }
@@ -111,7 +109,7 @@ export default function GlobalPlayer() {
           playbackRate: 1,
           position: currentTime,
         })
-      } catch (error) {
+      } catch {
         // 忽略非关键错误，例如在某些状态下更新失败
         // console.error("设置媒体会话位置状态失败:", error)
       }

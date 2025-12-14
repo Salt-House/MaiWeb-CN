@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import TextScroller from "./TextScroller"
 import { NamePlate, MaiBackGround, Icon, Trophie } from "../model"
 import { CONFIG } from "@/config/api"
@@ -8,7 +9,7 @@ import { CONFIG } from "@/config/api"
 interface RenderItemProps {
   item: NamePlate | MaiBackGround | Icon | Trophie
   type: "icon" | "frame" | "plate" | "trophy"
-  openImagePreview: (item: any, type: string) => void
+  openImagePreview: (item: NamePlate | MaiBackGround | Icon | Trophie, type: string) => void
   GetCondition: (type: string, id: string) => void
 }
 
@@ -68,12 +69,15 @@ export default function RenderItem({
         >
           {/* 移除颜色渐变，使用纯色背景 */}
           <div className="aspect-square p-4 flex items-center justify-center bg-gray-50 group-hover:bg-pink-50/30 transition-colors duration-300">
-            <img
-              src={`${baseUrl}/${type}/${Number(item.collection_id)}.png`}
-              alt={item.name}
-              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 drop-shadow-sm"
-              loading="lazy"
-            />
+            <div className="relative w-full h-full">
+              <Image
+                src={`${baseUrl}/${type}/${Number(item.collection_id)}.png`}
+                alt={item.name}
+                fill
+                className="object-contain transition-transform duration-300 group-hover:scale-110 drop-shadow-sm"
+                unoptimized
+              />
+            </div>
           </div>
           <div className="p-4 bg-white">
             <h3 className="text-sm font-bold text-gray-800 truncate group-hover:text-pink-600 transition-colors">
@@ -108,12 +112,15 @@ export default function RenderItem({
         >
           {/* 移除颜色渐变 */}
           <div className="aspect-[16/9] p-2 flex items-center justify-center bg-gray-50 group-hover:bg-blue-50/30 transition-colors duration-300">
-            <img
-              src={`${CONFIG.ASSETS.STATIC}/UI_Frame_${item.collection_id}.png`}
-              alt={item.name}
-              className="w-full h-full object-contain rounded-md shadow-sm transition-transform duration-300 group-hover:scale-105"
-              loading="lazy"
-            />
+            <div className="relative w-full h-full">
+              <Image
+                src={`${CONFIG.ASSETS.STATIC}/UI_Frame_${item.collection_id}.png`}
+                alt={item.name}
+                fill
+                className="object-contain rounded-md shadow-sm transition-transform duration-300 group-hover:scale-105"
+                unoptimized
+              />
+            </div>
           </div>
           <div className="p-4 bg-white">
             <h3 className="text-sm font-bold text-gray-800 truncate group-hover:text-blue-600 transition-colors">
@@ -173,12 +180,15 @@ export default function RenderItem({
         >
           {/* 移除颜色渐变 */}
           <div className="aspect-[3/1] p-3 flex items-center justify-center bg-gray-50 group-hover:bg-green-50/30 transition-colors duration-300">
-            <img
-              src={`${CONFIG.ASSETS.STATIC}/UI_Plate_${item.collection_id.toString().padStart(6, "0")}.png`}
-              alt={item.name}
-              className="w-full h-full object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
-              loading="lazy"
-            />
+            <div className="relative w-full h-full">
+              <Image
+                src={`${CONFIG.ASSETS.STATIC}/UI_Plate_${item.collection_id.toString().padStart(6, "0")}.png`}
+                alt={item.name}
+                fill
+                className="object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
+                unoptimized
+              />
+            </div>
           </div>
           <div className="p-4 bg-white">
             <h3 className="text-sm font-bold text-gray-800 truncate group-hover:text-green-600 transition-colors">

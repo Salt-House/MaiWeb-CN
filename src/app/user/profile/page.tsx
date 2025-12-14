@@ -1,26 +1,17 @@
 "use client"
 
-import AnimatedComponent from "@/app/components/AnimatedComponent"
-import ChinaMap from "@/app/components/ChinaMap"
 import LoadingSpinner from "@/app/components/LoadingSpinner"
-import Link from "next/link"
-import { useState, useEffect, use } from "react"
+import Image from "next/image"
+import { useState, useEffect } from "react"
 import { FaArrowLeft } from "react-icons/fa"
 import { FaGear, FaRightFromBracket, FaArrowRight } from "react-icons/fa6"
 import { IoMdPeople } from "react-icons/io"
-import {
-  BindAccount,
-  FunctionStatus,
-  ThirdAccount,
-  UserHistorySub,
-  UserProfile,
-  AccountResponse,
-} from "../model"
+import { BindAccount, FunctionStatus, ThirdAccount, UserProfile, AccountResponse } from "../model"
 import RatingHistory from "./components/RatingHistory"
 import SvgStrokedText from "@/app/components/SvgStrokedText"
-import PageTransitionWrapper from "@/app/components/PageTransitionWrapper"
 import { CONFIG } from "@/config/api"
 import http from "@/utils/request"
+import ChinaMap from "@/app/components/ChinaMap"
 
 // TODO 优化：移除未使用的导入（AnimatedComponent、Link、use、PageTransitionWrapper），减少包体积与编译时间
 
@@ -39,7 +30,7 @@ const defaultUserProfile: UserProfile = {
 }
 
 // TODO 优化：`baseUrl` 使用 const 并集中配置（env/config），避免散落于页面
-let baseUrl = CONFIG.ASSETS.MAIMAI.BASE
+const baseUrl = CONFIG.ASSETS.MAIMAI.BASE
 
 export default function UserProfilePage() {
   const [showGuide, setShowGuide] = useState(false)
@@ -53,15 +44,14 @@ export default function UserProfilePage() {
   const [divingfishusername, setDivingFishUsername] = useState<string>("")
   const [divingfishpassword, setDivingFishPassword] = useState<string>("")
   const [qr_code, setQrCode] = useState<string>("")
-  const [ratingHistory, setRatingHistory] = useState<UserHistorySub[]>([])
   // TODO 优化：`bindaccount` 未重新赋值可使用 const；避免未使用的 setter 减少不必要状态
-  let [bindaccount, setBindAccount] = useState<BindAccount>({
+  const [bindaccount] = useState<BindAccount>({
     islxns: false,
     isdivingfish: false,
     isarcaed: false,
   })
   // TODO 优化：`setFunctionStatus` 未使用；确认是否需要此状态或移除
-  const [functionStatus, setFunctionStatus] = useState<FunctionStatus>({
+  const [functionStatus] = useState<FunctionStatus>({
     BUpdate: true,
     CycleReport: false,
     RatingPush: false,
@@ -181,9 +171,9 @@ export default function UserProfilePage() {
 
       alert("刷新成功")
       window.location.href = "/user/profile"
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("刷新数据失败:", error)
-      if (error?.response?.status === 429) {
+      if ((error as { response?: { status: number } })?.response?.status === 429) {
         alert("请求过于频繁，请稍后再试")
       } else {
         alert("刷新失败，请稍后重试")
@@ -379,13 +369,16 @@ export default function UserProfilePage() {
                       {/* TODO 优化：改用 `next/image` 优化图片加载与 LCP */}
                       <div className="flex justify-center items-center mr-4">
                         {token == null || userdata.mai_icon_id == null ? (
-                          <img
+                          <Image
                             src={baseUrl + "/icon/1.png"}
                             className="size-24 rounded-lg border-2 border-gray-300 shadow-lg"
+                            width={96}
+                            height={96}
                             alt="用户头像"
+                            unoptimized
                           />
                         ) : (
-                          <img
+                          <Image
                             src={
                               CONFIG.ASSETS.STATIC +
                               "/UI_Icon_" +
@@ -393,7 +386,10 @@ export default function UserProfilePage() {
                               ".png"
                             }
                             className="size-24 rounded-lg border-2 border-gray-300 shadow-lg"
+                            width={96}
+                            height={96}
                             alt="用户头像"
+                            unoptimized
                           />
                         )}
                       </div>
@@ -851,7 +847,7 @@ export default function UserProfilePage() {
       }
       // console.log(accounts);
     }
-  }, [accounts])
+  }, [accounts, bindaccount])
 
   return (
     <div className="w-[900px] max-sm:w-full min-h-[400px] h-auto rounded-2xl mt-10 mx-auto flex flex-col justify-center items-center">

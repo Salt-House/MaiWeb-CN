@@ -11,7 +11,7 @@
  * 6. will-change 优化，减少布局抖动
  */
 
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
+import { motion, AnimatePresence, useReducedMotion, Variants, Easing } from "framer-motion"
 import { usePathname } from "next/navigation"
 import { ReactNode, useEffect, useRef, useState } from "react"
 import FrozenRouter from "./HOC/FrozenRouter"
@@ -33,7 +33,7 @@ interface PageTransitionProps {
   /** 动画时长 (s) */
   duration?: number
   /** framer-motion ease 值 */
-  ease?: any
+  ease?: Easing | Easing[]
   /** 延迟 (s) */
   delay?: number
   /** 是否跳过首屏初始动画（客户端第一次渲染） */
@@ -44,7 +44,7 @@ interface PageTransitionProps {
   className?: string
 }
 
-const VARIANT_BUILDERS: Record<VariantName, () => any> = {
+const VARIANT_BUILDERS: Record<VariantName, () => Variants> = {
   fade: () => ({
     initial: { opacity: 0 },
     in: { opacity: 1 },

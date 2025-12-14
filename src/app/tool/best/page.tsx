@@ -1,13 +1,11 @@
 "use client"
 
-import AnimatedComponent from "@/app/components/AnimatedComponent"
 import Button from "@/app/components/button/Button"
 import Guide from "@/app/components/Guide"
 import LoadingSpinner from "@/app/components/LoadingSpinner"
 import { ShareableImageSub } from "@/app/components/ShareableImage"
 import { UserProfile } from "@/app/user/model"
-import Link from "next/link"
-import { use, useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Step } from "react-joyride"
 import { CONFIG } from "@/config/api"
 
@@ -18,7 +16,7 @@ interface MusicGradeProps {
   level: string
   level_index: number
   level_value: number
-  achievements: number
+  achievements: number | string
   fc: number | null
   fs: number
   dx_score: number
@@ -35,18 +33,14 @@ interface ThirdAccount {
 }
 
 export default function BestPage() {
-  const [best35, setBest35] = useState<any>()
-  const [best15, setBest15] = useState<any>()
-  const [rating35, setRating35] = useState<any>()
-  const [rating15, setRating15] = useState<any>()
+  const [best35, setBest35] = useState<MusicGradeProps[]>([])
+  const [best15, setBest15] = useState<MusicGradeProps[]>([])
+  const [rating35, setRating35] = useState<number>(0)
+  const [rating15, setRating15] = useState<number>(0)
   const [token, setToken] = useState<string | null>()
-  let baseUrl = CONFIG.ASSETS.MAIMAI.BASE
-  let ArcaedGradeB35: MusicGradeProps[] = []
-  let ArcaedGradeB15: MusicGradeProps[] = []
   const [nowFrom, setNowFrom] = useState<string | null>("暂无可用数据源")
   const [accounts, setAccounts] = useState<ThirdAccount[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [expandedId, setExpandedId] = useState<string | null>(null)
   const [user, setUser] = useState<UserProfile>()
   const [buttonStatus, setButtonStatus] = useState<boolean>(false)
 
@@ -54,50 +48,7 @@ export default function BestPage() {
     textShadow:
       "-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)",
   }
-  useEffect(() => {
-    // const data = { "rating": 15468, "rating_b35": 10833, "rating_b15": 4635, "scores_b35": [{ "id": 1343, "title": "マツヨイナイトバグ", "level": "13+", "level_index": 3, "achievements": 100.5263, "fc": 3, "fs": 0, "dx_score": 2747, "dx_rating": 312.0, "rate": 0, "type": "dx" }, { "id": 400, "title": "デッドレッドガールズ", "level": "13+", "level_index": 3, "achievements": 100.6019, "fc": null, "fs": 0, "dx_score": 2494, "dx_rating": 312.0, "rate": 0, "type": "standard" }, { "id": 1096, "title": "モ°ルモ°ル", "level": "13+", "level_index": 3, "achievements": 100.6086, "fc": 3, "fs": 0, "dx_score": 2487, "dx_rating": 312.0, "rate": 0, "type": "dx" }, { "id": 1236, "title": "Last Samurai", "level": "13+", "level_index": 3, "achievements": 100.5609, "fc": 3, "fs": 2, "dx_score": 1200, "dx_rating": 312.0, "rate": 0, "type": "dx" }, { "id": 1466, "title": "群青シグナル", "level": "13+", "level_index": 3, "achievements": 100.5721, "fc": null, "fs": 0, "dx_score": 2661, "dx_rating": 312.0, "rate": 0, "type": "dx" }, { "id": 1310, "title": "Trick tear", "level": "14", "level_index": 3, "achievements": 100.2449, "fc": null, "fs": 0, "dx_score": 2246, "dx_rating": 311.0, "rate": 1, "type": "dx" }, { "id": 1461, "title": "#狂った民族２ PRAVARGYAZOOQA", "level": "14", "level_index": 3, "achievements": 100.1856, "fc": null, "fs": 0, "dx_score": 2513, "dx_rating": 311.0, "rate": 1, "type": "dx" }, { "id": 1573, "title": "Final Step!", "level": "13+", "level_index": 3, "achievements": 100.7084, "fc": null, "fs": 0, "dx_score": 2347, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1566, "title": "Knight Rider", "level": "13+", "level_index": 3, "achievements": 100.772, "fc": null, "fs": 0, "dx_score": 2414, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 701, "title": "Doll Judgment", "level": "13+", "level_index": 3, "achievements": 100.5674, "fc": null, "fs": 0, "dx_score": 2389, "dx_rating": 310.0, "rate": 0, "type": "standard" }, { "id": 1288, "title": "Big Daddy", "level": "13+", "level_index": 3, "achievements": 100.5366, "fc": null, "fs": 0, "dx_score": 2705, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 841, "title": "終点", "level": "13+", "level_index": 3, "achievements": 100.7131, "fc": 3, "fs": 0, "dx_score": 1973, "dx_rating": 310.0, "rate": 0, "type": "standard" }, { "id": 711, "title": "拝啓ドッペルゲンガー", "level": "13+", "level_index": 3, "achievements": 100.506, "fc": null, "fs": 0, "dx_score": 2815, "dx_rating": 310.0, "rate": 0, "type": "standard" }, { "id": 288, "title": "六兆年と一夜物語", "level": "13+", "level_index": 3, "achievements": 100.8854, "fc": 3, "fs": 0, "dx_score": 2037, "dx_rating": 310.0, "rate": 0, "type": "standard" }, { "id": 1453, "title": "Rainbow Rush Story", "level": "13+", "level_index": 3, "achievements": 100.7663, "fc": null, "fs": 0, "dx_score": 2514, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1459, "title": "You Mean the World to Me", "level": "13+", "level_index": 3, "achievements": 100.5134, "fc": null, "fs": 0, "dx_score": 1879, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 548, "title": "DETARAME ROCK&ROLL THEORY", "level": "13+", "level_index": 3, "achievements": 100.686, "fc": 3, "fs": 0, "dx_score": 2191, "dx_rating": 310.0, "rate": 0, "type": "standard" }, { "id": 1524, "title": "Alice's Suitcase", "level": "13+", "level_index": 3, "achievements": 100.6736, "fc": 3, "fs": 0, "dx_score": 2144, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1576, "title": "Cthugha", "level": "14", "level_index": 3, "achievements": 100.139, "fc": null, "fs": 0, "dx_score": 3095, "dx_rating": 309.0, "rate": 1, "type": "dx" }, { "id": 1176, "title": "Climax", "level": "14", "level_index": 3, "achievements": 100.2156, "fc": null, "fs": 0, "dx_score": 3017, "dx_rating": 309.0, "rate": 1, "type": "dx" }, { "id": 1475, "title": "SUPER AMBULANCE", "level": "14", "level_index": 3, "achievements": 100.0727, "fc": null, "fs": 0, "dx_score": 2760, "dx_rating": 309.0, "rate": 1, "type": "dx" }, { "id": 379, "title": "Caliburne ～Story of the Legendary sword～", "level": "14", "level_index": 3, "achievements": 100.2489, "fc": null, "fs": 0, "dx_score": 2517, "dx_rating": 309.0, "rate": 1, "type": "standard" }, { "id": 1479, "title": "Hainuwele", "level": "14", "level_index": 3, "achievements": 100.0418, "fc": null, "fs": 0, "dx_score": 2685, "dx_rating": 309.0, "rate": 1, "type": "dx" }, { "id": 1231, "title": "生命不詳", "level": "13+", "level_index": 3, "achievements": 100.8213, "fc": 3, "fs": 0, "dx_score": 2329, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1022, "title": "TwisteD! XD", "level": "13+", "level_index": 3, "achievements": 100.5343, "fc": null, "fs": 0, "dx_score": 2414, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1296, "title": "とびだせ！TO THE COSMIC!!", "level": "13+", "level_index": 3, "achievements": 100.724, "fc": 2, "fs": 0, "dx_score": 2564, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1447, "title": "エゴロック", "level": "13+", "level_index": 3, "achievements": 100.6095, "fc": null, "fs": 0, "dx_score": 1928, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 461, "title": "無敵We are one!!", "level": "13+", "level_index": 3, "achievements": 100.6059, "fc": 3, "fs": 0, "dx_score": 2525, "dx_rating": 308.0, "rate": 0, "type": "standard" }, { "id": 1143, "title": "アトロポスと最果の探究者", "level": "13+", "level_index": 3, "achievements": 100.6573, "fc": null, "fs": 0, "dx_score": 2194, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1445, "title": "遺伝子レベル∞スパイラル", "level": "13+", "level_index": 3, "achievements": 100.6425, "fc": 3, "fs": 0, "dx_score": 2263, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1159, "title": "Beautiful Future", "level": "13+", "level_index": 3, "achievements": 100.5278, "fc": 3, "fs": 0, "dx_score": 2236, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1195, "title": "マネマネサイコトロピック", "level": "13+", "level_index": 3, "achievements": 100.5842, "fc": 3, "fs": 2, "dx_score": 2290, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 561, "title": "いっしそう電☆舞舞神拳！", "level": "13+", "level_index": 3, "achievements": 100.5671, "fc": 3, "fs": 0, "dx_score": 2353, "dx_rating": 308.0, "rate": 0, "type": "standard" }, { "id": 1208, "title": "Cyaegha", "level": "13+", "level_index": 3, "achievements": 100.505, "fc": 3, "fs": 0, "dx_score": 2543, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 849, "title": "Kattobi KEIKYU Rider", "level": "13+", "level_index": 3, "achievements": 100.5978, "fc": 3, "fs": 2, "dx_score": 2319, "dx_rating": 308.0, "rate": 0, "type": "standard" }], "scores_b15": [{ "id": 1527, "title": "enchanted wanderer", "level": "13+", "level_index": 3, "achievements": 100.7009, "fc": 2, "fs": 0, "dx_score": 1653, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1588, "title": "Complex Mind", "level": "13+", "level_index": 3, "achievements": 100.6411, "fc": null, "fs": 0, "dx_score": 2357, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1587, "title": "Halfway(>∀<)", "level": "13+", "level_index": 3, "achievements": 100.6558, "fc": 3, "fs": 0, "dx_score": 2476, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1542, "title": "ここからはじまるプロローグ。 (Kanon Remix)", "level": "13+", "level_index": 3, "achievements": 100.578, "fc": null, "fs": 0, "dx_score": 2536, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1553, "title": "Last Kingdom", "level": "13+", "level_index": 3, "achievements": 100.7854, "fc": 2, "fs": 0, "dx_score": 2328, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1590, "title": "あつすぎの歌", "level": "13+", "level_index": 3, "achievements": 100.7567, "fc": 3, "fs": 2, "dx_score": 2217, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1633, "title": "OMAKENO Stroke", "level": "13+", "level_index": 3, "achievements": 100.8466, "fc": 2, "fs": 0, "dx_score": 2033, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1546, "title": "地球", "level": "14", "level_index": 3, "achievements": 100.2835, "fc": null, "fs": 0, "dx_score": 2351, "dx_rating": 309.0, "rate": 1, "type": "dx" }, { "id": 1561, "title": "おとせサンダー", "level": "13+", "level_index": 4, "achievements": 100.5527, "fc": null, "fs": 0, "dx_score": 2621, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1556, "title": "Hello, Hologram", "level": "13+", "level_index": 3, "achievements": 100.7926, "fc": 2, "fs": 0, "dx_score": 2430, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1539, "title": "リフヴェイン", "level": "13+", "level_index": 3, "achievements": 100.5441, "fc": 3, "fs": 2, "dx_score": 1772, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1584, "title": "コンティニュー！ feat. 藍月なくる", "level": "13+", "level_index": 3, "achievements": 100.6865, "fc": 3, "fs": 0, "dx_score": 2434, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1543, "title": "モ°ルモ°ル (MZK Skippin' Remix)", "level": "13+", "level_index": 3, "achievements": 100.6718, "fc": 2, "fs": 2, "dx_score": 1885, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1533, "title": "にゃーにゃー冒険譚", "level": "13+", "level_index": 3, "achievements": 100.5203, "fc": null, "fs": 0, "dx_score": 2934, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1604, "title": "『ウソテイ』 ～一回戦せりなvsしろなvsなずな～", "level": "13+", "level_index": 3, "achievements": 100.5811, "fc": 3, "fs": 0, "dx_score": 2406, "dx_rating": 308.0, "rate": 0, "type": "dx" }] }
-    // setBest35(data.scores_b35)
-    // setBest15(data.scores_b15)
-    // setRating15(data.rating_b15)
-    // setRating35(data.rating_b35)
-    if (localStorage.getItem("token")) {
-      setToken(localStorage.getItem("token"))
-    }
-    // alert('Arcade数据源暂不可用')
-  }, [])
-  useEffect(() => {
-    if (token) {
-      // TODO 网络：统一封装请求；移除多处 console.log；添加错误重试
-      GetBindAccount()
-      var myHeaders = new Headers()
-      myHeaders.append("Authorization", `Bearer ${token}`)
-
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      }
-
-      fetch(`${CONFIG.API.ENDPOINTS.API}/user/me`, requestOptions)
-        .then(response => response.text())
-        .then(result => {
-          const data = JSON.parse(result)
-          setUser(data)
-          // TODO 日志：移除调试日志或上报到统一日志系统
-          console.log(data)
-        })
-        .catch(error => console.log("error", error))
-    }
-  }, [token])
-  useEffect(() => {
-    if (accounts.length > 0) {
-      setNowFrom(accounts[0].from)
-    }
-  }, [accounts])
-  useEffect(() => {
-    GetBest50()
-  }, [nowFrom])
-
-  const GetBindAccount = () => {
+  const GetBindAccount = useCallback(() => {
     // TODO 类型：避免使用 any；将返回数据映射至强类型结构
     setIsLoading(true)
     const myHeaders = new Headers()
@@ -116,7 +67,8 @@ export default function BestPage() {
         // TODO 日志：移除
         console.log("get data")
         const data = JSON.parse(result)
-        if (data[0].server) {
+        if (data.length > 0 && data[0].server) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const updatedAccounts = data.map((account: any) => {
             let from = ""
             if (!isNaN(Number(account.identifier))) {
@@ -144,14 +96,14 @@ export default function BestPage() {
         console.error(error)
         setIsLoading(false)
       })
-  }
-  const GetBest50 = () => {
+  }, [token])
+  const GetBest50 = useCallback(() => {
     // TODO 性能：对长列表的渲染进行虚拟化；对数据处理使用 `useMemo` 缓存
     setIsLoading(true)
     let nickname = ""
-    if (nowFrom == "divingfish") {
+    if (nowFrom === "divingfish") {
       for (let i = 0; i < accounts.length; i++) {
-        if (accounts[i].from == "divingfish") {
+        if (accounts[i].from === "divingfish") {
           nickname = accounts[i].identifier
         }
       }
@@ -163,7 +115,7 @@ export default function BestPage() {
         headers: myHeaders,
       }
       let firstWord = ""
-      let tmp = nickname.split(" ")
+      const tmp = nickname.split(" ")
 
       if (tmp.length > 2) {
         firstWord = tmp.slice(0, tmp.length - 1).join(" ")
@@ -178,9 +130,13 @@ export default function BestPage() {
         .then(result => {
           localStorage.setItem("best", result)
           const data = JSON.parse(result)
-          Array.isArray(data.scores_b15) &&
-            data.scores_b15.forEach((song: any, index: number) => {
-              ArcaedGradeB15.push({
+          const b15: MusicGradeProps[] = []
+          const b35: MusicGradeProps[] = []
+
+          if (Array.isArray(data.scores_b15)) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data.scores_b15.forEach((song: any) => {
+              b15.push({
                 id: Number(song.id),
                 title: song.title,
                 level: song.level,
@@ -195,9 +151,11 @@ export default function BestPage() {
                 type: song.type,
               })
             })
-          Array.isArray(data.scores_b35) &&
-            data.scores_b35.forEach((song: any, index: number) => {
-              ArcaedGradeB35.push({
+          }
+          if (Array.isArray(data.scores_b35)) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data.scores_b35.forEach((song: any) => {
+              b35.push({
                 id: Number(song.id),
                 title: song.title,
                 level: song.level,
@@ -212,10 +170,11 @@ export default function BestPage() {
                 type: song.type,
               })
             })
+          }
           // TODO 日志：移除
           console.log(data)
-          setBest35(ArcaedGradeB35)
-          setBest15(ArcaedGradeB15)
+          setBest35(b35)
+          setBest15(b15)
           setRating15(Math.ceil(data.rating_b15))
           setRating35(Math.ceil(data.rating_b35))
           setIsLoading(false)
@@ -224,9 +183,9 @@ export default function BestPage() {
           console.error(error)
           setIsLoading(false)
         })
-    } else if (nowFrom == "lxns") {
+    } else if (nowFrom === "lxns") {
       for (let i = 0; i < accounts.length; i++) {
-        if (accounts[i].from == "lxns") {
+        if (accounts[i].from === "lxns") {
           nickname = accounts[i].identifier
         }
       }
@@ -243,9 +202,13 @@ export default function BestPage() {
         .then(result => {
           localStorage.setItem("best", result)
           const data = JSON.parse(result)
-          Array.isArray(data.scores_b15) &&
-            data.scores_b15.forEach((song: any, index: number) => {
-              ArcaedGradeB15.push({
+          const b15: MusicGradeProps[] = []
+          const b35: MusicGradeProps[] = []
+
+          if (Array.isArray(data.scores_b15)) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data.scores_b15.forEach((song: any) => {
+              b15.push({
                 id: Number(song.id),
                 title: song.title,
                 level: song.level,
@@ -260,9 +223,11 @@ export default function BestPage() {
                 type: song.type,
               })
             })
-          Array.isArray(data.scores_b35) &&
-            data.scores_b35.forEach((song: any, index: number) => {
-              ArcaedGradeB35.push({
+          }
+          if (Array.isArray(data.scores_b35)) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data.scores_b35.forEach((song: any) => {
+              b35.push({
                 id: Number(song.id),
                 title: song.title,
                 level: song.level,
@@ -277,10 +242,11 @@ export default function BestPage() {
                 type: song.type,
               })
             })
+          }
           // TODO 日志：移除
           console.log(data)
-          setBest35(ArcaedGradeB35)
-          setBest15(ArcaedGradeB15)
+          setBest35(b35)
+          setBest15(b15)
           setRating15(Math.ceil(data.rating_b15))
           setRating35(Math.ceil(data.rating_b35))
           setIsLoading(false)
@@ -289,12 +255,14 @@ export default function BestPage() {
           console.error(error)
           setIsLoading(false)
         })
-    } else if (nowFrom == "maiweb") {
+    } else if (nowFrom === "maiweb") {
       // TODO 日志：移除
       console.log("开始从maiweb获取数据")
       const myHeaders = new Headers()
       myHeaders.append("Accept", "application/json")
-      myHeaders.append("Authorization", `Bearer ${token}`)
+      if (token) {
+        myHeaders.append("Authorization", `Bearer ${token}`)
+      }
 
       const requestOptions = {
         method: "GET",
@@ -307,10 +275,14 @@ export default function BestPage() {
         .then(result => {
           localStorage.setItem("best", result)
           const data = JSON.parse(result)
+          const b15: MusicGradeProps[] = []
+          const b35: MusicGradeProps[] = []
+
           // 检查data是否为数组并且有数据
-          Array.isArray(data.scores_b15) &&
-            data.scores_b15.forEach((song: any, index: number) => {
-              ArcaedGradeB15.push({
+          if (Array.isArray(data.scores_b15)) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data.scores_b15.forEach((song: any) => {
+              b15.push({
                 id: Number(song.id),
                 title: song.title,
                 level: song.level,
@@ -325,9 +297,11 @@ export default function BestPage() {
                 type: song.type,
               })
             })
-          Array.isArray(data.scores_b35) &&
-            data.scores_b35.forEach((song: any, index: number) => {
-              ArcaedGradeB35.push({
+          }
+          if (Array.isArray(data.scores_b35)) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data.scores_b35.forEach((song: any) => {
+              b35.push({
                 id: Number(song.id),
                 title: song.title,
                 level: song.level,
@@ -342,10 +316,11 @@ export default function BestPage() {
                 type: song.type,
               })
             })
+          }
           // TODO 日志：移除
           console.log(data)
-          setBest35(ArcaedGradeB35)
-          setBest15(ArcaedGradeB15)
+          setBest35(b35)
+          setBest15(b15)
           setRating15(Math.ceil(data.rating_b15))
           setRating35(Math.ceil(data.rating_b35))
           setIsLoading(false)
@@ -355,7 +330,50 @@ export default function BestPage() {
           setIsLoading(false)
         })
     }
-  }
+  }, [nowFrom, accounts, token])
+  useEffect(() => {
+    // const data = { "rating": 15468, "rating_b35": 10833, "rating_b15": 4635, "scores_b35": [{ "id": 1343, "title": "マツヨイナイトバグ", "level": "13+", "level_index": 3, "achievements": 100.5263, "fc": 3, "fs": 0, "dx_score": 2747, "dx_rating": 312.0, "rate": 0, "type": "dx" }, { "id": 400, "title": "デッドレッドガールズ", "level": "13+", "level_index": 3, "achievements": 100.6019, "fc": null, "fs": 0, "dx_score": 2494, "dx_rating": 312.0, "rate": 0, "type": "standard" }, { "id": 1096, "title": "モ°ルモ°ル", "level": "13+", "level_index": 3, "achievements": 100.6086, "fc": 3, "fs": 0, "dx_score": 2487, "dx_rating": 312.0, "rate": 0, "type": "dx" }, { "id": 1236, "title": "Last Samurai", "level": "13+", "level_index": 3, "achievements": 100.5609, "fc": 3, "fs": 2, "dx_score": 1200, "dx_rating": 312.0, "rate": 0, "type": "dx" }, { "id": 1466, "title": "群青シグナル", "level": "13+", "level_index": 3, "achievements": 100.5721, "fc": null, "fs": 0, "dx_score": 2661, "dx_rating": 312.0, "rate": 0, "type": "dx" }, { "id": 1310, "title": "Trick tear", "level": "14", "level_index": 3, "achievements": 100.2449, "fc": null, "fs": 0, "dx_score": 2246, "dx_rating": 311.0, "rate": 1, "type": "dx" }, { "id": 1461, "title": "#狂った民族２ PRAVARGYAZOOQA", "level": "14", "level_index": 3, "achievements": 100.1856, "fc": null, "fs": 0, "dx_score": 2513, "dx_rating": 311.0, "rate": 1, "type": "dx" }, { "id": 1573, "title": "Final Step!", "level": "13+", "level_index": 3, "achievements": 100.7084, "fc": null, "fs": 0, "dx_score": 2347, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1566, "title": "Knight Rider", "level": "13+", "level_index": 3, "achievements": 100.772, "fc": null, "fs": 0, "dx_score": 2414, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 701, "title": "Doll Judgment", "level": "13+", "level_index": 3, "achievements": 100.5674, "fc": null, "fs": 0, "dx_score": 2389, "dx_rating": 310.0, "rate": 0, "type": "standard" }, { "id": 1288, "title": "Big Daddy", "level": "13+", "level_index": 3, "achievements": 100.5366, "fc": null, "fs": 0, "dx_score": 2705, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 841, "title": "終点", "level": "13+", "level_index": 3, "achievements": 100.7131, "fc": 3, "fs": 0, "dx_score": 1973, "dx_rating": 310.0, "rate": 0, "type": "standard" }, { "id": 711, "title": "拝啓ドッペルゲンガー", "level": "13+", "level_index": 3, "achievements": 100.506, "fc": null, "fs": 0, "dx_score": 2815, "dx_rating": 310.0, "rate": 0, "type": "standard" }, { "id": 288, "title": "六兆年と一夜物語", "level": "13+", "level_index": 3, "achievements": 100.8854, "fc": 3, "fs": 0, "dx_score": 2037, "dx_rating": 310.0, "rate": 0, "type": "standard" }, { "id": 1453, "title": "Rainbow Rush Story", "level": "13+", "level_index": 3, "achievements": 100.7663, "fc": null, "fs": 0, "dx_score": 2514, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1459, "title": "You Mean the World to Me", "level": "13+", "level_index": 3, "achievements": 100.5134, "fc": null, "fs": 0, "dx_score": 1879, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 548, "title": "DETARAME ROCK&ROLL THEORY", "level": "13+", "level_index": 3, "achievements": 100.686, "fc": 3, "fs": 0, "dx_score": 2191, "dx_rating": 310.0, "rate": 0, "type": "standard" }, { "id": 1524, "title": "Alice's Suitcase", "level": "13+", "level_index": 3, "achievements": 100.6736, "fc": 3, "fs": 0, "dx_score": 2144, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1576, "title": "Cthugha", "level": "14", "level_index": 3, "achievements": 100.139, "fc": null, "fs": 0, "dx_score": 3095, "dx_rating": 309.0, "rate": 1, "type": "dx" }, { "id": 1176, "title": "Climax", "level": "14", "level_index": 3, "achievements": 100.2156, "fc": null, "fs": 0, "dx_score": 3017, "dx_rating": 309.0, "rate": 1, "type": "dx" }, { "id": 1475, "title": "SUPER AMBULANCE", "level": "14", "level_index": 3, "achievements": 100.0727, "fc": null, "fs": 0, "dx_score": 2760, "dx_rating": 309.0, "rate": 1, "type": "dx" }, { "id": 379, "title": "Caliburne ～Story of the Legendary sword～", "level": "14", "level_index": 3, "achievements": 100.2489, "fc": null, "fs": 0, "dx_score": 2517, "dx_rating": 309.0, "rate": 1, "type": "standard" }, { "id": 1479, "title": "Hainuwele", "level": "14", "level_index": 3, "achievements": 100.0418, "fc": null, "fs": 0, "dx_score": 2685, "dx_rating": 309.0, "rate": 1, "type": "dx" }, { "id": 1231, "title": "生命不詳", "level": "13+", "level_index": 3, "achievements": 100.8213, "fc": 3, "fs": 0, "dx_score": 2329, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1022, "title": "TwisteD! XD", "level": "13+", "level_index": 3, "achievements": 100.5343, "fc": null, "fs": 0, "dx_score": 2414, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1296, "title": "とびだせ！TO THE COSMIC!!", "level": "13+", "level_index": 3, "achievements": 100.724, "fc": 2, "fs": 0, "dx_score": 2564, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1447, "title": "エゴロック", "level": "13+", "level_index": 3, "achievements": 100.6095, "fc": null, "fs": 0, "dx_score": 1928, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 461, "title": "無敵We are one!!", "level": "13+", "level_index": 3, "achievements": 100.6059, "fc": 3, "fs": 0, "dx_score": 2525, "dx_rating": 308.0, "rate": 0, "type": "standard" }, { "id": 1143, "title": "アトロポスと最果の探究者", "level": "13+", "level_index": 3, "achievements": 100.6573, "fc": null, "fs": 0, "dx_score": 2194, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1445, "title": "遺伝子レベル∞スパイラル", "level": "13+", "level_index": 3, "achievements": 100.6425, "fc": 3, "fs": 0, "dx_score": 2263, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1159, "title": "Beautiful Future", "level": "13+", "level_index": 3, "achievements": 100.5278, "fc": 3, "fs": 0, "dx_score": 2236, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1195, "title": "マネマネサイコトロピック", "level": "13+", "level_index": 3, "achievements": 100.5842, "fc": 3, "fs": 2, "dx_score": 2290, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 561, "title": "いっしそう電☆舞舞神拳！", "level": "13+", "level_index": 3, "achievements": 100.5671, "fc": 3, "fs": 0, "dx_score": 2353, "dx_rating": 308.0, "rate": 0, "type": "standard" }, { "id": 1208, "title": "Cyaegha", "level": "13+", "level_index": 3, "achievements": 100.505, "fc": 3, "fs": 0, "dx_score": 2543, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 849, "title": "Kattobi KEIKYU Rider", "level": "13+", "level_index": 3, "achievements": 100.5978, "fc": 3, "fs": 2, "dx_score": 2319, "dx_rating": 308.0, "rate": 0, "type": "standard" }], "scores_b15": [{ "id": 1527, "title": "enchanted wanderer", "level": "13+", "level_index": 3, "achievements": 100.7009, "fc": 2, "fs": 0, "dx_score": 1653, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1588, "title": "Complex Mind", "level": "13+", "level_index": 3, "achievements": 100.6411, "fc": null, "fs": 0, "dx_score": 2357, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1587, "title": "Halfway(>∀<)", "level": "13+", "level_index": 3, "achievements": 100.6558, "fc": 3, "fs": 0, "dx_score": 2476, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1542, "title": "ここからはじまるプロローグ。 (Kanon Remix)", "level": "13+", "level_index": 3, "achievements": 100.578, "fc": null, "fs": 0, "dx_score": 2536, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1553, "title": "Last Kingdom", "level": "13+", "level_index": 3, "achievements": 100.7854, "fc": 2, "fs": 0, "dx_score": 2328, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1590, "title": "あつすぎの歌", "level": "13+", "level_index": 3, "achievements": 100.7567, "fc": 3, "fs": 2, "dx_score": 2217, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1633, "title": "OMAKENO Stroke", "level": "13+", "level_index": 3, "achievements": 100.8466, "fc": 2, "fs": 0, "dx_score": 2033, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1546, "title": "地球", "level": "14", "level_index": 3, "achievements": 100.2835, "fc": null, "fs": 0, "dx_score": 2351, "dx_rating": 309.0, "rate": 1, "type": "dx" }, { "id": 1561, "title": "おとせサンダー", "level": "13+", "level_index": 4, "achievements": 100.5527, "fc": null, "fs": 0, "dx_score": 2621, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1556, "title": "Hello, Hologram", "level": "13+", "level_index": 3, "achievements": 100.7926, "fc": 2, "fs": 0, "dx_score": 2430, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1539, "title": "リフヴェイン", "level": "13+", "level_index": 3, "achievements": 100.5441, "fc": 3, "fs": 2, "dx_score": 1772, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1584, "title": "コンティニュー！ feat. 藍月なくる", "level": "13+", "level_index": 3, "achievements": 100.6865, "fc": 3, "fs": 0, "dx_score": 2434, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1543, "title": "モ°ルモ°ル (MZK Skippin' Remix)", "level": "13+", "level_index": 3, "achievements": 100.6718, "fc": 2, "fs": 2, "dx_score": 1885, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1533, "title": "にゃーにゃー冒険譚", "level": "13+", "level_index": 3, "achievements": 100.5203, "fc": null, "fs": 0, "dx_score": 2934, "dx_rating": 308.0, "rate": 0, "type": "dx" }, { "id": 1604, "title": "『ウソテイ』 ～一回戦せりなvsしろなvsなずな～", "level": "13+", "level_index": 3, "achievements": 100.5811, "fc": 3, "fs": 0, "dx_score": 2406, "dx_rating": 308.0, "rate": 0, "type": "dx" }] }
+    // setBest35(data.scores_b35)
+    // setBest15(data.scores_b15)
+    // setRating15(data.rating_b15)
+    // setRating35(data.rating_b35)
+    if (localStorage.getItem("token")) {
+      setToken(localStorage.getItem("token"))
+    }
+    // alert('Arcade数据源暂不可用')
+  }, [])
+  useEffect(() => {
+    if (token) {
+      // TODO 网络：统一封装请求；移除多处 console.log；添加错误重试
+      GetBindAccount()
+      const myHeaders = new Headers()
+      myHeaders.append("Authorization", `Bearer ${token}`)
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      }
+
+      fetch(`${CONFIG.API.ENDPOINTS.API}/user/me`, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          const data = JSON.parse(result)
+          setUser(data)
+          // TODO 日志：移除调试日志或上报到统一日志系统
+          console.log(data)
+        })
+        .catch(error => console.log("error", error))
+    }
+  }, [token, GetBindAccount])
+  useEffect(() => {
+    if (accounts.length > 0) {
+      setNowFrom(accounts[0].from)
+    }
+  }, [accounts])
+  useEffect(() => {
+    GetBest50()
+  }, [nowFrom, GetBest50])
+
   const steps: Step[] = [
     {
       target: "#b50control",
@@ -368,12 +386,12 @@ export default function BestPage() {
     },
   ]
 
-  const ShareBest = () => {
-    var myHeaders = new Headers()
-    myHeaders.append("Content-Type", "application/json")
+  const ShareBest = useCallback(() => {
     setButtonStatus(true)
+    const myHeaders = new Headers()
+    myHeaders.append("Content-Type", "application/json")
 
-    var raw = JSON.stringify({
+    const raw = JSON.stringify({
       category: "b50",
       b35_songs: best35,
       "135_songs": best15,
@@ -390,7 +408,7 @@ export default function BestPage() {
     })
     console.log(raw)
 
-    var requestOptions = {
+    const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
@@ -407,13 +425,16 @@ export default function BestPage() {
         a.click()
         URL.revokeObjectURL(url)
       })
-      .catch(error => console.log("error", error))
-  }
+      .catch(error => {
+        console.log("error", error)
+        setButtonStatus(false)
+      })
+  }, [best35, best15, rating15, rating35, user])
 
   return (
     <>
       <div className="relative w-full max-w-[1600px] p-5 flex flex-col justify-center items-center mx-auto">
-        <Guide steps={steps} autoStart={true} mark={"b50tour"} />
+        <Guide steps={steps} mark={"b50tour"} />
 
         <div className="mb-8 max-sm:w-full w-full max-w-[900px] space-y-4">
           {/* 标题区域 */}
@@ -494,7 +515,7 @@ export default function BestPage() {
               ) : (
                 <>
                   {best35 && best35.length > 0 ? (
-                    best35.map((song: any, index: number) => {
+                    best35.map((song, index) => {
                       return <ShareableImageSub key={song.id} {...song} index={index} />
                     })
                   ) : (
@@ -512,7 +533,7 @@ export default function BestPage() {
               ) : (
                 <>
                   {best15 &&
-                    best15.map((song: any, index: number) => {
+                    best15.map((song, index) => {
                       return <ShareableImageSub key={song.id} {...song} index={index} />
                     })}
                 </>

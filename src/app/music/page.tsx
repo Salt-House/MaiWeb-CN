@@ -1,16 +1,16 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import { Song, transferVersion } from "@/app/music/songModel"
 import SongList from "@/app/music/songList"
-import LoadingSpinner from "../components/LoadingSpinner"
+// import LoadingSpinner from "../components/LoadingSpinner"
 import ActionButton from "../components/ActionButton"
 import type { Step } from "react-joyride"
 import Guide from "../components/Guide"
-import { FaFilter, FaTimes } from "react-icons/fa"
+// import { FaFilter, FaTimes } from "react-icons/fa"
 import { AnimatePresence, motion } from "framer-motion"
-import Notice from "../components/Notice"
-import PageTransitionWrapper from "../components/PageTransitionWrapper"
+// import Notice from "../components/Notice"
+// import PageTransitionWrapper from "../components/PageTransitionWrapper"
 import { CONFIG } from "@/config/api"
 
 const currentVersion = "25005"
@@ -62,10 +62,10 @@ const versionPlusIds = {
   MAIMAI_MILK_PLUS: 19500,
 }
 
-const Options = [
-  { label: "最新歌曲在前", value: "desc" },
-  { label: "最老歌曲在前", value: "dsc" },
-]
+// const Options = [
+//   { label: "最新歌曲在前", value: "desc" },
+//   { label: "最老歌曲在前", value: "dsc" },
+// ]
 
 export default function MusicPage() {
   //const songs = [sampleSong, sampleSong, sampleSong, sampleSong, sampleSong, sampleSong]
@@ -119,10 +119,6 @@ export default function MusicPage() {
     localStorage.setItem("maimaimoe-music-ui-mode", isLegacyMode ? "legacy" : "modern")
   }, [isLegacyMode])
 
-  useEffect(() => {
-    getSongs(defaultUrl)
-  }, [])
-
   const getSongs = useCallback(async (filteredUrl: string, page: number = 1) => {
     setFilteredUrl(filteredUrl)
     if (page == 1) {
@@ -153,8 +149,8 @@ export default function MusicPage() {
     } else if (filteredUrl.includes("versions=")) {
       const versionId = filteredUrl.split("versions=")[1].split("&")[0]
       const version =
-        Object.entries(versionIds).find(([_, id]) => id.toString() === versionId)?.[0] ||
-        Object.entries(versionPlusIds).find(([_, id]) => id.toString() === versionId)?.[0]
+        Object.entries(versionIds).find(([, id]) => id.toString() === versionId)?.[0] ||
+        Object.entries(versionPlusIds).find(([, id]) => id.toString() === versionId)?.[0]
       setCurrentCategory(version || "未知版本")
     } else if (filteredUrl.includes("keywords=")) {
       const keyword = filteredUrl.split("keywords=")[1].split("&")[0]
@@ -165,10 +161,6 @@ export default function MusicPage() {
 
     const baseUrl = `${CONFIG.API.ENDPOINTS.API}/maimai/songs?`
     const url = `${baseUrl}${filteredUrl}&page=${page}&page_size=100`
-
-    if (!songs) {
-      setLoading(true)
-    }
 
     try {
       const response = await fetch(url, {
@@ -203,6 +195,10 @@ export default function MusicPage() {
     }
   }, [])
 
+  useEffect(() => {
+    getSongs(defaultUrl)
+  }, [defaultUrl, getSongs])
+
   // MARK: - 主视图
   return (
     <>
@@ -232,7 +228,7 @@ export default function MusicPage() {
         id="filter-select"
         className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-24 text-black "
       >
-        <Guide steps={steps} autoStart={true} mark={"musictour"} />
+        <Guide steps={steps} mark={"musictour"} />
         <div className="border-4 relative border-white max-sm:w-[90%] bg-white rounded-2xl">
           <div className="w-[900px] max-sm:w-full max-sm:h-96 mx-auto h-80 bg-white rounded-2xl flex flex-col justify-center text-center border-4 border-pink-300">
             <div className="items-center">
@@ -580,40 +576,40 @@ function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<
 }
 
 // 暂时不实现
-function AeuioBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
-  const items: String[] = [
-    "あ行",
-    "か行",
-    "さ行",
-    "た行",
-    "な行",
-    "は行",
-    "ま行",
-    "や行",
-    "ら行",
-    "わ行",
-    "A-G",
-    "H-N",
-    "O-U",
-    "V-Z",
-    "数字·その他",
-  ]
-
-  return (
-    <div className="h-[172px] max-w-[1200px] mx-auto">
-      <div className="grid grid-cols-5 grid-rows-3 gap-4 h-full">
-        {[...Array(15)].map((_, index) => (
-          <div
-            key={index}
-            className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)] cursor-pointer text-black"
-          >
-            {items[index]}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
+// function AeuioBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
+//   const items: string[] = [
+//     "あ行",
+//     "か行",
+//     "さ行",
+//     "た行",
+//     "な行",
+//     "は行",
+//     "ま行",
+//     "や行",
+//     "ら行",
+//     "わ行",
+//     "A-G",
+//     "H-N",
+//     "O-U",
+//     "V-Z",
+//     "数字·その他",
+//   ]
+//
+//   return (
+//     <div className="h-[172px] max-w-[1200px] mx-auto">
+//       <div className="grid grid-cols-5 grid-rows-3 gap-4 h-full">
+//         {[...Array(15)].map((_, index) => (
+//           <div
+//             key={index}
+//             className="flex items-center justify-center bg-slate-50 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 px-7 py-2 border-4 border-[rgb(155,244,236)] cursor-pointer text-black"
+//           >
+//             {items[index]}
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   )
+// }
 
 function LevelBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
   const levels = [
@@ -720,9 +716,8 @@ function AdvancedSearchBar({
   const [selectedGenre, setSelectedGenre] = useState("")
   const [selectedLevel, setSelectedLevel] = useState("")
   const [selectedVersion, setSelectedVersion] = useState("")
-  const [isExpanded, setIsExpanded] = useState(false)
   const [isInitialRender, setIsInitialRender] = useState(true)
-  let str = ""
+  const str = useRef("")
 
   const genres = [
     { value: "", label: "全部类型" },
@@ -768,17 +763,17 @@ function AdvancedSearchBar({
 
   const versions = [
     { value: "", label: "全部版本" },
-    ...version.map((v, index) => ({
+    ...version.map(v => ({
       value: versionIds[v],
       label: v,
     })),
-    ...versionPlus.map((v, index) => ({
+    ...versionPlus.map(v => ({
       value: versionPlusIds[v],
       label: v,
     })),
   ]
 
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     const params = []
 
     if (searchKeyword.trim()) {
@@ -797,7 +792,7 @@ function AdvancedSearchBar({
     const queryString = params.length > 0 ? params.join("&") : `versions${currentVersion}`
     // console.log('查询字符串:', queryString) // 调试日志
     getSongs(queryString)
-  }
+  }, [searchKeyword, selectedGenre, selectedLevel, selectedVersion, getSongs])
 
   useEffect(() => {
     // 跳过首次渲染时的执行
@@ -806,22 +801,30 @@ function AdvancedSearchBar({
       return
     }
 
-    str = ""
+    str.current = ""
     if (searchKeyword.trim()) {
-      str += `关键词: ${searchKeyword.trim()} `
+      str.current += `关键词: ${searchKeyword.trim()} `
     }
     if (selectedGenre) {
-      str += `类型: ${selectedGenre} `
+      str.current += `类型: ${selectedGenre} `
     }
     if (selectedLevel) {
-      str += `等级: ${selectedLevel} `
+      str.current += `等级: ${selectedLevel} `
     }
     if (selectedVersion) {
-      str += `版本: ${transferVersion(Number(selectedVersion))} `
+      str.current += `版本: ${transferVersion(Number(selectedVersion))} `
     }
     handleSearch()
-    currentCategory(str)
-  }, [searchKeyword, selectedGenre, selectedLevel, selectedVersion])
+    currentCategory(str.current)
+  }, [
+    searchKeyword,
+    selectedGenre,
+    selectedLevel,
+    selectedVersion,
+    handleSearch,
+    currentCategory,
+    isInitialRender,
+  ])
 
   const handleReset = () => {
     setSearchKeyword("")

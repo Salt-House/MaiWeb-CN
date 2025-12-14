@@ -6,8 +6,11 @@ import { IoInformationCircle } from "react-icons/io5"
 import { ThirdAccount } from "../user/model"
 import http from "@/utils/request"
 
+import Image from "next/image"
+
 interface NoticeProps {
   type?: "info" | "success" | "warning" | "error"
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   duration?: number // 自动关闭的时间（毫秒），如不设置则不自动关闭
 }
 
@@ -17,14 +20,18 @@ interface RawAccount {
   identifier: string
 }
 
-const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
+const Notice: React.FC<NoticeProps> = ({ type = "info" }) => {
   const [token, setToken] = useState<string>("")
   const [isVisible, setIsVisible] = useState(false)
   const [string, setString] = useState<string>("")
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [accounts, setAccounts] = useState<ThirdAccount[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [notice, setNotice] = useState<string[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showModal, setShowModal] = useState(false)
-  let notice_index = 0
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const notice_index = 0
 
   // 不同类型通知的样式
   const typeStyles = {
@@ -42,6 +49,7 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
     error: <IoInformationCircle className="h-5 w-5 text-red-500" />,
   }
 
+  /*
   const NextNotice = () => {
     if (notice.length > 0) {
       setString(notice[notice_index])
@@ -51,10 +59,11 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
       setIsVisible(false)
     }
   }
+  */
 
   useEffect(() => {
     setIsVisible(true)
-    let temp = localStorage.getItem("token")
+    const temp = localStorage.getItem("token")
     if (temp) {
       setToken(temp)
     }
@@ -65,7 +74,9 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
       if (token !== "") {
         try {
           // 并行请求用户信息和账号绑定信息，提高效率
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const [userResult, accountsData] = await Promise.all([
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             http.get<any>("/api/user/me", null, { retry: 3 }),
             http.get<RawAccount[]>("/api/maimai/maiweb/accounts", null, { retry: 3 }),
           ])
@@ -77,6 +88,7 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
           setIsVisible(true)
 
           // 处理账号绑定信息
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           if (Array.isArray(accountsData) && accountsData.length > 0 && accountsData[0].server) {
             const updatedAccounts: ThirdAccount[] = accountsData.map(account => {
               let from = ""
@@ -98,7 +110,7 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
             })
             setAccounts(updatedAccounts)
           }
-        } catch (error) {
+        } catch {
           // 错误处理，已移除调试日志
         }
       } else {
@@ -184,9 +196,11 @@ const Notice: React.FC<NoticeProps> = ({ type = "info", duration }) => {
                 </div>
 
                 <div className="text-gray-700 leading-7 space-y-6">
-                  <img
+                  <Image
                     src="https://maimai.sega.jp/storage/root/chara.png"
                     alt="Banner Image"
+                    width={320}
+                    height={320}
                     className="mx-auto max-w-xs h-auto"
                   />
                   <p className="text-lg font-bold text-gray-800">尊敬的用户：</p>

@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, ReactNode } from "react"
-import PageTransitionWrapper from "./PageTransitionWrapper"
 
 interface ClientLayoutProps {
   children: ReactNode
@@ -9,7 +8,7 @@ interface ClientLayoutProps {
   textDonate: React.CSSProperties
 }
 
-export default function ClientLayout({ children, textstroke, textDonate }: ClientLayoutProps) {
+export default function ClientLayout({ children }: ClientLayoutProps) {
   // 添加动态视口高度调整
   useEffect(() => {
     // 设置视口高度CSS变量

@@ -54,7 +54,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
     if (typeof window === "undefined") return
 
     const audio = new Audio()
-    audio.volume = volume
+    audio.volume = 0.7
     audioRef.current = audio
 
     const handleTimeUpdate = () => {
@@ -78,7 +78,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   // 处理音频结束事件的函数
-  const handleTrackEnded = () => {
+  const handleTrackEnded = React.useCallback(() => {
     if (playMode === PlayMode.SINGLE || playlist.length <= 1) {
       // 单曲循环模式下，或者播放列表只有一首歌时，重新播放当前歌曲
       if (audioRef.current) {
@@ -105,7 +105,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
         setIsPlaying(true)
       }
     }
-  }
+  }, [playMode, playlist, currentTrack])
 
   // 更新音频结束事件处理函数的依赖
   useEffect(() => {
@@ -122,7 +122,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
         audioRef.current.removeEventListener("ended", handleTrackEnded)
       }
     }
-  }, [playMode, currentTrack, playlist]) // 添加所有相关依赖
+  }, [handleTrackEnded]) // 添加所有相关依赖
 
   // 从本地存储加载播放列表和播放模式
   useEffect(() => {
@@ -192,13 +192,6 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 
     audioRef.current.src = currentTrack.audioUrl
     audioRef.current.load()
-
-    if (isPlaying) {
-      audioRef.current.play().catch(error => {
-        console.error("播放失败:", error)
-        setIsPlaying(false)
-      })
-    }
   }, [currentTrack])
 
   // 控制播放/暂停

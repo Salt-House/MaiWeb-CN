@@ -1,16 +1,14 @@
 "use client"
 
 import Link from "next/link"
-import { SetStateAction, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { CONFIG } from "@/config/api"
 import ChinaMap from "./components/ChinaMap"
-import { FiChevronRight } from "react-icons/fi"
 import NewsCard from "./components/NewsCard"
 import SearchGameCenter from "./components/SearchGameCenter"
 import Guide from "./components/Guide"
 import { Step } from "react-joyride"
 import TokenChecker from "./hooks/TokenChecker"
-import PageTransitionWrapper from "./components/PageTransitionWrapper"
 import RoatChiho from "./components/circle/RoatChiho"
 
 interface NewsProps {
@@ -183,7 +181,7 @@ export default function Home() {
         {/* Main Layer */}
         <div className="relative w-full">
           {/* 使用抽离的 Guide 组件 */}
-          <Guide steps={steps} autoStart={true} mark={"hometour"} />
+          <Guide steps={steps} mark={"hometour"} />
           {/* Control */}
 
           <div className="max-sm:h-[40px] w-[200px] h-[100px]"></div>

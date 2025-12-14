@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, ReactNode } from "react"
+import { ReactNode } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 const AnimatedComponentSub = ({ children }: { children: ReactNode }) => {

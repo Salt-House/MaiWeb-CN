@@ -9,7 +9,6 @@ import dynamic from "next/dynamic"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   FaApple,
-  FaAndroid,
   FaGoogle,
   FaMapMarkerAlt,
   FaTimes,
@@ -26,7 +25,7 @@ export interface ArcadeSearchRequest {
   page_size?: number
   range?: number
   sort?: string
-  [property: string]: any
+  [property: string]: unknown
 }
 
 export interface Arcade {
@@ -40,7 +39,7 @@ export interface Arcade {
   arcade_name: string
   created_at: Date
   distance?: number
-  [property: string]: any
+  [property: string]: unknown
 }
 
 /**
@@ -58,7 +57,7 @@ const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
 
   useEffect(() => {
     const ua = navigator.userAgent
-    setIsIOS(/iPad|iPhone|iPod/.test(ua) && !(window as any).MSStream)
+    setIsIOS(/iPad|iPhone|iPod/.test(ua) && !(window as unknown as { MSStream: unknown }).MSStream)
     setIsAndroid(/Android/.test(ua))
   }, [])
 
@@ -202,11 +201,7 @@ const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
 
 const SearchGameCenter = () => {
   // 状态管理
-  const key = "AA7BZ-FVT6T-ZQ5XP-VCND7-DKFYF-RKBCU"
   const [address, setAddress] = useState("")
-  const [inputValue, setInputValue] = useState("")
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const options = ["1km", "5km", "10km"]
   const [searchGameCenter, setSearchGameCenter] = useState<ArcadeSearchRequest>({
     range: 3000,
     sort: "distance",
@@ -256,6 +251,7 @@ const SearchGameCenter = () => {
             errorMessage = "定位请求超时"
             break
         }
+        console.error(errorMessage)
         // alert(errorMessage + "，请尝试手动输入地址");
       },
       {
@@ -276,7 +272,7 @@ const SearchGameCenter = () => {
     }
 
     setIsLoading(true)
-    var requestOptions = {
+    const requestOptions = {
       method: "GET",
       redirect: "follow" as RequestRedirect,
     }
@@ -339,7 +335,7 @@ const SearchGameCenter = () => {
     setShowResults(true)
     setResultError("")
 
-    var requestOptions = {
+    const requestOptions = {
       method: "GET",
     }
 
@@ -351,7 +347,7 @@ const SearchGameCenter = () => {
         searchParams[key] !== null &&
         searchParams[key] !== ""
       ) {
-        baseurl += `${key}=${encodeURIComponent(searchParams[key])}&`
+        baseurl += `${key}=${encodeURIComponent(String(searchParams[key]))}&`
       }
     }
     // 移除最后的&符号

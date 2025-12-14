@@ -2,8 +2,6 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import AnimatedComponent from "../components/AnimatedComponent"
-import PageTransitionWrapper from "../components/PageTransitionWrapper"
 
 export default function ToolPage() {
   const [token, setToken] = useState<string | null>()

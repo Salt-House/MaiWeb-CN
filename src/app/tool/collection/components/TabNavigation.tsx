@@ -20,15 +20,6 @@ export default function TabNavigation({ activeTab, onTabChange }: TabNavigationP
     { id: "trophy", label: "奖杯", delay: 0.4 },
   ]
 
-  const getTabClass = (tabId: string) => {
-    const baseClass =
-      "px-6 py-3 rounded-lg font-medium transition-all duration-300 relative overflow-hidden"
-    const activeClass = "bg-pink-600 text-white shadow-lg"
-    const inactiveClass = "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800"
-
-    return `${baseClass} ${activeTab === tabId ? activeClass : inactiveClass}`
-  }
-
   const handleTabClick = (tabId: string) => {
     onTabChange(tabId)
   }

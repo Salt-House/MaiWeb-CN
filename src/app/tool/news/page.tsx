@@ -1,11 +1,9 @@
 "use client"
 
-import Link from "next/link"
 import { useEffect, useState } from "react"
 import ActionButton from "@/app/components/ActionButton"
 import LoadingSpinner from "@/app/components/LoadingSpinner"
 import NewsCard from "@/app/components/NewsCard"
-import { FaCalendarAlt, FaUser, FaLink } from "react-icons/fa"
 import axios from "axios"
 import { CONFIG } from "@/config/api"
 

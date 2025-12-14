@@ -1,11 +1,9 @@
 "use client"
 
-import LoadingSpinner from "@/app/components/LoadingSpinner"
 import CollectionItemSkeleton from "./components/CollectionItemSkeleton"
 import SvgStrokedText from "@/app/components/SvgStrokedText"
 import { motion, AnimatePresence } from "framer-motion"
-import Image from "next/image"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { NamePlate, MaiBackGround, Icon, Trophie, Condition } from "./model"
 import TabNavigation from "./components/TabNavigation"
 import SearchForm from "./components/SearchForm"
@@ -14,7 +12,7 @@ import LoadMoreButton from "./components/LoadMoreButton"
 import PreviewModal from "./components/PreviewModal"
 import { CONFIG } from "@/config/api"
 
-let baseUrl = CONFIG.ASSETS.MAIMAI.BASE
+const baseUrl = CONFIG.ASSETS.MAIMAI.BASE
 
 // 统一的数据获取函数
 const fetchData = async (url: string) => {
@@ -84,10 +82,10 @@ export default function CollectionPage() {
   // 获取条件 "icon", "frame", "plate", "trophy"
   const GetCondition = (type: string, id: string) => {
     setConditionLoading(true)
-    var requestOptions = {
+    const requestOptions = {
       method: "GET",
     }
-    let collection_id = (id as string | number).toString().padStart(6, "0")
+    const collection_id = (id as string | number).toString().padStart(6, "0")
 
     fetch(
       `${CONFIG.API.ENDPOINTS.EMAIL}/condition?type=${type}&colletion_id=${collection_id}`,
@@ -111,6 +109,7 @@ export default function CollectionPage() {
   }
 
   // 打开图片预览
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openImagePreview = (item: any, type: string) => {
     let imageUrl = ""
     switch (type) {
@@ -159,108 +158,110 @@ export default function CollectionPage() {
   }
 
   // 加载数据函数
-  const loadData = async (
-    type: string,
-    searchParams: Record<string, string> = {},
-    append: boolean = false
-  ) => {
-    setIsSearching(true)
-    let endpoint = ""
-    let setter
+  const loadData = useCallback(
+    async (type: string, searchParams: Record<string, string> = {}, append: boolean = false) => {
+      setIsSearching(true)
+      let setter
 
-    // 构建查询参数
-    const queryParams = new URLSearchParams()
-    queryParams.append("type", type)
-    queryParams.append("page", append ? (currentPage[type] + 1).toString() : "1")
-    queryParams.append("page_size", pageSize.toString())
+      // 构建查询参数
+      const queryParams = new URLSearchParams()
+      queryParams.append("type", type)
+      queryParams.append("page", append ? (currentPage[type] + 1).toString() : "1")
+      queryParams.append("page_size", pageSize.toString())
 
-    // 添加搜索参数
-    Object.entries(searchParams).forEach(([key, value]) => {
-      if (value) queryParams.append(key, value)
-    })
+      // 添加搜索参数
+      Object.entries(searchParams).forEach(([key, value]) => {
+        if (value) queryParams.append(key, value)
+      })
 
-    // 根据类型确定端点和设置器
-    switch (type) {
-      case "icon":
-        endpoint = "icons"
-        setter = setIcons
-        break
-      case "frame":
-        endpoint = "frames"
-        setter = setMaiBackGround
-        break
-      case "nameplate":
-        endpoint = "nameplates"
-        setter = setNamePlates
-        break
-      case "trophy":
-        endpoint = "trophies"
-        setter = setTrophies
-        break
-    }
-
-    // 获取数据
-    try {
-      const apiUrl = `${CONFIG.API.ENDPOINTS.EMAIL}/list?${queryParams.toString()}`
-      console.log("API请求URL:", apiUrl)
-
-      const data = await fetchData(apiUrl)
-
-      if (setter) {
-        // 如果是加载更多，则追加数据，否则替换数据
-        if (append) {
-          // 根据不同的数据类型选择正确的状态更新方法
-          switch (type) {
-            case "icon":
-              setIcons(prev => [...prev, ...data.collections])
-              break
-            case "frame":
-              setMaiBackGround(prev => [...prev, ...data.collections])
-              break
-            case "nameplate":
-              setNamePlates(prev => [...prev, ...data.collections])
-              break
-            case "trophy":
-              setTrophies(prev => [...prev, ...data.collections])
-              break
-          }
-
-          // 更新页码
-          setCurrentPage(prev => ({
-            ...prev,
-            [type]: prev[type] + 1,
-          }))
-
-          // 检查是否还有更多数据
-          setHasMore(prev => ({
-            ...prev,
-            [type]: (data.collections?.length || 0) === pageSize,
-          }))
-        } else {
-          // 直接替换数据
-          setter(data.collections || [])
-
-          // 重置页码
-          setCurrentPage(prev => ({
-            ...prev,
-            [type]: 1,
-          }))
-
-          // 检查是否还有更多数据
-          setHasMore(prev => ({
-            ...prev,
-            [type]: (data.collections?.length || 0) === pageSize,
-          }))
-        }
-      } else {
-        console.error(`No setter found for type: ${type}`)
+      // 根据类型确定端点和设置器
+      switch (type) {
+        case "icon":
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          // endpoint = "icons"
+          setter = setIcons
+          break
+        case "frame":
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          // endpoint = "frames"
+          setter = setMaiBackGround
+          break
+        case "nameplate":
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          // endpoint = "nameplates"
+          setter = setNamePlates
+          break
+        case "trophy":
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          // endpoint = "trophies"
+          setter = setTrophies
+          break
       }
-    } catch (error) {
-      console.error(`Error loading ${type}:`, error)
-    } finally {
-      setIsSearching(false)
-    }
-  }
+
+      // 获取数据
+      try {
+        const apiUrl = `${CONFIG.API.ENDPOINTS.EMAIL}/list?${queryParams.toString()}`
+        console.log("API请求URL:", apiUrl)
+
+        const data = await fetchData(apiUrl)
+
+        if (setter) {
+          // 如果是加载更多，则追加数据，否则替换数据
+          if (append) {
+            // 根据不同的数据类型选择正确的状态更新方法
+            switch (type) {
+              case "icon":
+                setIcons(prev => [...prev, ...data.collections])
+                break
+              case "frame":
+                setMaiBackGround(prev => [...prev, ...data.collections])
+                break
+              case "nameplate":
+                setNamePlates(prev => [...prev, ...data.collections])
+                break
+              case "trophy":
+                setTrophies(prev => [...prev, ...data.collections])
+                break
+            }
+
+            // 更新页码
+            setCurrentPage(prev => ({
+              ...prev,
+              [type]: prev[type] + 1,
+            }))
+
+            // 检查是否还有更多数据
+            setHasMore(prev => ({
+              ...prev,
+              [type]: (data.collections?.length || 0) === pageSize,
+            }))
+          } else {
+            // 直接替换数据
+            setter(data.collections || [])
+
+            // 重置页码
+            setCurrentPage(prev => ({
+              ...prev,
+              [type]: 1,
+            }))
+
+            // 检查是否还有更多数据
+            setHasMore(prev => ({
+              ...prev,
+              [type]: (data.collections?.length || 0) === pageSize,
+            }))
+          }
+        } else {
+          console.error(`No setter found for type: ${type}`)
+        }
+      } catch (error) {
+        console.error(`Error loading ${type}:`, error)
+      } finally {
+        setIsSearching(false)
+      }
+    },
+    [currentPage, pageSize]
+  )
 
   // 加载更多数据
   const loadMore = (type: string) => {
@@ -287,15 +288,18 @@ export default function CollectionPage() {
   }
 
   // 刷新数据
-  const refreshData = (type: string) => {
-    // 重置搜索条件
-    setSearchTerm("")
-    setSearchColor("")
-    setSearchGenre("")
+  const refreshData = useCallback(
+    (type: string) => {
+      // 重置搜索条件
+      setSearchTerm("")
+      setSearchColor("")
+      setSearchGenre("")
 
-    // 加载第一页数据
-    loadData(type)
-  }
+      // 加载第一页数据
+      loadData(type)
+    },
+    [loadData]
+  )
 
   // 初始加载
   useEffect(() => {
@@ -304,7 +308,7 @@ export default function CollectionPage() {
     loadData("nameplate")
     loadData("trophy")
     loadOptions()
-  }, [])
+  }, [loadData])
 
   useEffect(() => {
     refreshData(activeTab)
@@ -322,7 +326,14 @@ export default function CollectionPage() {
         setActiveGenreOptions(trophyGenreOptions)
         break
     }
-  }, [activeTab, iconGenreOptions, frameGenreOptions, nameplateGenreOptions, trophyGenreOptions])
+  }, [
+    activeTab,
+    iconGenreOptions,
+    frameGenreOptions,
+    nameplateGenreOptions,
+    trophyGenreOptions,
+    refreshData,
+  ])
 
   // 处理搜索
   const handleSearch = (e: React.FormEvent) => {
@@ -335,15 +346,6 @@ export default function CollectionPage() {
       color: searchColor, // 从状态中获取的颜色筛选条件（仅对奖杯有效）
       genre: searchGenre, // 从状态中获取的区域筛选条件（仅对名牌和背景有效）
     })
-  }
-
-  // 高亮选中的Tab
-  const getTabClass = (tabName: string) => {
-    return `px-4 py-2 font-medium text-sm transition-colors duration-200 ${
-      activeTab === tabName
-        ? "bg-pink-600 text-white rounded-lg shadow-md"
-        : "text-gray-600 hover:text-pink-600 hover:bg-pink-100 rounded-lg"
-    }`
   }
 
   return (
