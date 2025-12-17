@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Image from "next/image"
 
 export default function DonatePage() {
   const [plan, setPlan] = useState("/img/thanks/AlipayChino.png")
@@ -12,6 +13,7 @@ export default function DonatePage() {
   ]
   const [display, setDisplay] = useState("正在查询登录状态")
   const [isModalOpen, setIsModalOpen] = useState(false) // 控制弹窗状态
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [checkUser, setCheckUser] = useState(false)
   const [token, setToken] = useState("")
   const [paycode, setPaycode] = useState("")
@@ -52,9 +54,16 @@ export default function DonatePage() {
             </div>
           ))}
         </div>
-        <div className="max-sm:w-[300px] max-sm:mt-2 max-sm:h-[100px] w-[400px] h-[500px] rounded-2xl bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg">
+        <div className="max-sm:w-[300px] max-sm:mt-2 max-sm:h-[100px] w-[400px] h-[500px] rounded-2xl bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg relative overflow-hidden">
           {/* TODO 优化：改用 `next/image` 加载收款码以提升清晰度与缓存 */}
-          <img src={plan} className="rounded-2xl" alt="" />
+          <Image
+            src={plan}
+            className="rounded-2xl object-contain"
+            alt="捐赠收款码"
+            fill
+            sizes="(max-width: 640px) 300px, 400px"
+            unoptimized={true}
+          />
         </div>
         <div className="relative max-sm:hidden w-[300px] h-[300px] flex flex-col justify-start items-start p-3 space-y-5 rounded-2xl bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg">
           <label className="pl-4 font-bold text-black">请填入您的支付单号</label>
@@ -88,7 +97,15 @@ export default function DonatePage() {
             </button>
             <h2 className="text-xl  mb-4 text-gray-800">提醒</h2>
             {/* TODO 优化：改用 `next/image`；为图片提供明确的 `alt` 描述 */}
-            <img src="/img/chara.png" alt="" />
+            <div className="relative w-full h-[200px]">
+              <Image
+                src="/img/chara.png"
+                alt="角色提示图"
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, 400px"
+              />
+            </div>
             <p className="text-gray-600 mt-10 mb-4 text-center">{display}</p>
             <button
               onClick={closeModal} // 点击关闭按钮

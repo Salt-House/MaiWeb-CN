@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { FaUser } from "react-icons/fa"
+import Image from "next/image"
 import Link from "next/link"
 
 export default function UserLogin() {
@@ -16,11 +16,19 @@ export default function UserLogin() {
   return (
     <div className="max-sm:hidden">
       <Link href={loginPath}>
-        {/* TODO 可访问性：为装饰性背景元素提供可替代文本或改用 `<Image>` */}
         <div
           id="user"
-          className="fixed top-4 right-4 size-44 bg-[url('/img/user.png')] bg-no-repeat bg-contain hover:scale-125 transition-all duration-300 ease-in-out"
-        ></div>
+          className="fixed top-4 right-4 size-44 hover:scale-125 transition-all duration-300 ease-in-out"
+        >
+          <Image
+            src="/img/user.png"
+            alt="用户中心"
+            fill
+            className="object-contain"
+            sizes="176px"
+            priority
+          />
+        </div>
       </Link>
     </div>
   )

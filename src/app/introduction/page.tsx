@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import AnimatedComponent from "../components/AnimatedComponent"
 import { useEffect } from "react"
 
 export default function IntroductionPage() {

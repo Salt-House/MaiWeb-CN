@@ -1,12 +1,10 @@
 "use client"
-import { use, useEffect, useState } from "react"
-import AnimatedComponent from "../components/AnimatedComponent"
+import { useEffect, useState } from "react"
+import Image from "next/image"
 
 export default function QuestionnairePage() {
   const [dataDict, setDataDict] = useState<{ [key: string]: string }>({})
   const [isModalOpen, setIsModalOpen] = useState(false) // 控制弹窗状态
-  const [error, setError] = useState<string | null>(null)
-  const [response, setResponse] = useState(null)
   const [display, setDisplay] = useState("正在提交中，请稍等")
   const [bonus, setBonus] = useState("请先选择第四项")
   const [bonusSingle, setBonusSingle] = useState(false)
@@ -69,7 +67,7 @@ export default function QuestionnairePage() {
   // TODO 规范：移除渐变色背景，统一纯色设计
   return (
     <>
-      <img src="/img/bg_shines.png" className="fixed" alt="" />
+      <Image src="/img/bg_shines.png" className="fixed" alt="" width={1920} height={1080} />
       <div className="relative w-full">
         <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1]">
           <div className="flex justify-center mt-10">
@@ -85,11 +83,13 @@ export default function QuestionnairePage() {
         </div>
         <div className="w-[400px] h-[200px] max-sm:w-[180px] bg-[url('/img/moon.png')] bg-no-repeat bg-contain bg-center z-10 mx-auto mt-20 max-sm:mt-10 max-sm:pt-10">
           <div>
-            <img
+            <Image
               src="/img/logo.png"
               alt=""
+              width={400}
+              height={200}
               onClick={() => (window.location.href = "/")}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", width: "auto", height: "auto" }}
             />
           </div>
         </div>
@@ -198,7 +198,13 @@ export default function QuestionnairePage() {
                 </label>
                 <div className=" h-48 overflow-x-auto scrollbar-hide flex space-x-10">
                   <div className="size-40 flex mt-5 flex-col justify-center items-center">
-                    <img className="w-[160px] object-contain" src="/img/chara-left.png" alt="" />
+                    <Image
+                      className="w-[160px] object-contain"
+                      src="/img/chara-left.png"
+                      alt=""
+                      width={160}
+                      height={160}
+                    />
                     <label className="mt-2">
                       <input
                         className="mr-2 text-blue-600"
@@ -211,7 +217,13 @@ export default function QuestionnairePage() {
                     </label>
                   </div>
                   <div className="size-40 flex mt-5 flex-col justify-center items-center">
-                    <img className="w-[160px] object-contain" src="/img/chara-right.png" alt="" />
+                    <Image
+                      className="w-[160px] object-contain"
+                      src="/img/chara-right.png"
+                      alt=""
+                      width={160}
+                      height={160}
+                    />
                     <label className="mt-2">
                       <input
                         className="mr-2 text-blue-600"
@@ -224,7 +236,13 @@ export default function QuestionnairePage() {
                     </label>
                   </div>
                   <div className="size-40 flex mt-5 flex-col justify-center items-center">
-                    <img className="w-[160px] object-contain" src="/img/chara.png" alt="" />
+                    <Image
+                      className="w-[160px] object-contain"
+                      src="/img/chara.png"
+                      alt=""
+                      width={160}
+                      height={160}
+                    />
                     <label className="mt-2">
                       <input
                         className="mr-2 text-blue-600"
@@ -245,7 +263,13 @@ export default function QuestionnairePage() {
                 </label>
                 <div className=" h-48 overflow-x-auto scrollbar-hide flex space-x-10">
                   <div className="size-40 flex mt-5 flex-col justify-center items-center">
-                    <img className="w-[160px] object-contain" src="/img/chara-left.png" alt="" />
+                    <Image
+                      className="w-[160px] object-contain"
+                      src="/img/chara-left.png"
+                      alt=""
+                      width={160}
+                      height={160}
+                    />
                     <label className="mt-2">
                       <input
                         className="mr-2 text-blue-600"
@@ -258,7 +282,13 @@ export default function QuestionnairePage() {
                     </label>
                   </div>
                   <div className="size-40 flex mt-5 flex-col justify-center items-center">
-                    <img className="w-[160px] object-contain" src="/img/chara-right.png" alt="" />
+                    <Image
+                      className="w-[160px] object-contain"
+                      src="/img/chara-right.png"
+                      alt=""
+                      width={160}
+                      height={160}
+                    />
                     <label className="mt-2">
                       <input
                         className="mr-2 text-blue-600"
@@ -271,7 +301,13 @@ export default function QuestionnairePage() {
                     </label>
                   </div>
                   <div className="size-40 flex mt-5 flex-col justify-center items-center">
-                    <img className="w-[160px] object-contain" src="/img/chara.png" alt="" />
+                    <Image
+                      className="w-[160px] object-contain"
+                      src="/img/chara.png"
+                      alt=""
+                      width={160}
+                      height={160}
+                    />
                     <label className="mt-2">
                       <input
                         className="mr-2 text-blue-600"
@@ -310,7 +346,13 @@ export default function QuestionnairePage() {
               ✕
             </button>
             <h2 className="text-xl  mb-4 text-gray-800">Thank you </h2>
-            <img src="/img/chara.png" alt="" />
+            <Image
+              src="/img/chara.png"
+              alt=""
+              width={200}
+              height={200}
+              style={{ width: "auto", height: "auto" }}
+            />
             <p className="text-gray-600 mt-10 mb-4 text-center">{display}</p>
             <button
               onClick={closeModal} // 点击关闭按钮

@@ -1,10 +1,9 @@
 "use client"
 
-import LoadingSpinner from "@/app/components/LoadingSpinner"
+import CollectionItemSkeleton from "./components/CollectionItemSkeleton"
 import SvgStrokedText from "@/app/components/SvgStrokedText"
 import { motion, AnimatePresence } from "framer-motion"
-import Image from "next/image"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { NamePlate, MaiBackGround, Icon, Trophie, Condition } from "./model"
 import TabNavigation from "./components/TabNavigation"
 import SearchForm from "./components/SearchForm"
@@ -13,7 +12,7 @@ import LoadMoreButton from "./components/LoadMoreButton"
 import PreviewModal from "./components/PreviewModal"
 import { CONFIG } from "@/config/api"
 
-let baseUrl = CONFIG.ASSETS.MAIMAI.BASE
+const baseUrl = CONFIG.ASSETS.MAIMAI.BASE
 
 // 统一的数据获取函数
 const fetchData = async (url: string) => {
@@ -50,7 +49,7 @@ export default function CollectionPage() {
   const [isSearching, setIsSearching] = useState<boolean>(false)
 
   // 分页相关状态
-  const [currentPage, setCurrentPage] = useState<Record<string, number>>({
+  const currentPageRef = useRef<Record<string, number>>({
     icon: 1,
     frame: 1,
     nameplate: 1,
@@ -83,10 +82,10 @@ export default function CollectionPage() {
   // 获取条件 "icon", "frame", "plate", "trophy"
   const GetCondition = (type: string, id: string) => {
     setConditionLoading(true)
-    var requestOptions = {
+    const requestOptions = {
       method: "GET",
     }
-    let collection_id = (id as string | number).toString().padStart(6, "0")
+    const collection_id = (id as string | number).toString().padStart(6, "0")
 
     fetch(
       `${CONFIG.API.ENDPOINTS.EMAIL}/condition?type=${type}&colletion_id=${collection_id}`,
@@ -110,6 +109,7 @@ export default function CollectionPage() {
   }
 
   // 打开图片预览
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openImagePreview = (item: any, type: string) => {
     let imageUrl = ""
     switch (type) {
@@ -158,108 +158,104 @@ export default function CollectionPage() {
   }
 
   // 加载数据函数
-  const loadData = async (
-    type: string,
-    searchParams: Record<string, string> = {},
-    append: boolean = false
-  ) => {
-    setIsSearching(true)
-    let endpoint = ""
-    let setter
+  const loadData = useCallback(
+    async (type: string, searchParams: Record<string, string> = {}, append: boolean = false) => {
+      setIsSearching(true)
+      let setter
 
-    // 构建查询参数
-    const queryParams = new URLSearchParams()
-    queryParams.append("type", type)
-    queryParams.append("page", append ? (currentPage[type] + 1).toString() : "1")
-    queryParams.append("page_size", pageSize.toString())
+      // 构建查询参数
+      const queryParams = new URLSearchParams()
+      queryParams.append("type", type)
+      queryParams.append("page", append ? (currentPageRef.current[type] + 1).toString() : "1")
+      queryParams.append("page_size", pageSize.toString())
 
-    // 添加搜索参数
-    Object.entries(searchParams).forEach(([key, value]) => {
-      if (value) queryParams.append(key, value)
-    })
+      // 添加搜索参数
+      Object.entries(searchParams).forEach(([key, value]) => {
+        if (value) queryParams.append(key, value)
+      })
 
-    // 根据类型确定端点和设置器
-    switch (type) {
-      case "icon":
-        endpoint = "icons"
-        setter = setIcons
-        break
-      case "frame":
-        endpoint = "frames"
-        setter = setMaiBackGround
-        break
-      case "nameplate":
-        endpoint = "nameplates"
-        setter = setNamePlates
-        break
-      case "trophy":
-        endpoint = "trophies"
-        setter = setTrophies
-        break
-    }
-
-    // 获取数据
-    try {
-      const apiUrl = `${CONFIG.API.ENDPOINTS.EMAIL}/list?${queryParams.toString()}`
-      console.log("API请求URL:", apiUrl)
-
-      const data = await fetchData(apiUrl)
-
-      if (setter) {
-        // 如果是加载更多，则追加数据，否则替换数据
-        if (append) {
-          // 根据不同的数据类型选择正确的状态更新方法
-          switch (type) {
-            case "icon":
-              setIcons(prev => [...prev, ...data.collections])
-              break
-            case "frame":
-              setMaiBackGround(prev => [...prev, ...data.collections])
-              break
-            case "nameplate":
-              setNamePlates(prev => [...prev, ...data.collections])
-              break
-            case "trophy":
-              setTrophies(prev => [...prev, ...data.collections])
-              break
-          }
-
-          // 更新页码
-          setCurrentPage(prev => ({
-            ...prev,
-            [type]: prev[type] + 1,
-          }))
-
-          // 检查是否还有更多数据
-          setHasMore(prev => ({
-            ...prev,
-            [type]: (data.collections?.length || 0) === pageSize,
-          }))
-        } else {
-          // 直接替换数据
-          setter(data.collections || [])
-
-          // 重置页码
-          setCurrentPage(prev => ({
-            ...prev,
-            [type]: 1,
-          }))
-
-          // 检查是否还有更多数据
-          setHasMore(prev => ({
-            ...prev,
-            [type]: (data.collections?.length || 0) === pageSize,
-          }))
-        }
-      } else {
-        console.error(`No setter found for type: ${type}`)
+      // 根据类型确定端点和设置器
+      switch (type) {
+        case "icon":
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          // endpoint = "icons"
+          setter = setIcons
+          break
+        case "frame":
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          // endpoint = "frames"
+          setter = setMaiBackGround
+          break
+        case "nameplate":
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          // endpoint = "nameplates"
+          setter = setNamePlates
+          break
+        case "trophy":
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          // endpoint = "trophies"
+          setter = setTrophies
+          break
       }
-    } catch (error) {
-      console.error(`Error loading ${type}:`, error)
-    } finally {
-      setIsSearching(false)
-    }
-  }
+
+      // 获取数据
+      try {
+        const apiUrl = `${CONFIG.API.ENDPOINTS.EMAIL}/list?${queryParams.toString()}`
+        console.log("API请求URL:", apiUrl)
+
+        const data = await fetchData(apiUrl)
+
+        if (setter) {
+          // 如果是加载更多，则追加数据，否则替换数据
+          if (append) {
+            // 根据不同的数据类型选择正确的状态更新方法
+            switch (type) {
+              case "icon":
+                setIcons(prev => [...prev, ...data.collections])
+                break
+              case "frame":
+                setMaiBackGround(prev => [...prev, ...data.collections])
+                break
+              case "nameplate":
+                setNamePlates(prev => [...prev, ...data.collections])
+                break
+              case "trophy":
+                setTrophies(prev => [...prev, ...data.collections])
+                break
+            }
+
+            // 更新页码
+            currentPageRef.current[type] += 1
+
+            // 检查是否还有更多数据
+            setHasMore(prev => ({
+              ...prev,
+              [type]: (data.collections?.length || 0) === pageSize,
+            }))
+          } else {
+            // 直接替换数据
+            setter(data.collections || [])
+
+            // 重置页码
+            currentPageRef.current[type] = 1
+
+            // 检查是否还有更多数据
+            setHasMore(prev => ({
+              ...prev,
+              [type]: (data.collections?.length || 0) === pageSize,
+            }))
+          }
+        } else {
+          console.error(`No setter found for type: ${type}`)
+        }
+      } catch (error) {
+        console.error(`Error loading ${type}:`, error)
+      } finally {
+        setIsSearching(false)
+      }
+    },
+    [pageSize]
+  )
 
   // 加载更多数据
   const loadMore = (type: string) => {
@@ -286,22 +282,21 @@ export default function CollectionPage() {
   }
 
   // 刷新数据
-  const refreshData = (type: string) => {
-    // 重置搜索条件
-    setSearchTerm("")
-    setSearchColor("")
-    setSearchGenre("")
+  const refreshData = useCallback(
+    (type: string) => {
+      // 重置搜索条件
+      setSearchTerm("")
+      setSearchColor("")
+      setSearchGenre("")
 
-    // 加载第一页数据
-    loadData(type)
-  }
+      // 加载第一页数据
+      loadData(type)
+    },
+    [loadData]
+  )
 
   // 初始加载
   useEffect(() => {
-    loadData("icon")
-    loadData("frame")
-    loadData("nameplate")
-    loadData("trophy")
     loadOptions()
   }, [])
 
@@ -321,7 +316,14 @@ export default function CollectionPage() {
         setActiveGenreOptions(trophyGenreOptions)
         break
     }
-  }, [activeTab, iconGenreOptions, frameGenreOptions, nameplateGenreOptions, trophyGenreOptions])
+  }, [
+    activeTab,
+    iconGenreOptions,
+    frameGenreOptions,
+    nameplateGenreOptions,
+    trophyGenreOptions,
+    refreshData,
+  ])
 
   // 处理搜索
   const handleSearch = (e: React.FormEvent) => {
@@ -334,15 +336,6 @@ export default function CollectionPage() {
       color: searchColor, // 从状态中获取的颜色筛选条件（仅对奖杯有效）
       genre: searchGenre, // 从状态中获取的区域筛选条件（仅对名牌和背景有效）
     })
-  }
-
-  // 高亮选中的Tab
-  const getTabClass = (tabName: string) => {
-    return `px-4 py-2 font-medium text-sm transition-colors duration-200 ${
-      activeTab === tabName
-        ? "bg-pink-600 text-white rounded-lg shadow-md"
-        : "text-gray-600 hover:text-pink-600 hover:bg-pink-100 rounded-lg"
-    }`
   }
 
   return (
@@ -376,7 +369,7 @@ export default function CollectionPage() {
 
         {/* 内容区域 */}
         <motion.div
-          className="bg-pink-50 rounded-lg p-6 shadow-lg border border-pink-200"
+          className="min-h-[500px]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
@@ -390,23 +383,23 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <motion.h2
-                  className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  玩家头像
-                </motion.h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800">玩家头像</h2>
+                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    Total: {Icons.length}
+                  </span>
+                </div>
 
                 {Icons.length === 0 ? (
                   <motion.div
-                    className="flex justify-center py-12"
+                    className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <LoadingSpinner size="sm" message="Loading" description="加载头像数据源" />
+                    {Array.from({ length: 30 }).map((_, i) => (
+                      <CollectionItemSkeleton key={i} type="icon" />
+                    ))}
                   </motion.div>
                 ) : (
                   <>
@@ -449,22 +442,22 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <motion.h2
-                  className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  游戏背景
-                </motion.h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800">游戏背景</h2>
+                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    Total: {MaiBackGround.length}
+                  </span>
+                </div>
                 {MaiBackGround.length === 0 ? (
                   <motion.div
-                    className="flex justify-center py-12"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <LoadingSpinner size="sm" message="Loading" description="加载背景数据源" />
+                    {Array.from({ length: 12 }).map((_, i) => (
+                      <CollectionItemSkeleton key={i} type="frame" />
+                    ))}
                   </motion.div>
                 ) : (
                   <>
@@ -510,22 +503,22 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <motion.h2
-                  className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  玩家名牌
-                </motion.h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800">玩家名牌</h2>
+                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    Total: {namePlates.length}
+                  </span>
+                </div>
                 {namePlates.length === 0 ? (
                   <motion.div
-                    className="flex justify-center py-12"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <LoadingSpinner size="sm" message="Loading" description="加载名牌数据源" />
+                    {Array.from({ length: 12 }).map((_, i) => (
+                      <CollectionItemSkeleton key={i} type="plate" />
+                    ))}
                   </motion.div>
                 ) : (
                   <>
@@ -572,22 +565,22 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <motion.h2
-                  className="text-xl font-bold text-center mb-6 text-pink-800 border-b-2 border-pink-300 pb-3"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  游戏奖杯
-                </motion.h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800">游戏奖杯</h2>
+                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    Total: {Trophies.length}
+                  </span>
+                </div>
                 {Trophies.length === 0 ? (
                   <motion.div
-                    className="flex justify-center py-12"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <LoadingSpinner size="sm" message="Loading" description="加载奖杯数据源" />
+                    {Array.from({ length: 15 }).map((_, i) => (
+                      <CollectionItemSkeleton key={i} type="trophy" />
+                    ))}
                   </motion.div>
                 ) : (
                   <>

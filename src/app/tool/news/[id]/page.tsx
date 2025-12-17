@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
+
 import {
   FaCalendarAlt,
   FaUser,
@@ -13,21 +15,24 @@ import {
 } from "react-icons/fa"
 import LoadingSpinner from "@/app/components/LoadingSpinner"
 
+interface NewsItem {
+  title: string
+  content: string
+  image_url: string
+  source: string
+  source_url: string
+  source_author: string
+  source_created_at: string
+}
+
 export default function NewDetailPage() {
-  const [news, setNews] = useState<any[]>([])
+  const [news, setNews] = useState<NewsItem[]>([])
   const param = useParams()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [timeStamp, setTimeStamp] = useState(
     decodeURIComponent(Array.isArray(param.id) ? param.id[0] : param.id)
   )
-  const [targetNews, setTargetNews] = useState<{
-    title: string
-    content: string
-    image_url: string
-    source: string
-    source_url: string
-    source_author: string
-    source_created_at: string
-  } | null>(null)
+  const [targetNews, setTargetNews] = useState<NewsItem | null>(null)
 
   // 添加图片数组和当前图片索引状态
   const [images, setImages] = useState<string[]>([])
@@ -48,13 +53,13 @@ export default function NewDetailPage() {
       alert("No news found")
     }
     console.log(timeStamp)
-  }, [])
+  }, [timeStamp])
 
   useEffect(() => {
     if (news.length === 0) return
     console.log(news)
     const foundNews = news.find(item => item.source_created_at === timeStamp)
-    setTargetNews(foundNews)
+    setTargetNews(foundNews || null)
 
     // MARK: - 预留多图片处理
     // 处理图片数组
@@ -111,12 +116,18 @@ export default function NewDetailPage() {
                 <div className="relative">
                   {images.length > 0 && (
                     <>
-                      {/* TODO 优化：改用 `next/image`；启用 `sizes` 与 `priority` 以提升首屏加载 */}
-                      <img
-                        src={images[currentImageIndex]}
-                        alt={`${targetNews.title} - 图片 ${currentImageIndex + 1}`}
-                        className="w-full object-contain max-h-[600px] h-auto"
-                      />
+                      {/* TODO 优化：启用 `sizes` 与 `priority` 以提升首屏加载 */}
+                      <div className="relative w-full h-[600px]">
+                        <Image
+                          src={images[currentImageIndex]}
+                          alt={`${targetNews.title} - 图片 ${currentImageIndex + 1}`}
+                          className="object-contain"
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          priority={currentImageIndex === 0}
+                          unoptimized={true} // 如果图片来自外部且未在 next.config.js 配置，可能需要这个，或者建议用户配置
+                        />
+                      </div>
 
                       {/* 图片计数器 */}
                       {images.length > 1 && (

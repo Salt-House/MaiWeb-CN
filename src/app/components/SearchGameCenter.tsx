@@ -6,7 +6,15 @@ import { CONFIG } from "@/config/api"
 import { FcClock } from "react-icons/fc"
 // 移除直接引入 framer-motion，结果列表改为动态组件以减小首屏 bundle
 import dynamic from "next/dynamic"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
+import {
+  FaApple,
+  FaGoogle,
+  FaMapMarkerAlt,
+  FaTimes,
+  FaLocationArrow,
+  FaMapMarkedAlt,
+} from "react-icons/fa"
 
 // 接口定义
 export interface ArcadeSearchRequest {
@@ -17,7 +25,7 @@ export interface ArcadeSearchRequest {
   page_size?: number
   range?: number
   sort?: string
-  [property: string]: any
+  [property: string]: unknown
 }
 
 export interface Arcade {
@@ -31,16 +39,169 @@ export interface Arcade {
   arcade_name: string
   created_at: Date
   distance?: number
-  [property: string]: any
+  [property: string]: unknown
+}
+
+/**
+ * 地图选择模态框组件
+ * 允许用户选择已安装的地图应用进行导航
+ */
+interface MapSelectionModalProps {
+  arcade: Arcade
+  onClose: () => void
+}
+
+const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
+  const [isIOS, setIsIOS] = useState(false)
+  const [isAndroid, setIsAndroid] = useState(false)
+
+  useEffect(() => {
+    const ua = navigator.userAgent
+    setIsIOS(/iPad|iPhone|iPod/.test(ua) && !(window as unknown as { MSStream: unknown }).MSStream)
+    setIsAndroid(/Android/.test(ua))
+  }, [])
+
+  const name = arcade.arcade_name
+  const lat = arcade.arcade_lat
+  const lng = arcade.arcade_lng
+
+  /**
+   * 尝试打开 App，失败则跳转 Web 版
+   */
+  const openApp = (scheme: string, fallbackUrl: string) => {
+    // 尝试打开 App
+    window.location.href = scheme
+
+    // 设置回退定时器
+    const startTime = Date.now()
+    setTimeout(() => {
+      // 如果页面隐藏了（说明跳转 App 成功），则不执行回退
+      if (document.hidden || Date.now() - startTime > 2000) return
+
+      // 否则跳转 Web 版
+      window.open(fallbackUrl, "_blank")
+    }, 1500)
+  }
+
+  const apps = [
+    {
+      name: "高德地图",
+      icon: <FaMapMarkerAlt className="text-blue-500 w-6 h-6" />,
+      description: "推荐国内使用",
+      show: true,
+      onClick: () => {
+        const androidScheme = `androidamap://navi?sourceApplication=MaiWeb&lat=${lat}&lon=${lng}&dev=0&style=2&poiname=${encodeURIComponent(name)}`
+        const iosScheme = `iosamap://navi?sourceApplication=MaiWeb&lat=${lat}&lon=${lng}&dev=0&style=2&poiname=${encodeURIComponent(name)}`
+        const webUrl = `https://uri.amap.com/navigation?to=${lng},${lat},${encodeURIComponent(name)}&mode=car&policy=1`
+
+        if (isIOS) openApp(iosScheme, webUrl)
+        else if (isAndroid) openApp(androidScheme, webUrl)
+        else window.open(webUrl, "_blank")
+      },
+    },
+    {
+      name: "百度地图",
+      icon: <FaMapMarkedAlt className="text-red-500 w-6 h-6" />,
+      description: "支持离线地图",
+      show: true,
+      onClick: () => {
+        const androidScheme = `bdapp://map/direction?destination=latlng:${lat},${lng}|name:${encodeURIComponent(name)}&coord_type=gcj02&mode=driving`
+        const iosScheme = `baidumap://map/direction?destination=latlng:${lat},${lng}|name:${encodeURIComponent(name)}&coord_type=gcj02&mode=driving`
+        const webUrl = `http://api.map.baidu.com/direction?destination=latlng:${lat},${lng}|name:${encodeURIComponent(name)}&coord_type=gcj02&mode=driving&output=html`
+
+        if (isIOS) openApp(iosScheme, webUrl)
+        else if (isAndroid) openApp(androidScheme, webUrl)
+        else window.open(webUrl, "_blank")
+      },
+    },
+    {
+      name: "Apple 地图",
+      icon: <FaApple className="text-gray-800 w-6 h-6" />,
+      description: "iOS 系统自带",
+      show: isIOS,
+      onClick: () => {
+        window.location.href = `http://maps.apple.com/?daddr=${lat},${lng}&dirflg=d&q=${encodeURIComponent(name)}`
+      },
+    },
+    {
+      name: "Google Maps",
+      icon: <FaGoogle className="text-yellow-500 w-6 h-6" />,
+      description: "国际通用",
+      show: true,
+      onClick: () => {
+        window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`, "_blank")
+      },
+    },
+  ]
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.div
+        className="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl border-2 border-pink-200"
+        initial={{ scale: 0.9, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.9, y: 20 }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-pink-50">
+          <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+            <FaLocationArrow className="text-pink-500" />
+            选择导航方式
+          </h3>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <FaTimes />
+          </button>
+        </div>
+
+        <div className="p-2">
+          {apps
+            .filter(app => app.show)
+            .map((app, index) => (
+              <motion.button
+                key={index}
+                className="w-full p-4 flex items-center gap-4 hover:bg-pink-50 rounded-xl transition-colors text-left group border border-transparent hover:border-pink-100 mb-2 last:mb-0"
+                onClick={app.onClick}
+                whileTap={{ scale: 0.98 }}
+              >
+                <div className="p-3 bg-white rounded-full shadow-sm group-hover:shadow-md transition-shadow border border-gray-100">
+                  {app.icon}
+                </div>
+                <div className="flex-1">
+                  <div className="font-bold text-gray-800">{app.name}</div>
+                  <div className="text-xs text-gray-500">{app.description}</div>
+                </div>
+                <div className="text-gray-300 group-hover:text-pink-400">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </motion.button>
+            ))}
+        </div>
+
+        <div className="p-3 bg-gray-50 text-center text-xs text-gray-400">前往: {name}</div>
+      </motion.div>
+    </motion.div>
+  )
 }
 
 const SearchGameCenter = () => {
   // 状态管理
-  const key = "AA7BZ-FVT6T-ZQ5XP-VCND7-DKFYF-RKBCU"
   const [address, setAddress] = useState("")
-  const [inputValue, setInputValue] = useState("")
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const options = ["1km", "5km", "10km"]
   const [searchGameCenter, setSearchGameCenter] = useState<ArcadeSearchRequest>({
     range: 3000,
     sort: "distance",
@@ -51,6 +212,10 @@ const SearchGameCenter = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [showResults, setShowResults] = useState(false)
   const [resultError, setResultError] = useState("")
+
+  // 新增：导航目标状态，用于控制模态框显示
+  const [selectedArcadeForNav, setSelectedArcadeForNav] = useState<Arcade | null>(null)
+
   /**
    * 获取用户当前位置
    */
@@ -86,6 +251,7 @@ const SearchGameCenter = () => {
             errorMessage = "定位请求超时"
             break
         }
+        console.error(errorMessage)
         // alert(errorMessage + "，请尝试手动输入地址");
       },
       {
@@ -106,7 +272,7 @@ const SearchGameCenter = () => {
     }
 
     setIsLoading(true)
-    var requestOptions = {
+    const requestOptions = {
       method: "GET",
       redirect: "follow" as RequestRedirect,
     }
@@ -169,7 +335,7 @@ const SearchGameCenter = () => {
     setShowResults(true)
     setResultError("")
 
-    var requestOptions = {
+    const requestOptions = {
       method: "GET",
     }
 
@@ -181,7 +347,7 @@ const SearchGameCenter = () => {
         searchParams[key] !== null &&
         searchParams[key] !== ""
       ) {
-        baseurl += `${key}=${encodeURIComponent(searchParams[key])}&`
+        baseurl += `${key}=${encodeURIComponent(String(searchParams[key]))}&`
       }
     }
     // 移除最后的&符号
@@ -231,22 +397,12 @@ const SearchGameCenter = () => {
     performSearch(searchGameCenter)
   }
 
+  /**
+   * 处理导航点击
+   * 打开地图选择模态框
+   */
   const handleNavigation = (target: Arcade) => {
-    const ua = navigator.userAgent.toLowerCase()
-    const name = encodeURIComponent(target.arcade_name) // 编码避免中文或特殊字符问题
-    let url = ""
-
-    // TODO 兼容性：根据 UA 判断平台并提供对应 scheme（Android/IOS）；允许用户选择地图 App
-    // Android：尝试打开高德地图 App
-    url = `androidamap://navi?sourceApplication=yourapp&lat=${target.arcade_lat}&lon=${target.arcade_lng}&dev=0&style=2&poiname=${name}`
-
-    // TODO 体验：回退策略建议缩短等待时间或提供提示；同时在不可见页面时避免自动跳转
-    // 回退策略：5秒后跳转到高德地图网页版
-    setTimeout(() => {
-      window.location.href = `https://uri.amap.com/navigation?to=${target.arcade_lng},${target.arcade_lat},${name}&mode=car&policy=1`
-    }, 500)
-
-    window.location.href = url
+    setSelectedArcadeForNav(target)
   }
 
   // 移除自动触发搜索的useEffect，避免无限循环
@@ -272,9 +428,9 @@ const SearchGameCenter = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        {/* 多层边框背景 - 更新为与网站风格一致的粉色系 */}
+        {/* 多层边框背景 - 移除渐变，使用纯色与阴影 */}
         <motion.div
-          className="absolute rounded-2xl inset-x-0 inset-y-0 z-[-1] bg-gradient-to-br from-pink-50 via-white to-pink-100 border-4 border-pink-300 shadow-2xl"
+          className="absolute rounded-2xl inset-x-0 inset-y-0 z-[-1] bg-pink-50 border-4 border-pink-300 shadow-2xl"
           animate={{
             boxShadow: [
               "0 25px 50px -12px rgba(255, 95, 165, 0.25)",
@@ -354,7 +510,7 @@ const SearchGameCenter = () => {
               <div className="flex flex-wrap justify-center gap-6 w-full">
                 {/* 搜索范围选择器 */}
                 <motion.div
-                  className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg"
+                  className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-pink-300 bg-white shadow-lg"
                   whileHover={{ boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.3)" }}
                   transition={{ duration: 0.2 }}
                 >
@@ -364,6 +520,7 @@ const SearchGameCenter = () => {
                     onChange={e =>
                       setSearchGameCenter(prev => ({ ...prev, range: parseInt(e.target.value) }))
                     }
+                    aria-label="选择搜索范围"
                   >
                     <option value={1000}>1公里范围</option>
                     <option value={3000}>3公里范围</option>
@@ -371,9 +528,7 @@ const SearchGameCenter = () => {
                     <option value={10000}>10公里范围</option>
                     <option value={20000}>20公里范围</option>
                   </select>
-                  {/* TODO 可访问性：为选择器添加关联的 `<label>` 与 `aria-label`，增强键盘友好性 */}
-                  {/* TODO 规范：移除颜色渐变（bg-gradient-to-*），替换为纯色或阴影 */}
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-gradient-to-r from-transparent to-pink-200">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-pink-100">
                     <svg
                       className="h-4 w-4 text-pink-600"
                       fill="none"
@@ -391,22 +546,20 @@ const SearchGameCenter = () => {
                 </motion.div>
 
                 {/* 排序方式选择器 */}
-                {/* TODO 规范：移除颜色渐变（bg-gradient-to-*），保持统一的纯色主题 */}
                 <motion.div
-                  className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg"
+                  className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-pink-300 bg-white shadow-lg"
                   whileHover={{ boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.3)" }}
                   transition={{ duration: 0.2 }}
                 >
-                  {/* TODO 可访问性：为排序选择器添加 `<label>` 或 `aria-labelledby` */}
                   <select
                     className="w-full h-9 py-1.5 px-4 appearance-none bg-transparent text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-400"
                     value={searchGameCenter.sort}
                     onChange={e => setSearchGameCenter(prev => ({ ...prev, sort: e.target.value }))}
+                    aria-label="选择排序方式"
                   >
                     <option value="distance">按距离排序</option>
                   </select>
-                  {/* TODO 规范：移除颜色渐变（bg-gradient-to-*） */}
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-gradient-to-r from-transparent to-pink-200">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-pink-100">
                     <svg
                       className="h-4 w-4 text-pink-600"
                       fill="none"
@@ -424,11 +577,9 @@ const SearchGameCenter = () => {
                 </motion.div>
 
                 {/* 获取定位按钮 */}
-                {/* TODO 性能：为定位请求添加节流/去抖；使用 GeolocationOptions（timeout、enableHighAccuracy） */}
-                {/* TODO 规范：按钮配色避免使用渐变色（bg-gradient-to-*） */}
                 <motion.button
                   onClick={getLocation}
-                  className="flex items-center justify-center h-10 px-4 rounded-full bg-gradient-to-r from-pink-200 to-pink-300 border-2 border-pink-400 shadow-lg gap-2 max-sm:w-10 max-sm:h-10 max-sm:px-0 max-sm:gap-0"
+                  className="flex items-center justify-center h-10 px-4 rounded-full bg-pink-200 hover:bg-pink-300 border-2 border-pink-400 shadow-lg gap-2 max-sm:w-10 max-sm:h-10 max-sm:px-0 max-sm:gap-0 transition-colors"
                   title="获取我的位置"
                   whileHover={{
                     boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.4)",
@@ -490,11 +641,10 @@ const SearchGameCenter = () => {
                 className="relative min-w-[250px] flex-1 max-w-[350px] max-sm:min-w-[200px]"
                 transition={{ duration: 0.2 }}
               >
-                {/* TODO 规范：移除颜色渐变，采用纯色背景；并添加 `<label>` 关联与 `aria-describedby` */}
                 <input
                   type="text"
                   placeholder="请输入机厅名称（可选）"
-                  className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 text-gray-800 placeholder-pink-300"
+                  className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-pink-300 bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 text-gray-800 placeholder-pink-300"
                   value={searchGameCenter.name || ""}
                   onChange={e => setSearchGameCenter(prev => ({ ...prev, name: e.target.value }))}
                 />
@@ -506,9 +656,8 @@ const SearchGameCenter = () => {
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
               >
-                {/* TODO 规范：移除颜色渐变；将 loading spinner 改为组件以保持一致性 */}
                 <motion.button
-                  className="px-8 py-2.5 h-11 rounded-full bg-gradient-to-r from-pink-300 to-pink-400 hover:from-pink-400 hover:to-pink-500 text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-pink-500 max-sm:px-6 max-sm:text-base"
+                  className="px-8 py-2.5 h-11 rounded-full bg-pink-400 hover:bg-pink-500 text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-pink-500 max-sm:px-6 max-sm:text-base transition-colors"
                   onClick={GetGameCenter}
                   disabled={isLoading}
                   whileHover={{
@@ -566,7 +715,7 @@ const SearchGameCenter = () => {
                 <input
                   type="text"
                   placeholder="请输入地址"
-                  className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-pink-300 bg-gradient-to-r from-pink-50 to-white shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 text-gray-800 placeholder-pink-300"
+                  className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-pink-300 bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 text-gray-800 placeholder-pink-300"
                   value={address}
                   onChange={e => setAddress(e.target.value)}
                 />
@@ -579,7 +728,7 @@ const SearchGameCenter = () => {
                 transition={{ duration: 0.2 }}
               >
                 <motion.button
-                  className="px-8 py-2.5 h-11 rounded-full bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-pink-600 max-sm:px-6 max-sm:text-base"
+                  className="px-8 py-2.5 h-11 rounded-full bg-pink-500 hover:bg-pink-600 text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-pink-600 max-sm:px-6 max-sm:text-base transition-colors"
                   onClick={getLocationFromAdress}
                   disabled={isLoading || !address.trim()}
                   whileHover={{
@@ -702,6 +851,16 @@ const SearchGameCenter = () => {
           handleNavigation={handleNavigation}
         />
       )}
+
+      {/* 地图选择模态框 */}
+      <AnimatePresence>
+        {selectedArcadeForNav && (
+          <MapSelectionModal
+            arcade={selectedArcadeForNav}
+            onClose={() => setSelectedArcadeForNav(null)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* 背景装饰图案 */}
       <motion.div

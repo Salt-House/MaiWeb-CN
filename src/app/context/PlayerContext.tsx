@@ -51,35 +51,34 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 
   // 初始化音频元素
   useEffect(() => {
-    // TODO 优化：封装音频元素初始化到独立函数，避免重复；在 SSR 环境检测 window
+    if (typeof window === "undefined") return
+
     const audio = new Audio()
-    audio.volume = volume
+    audio.volume = 0.7
     audioRef.current = audio
 
-    // 监听音频事件
-    // TODO 事件：提取具名回调以便在 cleanup 中正确移除监听
-    audio.addEventListener("timeupdate", () => {
+    const handleTimeUpdate = () => {
       setCurrentTime(audio.currentTime)
-    })
+    }
 
-    audio.addEventListener("loadedmetadata", () => {
+    const handleLoadedMetadata = () => {
       setDuration(audio.duration)
-    })
+    }
 
-    audio.addEventListener("ended", handleTrackEnded)
+    // 监听音频事件
+    audio.addEventListener("timeupdate", handleTimeUpdate)
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata)
 
     return () => {
       audio.pause()
       audio.src = ""
-      // TODO 清理：当前移除监听使用不同匿名函数，无法正确移除；需保存同一函数引用
-      audio.removeEventListener("timeupdate", () => {})
-      audio.removeEventListener("loadedmetadata", () => {})
-      audio.removeEventListener("ended", handleTrackEnded)
+      audio.removeEventListener("timeupdate", handleTimeUpdate)
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata)
     }
   }, [])
 
   // 处理音频结束事件的函数
-  const handleTrackEnded = () => {
+  const handleTrackEnded = React.useCallback(() => {
     if (playMode === PlayMode.SINGLE || playlist.length <= 1) {
       // 单曲循环模式下，或者播放列表只有一首歌时，重新播放当前歌曲
       if (audioRef.current) {
@@ -106,7 +105,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
         setIsPlaying(true)
       }
     }
-  }
+  }, [playMode, playlist, currentTrack])
 
   // 更新音频结束事件处理函数的依赖
   useEffect(() => {
@@ -123,49 +122,63 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
         audioRef.current.removeEventListener("ended", handleTrackEnded)
       }
     }
-  }, [playMode, currentTrack, playlist]) // 添加所有相关依赖
+  }, [handleTrackEnded]) // 添加所有相关依赖
 
   // 从本地存储加载播放列表和播放模式
   useEffect(() => {
-    const savedPlaylist = localStorage.getItem("music_playlist")
-    const savedCurrentTrack = localStorage.getItem("music_current_track")
-    const savedVolume = localStorage.getItem("music_volume")
-    const savedPlayMode = localStorage.getItem("music_play_mode")
-    // TODO 容错：为 JSON.parse 添加 try/catch；并校验对象结构
+    try {
+      const savedPlaylist = localStorage.getItem("music_playlist")
+      const savedCurrentTrack = localStorage.getItem("music_current_track")
+      const savedVolume = localStorage.getItem("music_volume")
+      const savedPlayMode = localStorage.getItem("music_play_mode")
 
-    if (savedPlaylist) {
-      setPlaylist(JSON.parse(savedPlaylist))
-    }
-
-    if (savedCurrentTrack) {
-      setCurrentTrack(JSON.parse(savedCurrentTrack))
-    }
-
-    if (savedVolume) {
-      const vol = parseFloat(savedVolume)
-      setVolume(vol)
-      if (audioRef.current) {
-        audioRef.current.volume = vol
+      if (savedPlaylist) {
+        setPlaylist(JSON.parse(savedPlaylist))
       }
-    }
 
-    if (savedPlayMode) {
-      setPlayMode(savedPlayMode as PlayMode)
+      if (savedCurrentTrack) {
+        setCurrentTrack(JSON.parse(savedCurrentTrack))
+      }
+
+      if (savedVolume) {
+        const vol = parseFloat(savedVolume)
+        if (!isNaN(vol)) {
+          setVolume(vol)
+          if (audioRef.current) {
+            audioRef.current.volume = vol
+          }
+        }
+      }
+
+      if (savedPlayMode) {
+        setPlayMode(savedPlayMode as PlayMode)
+      }
+    } catch (error) {
+      console.error("Failed to load player state from localStorage:", error)
     }
   }, [])
 
   // 保存播放列表和播放模式到本地存储
   useEffect(() => {
-    // TODO 存储：考虑节流写入或在页面卸载时写入，减少频繁 localStorage 操作
-    if (playlist.length > 0) {
-      localStorage.setItem("music_playlist", JSON.stringify(playlist))
+    const saveState = () => {
+      try {
+        if (playlist.length > 0) {
+          localStorage.setItem("music_playlist", JSON.stringify(playlist))
+        }
+
+        if (currentTrack) {
+          localStorage.setItem("music_current_track", JSON.stringify(currentTrack))
+        }
+
+        localStorage.setItem("music_play_mode", playMode)
+      } catch (error) {
+        console.error("Failed to save player state:", error)
+      }
     }
 
-    if (currentTrack) {
-      localStorage.setItem("music_current_track", JSON.stringify(currentTrack))
-    }
+    const timeoutId = setTimeout(saveState, 500)
 
-    localStorage.setItem("music_play_mode", playMode)
+    return () => clearTimeout(timeoutId)
   }, [playlist, currentTrack, playMode])
 
   // 保存音量设置
@@ -179,13 +192,6 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 
     audioRef.current.src = currentTrack.audioUrl
     audioRef.current.load()
-
-    if (isPlaying) {
-      audioRef.current.play().catch(error => {
-        console.error("播放失败:", error)
-        setIsPlaying(false)
-      })
-    }
   }, [currentTrack])
 
   // 控制播放/暂停
@@ -340,21 +346,27 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
 
   // 设置进度
   const setProgress = (progress: number) => {
-    // TODO 边界：约束 progress 到 [0,1]；并处理 duration 为 NaN 的情况
     if (!audioRef.current) return
 
-    const newTime = progress * audioRef.current.duration
-    audioRef.current.currentTime = newTime
-    setCurrentTime(newTime)
+    const duration = audioRef.current.duration
+    if (isNaN(duration) || !isFinite(duration)) return
+
+    const clampedProgress = Math.max(0, Math.min(1, progress))
+    const newTime = clampedProgress * duration
+
+    if (isFinite(newTime)) {
+      audioRef.current.currentTime = newTime
+      setCurrentTime(newTime)
+    }
   }
 
   // 设置音量
   const setVolumeValue = (newVolume: number) => {
-    // TODO 边界：将音量范围限制为 [0,1]；并同步到 localStorage
     if (!audioRef.current) return
 
-    audioRef.current.volume = newVolume
-    setVolume(newVolume)
+    const clampedVolume = Math.max(0, Math.min(1, newVolume))
+    audioRef.current.volume = clampedVolume
+    setVolume(clampedVolume)
   }
 
   return (

@@ -1,4 +1,4 @@
-import { Song, getDifficultyColor, getGenreColor, transferText } from "@/app/music/songModel"
+import { Song, getGenreColor, transferText } from "@/app/music/songModel"
 import { FaPlus, FaCheck } from "react-icons/fa"
 import { usePlayer } from "@/app/context/PlayerContext"
 import { useState } from "react"
@@ -8,8 +8,6 @@ import { CONFIG } from "@/config/api"
 
 interface SongItemProps {
   song: Song
-  index: number
-  totalSongs: number
   displayMode: "level" | "level_value"
 }
 
@@ -18,7 +16,7 @@ interface SongItemProps {
  * 显示歌曲的详细信息，包括封面、标题、艺术家、难度等级等
  * 支持添加到播放列表功能
  */
-export default function SongItem({ song, index, totalSongs, displayMode }: SongItemProps) {
+export default function SongItem({ song, displayMode }: SongItemProps) {
   const { addToPlaylist } = usePlayer()
   const [isAdded, setIsAdded] = useState(false)
   const [roate, setRoate] = useState<boolean>(false)

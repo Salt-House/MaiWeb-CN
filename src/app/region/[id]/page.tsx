@@ -1,10 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { CONFIG } from "@/config/api"
-import { Area } from "../page"
 import type { AreaCharacters, AreaSong } from "../page"
 import Link from "next/link"
+import Image from "next/image"
 import {
   FaArrowLeft,
   FaLocationDot,
@@ -45,7 +45,7 @@ export default function AreaDetailPage({ params }: PageProps) {
   }
   const baseurl = CONFIG.ASSETS.MAIMAI.JACKET + "/"
 
-  const GetAreaDetail = () => {
+  const GetAreaDetail = useCallback(() => {
     setLoading(true)
     fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/getOneArea?language=${language}&area_id=${params.id}`, {
       method: "GET",
@@ -79,15 +79,11 @@ export default function AreaDetailPage({ params }: PageProps) {
         console.error(error)
         setLoading(false)
       })
-  }
+  }, [language, params.id])
 
   useEffect(() => {
     GetAreaDetail()
-  }, [language])
-
-  useEffect(() => {
-    GetAreaDetail()
-  }, [])
+  }, [GetAreaDetail])
 
   return (
     <div className="relative w-full min-h-screen  mx-auto flex flex-col items-center overflow-x-hidden">
@@ -160,10 +156,13 @@ export default function AreaDetailPage({ params }: PageProps) {
 
               <div className="relative">
                 {/* TODO 优化：改用 `next/image` 提升加载性能；为回退图添加 `alt` 更清晰 */}
-                <img
+                <Image
                   src={`/img/version/${area.area_id}.png`}
                   className="w-96 h-96 object-contain mx-auto animate-floatUpDown transition-all duration-300 ease-in-out max-sm:w-64 max-sm:h-64"
                   alt={area.name}
+                  width={384}
+                  height={384}
+                  unoptimized
                   onError={e => {
                     const target = e.target as HTMLImageElement
                     target.src = "/img/logo.png"
@@ -225,10 +224,13 @@ export default function AreaDetailPage({ params }: PageProps) {
                       {/* 角色头像 */}
                       <div className="flex justify-center mb-4">
                         <div className="relative w-20 h-20 rounded-full border-4 border-pink-300 overflow-hidden shadow-md">
-                          <img
+                          <Image
                             src={`/img/chara/${area.area_id}/0${index + 1}.png`}
                             className="w-full h-full object-cover"
                             alt={character.name || area.name}
+                            width={80}
+                            height={80}
+                            unoptimized
                             onError={e => {
                               const target = e.target as HTMLImageElement
                               target.src = "/img/user.png"
@@ -252,12 +254,12 @@ export default function AreaDetailPage({ params }: PageProps) {
                         <div className="bg-pink-50/50 rounded-lg p-3 mb-4">
                           {character.description1 && (
                             <p className="text-sm text-gray-700 italic mb-2">
-                              "{character.description1}"
+                              &quot;{character.description1}&quot;
                             </p>
                           )}
                           {character.description2 && (
                             <p className="text-sm text-gray-700 italic">
-                              "{character.description2}"
+                              &quot;{character.description2}&quot;
                             </p>
                           )}
                         </div>
@@ -315,10 +317,13 @@ export default function AreaDetailPage({ params }: PageProps) {
                         {/* 歌曲封面 */}
                         <div className="flex-shrink-0">
                           {/* TODO 优化：改用 `next/image`；并使用本地占位符以优化 LCP */}
-                          <img
+                          <Image
                             src={`${baseurl}${song.song_id}.png`}
                             className="w-20 h-20 rounded-lg border-2 border-pink-300 object-cover shadow-md"
                             alt={song.title}
+                            width={80}
+                            height={80}
+                            unoptimized
                             onError={e => {
                               const target = e.target as HTMLImageElement
                               target.src = "/img/music.png"
@@ -366,7 +371,7 @@ export default function AreaDetailPage({ params }: PageProps) {
               </div>
               <h2 className="text-xl font-semibold text-gray-800 mb-3">未找到区域信息</h2>
               <p className="text-gray-600 mb-6">
-                无法找到名为 "{id}" 的区域数据，请稍后再试或检查区域名称。
+                无法找到名为 &quot;{id}&quot; 的区域数据，请稍后再试或检查区域名称。
               </p>
               <Link
                 href="/region"

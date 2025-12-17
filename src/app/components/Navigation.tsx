@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { CONFIG } from "@/config/api"
 import { FaBars, FaTimes } from "react-icons/fa"
-import { useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+
+import Image from "next/image"
 
 interface MobileNavigationProps {
   textstroke: React.CSSProperties
@@ -145,15 +146,16 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
         <div className="sm:hidden">
           <Link href="/user/profile">
             <motion.div
-              className="w-8 h-8 rounded-lg overflow-hidden border-2 border-pink-300 shadow-md hover:border-pink-400 transition-colors"
+              className="w-8 h-8 rounded-lg overflow-hidden border-2 border-pink-300 shadow-md hover:border-pink-400 transition-colors relative"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              {/* TODO 优化：改用 `next/image`，并在 next.config 中配置远程图片域名 */}
-              <img
+              <Image
                 src={token ? avatarUrl : defaultAvatarUrl}
                 alt="用户头像"
-                className="w-full h-full object-cover"
+                fill
+                sizes="32px"
+                className="object-cover"
                 onError={e => {
                   // 如果加载失败，使用默认头像
                   ;(e.target as HTMLImageElement).src = defaultAvatarUrl

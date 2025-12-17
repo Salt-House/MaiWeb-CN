@@ -6,6 +6,18 @@ import SvgStrokedText from "../components/SvgStrokedText"
 import LoadingSpinner from "../components/LoadingSpinner"
 import { useEffect, useState } from "react"
 
+interface ApiRoadItem {
+  rid?: number
+  need_name?: string
+  content?: string
+  star?: number
+  priority?: number
+  progress?: number
+  tags?: string
+  comment?: string
+  status?: number
+}
+
 /**
  * 开发路线页面组件
  */
@@ -18,7 +30,7 @@ export default function RoadPage() {
     getRoadList()
       .then(res => {
         const apiData = JSON.parse(res).list
-        const transformedData = apiData.map((item: any) => ({
+        const transformedData = apiData.map((item: ApiRoadItem) => ({
           rid: item.rid || 0,
           title: item.need_name || "",
           content: item.content || "",
@@ -120,13 +132,9 @@ export default function RoadPage() {
                 needs.reduce(
                   (groups, item) => {
                     const status = item.status ?? -1
-                    // @ts-ignore
                     if (!groups[status]) {
-                      // @ts-ignore
                       groups[status] = []
                     }
-                    // @ts-ignore
-                    // @ts-ignore
                     groups[status].push(item)
                     return groups
                   },

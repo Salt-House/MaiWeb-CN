@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { FaSearch, FaFilter, FaTimes, FaPlay, FaPlus, FaCheck } from "react-icons/fa"
+import React, { useState } from "react"
+import { FaPlus, FaCheck } from "react-icons/fa"
 import LoadingSpinner from "../components/LoadingSpinner"
 import SongItem from "./components/SongItem"
+import SongItemSkeleton from "./components/SongItemSkeleton"
 import { usePlayer } from "@/app/context/PlayerContext"
 import { Song, getDifficultyColor, getGenreColor, transferText } from "@/app/music/songModel"
 import Image from "next/image"
@@ -15,12 +15,7 @@ interface SongListProps {
   loading?: boolean
 }
 
-function SongList({
-  songs,
-  currentCategory = "最近添加",
-  ordination = "desc",
-  loading = false,
-}: SongListProps) {
+function SongList({ songs, currentCategory = "最近添加", loading = false }: SongListProps) {
   const [displayMode, setDisplayMode] = useState<"level" | "level_value">("level")
 
   return (
@@ -48,41 +43,25 @@ function SongList({
       </div>
 
       <div className="w-full flex flex-wrap justify-center items-center">
-        {loading ? (
-          <div className="flex justify-center items-center py-10">
-            <LoadingSpinner size="sm" message="加载中..." description="正在获取乐曲数据" />
-          </div>
-        ) : (
-          songs.map((song, index) => (
-            <SongItem
-              key={`${song.id}-${index}`}
-              song={song}
-              index={index}
-              totalSongs={songs.length}
-              displayMode={displayMode}
-            />
-          ))
-        )}
+        {loading
+          ? Array.from({ length: 12 }).map((_, index) => (
+              <SongItemSkeleton key={`skeleton-${index}`} />
+            ))
+          : songs.map((song, index) => (
+              <SongItem key={`${song.id}-${index}`} song={song} displayMode={displayMode} />
+            ))}
       </div>
     </div>
   )
 }
 
-function SongListLegacy({
-  songs,
-  currentCategory = "最近添加",
-  ordination = "desc",
-  loading = false,
-}: SongListProps) {
+function SongListLegacy({ songs, currentCategory = "最近添加", loading = false }: SongListProps) {
   // 使用usePlayer hook获取播放器上下文
   const { addToPlaylist } = usePlayer()
   // 添加状态来跟踪哪些歌曲已被添加到播放列表
   const [addedSongs, setAddedSongs] = useState<{ [key: string]: boolean }>({})
   // 添加状态来跟踪当前显示模式：等级或具体定数
   const [displayMode, setDisplayMode] = useState<"level" | "level_value">("level")
-  const [order, setOrder] = useState<"desc" | "dsc">(ordination)
-
-  const [orderSongs, setOrderSongs] = useState<Song[]>([])
 
   const handleAddToPlaylist = (song: Song) => {
     const audioUrl = `${CONFIG.ASSETS.MAIMAI.MUSIC}/${song.id}.mp3`

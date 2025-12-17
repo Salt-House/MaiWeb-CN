@@ -1,10 +1,22 @@
 // utils/request.ts
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
+import axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios"
 import { CONFIG } from "@/config/api"
 
 const isServer = typeof window === "undefined"
 
 const baseURL = CONFIG.API.BASE
+
+// 扩展 AxiosRequestConfig 类型以支持重试配置
+interface RetryConfig extends InternalAxiosRequestConfig {
+  retry?: number
+  retryDelay?: number
+  __retryCount?: number
+}
 
 class Http {
   // Axios 实例
@@ -20,7 +32,7 @@ class Http {
     })
 
     this.instance.interceptors.request.use(
-      config => {
+      (config: InternalAxiosRequestConfig) => {
         // 添加 token
         const token = !isServer ? localStorage.getItem("token") : null
         if (token && config.headers) {
@@ -34,13 +46,13 @@ class Http {
     this.instance.interceptors.response.use(
       (response: AxiosResponse) => {
         // 可根据返回结构自定义
-        if (response.data.code !== 0) {
+        if (response.data.code !== undefined && response.data.code !== 0) {
           console.warn("业务错误:", response.data.message)
           return Promise.reject(response.data)
         }
         return response.data
       },
-      error => {
+      async error => {
         // 处理 401、500 等
         if (error.response) {
           const { status } = error.response
@@ -48,27 +60,64 @@ class Http {
             window.location.href = "/login"
           }
         }
-        return Promise.reject(error)
+
+        // 重试逻辑
+        const config = error.config as RetryConfig
+        if (!config || !config.retry) return Promise.reject(error)
+
+        config.__retryCount = config.__retryCount || 0
+
+        if (config.__retryCount >= config.retry) {
+          return Promise.reject(error)
+        }
+
+        config.__retryCount += 1
+
+        const delay = (config.retryDelay || 1000) * Math.pow(2, config.__retryCount - 1)
+
+        const backoff = new Promise(resolve => {
+          setTimeout(() => {
+            resolve(null)
+          }, delay)
+        })
+
+        await backoff
+        return this.instance(config)
       }
     )
   }
 
   // TODO 优化：为 `params` 指定具体类型，避免使用 any；同时考虑在调用处通过泛型约束返回数据结构
-  get<T>(url: string, params?: any, config?: AxiosRequestConfig): Promise<T> {
+  get<T>(
+    url: string,
+    params?: unknown,
+    config?: AxiosRequestConfig & { retry?: number; retryDelay?: number }
+  ): Promise<T> {
     return this.instance.get(url, { params, ...config })
   }
 
   // TODO 优化：为 `data` 指定明确的类型；建议统一返回类型结构并在此处做最小封装，避免过度耦合响应拦截器
-  post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  post<T>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig & { retry?: number; retryDelay?: number }
+  ): Promise<T> {
     return this.instance.post(url, data, config)
   }
 
   // TODO 优化：避免 `any`；考虑将 `AxiosRequestConfig` 透传并在调用侧定义数据模型
-  put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  put<T>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig & { retry?: number; retryDelay?: number }
+  ): Promise<T> {
     return this.instance.put(url, data, config)
   }
 
-  delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+  delete<T>(
+    url: string,
+    config?: AxiosRequestConfig & { retry?: number; retryDelay?: number }
+  ): Promise<T> {
     return this.instance.delete(url, config)
   }
 }

@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { FaCalendarAlt, FaUser, FaLink } from "react-icons/fa"
 
 interface NewsCardProps {
@@ -14,7 +15,6 @@ interface NewsCardProps {
 
 export default function NewsCard({
   title,
-  content,
   image_url,
   source,
   source_url,
@@ -34,14 +34,14 @@ export default function NewsCard({
     >
       <Link href={`/tool/news/${source_created_at}`} className="block relative">
         <div className={`relative w-full ${imageHeight} overflow-hidden`}>
-          {/* TODO 优化：改用 `next/image`；并移除渐变遮罩以遵循 UI 规范 */}
-          <img
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+          <Image
+            className="object-cover transition-transform duration-500 hover:scale-110"
             src={image_url}
             alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-          {/* TODO 规范：移除颜色渐变背景（bg-gradient-to-*），改用纯色半透明遮罩 */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+          <div className="absolute inset-0 bg-black/40"></div>
           <div className="absolute bottom-0 left-0 p-4 w-full">
             <span className="inline-block px-3 py-1 text-xs font-semibold text-white bg-purple-500 rounded-full mb-2">
               {source}

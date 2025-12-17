@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import TextScroller from "./TextScroller"
 import { NamePlate, MaiBackGround, Icon, Trophie } from "../model"
 import { CONFIG } from "@/config/api"
@@ -8,7 +9,7 @@ import { CONFIG } from "@/config/api"
 interface RenderItemProps {
   item: NamePlate | MaiBackGround | Icon | Trophie
   type: "icon" | "frame" | "plate" | "trophy"
-  openImagePreview: (item: any, type: string) => void
+  openImagePreview: (item: NamePlate | MaiBackGround | Icon | Trophie, type: string) => void
   GetCondition: (type: string, id: string) => void
 }
 
@@ -60,29 +61,33 @@ export default function RenderItem({
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.98 }}
           transition={{ duration: 0.2 }}
-          className="relative cursor-pointer bg-white rounded-xl shadow-lg border border-purple-100 overflow-hidden group hover:shadow-xl transition-all duration-300"
+          className="relative cursor-pointer bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-xl hover:border-pink-200 transition-all duration-300"
           onClick={() => {
             openImagePreview(item, "icon")
             GetCondition("icon", item.collection_id)
           }}
         >
-          {/* TODO 规范：移除颜色渐变（bg-gradient-to-*），保持纯色背景 */}
-          <div className="aspect-square p-4 flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50">
-            {/* TODO 优化：使用 `next/image` 并在 next.config 中配置远程域名，提高图片加载与缓存效果 */}
-            <img
-              src={`${baseUrl}/${type}/${Number(item.collection_id)}.png`}
-              alt={item.name}
-              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
-              loading="lazy"
-            />
+          {/* 移除颜色渐变，使用纯色背景 */}
+          <div className="aspect-square p-4 flex items-center justify-center bg-gray-50 group-hover:bg-pink-50/30 transition-colors duration-300">
+            <div className="relative w-full h-full">
+              <Image
+                src={`${baseUrl}/${type}/${Number(item.collection_id)}.png`}
+                alt={item.name}
+                fill
+                className="object-contain transition-transform duration-300 group-hover:scale-110 drop-shadow-sm"
+                unoptimized
+              />
+            </div>
           </div>
-          <div className="p-3 bg-white">
-            <h3 className="text-sm font-medium text-gray-800 truncate group-hover:text-purple-600 transition-colors">
+          <div className="p-4 bg-white">
+            <h3 className="text-sm font-bold text-gray-800 truncate group-hover:text-pink-600 transition-colors">
               {item.name}
             </h3>
-            <p className="text-xs text-gray-500 mt-1 line-clamp-2">{item.description}</p>
-            <div className="mt-2 flex items-center justify-between">
-              <span className="text-xs px-2 py-1 bg-purple-100 text-purple-600 rounded-full">
+            <p className="text-xs text-gray-500 mt-1.5 line-clamp-2 h-8 leading-4">
+              {item.description}
+            </p>
+            <div className="mt-3 flex items-center justify-between">
+              <span className="text-[10px] font-medium px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full border border-gray-200">
                 {(item as Icon).genre}
               </span>
             </div>
@@ -94,34 +99,38 @@ export default function RenderItem({
       return (
         <motion.div
           key={item.collection_id}
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.05, y: -2 }}
+          whileHover={{ y: -4 }}
           whileTap={{ scale: 0.98 }}
           transition={{ duration: 0.2 }}
-          className="relative cursor-pointer bg-white rounded-xl shadow-lg border border-purple-100 overflow-hidden group hover:shadow-xl transition-all duration-300"
+          className="relative cursor-pointer bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-xl hover:border-blue-200 transition-all duration-300"
           onClick={() => {
             openImagePreview(item, "frame")
             GetCondition("frame", item.collection_id)
           }}
         >
-          {/* TODO 规范：移除颜色渐变背景 */}
-          <div className="aspect-[4/3] p-4 flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-50">
-            {/* TODO 优化：改用 `next/image` + 静态资源缓存 */}
-            <img
-              src={`${CONFIG.ASSETS.STATIC}/UI_Frame_${item.collection_id}.png`}
-              alt={item.name}
-              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
-              loading="lazy"
-            />
+          {/* 移除颜色渐变 */}
+          <div className="aspect-[16/9] p-2 flex items-center justify-center bg-gray-50 group-hover:bg-blue-50/30 transition-colors duration-300">
+            <div className="relative w-full h-full">
+              <Image
+                src={`${CONFIG.ASSETS.STATIC}/UI_Frame_${item.collection_id}.png`}
+                alt={item.name}
+                fill
+                className="object-contain rounded-md shadow-sm transition-transform duration-300 group-hover:scale-105"
+                unoptimized
+              />
+            </div>
           </div>
-          <div className="p-3 bg-white">
-            <h3 className="text-sm font-medium text-gray-800 truncate group-hover:text-blue-600 transition-colors">
+          <div className="p-4 bg-white">
+            <h3 className="text-sm font-bold text-gray-800 truncate group-hover:text-blue-600 transition-colors">
               {item.name}
             </h3>
-            <p className="text-xs text-gray-500 mt-1 line-clamp-2">{item.description}</p>
-            <div className="mt-2 flex items-center justify-between">
-              <span className="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded-full">
+            <p className="text-xs text-gray-500 mt-1.5 line-clamp-2 h-8 leading-4">
+              {item.description}
+            </p>
+            <div className="mt-3 flex items-center justify-between">
+              <span className="text-[10px] font-medium px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full border border-gray-200">
                 {(item as MaiBackGround).genre}
               </span>
             </div>
@@ -135,10 +144,10 @@ export default function RenderItem({
           key={item.collection_id}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.02, y: -1 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          className={`relative cursor-pointer ${bg_trophy} bg-no-repeat bg-contain w-72 mx-auto flex flex-col items-center justify-center`}
+          className={`relative cursor-pointer ${bg_trophy} bg-no-repeat bg-contain w-full max-w-[300px] mx-auto flex flex-col items-center justify-center filter drop-shadow-md hover:drop-shadow-xl transition-all duration-300`}
           style={{ aspectRatio: "272/29" }}
           onClick={() => {
             openImagePreview(item, "trophy")
@@ -146,10 +155,10 @@ export default function RenderItem({
           }}
         >
           <div
-            className="max-w-40 text-white text-sm font-bold"
-            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.8)" }}
+            className="max-w-[80%] text-white text-sm font-bold tracking-wide"
+            style={{ textShadow: "1px 1px 2px rgba(0, 0, 0, 0.8), 0 0 4px rgba(0,0,0,0.5)" }}
           >
-            <TextScroller text={item.name} speed={10} delay={2} />
+            <TextScroller text={item.name} speed={20} delay={2} />
           </div>
         </motion.div>
       )
@@ -158,34 +167,38 @@ export default function RenderItem({
       return (
         <motion.div
           key={item.collection_id}
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.05, y: -2 }}
+          whileHover={{ y: -4 }}
           whileTap={{ scale: 0.98 }}
           transition={{ duration: 0.2 }}
-          className="relative cursor-pointer bg-white rounded-xl shadow-lg border border-purple-100 overflow-hidden group hover:shadow-xl transition-all duration-300"
+          className="relative cursor-pointer bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-xl hover:border-green-200 transition-all duration-300"
           onClick={() => {
             openImagePreview(item, "nameplate")
             GetCondition("plate", item.collection_id)
           }}
         >
-          {/* TODO 规范：移除颜色渐变背景 */}
-          <div className="aspect-[3/1] p-4 flex items-center justify-center bg-gradient-to-br from-green-50 to-emerald-50">
-            {/* TODO 优化：改用 `next/image`；远程域名需要在 next.config.ts 中声明 */}
-            <img
-              src={`${CONFIG.ASSETS.STATIC}/UI_Plate_${item.collection_id.toString().padStart(6, "0")}.png`}
-              alt={item.name}
-              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
-              loading="lazy"
-            />
+          {/* 移除颜色渐变 */}
+          <div className="aspect-[3/1] p-3 flex items-center justify-center bg-gray-50 group-hover:bg-green-50/30 transition-colors duration-300">
+            <div className="relative w-full h-full">
+              <Image
+                src={`${CONFIG.ASSETS.STATIC}/UI_Plate_${item.collection_id.toString().padStart(6, "0")}.png`}
+                alt={item.name}
+                fill
+                className="object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
+                unoptimized
+              />
+            </div>
           </div>
-          <div className="p-3 bg-white">
-            <h3 className="text-sm font-medium text-gray-800 truncate group-hover:text-green-600 transition-colors">
+          <div className="p-4 bg-white">
+            <h3 className="text-sm font-bold text-gray-800 truncate group-hover:text-green-600 transition-colors">
               {item.name}
             </h3>
-            <p className="text-xs text-gray-500 mt-1 line-clamp-2">{item.description}</p>
-            <div className="mt-2 flex items-center justify-between">
-              <span className="text-xs px-2 py-1 bg-green-100 text-green-600 rounded-full">
+            <p className="text-xs text-gray-500 mt-1.5 line-clamp-2 h-8 leading-4">
+              {item.description}
+            </p>
+            <div className="mt-3 flex items-center justify-between">
+              <span className="text-[10px] font-medium px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full border border-gray-200">
                 {(item as NamePlate).genre}
               </span>
             </div>

@@ -3,14 +3,13 @@
 import { useParams } from "next/navigation"
 import {
   Song,
-  getDifficultyColor,
   transferText,
   transferVersion,
   getGenreColor,
   ChartType,
   SongScoreProps,
 } from "@/app/music/songModel"
-import { Key, useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import NoteTable from "./noteTable"
 import LoadingSpinner from "@/app/components/LoadingSpinner"
 import MusicPlayer from "./musicPlayer"
@@ -135,6 +134,7 @@ export default function SongDetail() {
                 <NoteTable song={song} chartType={chartType} />
               </div>
             )}
+            {scores && scores.length > 0 && <ScoreDetail song={song} scores={scores} />}
           </div>
         </div>
       </motion.div>

@@ -2,7 +2,6 @@
 
 import { ChartType, DifficultyInfo, getDifficultyColor, Song } from "../songModel"
 import { motion } from "framer-motion"
-import { useState } from "react"
 import { FaMusic } from "react-icons/fa" // Example icon
 
 // Helper to get total notes

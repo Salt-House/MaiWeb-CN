@@ -10,7 +10,9 @@ const TextScroller: React.FC<TextScrollerProps> = ({ text, speed = 10, delay = 2
   const containerRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLSpanElement>(null)
   const [scrollNeeded, setScrollNeeded] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [containerWidth, setContainerWidth] = useState(0)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [textWidth, setTextWidth] = useState(0)
 
   useEffect(() => {

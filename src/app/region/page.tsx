@@ -2,20 +2,9 @@
 
 import Link from "next/link"
 import { CONFIG } from "@/config/api"
-import { useEffect, useState } from "react"
-import {
-  FaTools,
-  FaChevronDown,
-  FaChevronUp,
-  FaMapMarkerAlt,
-  FaSearch,
-  FaFilter,
-  FaStar,
-  FaMusic,
-  FaUsers,
-} from "react-icons/fa"
+import { useEffect, useState, useCallback } from "react"
+import { FaChevronDown, FaMapMarkerAlt, FaSearch, FaFilter, FaMusic } from "react-icons/fa"
 import { motion, AnimatePresence } from "framer-motion"
-import PageTransitionWrapper from "../components/PageTransitionWrapper"
 import ErrorBoundary from "./components/ErrorBoundary"
 
 export interface AreaCharacters {
@@ -24,7 +13,7 @@ export interface AreaCharacters {
   description1: string
   description2: string
   team: string
-  props: any
+  props: Record<string, unknown>
 }
 
 export interface AreaSong {
@@ -48,24 +37,13 @@ export interface Area {
 }
 
 export default function RegionPage() {
-  const [lang, setLang] = useState("zh")
-  const [page, setPage] = useState(1)
-  const [page_size, setPageSize] = useState(100)
+  const [lang] = useState("zh")
   const [areas, setAreas] = useState<Area[]>([])
   const [filteredAreas, setFilteredAreas] = useState<Area[]>([])
-  const [expandedDescriptions, setExpandedDescriptions] = useState<{ [key: string]: boolean }>({})
-  const [expandedCharacter, setExpandedCharacter] = useState<{ [key: string]: boolean }>({})
-  const [expandedSong, setExpandedSong] = useState<{ [key: string]: boolean }>({})
-  const [checkAreaData, setCheckAreaData] = useState<boolean>(false)
   const [expandedGroups, setExpandedGroups] = useState<{ [key: string]: boolean }>({})
   const [searchTerm, setSearchTerm] = useState("")
   const [showSearch, setShowSearch] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-
-  const textstroke = {
-    textShadow:
-      "-1px -1px 3px rgba(236, 72, 153, 0.8), 1px -1px 3px rgba(236, 72, 153, 0.8), -1px 1px 3px rgba(236, 72, 153, 0.8), 1px 1px 3px rgba(236, 72, 153, 0.8)",
-  }
 
   /**
    * 根据区域ID中最后一个数字进行分组，并按数字大小排序
@@ -117,21 +95,23 @@ export default function RegionPage() {
    * 搜索过滤功能
    * @param term 搜索词
    */
-  const handleSearch = (term: string) => {
-    setSearchTerm(term)
-    if (!term.trim()) {
-      setFilteredAreas(areas)
-      return
-    }
+  const filterAreas = useCallback(
+    (term: string) => {
+      if (!term.trim()) {
+        setFilteredAreas(areas)
+        return
+      }
 
-    const filtered = areas.filter(
-      area =>
-        area.name.toLowerCase().includes(term.toLowerCase()) ||
-        area.area_id.toLowerCase().includes(term.toLowerCase()) ||
-        area.description.toLowerCase().includes(term.toLowerCase())
-    )
-    setFilteredAreas(filtered)
-  }
+      const filtered = areas.filter(
+        area =>
+          area.name.toLowerCase().includes(term.toLowerCase()) ||
+          area.area_id.toLowerCase().includes(term.toLowerCase()) ||
+          area.description.toLowerCase().includes(term.toLowerCase())
+      )
+      setFilteredAreas(filtered)
+    },
+    [areas]
+  )
 
   /**
    * 切换搜索框显示状态
@@ -144,103 +124,56 @@ export default function RegionPage() {
     }
   }
 
-  const GetArea = (lang: string, page: number, page_size: number) => {
-    setIsLoading(true)
-    const myHeaders = new Headers()
-    myHeaders.append("Accept", "application/json")
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-    }
+  useEffect(() => {
+    const fetchData = (lang: string) => {
+      setIsLoading(true)
+      const myHeaders = new Headers()
+      myHeaders.append("Accept", "application/json")
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      }
 
-    fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/area/list?language=${lang}`, requestOptions)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-        return response.text()
-      })
-      .then(result => {
-        try {
-          const temp = JSON.parse(result)
-          if (temp && temp.list && Array.isArray(temp.list)) {
-            setAreas(temp.list)
-            setFilteredAreas(temp.list)
-            // 确保在客户端环境中使用localStorage
-            if (typeof window !== "undefined") {
-              localStorage.setItem("area_data", JSON.stringify(temp))
+      fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/area/list?language=${lang}`, requestOptions)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
+          return response.text()
+        })
+        .then(result => {
+          try {
+            const temp = JSON.parse(result)
+            if (temp && temp.list && Array.isArray(temp.list)) {
+              setAreas(temp.list)
+              setFilteredAreas(temp.list)
+              // 确保在客户端环境中使用localStorage
+              if (typeof window !== "undefined") {
+                localStorage.setItem("area_data", JSON.stringify(temp))
+              }
+            } else {
+              console.error("Invalid data format received:", temp)
+              setAreas([])
+              setFilteredAreas([])
             }
-          } else {
-            console.error("Invalid data format received:", temp)
+          } catch (parseError) {
+            console.error("Failed to parse response:", parseError)
             setAreas([])
             setFilteredAreas([])
           }
-        } catch (parseError) {
-          console.error("Failed to parse response:", parseError)
+        })
+        .catch(error => {
+          console.error("Failed to fetch area data:", error)
           setAreas([])
           setFilteredAreas([])
-        }
-      })
-      .catch(error => {
-        console.error("Failed to fetch area data:", error)
-        setAreas([])
-        setFilteredAreas([])
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
-  }
-
-  const CheckAreaData = () => {
-    // 检查是否在客户端环境
-    if (typeof window === "undefined") {
-      return true // 服务端渲染时总是需要获取数据
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
     }
 
-    const storedData = localStorage.getItem("area_data")
-    if (!storedData || storedData === "[]" || storedData === '""') {
-      return true // 需要获取数据
-    }
-    try {
-      const parsedData = JSON.parse(storedData)
-      if (parsedData.length <= 12) {
-        return true
-      }
-      return Array.isArray(parsedData) && parsedData.length === 0
-    } catch (error) {
-      console.error("解析缓存的区域数据时出错:", error)
-      return true // 解析错误，需要重新获取数据
-    }
-  }
-
-  useEffect(() => {
-    // const shouldFetchData = CheckAreaData();
-    const shouldFetchData = true
-    //   todo 12.1移除该注释
-    if (shouldFetchData) {
-      GetArea(lang, page, page_size)
-    } else {
-      // 确保在客户端环境中执行
-      if (typeof window !== "undefined") {
-        try {
-          const storedData = localStorage.getItem("area_data")
-          if (storedData) {
-            const parsedData = JSON.parse(storedData)
-            // 检查是否已经是数组格式
-            if (Array.isArray(parsedData)) {
-              setAreas(parsedData)
-            } else {
-              // 可能存储的是JSON字符串的字符串
-              setAreas(JSON.parse(parsedData))
-            }
-          }
-        } catch (error) {
-          console.error("解析存储的区域数据时出错:", error)
-          GetArea(lang, page, page_size) // 出错时重新获取数据
-        }
-      }
-    }
-  }, [lang, page, page_size])
+    fetchData(lang)
+  }, [lang])
 
   // 数据加载后的日志记录和初始化分组展开状态
   useEffect(() => {
@@ -260,8 +193,8 @@ export default function RegionPage() {
 
   // 处理搜索功能
   useEffect(() => {
-    handleSearch(searchTerm)
-  }, [searchTerm, areas])
+    filterAreas(searchTerm)
+  }, [searchTerm, areas, filterAreas])
 
   return (
     <ErrorBoundary>

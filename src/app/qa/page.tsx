@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline"
-import PageTransitionWrapper from "../components/PageTransitionWrapper"
 
 interface QAItem {
   id: number
