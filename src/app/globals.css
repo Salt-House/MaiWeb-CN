@@ -9,17 +9,7 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 239, 246, 255;
-    /* --background-start-rgb: 133, 144, 250; */
-    --background-start-rgb: 239, 246, 255;
-    --background-end-rgb: 255, 255, 255;
-  }
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
   /* background: linear-gradient(
       to bottom,
       transparent,
