@@ -3,8 +3,8 @@ name: Deploy on Push to dev
 on:
   push:
     branches:
-      - dev
-  workflow_dispatch:
+      - dev  # 当 dev 分支收到推送时触发
+  workflow_dispatch:  # 允许手动触发
 
 jobs:
   deploy:
@@ -14,14 +14,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Print the ref value (for debugging)
+        run: |
+          echo "The ref is: $GITHUB_REF"
+
       - name: Trigger Webhook for Deployment
         run: |
-          set -e
-          JSON=$(jq -n --arg ref "$GITHUB_REF" --arg repo "$GITHUB_REPOSITORY" '{ref: $ref, repository: $repo}')
-          response=$(curl -s -o /dev/null -w "%{http_code}" -X POST ${{ secrets.WEBHOOK_URL }} \
-            -H "Content-Type: application/json" \
-            -d "$JSON")
-          if [ "$response" != "200" ]; then
-            echo "部署失败，状态码: $response"
-            exit 1
-          fi
+          # 提取 commit id, actor 和最后一条 commit message
+          COMMIT_ID=$(git rev-parse --short HEAD)
+          ACTOR="${{ github.actor }}"
+          MESSAGE=$(git log -1 --pretty=%B | tr -d '\n' | cut -c1-50) # 截取前50字符并去除换行
+          
+          # 使用 curl 发送 GET 请求，参数拼接在 URL 后
+          # 注意：接口定义是 /github/goframe
+          curl -G "http://maimaimoe.cn/v1/github/goframe" \
+            --data-urlencode "commit=${COMMIT_ID}" \
+            --data-urlencode "actor=${ACTOR}" \
+            --data-urlencode "message=${MESSAGE}"
