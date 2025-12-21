@@ -20,14 +20,10 @@ jobs:
 
       - name: Trigger Webhook for Deployment
         run: |
-          # 提取 commit id, actor 和最后一条 commit message
-          COMMIT_ID=$(git rev-parse --short HEAD)
-          ACTOR="${{ github.actor }}"
-          MESSAGE=$(git log -1 --pretty=%B | tr -d '\n' | cut -c1-50) # 截取前50字符并去除换行
-          
-          # 使用 curl 发送 GET 请求，参数拼接在 URL 后
-          # 注意：接口定义是 /github/goframe
-          curl -G "http://maimaimoe.cn/v1/github/goframe" \
-            --data-urlencode "commit=${COMMIT_ID}" \
-            --data-urlencode "actor=${ACTOR}" \
-            --data-urlencode "message=${MESSAGE}"
+          curl -X POST "http://maimaimoe.cn/v1/github/goframe" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "commit": "${{ github.sha }}",
+              "actor": "${{ github.actor }}",
+              "message": "Update from GitHub Action"
+            }'
