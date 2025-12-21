@@ -20,7 +20,7 @@ jobs:
 
       - name: Trigger Webhook for Deployment
         run: |
-          curl -X POST "http://maimaimoe.cn/cd/v1/github/nextjs" \
+          curl -X POST "https://maimaimoe.cn/cd/v1/github/nextjs" \
             -H "Content-Type: application/json" \
             -d '{
               "commit": "${{ github.sha }}",
