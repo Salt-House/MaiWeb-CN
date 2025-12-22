@@ -21,9 +21,9 @@ jobs:
       - name: Trigger Deployment and Poll Status
         run: |
           # 1. 触发部署请求
-          # 注意：GoFrame 默认开启了 Response 包装，所以返回值在 .data 字段中
+          # 添加 --http1.1 强制使用 HTTP/1.1 协议，避免 HTTP/2 流错误
           echo "Triggering deployment..."
-          RESPONSE=$(curl -s -X POST "https://maimaimoe.cn/cd/v1/github/nextjs" \
+          RESPONSE=$(curl -s --http1.1 -X POST "https://maimaimoe.cn/cd/v1/github/nextjs" \
             -H "Content-Type: application/json" \
             -d '{
               "commit": "${{ github.sha }}",
@@ -44,20 +44,19 @@ jobs:
           echo "✅ Deployment triggered. Job ID: $JOB_ID"
           echo "Waiting for deployment to complete..."
 
-          # 3. 轮询状态 (最多等待 10 分钟)
+          # 3. 轮询状态
           MAX_RETRIES=60
           COUNT=0
           
           while [ $COUNT -lt $MAX_RETRIES ]; do
-            sleep 10 # 每 10 秒查询一次
+            sleep 10
             
-            STATUS_RES=$(curl -s "https://maimaimoe.cn/cd/v1/github/status?id=$JOB_ID")
-            # 提取 result 字段
+            # 这里也建议加上 --http1.1
+            STATUS_RES=$(curl -s --http1.1 "https://maimaimoe.cn/cd/v1/github/status?id=$JOB_ID")
             RESULT=$(echo "$STATUS_RES" | jq -r '.data.result')
             
             echo "[$COUNT/$MAX_RETRIES] Current Status: $RESULT"
             
-            # 检查状态
             if [[ "$RESULT" == *"Success"* ]]; then
               echo "🎉 Deployment Successful!"
               echo "Logs:"
@@ -69,7 +68,6 @@ jobs:
               echo "$RESULT"
               exit 1
             elif [[ "$RESULT" == "Pending" ]]; then
-              # 继续等待
               :
             else
               echo "Unknown status: $RESULT"
