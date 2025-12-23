@@ -61,6 +61,9 @@
   },
   "homepage": "https://github.com/Salt-House/MaiWeb-CN#readme",
   "overrides": {
-    "quill": "2.0.3"
+    "quill": "2.0.3",
+    "@next/eslint-plugin-next": {
+      "glob": "^10.4.5"
+    }
   }
 }
