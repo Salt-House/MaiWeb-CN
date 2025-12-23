@@ -57,7 +57,9 @@ class Http {
         if (error.response) {
           const { status } = error.response
           if (status === 401 && !isServer) {
-            window.location.href = "/login"
+            localStorage.removeItem("token")
+            sessionStorage.removeItem("token")
+            window.location.href = "/user"
           }
         }
 

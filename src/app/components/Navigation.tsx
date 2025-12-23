@@ -113,17 +113,6 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
               常见问题
             </Link>
           </motion.div>
-          <div className="text-pink-300">|</div>
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              id="road"
-              href={"/road"}
-              className="hover:scale-125 transition-all duration-300 ease-in-out text-pink-500 hover:text-pink-600"
-              style={textstroke}
-            >
-              开发路线
-            </Link>
-          </motion.div>
           {/* <div>|</div> */}
           {/* <Link id="guide" href={"/guide"} className="hover:scale-125 transition-all duration-300 ease-in-out text-pink-500" style={textstroke}>教学</Link> */}
         </div>
@@ -211,15 +200,6 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
                   onClick={() => setShowMobileMenu(false)}
                 >
                   工具
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  href={"/road"}
-                  className="block p-4 text-pink-500 font-bold border-b border-pink-100 hover:bg-pink-50 transition-colors"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  开发路线
                 </Link>
               </motion.div>
               <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.98 }}>
