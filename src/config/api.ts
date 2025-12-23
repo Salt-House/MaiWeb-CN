@@ -15,6 +15,7 @@ export const CONFIG = {
     ENDPOINTS: {
       API: `${API_BASE_URL}/api`,
       EMAIL: `${API_BASE_URL}/email`,
+      BLOG: `${API_BASE_URL}/email/list_github_blog`,
     },
     // Web links
     WEB: {
