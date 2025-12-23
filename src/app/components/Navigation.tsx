@@ -113,6 +113,17 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
               常见问题
             </Link>
           </motion.div>
+          <div className="text-pink-300">|</div>
+          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              id="blog"
+              href={"/blog"}
+              className="hover:scale-125 transition-all duration-300 ease-in-out text-pink-500 hover:text-pink-600"
+              style={textstroke}
+            >
+              更新日志
+            </Link>
+          </motion.div>
           {/* <div>|</div> */}
           {/* <Link id="guide" href={"/guide"} className="hover:scale-125 transition-all duration-300 ease-in-out text-pink-500" style={textstroke}>教学</Link> */}
         </div>
@@ -209,6 +220,15 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
                   onClick={() => setShowMobileMenu(false)}
                 >
                   常见问题
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.98 }}>
+                <Link
+                  href={"/blog"}
+                  className="block p-4 text-pink-500 font-bold hover:bg-pink-50 transition-colors"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  更新日志
                 </Link>
               </motion.div>
               {/*<Link*/}
