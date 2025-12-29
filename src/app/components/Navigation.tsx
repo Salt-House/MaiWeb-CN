@@ -2,20 +2,35 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { CONFIG } from "@/config/api"
 import { FaBars, FaTimes } from "react-icons/fa"
 import { motion, AnimatePresence } from "framer-motion"
-
 import Image from "next/image"
 
-interface MobileNavigationProps {
+interface NavigationProps {
   textstroke: React.CSSProperties
 }
 
-export default function MobileNavigation({ textstroke }: MobileNavigationProps) {
+interface NavItem {
+  id: string
+  href: string
+  label: string
+}
+
+const navItems: NavItem[] = [
+  { id: "music", href: "/music", label: "音乐" },
+  { id: "region", href: "/region", label: "区域" },
+  { id: "tool", href: "/tool", label: "工具" },
+  { id: "qa", href: "/qa", label: "常见问题" },
+  { id: "blog", href: "/blog", label: "更新日志" },
+]
+
+export default function Navigation({ textstroke }: NavigationProps) {
   const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [token, setToken] = useState<string | null>(null)
   const [userIconId, setUserIconId] = useState<string>("1") // 默认头像ID
+  const pathname = usePathname()
 
   // 获取用户token和头像信息
   useEffect(() => {
@@ -54,194 +69,165 @@ export default function MobileNavigation({ textstroke }: MobileNavigationProps) 
   const defaultAvatarUrl = `${baseUrl}/icon/1.png`
 
   return (
-    <div className="relative">
-      {/* Top Container Back */}
-      <div className="absolute inset-0 z-[-1] flex justify-center">
-        <div className="max-sm:w-full w-[900px] h-[500px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain"></div>
+    <div className="relative font-douyin">
+      {/* Aurora Background */}
+      <div className="absolute inset-0 z-[-1] flex justify-center pointer-events-none">
+        <motion.div 
+          className="max-sm:w-full w-[900px] h-[500px] bg-[url('/img/aurora.png')] bg-no-repeat bg-contain"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        />
       </div>
 
-      {/* 导航栏 */}
-      <motion.div
-        className="relative z-[10] max-sm:w-[90%] max-sm:text-xl max-sm:h-14 w-[90%] max-w-[800px] bg-white/80 backdrop-blur-md shadow-xl rounded-2xl p-6 mx-auto mt-10 flex items-center justify-between sm:justify-center border-2 border-pink-200 hover:border-pink-300 transition-all duration-300"
+      {/* Main Navigation Bar */}
+      <motion.nav
+        className="relative z-[10] max-sm:w-[90%] w-[90%] max-w-[800px] mx-auto mt-10"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        whileHover={{ scale: 1.02, boxShadow: "0 20px 40px -12px rgba(236, 72, 153, 0.25)" }}
+        transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
       >
-        {/* 桌面端导航链接 */}
-        <div className="hidden sm:flex items-center max-sm:space-x-3 space-x-4 justify-center text-2xl text-white font-bold">
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              id="music"
-              href={"/music"}
-              className="hover:scale-125 transition-all duration-300 ease-in-out text-pink-500 hover:text-pink-600"
-              style={textstroke}
-            >
-              音乐
-            </Link>
-          </motion.div>
-          <div className="text-pink-300">|</div>
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              id="region"
-              href={"/region"}
-              className="hover:scale-125 transition-all duration-300 ease-in-out text-pink-500 hover:text-pink-600"
-              style={textstroke}
-            >
-              区域
-            </Link>
-          </motion.div>
-          <div className="text-pink-300">|</div>
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              id="tool"
-              href={"/tool"}
-              className="hover:scale-125 transition-all duration-300 ease-in-out text-pink-500 hover:text-pink-600"
-              style={textstroke}
-            >
-              工具
-            </Link>
-          </motion.div>
-          <div className="text-pink-300">|</div>
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              id="qa"
-              href={"/qa"}
-              className="hover:scale-125 transition-all duration-300 ease-in-out text-pink-500 hover:text-pink-600"
-              style={textstroke}
-            >
-              常见问题
-            </Link>
-          </motion.div>
-          <div className="text-pink-300">|</div>
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              id="blog"
-              href={"/blog"}
-              className="hover:scale-125 transition-all duration-300 ease-in-out text-pink-500 hover:text-pink-600"
-              style={textstroke}
-            >
-              更新日志
-            </Link>
-          </motion.div>
-          {/* <div>|</div> */}
-          {/* <Link id="guide" href={"/guide"} className="hover:scale-125 transition-all duration-300 ease-in-out text-pink-500" style={textstroke}>教学</Link> */}
-        </div>
+        <div className="bg-white/70 backdrop-blur-xl shadow-lg hover:shadow-xl rounded-full px-6 py-4 flex items-center justify-between sm:justify-center border border-white/50 transition-all duration-300">
+          
+          {/* Desktop Navigation Links */}
+          <div className="hidden sm:flex items-center space-x-1 justify-center text-xl font-bold">
+            {navItems.map((item, index) => {
+              const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`)
+              
+              return (
+                <div key={item.id} className="flex items-center">
+                  {index > 0 && <div className="text-pink-300 mx-3 select-none">|</div>}
+                  <Link href={item.href} className="relative group px-4 py-2">
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeNav"
+                        className="absolute inset-0 bg-pink-100/50 rounded-full -z-10"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
+                    <motion.span
+                      className={`block transition-colors duration-300 ${
+                        isActive ? "text-pink-600" : "text-pink-500 group-hover:text-pink-600"
+                      }`}
+                      style={textstroke}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {item.label}
+                    </motion.span>
+                  </Link>
+                </div>
+              )
+            })}
+          </div>
 
-        {/* 移动端汉堡菜单按钮 */}
-        <div className="sm:hidden flex items-center">
-          <motion.button
-            onClick={() => setShowMobileMenu(!showMobileMenu)}
-            className="text-pink-500 text-2xl p-2 rounded-lg hover:bg-pink-50 transition-colors"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            animate={{ rotate: showMobileMenu ? 180 : 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {showMobileMenu ? <FaTimes /> : <FaBars />}
-          </motion.button>
-        </div>
-
-        {/* 移动端右侧用户头像 */}
-        <div className="sm:hidden">
-          <Link href="/user/profile">
-            <motion.div
-              className="w-8 h-8 rounded-lg overflow-hidden border-2 border-pink-300 shadow-md hover:border-pink-400 transition-colors relative"
+          {/* Mobile Hamburger Menu Button */}
+          <div className="sm:hidden flex items-center">
+            <motion.button
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+              className="text-pink-500 text-2xl p-2 rounded-full hover:bg-pink-50 transition-colors"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              aria-label="Toggle Menu"
             >
-              <Image
-                src={token ? avatarUrl : defaultAvatarUrl}
-                alt="用户头像"
-                fill
-                sizes="32px"
-                className="object-cover"
-                onError={e => {
-                  // 如果加载失败，使用默认头像
-                  ;(e.target as HTMLImageElement).src = defaultAvatarUrl
-                }}
-              />
-            </motion.div>
-          </Link>
-        </div>
-      </motion.div>
+              <motion.div
+                animate={{ rotate: showMobileMenu ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {showMobileMenu ? <FaTimes /> : <FaBars />}
+              </motion.div>
+            </motion.button>
+          </div>
 
-      {/* 移动端下拉菜单 */}
+          {/* Mobile User Avatar (Right side) */}
+          <div className="sm:hidden">
+            <Link href="/user/profile">
+              <motion.div
+                className="w-10 h-10 rounded-full overflow-hidden border-2 border-pink-300 shadow-md hover:border-pink-400 transition-colors relative bg-white"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Image
+                  src={token ? avatarUrl : defaultAvatarUrl}
+                  alt="用户头像"
+                  fill
+                  sizes="40px"
+                  className="object-cover"
+                  onError={e => {
+                    ;(e.target as HTMLImageElement).src = defaultAvatarUrl
+                  }}
+                />
+              </motion.div>
+            </Link>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Mobile Dropdown Menu */}
       <AnimatePresence>
         {showMobileMenu && (
           <motion.div
-            className="sm:hidden absolute z-20 w-[90%] max-w-[410px] mx-auto left-0 right-0 mt-2 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden border-2 border-pink-200"
-            initial={{ opacity: 0, y: -20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="sm:hidden absolute z-20 w-[90%] max-w-[410px] mx-auto left-0 right-0 mt-4 overflow-hidden"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <div className="flex flex-col">
-              <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  href={"/"}
-                  className="block p-4 text-pink-500 font-bold border-b border-pink-100 hover:bg-pink-50 transition-colors"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  主页
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  href={"/music"}
-                  className="block p-4 text-pink-500 font-bold border-b border-pink-100 hover:bg-pink-50 transition-colors"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  音乐
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  href={"/region"}
-                  className="block p-4 text-pink-500 font-bold border-b border-pink-100 hover:bg-pink-50 transition-colors"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  区域
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  href={"/tool"}
-                  className="block p-4 text-pink-500 font-bold border-b border-pink-100 hover:bg-pink-50 transition-colors"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  工具
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  href={"/qa"}
-                  className="block p-4 text-pink-500 font-bold hover:bg-pink-50 transition-colors"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  常见问题
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  href={"/blog"}
-                  className="block p-4 text-pink-500 font-bold hover:bg-pink-50 transition-colors"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  更新日志
-                </Link>
-              </motion.div>
-              {/*<Link*/}
-              {/*  href={"/guide"}*/}
-              {/*  className="p-4 text-pink-500 font-bold hover:bg-pink-50"*/}
-              {/*  onClick={() => setShowMobileMenu(false)}*/}
-              {/*>*/}
-              {/*  教学*/}
-              {/*</Link>*/}
+            <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-pink-100 p-2">
+              <div className="flex flex-col space-y-1">
+                {/* Home Link for Mobile */}
+                <MobileNavLink 
+                  href="/" 
+                  label="主页" 
+                  onClick={() => setShowMobileMenu(false)} 
+                  isActive={pathname === "/"}
+                />
+                
+                {navItems.map((item) => (
+                  <MobileNavLink
+                    key={item.id}
+                    href={item.href}
+                    label={item.label}
+                    onClick={() => setShowMobileMenu(false)}
+                    isActive={pathname === item.href || pathname?.startsWith(`${item.href}/`)}
+                  />
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
+  )
+}
+
+interface MobileNavLinkProps {
+  href: string
+  label: string
+  onClick: () => void
+  isActive: boolean
+}
+
+function MobileNavLink({ href, label, onClick, isActive }: MobileNavLinkProps) {
+  return (
+    <Link href={href} onClick={onClick}>
+      <motion.div 
+        className={`p-4 rounded-2xl flex items-center justify-between transition-colors ${
+          isActive ? "bg-pink-50 text-pink-600" : "text-gray-600 hover:bg-gray-50"
+        }`}
+        whileHover={{ x: 5, backgroundColor: "rgba(255, 241, 242, 0.5)" }}
+        whileTap={{ scale: 0.98 }}
+      >
+        <span className={`font-bold ${isActive ? "text-pink-600" : "text-gray-600"}`}>
+          {label}
+        </span>
+        {isActive && (
+          <motion.div 
+            layoutId="mobileActiveIndicator"
+            className="w-2 h-2 rounded-full bg-pink-500"
+          />
+        )}
+      </motion.div>
+    </Link>
   )
 }
