@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import { CONFIG } from "@/config/api"
-import LoadingSpinner from "../components/LoadingSpinner"
+import LoadingSpinner from "@/components/ui/LoadingSpinner" // Updated import path
 
 /**
  * 自动检查 token 是否有效，并返回提示信息

@@ -3,9 +3,8 @@ import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { IoMdClose } from "react-icons/io"
 import { IoInformationCircle } from "react-icons/io5"
-import { ThirdAccount } from "../user/model"
-import http from "@/utils/request"
-
+import { ThirdAccount } from "@/types/user" // Updated import path assumption, will fix later if needed
+import http from "@/services/request" // Updated import path assumption
 import Image from "next/image"
 
 interface NoticeProps {

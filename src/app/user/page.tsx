@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
-import LoadingSpinner from "../components/LoadingSpinner"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import { FaArrowLeft } from "react-icons/fa"
 import { CONFIG } from "@/config/api"
 

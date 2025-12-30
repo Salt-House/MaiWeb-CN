@@ -1,7 +1,8 @@
+"use client"
 import React, { useEffect, useRef, useState, useMemo } from "react"
 import * as echarts from "echarts"
-import chinaGeoJson from "./china.json" // 导入中国 GeoJSON 数据文件
-import http from "@/utils/request"
+import chinaGeoJson from "@/data/china.json" // Updated import path
+import http from "@/services/request" // Updated import path
 
 interface UserRegionData {
   region_id: string

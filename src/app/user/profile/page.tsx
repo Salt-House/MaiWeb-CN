@@ -1,17 +1,17 @@
 "use client"
 
-import LoadingSpinner from "@/app/components/LoadingSpinner"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import Image from "next/image"
 import { useState, useEffect } from "react"
 import { FaArrowLeft } from "react-icons/fa"
 import { FaGear, FaRightFromBracket, FaArrowRight } from "react-icons/fa6"
 import { IoMdPeople } from "react-icons/io"
-import { BindAccount, FunctionStatus, ThirdAccount, UserProfile, AccountResponse } from "../model"
+import { BindAccount, FunctionStatus, ThirdAccount, UserProfile, AccountResponse } from "@/types/user"
 import RatingHistory from "./components/RatingHistory"
-import SvgStrokedText from "@/app/components/SvgStrokedText"
+import SvgStrokedText from "@/components/ui/SvgStrokedText"
 import { CONFIG } from "@/config/api"
-import http from "@/utils/request"
-import ChinaMap from "@/app/components/ChinaMap"
+import http from "@/services/request"
+import ChinaMap from "@/components/common/ChinaMap"
 
 // TODO 优化：移除未使用的导入（AnimatedComponent、Link、use、PageTransitionWrapper），减少包体积与编译时间
 

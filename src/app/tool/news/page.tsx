@@ -1,9 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import ActionButton from "@/app/components/ActionButton"
-import LoadingSpinner from "@/app/components/LoadingSpinner"
-import NewsCard from "@/app/components/NewsCard"
+import ActionButton from "@/components/ui/ActionButton"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
+import NewsCard from "@/components/common/NewsCard"
 import axios from "axios"
 import { CONFIG } from "@/config/api"
 

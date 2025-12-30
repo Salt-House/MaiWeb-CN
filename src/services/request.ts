@@ -1,4 +1,4 @@
-// utils/request.ts
+// services/request.ts
 import axios, {
   AxiosInstance,
   AxiosRequestConfig,

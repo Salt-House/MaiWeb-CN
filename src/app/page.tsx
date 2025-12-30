@@ -3,13 +3,13 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { CONFIG } from "@/config/api"
-import ChinaMap from "./components/ChinaMap"
-import NewsCard from "./components/NewsCard"
-import SearchGameCenter from "./components/SearchGameCenter"
-import Guide from "./components/Guide"
+import ChinaMap from "@/components/common/ChinaMap"
+import NewsCard from "@/components/common/NewsCard"
+import SearchGameCenter from "@/components/common/SearchGameCenter"
+import Guide from "@/components/common/Guide"
 import { Step } from "react-joyride"
-import TokenChecker from "./hooks/TokenChecker"
-import RoatChiho from "./components/circle/RoatChiho"
+import TokenChecker from "@/hooks/TokenChecker"
+import RoatChiho from "@/components/common/circle/RoatChiho"
 
 interface NewsProps {
   title: string

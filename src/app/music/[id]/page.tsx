@@ -1,17 +1,11 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import {
-  Song,
-  transferText,
-  transferVersion,
-  getGenreColor,
-  ChartType,
-  SongScoreProps,
-} from "@/app/music/songModel"
+import { Song, ChartType, SongScoreProps } from "@/types/music"
+import { transferText, transferVersion, getGenreColor } from "@/utils/music"
 import { useState, useEffect } from "react"
 import NoteTable from "./noteTable"
-import LoadingSpinner from "@/app/components/LoadingSpinner"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import MusicPlayer from "./musicPlayer"
 import ScoreDetail from "./scoreDetail"
 import Link from "next/link"

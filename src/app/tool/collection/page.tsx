@@ -1,10 +1,10 @@
 "use client"
 
 import CollectionItemSkeleton from "./components/CollectionItemSkeleton"
-import SvgStrokedText from "@/app/components/SvgStrokedText"
+import SvgStrokedText from "@/components/ui/SvgStrokedText"
 import { motion, AnimatePresence } from "framer-motion"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { NamePlate, MaiBackGround, Icon, Trophie, Condition } from "./model"
+import { NamePlate, MaiBackGround, Icon, Trophie, Condition } from "@/types/collection"
 import TabNavigation from "./components/TabNavigation"
 import SearchForm from "./components/SearchForm"
 import RenderItem from "./components/RenderItem"
@@ -508,7 +508,7 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                 <div className="flex items-center justify-between mb-8 px-2">
+                <div className="flex items-center justify-between mb-8 px-2">
                    <div className="flex items-center gap-3">
                       <div className="w-1.5 h-6 bg-green-500 rounded-full"></div>
                       <h2 className="text-2xl font-bold text-gray-800">玩家名牌</h2>
