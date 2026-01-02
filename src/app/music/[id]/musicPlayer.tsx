@@ -4,7 +4,7 @@ import { useState, useRef } from "react"
 import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaPlus, FaCheck } from "react-icons/fa"
 import { motion } from "framer-motion"
 import { usePlayer } from "@/app/context/PlayerContext"
-import DownloadButton from "@/app/components/button/DownloadButton"
+import DownloadButton from "@/components/ui/button/DownloadButton"
 import { CONFIG } from "@/config/api"
 
 interface MusicPlayerProps {

@@ -1,7 +1,7 @@
 // 动态按需加载 echarts，减小首屏 bundle
 import type * as EChartsType from "echarts"
 import { useEffect, useState, useRef, useCallback } from "react"
-import { UserHistorySub } from "../../model"
+import { UserHistorySub } from "@/types/user"
 import { CONFIG } from "@/config/api"
 
 export default function RatingHistory() {

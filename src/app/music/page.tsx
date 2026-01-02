@@ -1,17 +1,18 @@
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from "react"
-import { Song, transferVersion } from "@/app/music/songModel"
-import SongList from "@/app/music/songList"
-// import LoadingSpinner from "../components/LoadingSpinner"
-import ActionButton from "../components/ActionButton"
+import { Song } from "@/types/music"
+import { transferVersion } from "@/utils/music"
+import SongList from "./songList"
+// import LoadingSpinner from "@/components/ui/LoadingSpinner"
+import ActionButton from "@/components/ui/ActionButton"
 import type { Step } from "react-joyride"
-import Guide from "../components/Guide"
+import Guide from "@/components/common/Guide"
 // import { FaFilter, FaTimes } from "react-icons/fa"
 import { AnimatePresence, motion } from "framer-motion"
 // import Notice from "../components/Notice"
 // import PageTransitionWrapper from "../components/PageTransitionWrapper"
-import { CONFIG } from "@/config/api"
+import { getSongs as fetchSongs } from "@/services/music"
 
 const currentVersion = "25005"
 
@@ -159,22 +160,8 @@ export default function MusicPage() {
       setLoadingMore(true)
     }
 
-    const baseUrl = `${CONFIG.API.ENDPOINTS.API}/maimai/songs?`
-    const url = `${baseUrl}${filteredUrl}&page=${page}&page_size=100`
-
     try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const data = await response.json()
+      const data = await fetchSongs(filteredUrl, page, 100)
 
       if (page === 1) {
         setSongs(data)

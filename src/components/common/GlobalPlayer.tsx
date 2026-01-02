@@ -1,6 +1,6 @@
 "use client"
 
-import { usePlayer, PlayMode } from "../context/PlayerContext"
+import { usePlayer, PlayMode } from "@/app/context/PlayerContext" // Updated import path
 import { useEffect, useRef, useState } from "react"
 import { FaForward, FaBackward, FaList, FaTimes, FaRedo } from "react-icons/fa"
 import { FaCirclePlay, FaCirclePause } from "react-icons/fa6"

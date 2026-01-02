@@ -1,6 +1,7 @@
 "use client"
 
-import { ChartType, DifficultyInfo, getDifficultyColor, Song } from "../songModel"
+import { ChartType, DifficultyInfo, Song } from "@/types/music"
+import { getDifficultyColor } from "@/utils/music"
 import { motion } from "framer-motion"
 import { FaMusic } from "react-icons/fa" // Example icon
 

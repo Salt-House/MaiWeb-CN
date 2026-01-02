@@ -1,17 +1,24 @@
 "use client"
 
-import LoadingSpinner from "@/app/components/LoadingSpinner"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import Image from "next/image"
 import { useState, useEffect } from "react"
 import { FaArrowLeft } from "react-icons/fa"
 import { FaGear, FaRightFromBracket, FaArrowRight } from "react-icons/fa6"
 import { IoMdPeople } from "react-icons/io"
-import { BindAccount, FunctionStatus, ThirdAccount, UserProfile, AccountResponse } from "../model"
+import { BindAccount, FunctionStatus, ThirdAccount, UserProfile } from "@/types/user"
 import RatingHistory from "./components/RatingHistory"
-import SvgStrokedText from "@/app/components/SvgStrokedText"
+import SvgStrokedText from "@/components/ui/SvgStrokedText"
 import { CONFIG } from "@/config/api"
-import http from "@/utils/request"
-import ChinaMap from "@/app/components/ChinaMap"
+import ChinaMap from "@/components/common/ChinaMap"
+import {
+  getBindAccounts,
+  bindLxns,
+  bindDivingFish,
+  bindArcade,
+  refreshData,
+  getUserProfile,
+} from "@/services/user"
 
 // TODO 优化：移除未使用的导入（AnimatedComponent、Link、use、PageTransitionWrapper），减少包体积与编译时间
 
@@ -69,10 +76,7 @@ export default function UserProfilePage() {
   const GetBindAccount = async () => {
     setIsLoading(true)
     try {
-      const data = await http.get<AccountResponse[]>("/api/maimai/maiweb/accounts", undefined, {
-        retry: 3,
-        retryDelay: 1000,
-      })
+      const data = await getBindAccounts()
 
       // console.log("get data")
       if (data && Array.isArray(data) && data.length > 0 && data[0].server) {
@@ -95,10 +99,7 @@ export default function UserProfilePage() {
   const BindLxns = async () => {
     setBindIsLoading(true)
     try {
-      await http.post(`/api/maimai/maiweb/accounts/lxns`, null, {
-        params: { personal_token: lxnstoken },
-        retry: 3,
-      })
+      await bindLxns(lxnstoken)
       alert("绑定成功")
       setLink("")
     } catch (error) {
@@ -113,13 +114,7 @@ export default function UserProfilePage() {
     setBindIsLoading(true)
     try {
       // TODO 优化：密码传输应走 HTTPS 且避免通过 QueryString 传递敏感信息，改为 Body + HTTPS；并考虑后端节流与防刷
-      await http.post(`/api/maimai/maiweb/accounts/divingfish`, null, {
-        params: {
-          username: divingfishusername,
-          password: divingfishpassword,
-        },
-        retry: 3,
-      })
+      await bindDivingFish(divingfishusername, divingfishpassword)
       alert("绑定成功")
       setLink("")
     } catch (error) {
@@ -133,10 +128,7 @@ export default function UserProfilePage() {
   const BindArcade = async () => {
     setBindIsLoading(true)
     try {
-      await http.post(`/api/maimai/maiweb/accounts/arcade`, null, {
-        params: { qr_code: qr_code },
-        retry: 3,
-      })
+      await bindArcade(qr_code)
       alert("绑定成功")
     } catch (error) {
       console.error(error)
@@ -165,9 +157,7 @@ export default function UserProfilePage() {
       // 添加延迟避免频繁请求
       await new Promise(resolve => setTimeout(resolve, 1000))
 
-      await http.put("/api/maimai/maiweb/accounts", undefined, {
-        retry: 3,
-      })
+      await refreshData()
 
       alert("刷新成功")
       window.location.href = "/user/profile"
@@ -807,20 +797,8 @@ export default function UserProfilePage() {
   }, [])
   useEffect(() => {
     if (token != "") {
-      const myHeaders = new Headers()
-      // console.log("token:", token);
-      myHeaders.append("Authorization", `Bearer ${token}`)
-
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      }
-
-      fetch(`${CONFIG.API.ENDPOINTS.API}/user/me`, requestOptions)
-        .then(response => response.text())
-        .then(result => {
-          // console.log(result);
-          const data = JSON.parse(result)
+      getUserProfile()
+        .then(data => {
           if (data.id) {
             setUserData(data)
           } else {

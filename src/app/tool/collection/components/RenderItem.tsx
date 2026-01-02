@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import TextScroller from "./TextScroller"
-import { NamePlate, MaiBackGround, Icon, Trophie } from "../model"
+import { NamePlate, MaiBackGround, Icon, Trophie } from "@/types/collection"
 import { CONFIG } from "@/config/api"
 
 interface RenderItemProps {

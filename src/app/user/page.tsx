@@ -2,9 +2,14 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
-import LoadingSpinner from "../components/LoadingSpinner"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import { FaArrowLeft } from "react-icons/fa"
-import { CONFIG } from "@/config/api"
+import {
+  register as registerUser,
+  login as loginUser,
+  sendVerificationEmail as sendEmail,
+  changePassword as changeUserPassword,
+} from "@/services/auth"
 
 export default function UserPage() {
   const [username, setUsername] = useState("")
@@ -18,51 +23,31 @@ export default function UserPage() {
   const [code, setCode] = useState("")
   const [newPassword, setNewPassword] = useState("")
 
-  const Register = () => {
+  const Register = async () => {
     setIsLoading(true)
-    const myHeaders = new Headers()
-    myHeaders.append("accept", "application/json")
-    myHeaders.append("Content-Type", "application/json")
 
-    const raw = JSON.stringify({
+    const raw = {
       username: username,
       email: email,
       password: password,
-    })
-    console.log(raw)
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
     }
+    console.log(JSON.stringify(raw))
 
-    fetch(`${CONFIG.API.ENDPOINTS.API}/auth/register`, requestOptions)
-      .then(async response => {
-        const statusCode = response.status
-        const data = await response.json()
-        console.log(`Status Code: ${statusCode}`)
-        if (statusCode == 201) {
-          alert("Register Success")
-          window.location.href = "/user"
-        } else {
-          throw new Error(
-            data.message + "该报错仅会在「邮箱」或「用户名」其中一个以上已注册时存在" ||
-              "注册失败，请稍后再试。"
-          )
-        }
-      })
-      .then(result => {
-        alert("Register 失败")
-        console.log(result)
-      })
-      .catch(error => alert(error))
+    try {
+      await registerUser(raw)
+      alert("Register Success")
+      window.location.href = "/user"
+    } catch (error: any) {
+      const msg =
+        error.response?.data?.message ||
+        error.message ||
+        "注册失败，请稍后再试。"
+      alert(msg + "该报错仅会在「邮箱」或「用户名」其中一个以上已注册时存在")
+      console.log(error)
+    }
   }
-  const Login = () => {
+  const Login = async () => {
     setIsLoading(true)
-    const myHeaders = new Headers()
-    myHeaders.append("accept", "application/json")
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded")
 
     const urlencoded = new URLSearchParams()
     urlencoded.append("grant_type", "")
@@ -72,82 +57,62 @@ export default function UserPage() {
     urlencoded.append("client_id", "")
     urlencoded.append("client_secret", "")
 
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: urlencoded,
-    }
-    fetch(`${CONFIG.API.ENDPOINTS.API}/auth/jwt/login`, requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        const data = JSON.parse(result)
-        if (data.access_token) {
-          // 修改：使用 try-catch 确保 localStorage 操作成功
-          try {
-            localStorage.setItem("token", data.access_token)
-            // 添加：同时在 sessionStorage 中也存储一份
-            sessionStorage.setItem("token", data.access_token)
-            window.location.href = "/user/profile"
-          } catch (error) {
-            console.error("存储 token 失败:", error)
-            alert("登录状态保存失败，请检查浏览器设置")
-          }
-        } else {
-          alert("登录失败，请重试")
-          setIsLoading(false)
+    try {
+      const data = await loginUser(urlencoded)
+      if (data.access_token) {
+        // 修改：使用 try-catch 确保 localStorage 操作成功
+        try {
+          localStorage.setItem("token", data.access_token)
+          // 添加：同时在 sessionStorage 中也存储一份
+          sessionStorage.setItem("token", data.access_token)
+          window.location.href = "/user/profile"
+        } catch (error) {
+          console.error("存储 token 失败:", error)
+          alert("登录状态保存失败，请检查浏览器设置")
         }
-      })
-      .catch(error => {
-        console.error(error)
-        alert("登录请求失败，请重试。错误详情: " + error)
+      } else {
+        alert("登录失败，请重试")
         setIsLoading(false)
-      })
+      }
+    } catch (error) {
+      console.error(error)
+      alert("登录请求失败，请重试。错误详情: " + error)
+      setIsLoading(false)
+    }
   }
 
-  const sendVerificationEmail = () => {
+  const sendVerificationEmail = async () => {
     setIsLoading(true)
-    fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/verify/email?email=${email}`)
-      .then(async response => {
-        const data = await response.json()
-        if (response.ok) {
-          alert(data.message)
-        } else {
-          throw new Error(data.message || "发送验证邮件失败，请稍后再试。")
-        }
-      })
-      .catch(error => alert(error))
-      .finally(() => setIsLoading(false))
+    try {
+      const data = await sendEmail(email)
+      alert(data.message)
+    } catch (error: any) {
+      const msg = error.response?.data?.message || "发送验证邮件失败，请稍后再试。"
+      alert(msg)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const changePassword = () => {
+  const changePassword = async () => {
     setIsLoading(true)
-    const myHeaders = new Headers()
-    myHeaders.append("Content-Type", "application/json")
 
-    const raw = JSON.stringify({
+    const raw = {
       email: email,
       password: newPassword,
       code: parseInt(code),
-    })
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
     }
 
-    fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/change_password`, requestOptions)
-      .then(async response => {
-        const data = await response.json()
-        if (response.ok) {
-          alert(data.message)
-          setForgotPassword(false)
-        } else {
-          throw new Error(data.message || "密码修改失败，请稍后再试。")
-        }
-      })
-      .catch(error => alert(error))
-      .finally(() => setIsLoading(false))
+    try {
+      const data = await changeUserPassword(raw)
+      alert(data.message)
+      setForgotPassword(false)
+    } catch (error: any) {
+      const msg = error.response?.data?.message || "密码修改失败，请稍后再试。"
+      alert(msg)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {

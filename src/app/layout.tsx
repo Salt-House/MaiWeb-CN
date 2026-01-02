@@ -1,15 +1,15 @@
 import type { Metadata } from "next"
 import "./globals.css"
-import "./css/homepage.css"
+import "@/styles/homepage.css"
 import Link from "next/link"
-import UserLogin from "./components/UserLogin"
-import ClientLayout from "./components/ClientLayout"
+import UserLogin from "@/components/common/UserLogin"
+import ClientLayout from "@/components/layout/ClientLayout"
 import { PlayerProvider } from "./context/PlayerContext"
-import GlobalPlayer from "./components/GlobalPlayer"
-import MobileNavigation from "./components/Navigation"
-import Notice from "./components/Notice"
+import GlobalPlayer from "@/components/common/GlobalPlayer"
+import MobileNavigation from "@/components/layout/Navigation"
+import Notice from "@/components/common/Notice"
 import Image from "next/image"
-import RoatatingCircle from "@/app/components/circle/RoatatingCircle"
+import RoatatingCircle from "@/components/common/circle/RoatatingCircle"
 
 export const metadata: Metadata = {
   title: "maimai中国玩家站",

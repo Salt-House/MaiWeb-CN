@@ -3,21 +3,14 @@ import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { IoMdClose } from "react-icons/io"
 import { IoInformationCircle } from "react-icons/io5"
-import { ThirdAccount } from "../user/model"
-import http from "@/utils/request"
-
+import { ThirdAccount } from "@/types/user"
+import { getUserProfile, getBindAccounts } from "@/services/user"
 import Image from "next/image"
 
 interface NoticeProps {
   type?: "info" | "success" | "warning" | "error"
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   duration?: number // 自动关闭的时间（毫秒），如不设置则不自动关闭
-}
-
-interface RawAccount {
-  server: string
-  nickname: string
-  identifier: string
 }
 
 const Notice: React.FC<NoticeProps> = ({ type = "info" }) => {
@@ -77,8 +70,8 @@ const Notice: React.FC<NoticeProps> = ({ type = "info" }) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const [userResult, accountsData] = await Promise.all([
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            http.get<any>("/api/user/me", null, { retry: 3 }),
-            http.get<RawAccount[]>("/api/maimai/maiweb/accounts", null, { retry: 3 }),
+            getUserProfile(),
+            getBindAccounts(),
           ])
 
           // 处理用户信息请求结果

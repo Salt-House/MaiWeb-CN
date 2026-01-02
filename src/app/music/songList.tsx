@@ -1,10 +1,11 @@
 import React, { useState } from "react"
 import { FaPlus, FaCheck } from "react-icons/fa"
-import LoadingSpinner from "../components/LoadingSpinner"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import SongItem from "./components/SongItem"
 import SongItemSkeleton from "./components/SongItemSkeleton"
 import { usePlayer } from "@/app/context/PlayerContext"
-import { Song, getDifficultyColor, getGenreColor, transferText } from "@/app/music/songModel"
+import { Song } from "@/types/music"
+import { getDifficultyColor, getGenreColor, transferText } from "@/utils/music"
 import Image from "next/image"
 import { CONFIG } from "@/config/api"
 

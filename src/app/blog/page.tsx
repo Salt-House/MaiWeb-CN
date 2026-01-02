@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import http from "@/utils/request"
+import http from "@/services/request"
 import { CONFIG } from "@/config/api"
-import LoadingSpinner from "@/app/components/LoadingSpinner"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import Image from "next/image"
 
 interface BlogAuthor {

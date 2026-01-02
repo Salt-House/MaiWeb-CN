@@ -1,4 +1,4 @@
-import { Skeleton } from "@/app/components/Skeleton"
+import { Skeleton } from "@/components/ui/Skeleton"
 
 interface CollectionItemSkeletonProps {
   type?: "icon" | "frame" | "plate" | "trophy"

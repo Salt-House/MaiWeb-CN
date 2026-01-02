@@ -4,7 +4,7 @@ import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
-import { Condition } from "../model"
+import { Condition } from "@/types/collection"
 import { CONFIG } from "@/config/api"
 
 interface PreviewModalProps {

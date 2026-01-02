@@ -15,7 +15,7 @@ import {
   FaCircleInfo,
 } from "react-icons/fa6"
 import { motion, AnimatePresence } from "framer-motion"
-import LoadingSpinner from "@/app/components/LoadingSpinner"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 
 // -----------------------------------------------------------------------------
 // 类型定义

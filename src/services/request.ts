@@ -1,4 +1,4 @@
-// utils/request.ts
+// services/request.ts
 import axios, {
   AxiosInstance,
   AxiosRequestConfig,
@@ -10,13 +10,6 @@ import { CONFIG } from "@/config/api"
 const isServer = typeof window === "undefined"
 
 const baseURL = CONFIG.API.BASE
-
-// 扩展 AxiosRequestConfig 类型以支持重试配置
-interface RetryConfig extends InternalAxiosRequestConfig {
-  retry?: number
-  retryDelay?: number
-  __retryCount?: number
-}
 
 class Http {
   // Axios 实例
@@ -63,28 +56,7 @@ class Http {
           }
         }
 
-        // 重试逻辑
-        const config = error.config as RetryConfig
-        if (!config || !config.retry) return Promise.reject(error)
-
-        config.__retryCount = config.__retryCount || 0
-
-        if (config.__retryCount >= config.retry) {
-          return Promise.reject(error)
-        }
-
-        config.__retryCount += 1
-
-        const delay = (config.retryDelay || 1000) * Math.pow(2, config.__retryCount - 1)
-
-        const backoff = new Promise(resolve => {
-          setTimeout(() => {
-            resolve(null)
-          }, delay)
-        })
-
-        await backoff
-        return this.instance(config)
+        return Promise.reject(error)
       }
     )
   }
@@ -93,7 +65,7 @@ class Http {
   get<T>(
     url: string,
     params?: unknown,
-    config?: AxiosRequestConfig & { retry?: number; retryDelay?: number }
+    config?: AxiosRequestConfig
   ): Promise<T> {
     return this.instance.get(url, { params, ...config })
   }
@@ -102,7 +74,7 @@ class Http {
   post<T>(
     url: string,
     data?: unknown,
-    config?: AxiosRequestConfig & { retry?: number; retryDelay?: number }
+    config?: AxiosRequestConfig
   ): Promise<T> {
     return this.instance.post(url, data, config)
   }
@@ -111,14 +83,14 @@ class Http {
   put<T>(
     url: string,
     data?: unknown,
-    config?: AxiosRequestConfig & { retry?: number; retryDelay?: number }
+    config?: AxiosRequestConfig
   ): Promise<T> {
     return this.instance.put(url, data, config)
   }
 
   delete<T>(
     url: string,
-    config?: AxiosRequestConfig & { retry?: number; retryDelay?: number }
+    config?: AxiosRequestConfig
   ): Promise<T> {
     return this.instance.delete(url, config)
   }

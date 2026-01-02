@@ -1,10 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Song, getDifficultyColor, SongScoreProps, ChartType } from "../songModel"
+import { Song, SongScoreProps, ChartType } from "@/types/music"
+import { getDifficultyColor } from "@/utils/music"
 import { FaChevronDown } from "react-icons/fa"
 import { motion, AnimatePresence } from "framer-motion"
-import LoadingSpinner from "@/app/components/LoadingSpinner"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import { CONFIG } from "@/config/api"
 import Image from "next/image"
 

@@ -13,7 +13,7 @@ import {
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa"
-import LoadingSpinner from "@/app/components/LoadingSpinner"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 
 interface NewsItem {
   title: string
