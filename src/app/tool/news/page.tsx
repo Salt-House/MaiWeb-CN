@@ -4,18 +4,7 @@ import { useEffect, useState } from "react"
 import ActionButton from "@/components/ui/ActionButton"
 import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import NewsCard from "@/components/common/NewsCard"
-import axios from "axios"
-import { CONFIG } from "@/config/api"
-
-interface NewsProps {
-  title: string
-  content: string
-  image_url: string
-  source: string
-  source_url: string
-  source_author: string
-  source_created_at: string
-}
+import { getNews as fetchNews, NewsProps } from "@/services/news"
 
 export default function NewsPage() {
   const [news, setNews] = useState<NewsProps[]>([])
@@ -29,12 +18,7 @@ export default function NewsPage() {
 
   const getNews = async (limit: number, offset: number): Promise<NewsProps[]> => {
     try {
-      const response = await axios.get(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/news`, {
-        params: { limit, offset },
-      })
-
-      // 如果 response.data 已经是对象数组，就不需要再 JSON.parse
-      const data: NewsProps[] = response.data
+      const data = await fetchNews(limit, offset)
       console.log("获取到新闻数量:", data.length)
       return data
     } catch (error) {

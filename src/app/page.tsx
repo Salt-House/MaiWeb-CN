@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { CONFIG } from "@/config/api"
 import ChinaMap from "@/components/common/ChinaMap"
 import NewsCard from "@/components/common/NewsCard"
 import SearchGameCenter from "@/components/common/SearchGameCenter"
@@ -10,16 +9,7 @@ import Guide from "@/components/common/Guide"
 import { Step } from "react-joyride"
 import TokenChecker from "@/hooks/TokenChecker"
 import RoatChiho from "@/components/common/circle/RoatChiho"
-
-interface NewsProps {
-  title: string
-  content: string
-  image_url: string
-  source: string
-  source_url: string
-  source_author: string
-  source_created_at: string
-}
+import { getNews as fetchNews, NewsProps } from "@/services/news"
 
 export default function Home() {
   const [news1, setNews1] = useState<NewsProps[]>([
@@ -137,17 +127,8 @@ export default function Home() {
   ]
 
   const getNews = async (limit: number, offset: number): Promise<NewsProps[]> => {
-    const requestOptions = {
-      method: "GET",
-    }
-
     try {
-      const response = await fetch(
-        `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/news?limit=${limit}&offset=${offset}`,
-        requestOptions
-      )
-      const result = await response.text()
-      const data = JSON.parse(result)
+      const data = await fetchNews(limit, offset)
       return data
     } catch (error) {
       console.error(error)

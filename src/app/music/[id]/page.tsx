@@ -14,6 +14,7 @@ import { FaBilibili } from "react-icons/fa6"
 import { motion, Variants } from "framer-motion"
 import Image from "next/image"
 import { CONFIG } from "@/config/api"
+import { getSongDetail } from "@/services/music"
 
 export default function SongDetail() {
   const params = useParams()
@@ -28,21 +29,9 @@ export default function SongDetail() {
       setLoading(true)
       try {
         const storedToken = localStorage.getItem("token")
-        let url = `${CONFIG.API.ENDPOINTS.API}/maimai/songs?id=${params.id}&page=1&page_size=1`
-        const headers: HeadersInit = { Accept: "application/json" }
+        
+        const data = await getSongDetail(params.id as string, !!storedToken)
 
-        if (storedToken) {
-          url = `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/minfo?id=${params.id}`
-          headers["Authorization"] = `Bearer ${storedToken}`
-        }
-
-        const response = await fetch(url, { method: "GET", headers })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
-        const data = await response.json()
         const newSong = storedToken ? data.song : data[0]
 
         if (newSong) {
