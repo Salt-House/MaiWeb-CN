@@ -23,16 +23,16 @@ export default function NewsCard({
   size = "mid",
 }: NewsCardProps) {
   // 响应式尺寸设置
-  const cardWidth = size === "sm" ? "max-sm:w-[360px] w-[520px]" : "w-full"
+  const cardWidth = "w-full"
   const imageHeight = "pb-[56.25%]"
   const titleSize = size === "sm" ? "max-sm:text-base text-lg" : "text-xl"
   const padding = size === "sm" ? "max-sm:p-2 p-3" : "p-4"
 
   return (
     <div
-      className={`${cardWidth} bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-[1.02]`}
+      className={`${cardWidth} h-full flex flex-col bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-[1.02]`}
     >
-      <Link href={`/tool/news/${source_created_at}`} className="block relative">
+      <Link href={`/tool/news/${source_created_at}`} className="block relative shrink-0" id={`news-card-${source_created_at}`}>
         <div className={`relative w-full ${imageHeight} overflow-hidden`}>
           <Image
             className="object-cover transition-transform duration-500 hover:scale-110"
@@ -51,7 +51,7 @@ export default function NewsCard({
         </div>
       </Link>
 
-      <div className={padding}>
+      <div className={`${padding} flex-grow flex flex-col`}>
         <div className="flex max-sm:flex-col sm:items-center text-sm text-gray-500 max-sm:space-y-2 sm:space-x-4 mb-3">
           <div className="flex items-center">
             <FaCalendarAlt className="mr-1" />
@@ -63,7 +63,7 @@ export default function NewsCard({
           </div>
         </div>
 
-        <div className="flex justify-end mt-3">
+        <div className="flex justify-end mt-auto">
           <a
             href={source_url}
             target="_blank"

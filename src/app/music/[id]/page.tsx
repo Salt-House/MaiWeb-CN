@@ -9,7 +9,7 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import MusicPlayer from "./musicPlayer"
 import ScoreDetail from "./scoreDetail"
 import Link from "next/link"
-import { FaArrowLeft } from "react-icons/fa"
+import { FaArrowLeft, FaDownload } from "react-icons/fa"
 import { FaBilibili } from "react-icons/fa6"
 import { motion, Variants } from "framer-motion"
 import Image from "next/image"
@@ -326,6 +326,39 @@ function RecordPlayer({ song }: { song: Song }) {
  * 歌曲基本信息组件
  */
 function SongInfo({ song }: { song: Song }) {
+  const [isDownloading, setIsDownloading] = useState(false)
+
+  const handleDownloadCover = async () => {
+    if (isDownloading) return
+
+    try {
+      setIsDownloading(true)
+      const url = `${CONFIG.ASSETS.MAIMAI.JACKET}/${song.id}.png`
+      const filename = `${song.title}_cover.png`
+
+      const response = await fetch(url)
+      if (!response.ok) throw new Error("下载失败")
+
+      const blob = await response.blob()
+      const downloadUrl = URL.createObjectURL(blob)
+
+      const link = document.createElement("a")
+      link.href = downloadUrl
+      link.download = filename
+      link.style.display = "none"
+      document.body.appendChild(link)
+      link.click()
+
+      document.body.removeChild(link)
+      URL.revokeObjectURL(downloadUrl)
+    } catch (error) {
+      console.error("封面下载失败:", error)
+      alert("下载失败，请稍后重试")
+    } finally {
+      setIsDownloading(false)
+    }
+  }
+
   return (
     <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm">
       <h1 className="text-3xl font-bold text-gray-800 mb-2">{song.title}</h1>
@@ -372,6 +405,19 @@ function SongInfo({ song }: { song: Song }) {
           <FaBilibili className="mr-2" />
           <span>在B站搜索</span>
         </a>
+
+        <button
+          onClick={handleDownloadCover}
+          disabled={isDownloading}
+          className={`flex items-center px-4 py-2 rounded-xl text-white border shadow-md hover:shadow-lg transition-all duration-300 ${
+            isDownloading
+              ? "bg-pink-400 border-pink-400 cursor-wait"
+              : "bg-pink-500 border-pink-600 hover:bg-pink-600"
+          }`}
+        >
+          <FaDownload className={`mr-2 ${isDownloading ? "animate-bounce" : ""}`} />
+          <span>{isDownloading ? "下载中..." : "下载封面"}</span>
+        </button>
       </div>
     </div>
   )

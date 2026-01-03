@@ -97,7 +97,7 @@ export default function Navigation({ textstroke }: NavigationProps) {
               return (
                 <div key={item.id} className="flex items-center">
                   {index > 0 && <div className="text-pink-300 mx-3 select-none">|</div>}
-                  <Link href={item.href} className="relative group px-4 py-2">
+                  <Link href={item.href} className="relative group px-4 py-2" id={item.id}>
                     {isActive && (
                       <motion.div
                         layoutId="activeNav"

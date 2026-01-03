@@ -7,6 +7,7 @@ import { FaChevronDown, FaMapMarkerAlt, FaSearch, FaFilter, FaMusic, FaTimes } f
 import { motion, AnimatePresence } from "framer-motion"
 import ErrorBoundary from "./components/ErrorBoundary"
 import Image from "next/image"
+import { DownloadButton } from "@/components/ui/button"
 
 // -----------------------------------------------------------------------------
 // 类型定义
@@ -383,6 +384,13 @@ export default function RegionPage() {
                                   </div>
                                   <div className="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded-md text-xs font-mono text-gray-600 shadow-sm">
                                     {area.area_id}
+                                  </div>
+                                  <div className="absolute top-3 left-3 z-10">
+                                    <DownloadButton
+                                      url={`/img/version/${area.area_id}.png`}
+                                      filename={`${area.name}.png`}
+                                      className="w-8 h-8 text-sm !bg-white/90 !text-gray-600 hover:!bg-white hover:!text-pink-500 shadow-sm"
+                                    />
                                   </div>
                                 </div>
 
