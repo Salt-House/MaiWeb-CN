@@ -8,6 +8,7 @@ import NoteTable from "./noteTable"
 import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import MusicPlayer from "./musicPlayer"
 import ScoreDetail from "./scoreDetail"
+import MaiNotesTools from "./maiNotesTools"
 import Link from "next/link"
 import { FaArrowLeft } from "react-icons/fa"
 import { FaBilibili } from "react-icons/fa6"
@@ -15,6 +16,7 @@ import { motion, Variants } from "framer-motion"
 import Image from "next/image"
 import { CONFIG } from "@/config/api"
 import { getSongDetail } from "@/services/music"
+import NotesCanvas from "./notesCanvas"
 
 export default function SongDetail() {
   const params = useParams()
@@ -115,11 +117,14 @@ export default function SongDetail() {
               <div>
                 <ChartTypeSwitcher song={song} chartType={chartType} setChartType={setChartType} />
                 <NoteTable song={song} chartType={chartType} />
+                <MaiNotesTools song={song} chartType={chartType} />
+                <NotesCanvas />
               </div>
             )}
             {scores && scores.length > 0 && <ScoreDetail song={song} scores={scores} />}
           </div>
         </div>
+       
       </motion.div>
     </div>
   )
