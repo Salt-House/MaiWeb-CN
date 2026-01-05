@@ -22,9 +22,11 @@ const Guide = ({ steps, mark }: GuideProps) => {
   useEffect(() => {
     const hideTour = localStorage.getItem(mark)
     if (hideTour !== "true") {
-      setStepIndex(0)
-      setIsBrowser(true)
-      setIsRunning(true)
+      setTimeout(() => {
+        setStepIndex(0)
+        setIsBrowser(true)
+        setIsRunning(true)
+      }, 0)
     }
   }, [mark])
 

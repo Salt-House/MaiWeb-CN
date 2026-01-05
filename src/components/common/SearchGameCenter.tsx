@@ -57,8 +57,10 @@ const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
 
   useEffect(() => {
     const ua = navigator.userAgent
-    setIsIOS(/iPad|iPhone|iPod/.test(ua) && !(window as unknown as { MSStream: unknown }).MSStream)
-    setIsAndroid(/Android/.test(ua))
+    setTimeout(() => {
+      setIsIOS(/iPad|iPhone|iPod/.test(ua) && !(window as unknown as { MSStream: unknown }).MSStream)
+      setIsAndroid(/Android/.test(ua))
+    }, 0)
   }, [])
 
   const name = arcade.arcade_name

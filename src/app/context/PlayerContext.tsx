@@ -132,27 +132,29 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
       const savedVolume = localStorage.getItem("music_volume")
       const savedPlayMode = localStorage.getItem("music_play_mode")
 
-      if (savedPlaylist) {
-        setPlaylist(JSON.parse(savedPlaylist))
-      }
+      setTimeout(() => {
+        if (savedPlaylist) {
+          setPlaylist(JSON.parse(savedPlaylist))
+        }
 
-      if (savedCurrentTrack) {
-        setCurrentTrack(JSON.parse(savedCurrentTrack))
-      }
+        if (savedCurrentTrack) {
+          setCurrentTrack(JSON.parse(savedCurrentTrack))
+        }
 
-      if (savedVolume) {
-        const vol = parseFloat(savedVolume)
-        if (!isNaN(vol)) {
-          setVolume(vol)
-          if (audioRef.current) {
-            audioRef.current.volume = vol
+        if (savedVolume) {
+          const vol = parseFloat(savedVolume)
+          if (!isNaN(vol)) {
+            setVolume(vol)
+            if (audioRef.current) {
+              audioRef.current.volume = vol
+            }
           }
         }
-      }
 
-      if (savedPlayMode) {
-        setPlayMode(savedPlayMode as PlayMode)
-      }
+        if (savedPlayMode) {
+          setPlayMode(savedPlayMode as PlayMode)
+        }
+      }, 0)
     } catch (error) {
       console.error("Failed to load player state from localStorage:", error)
     }

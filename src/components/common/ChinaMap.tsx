@@ -13,7 +13,6 @@ interface UserRegionData {
 
 interface GeoJSON {
   type: "FeatureCollection"
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   features: any[]
 }
 
@@ -112,7 +111,6 @@ const ChinaMap = () => {
       },
       tooltip: {
         trigger: "item",
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         formatter: function (params: any) {
           // ECharts 类型复杂，params 类型暂用 any，可进一步细化为 echarts.CallbackDataParams
           const { name, data } = params

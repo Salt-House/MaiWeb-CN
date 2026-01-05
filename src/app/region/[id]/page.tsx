@@ -98,7 +98,7 @@ export default function AreaDetailPage({ params }: PageProps) {
   }, [language, params.id])
 
   useEffect(() => {
-    GetAreaDetail()
+    setTimeout(() => GetAreaDetail(), 0)
   }, [GetAreaDetail])
 
   // 标签页配置

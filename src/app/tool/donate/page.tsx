@@ -13,28 +13,27 @@ export default function DonatePage() {
   ]
   const [display, setDisplay] = useState("正在查询登录状态")
   const [isModalOpen, setIsModalOpen] = useState(false) // 控制弹窗状态
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [checkUser, setCheckUser] = useState(false)
   const [token, setToken] = useState("")
   const [paycode, setPaycode] = useState("")
 
+  const openModal = () => setIsModalOpen(true) // 打开弹窗
+  const closeModal = () => setIsModalOpen(false) // 关闭弹窗
+
   useEffect(() => {
-    openModal()
+    setTimeout(openModal, 0)
     const storedToken = localStorage.getItem("token")
     if (storedToken) {
-      setToken(storedToken)
+      setTimeout(() => setToken(storedToken), 0)
     }
   }, [])
 
   useEffect(() => {
     if (token) {
-      closeModal()
+      setTimeout(closeModal, 0)
     } else {
-      setDisplay("您似乎没登录，捐赠将不会记录到账户")
+      setTimeout(() => setDisplay("您似乎没登录，捐赠将不会记录到账户"), 0)
     }
   }, [token])
-  const openModal = () => setIsModalOpen(true) // 打开弹窗
-  const closeModal = () => setIsModalOpen(false) // 关闭弹窗
 
   return (
     <>

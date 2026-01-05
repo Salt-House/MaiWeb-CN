@@ -111,7 +111,7 @@ export default function MusicPage() {
   useEffect(() => {
     const savedMode = localStorage.getItem("maimaimoe-music-ui-mode")
     if (savedMode === "legacy") {
-      setIsLegacyMode(true)
+      setTimeout(() => setIsLegacyMode(true), 0)
     }
   }, [])
 
@@ -183,7 +183,7 @@ export default function MusicPage() {
   }, [])
 
   useEffect(() => {
-    getSongs(defaultUrl)
+    setTimeout(() => getSongs(defaultUrl), 0)
   }, [defaultUrl, getSongs])
 
   // MARK: - 主视图
@@ -784,7 +784,7 @@ function AdvancedSearchBar({
   useEffect(() => {
     // 跳过首次渲染时的执行
     if (isInitialRender) {
-      setIsInitialRender(false)
+      setTimeout(() => setIsInitialRender(false), 0)
       return
     }
 

@@ -8,7 +8,8 @@ export default function UserLogin() {
   const [token, setToken] = useState("")
 
   useEffect(() => {
-    setToken(localStorage.getItem("token") || "")
+    const storedToken = localStorage.getItem("token") || ""
+    setTimeout(() => setToken(storedToken), 0)
   }, [])
 
   const loginPath = token === "" ? "/user" : "/user/profile"

@@ -145,7 +145,8 @@ export default function Home() {
     getNews(3, 0).then(data => setNews1(data))
     getNews(3, 3).then(data => setNews2(data))
     getNews(6, 0).then(data => setNews3(data))
-    setToken(localStorage.getItem("token") || "")
+    const storedToken = localStorage.getItem("token") || ""
+    setTimeout(() => setToken(storedToken), 0)
     if (localStorage.getItem("token") == "0") {
       localStorage.removeItem("token")
     }

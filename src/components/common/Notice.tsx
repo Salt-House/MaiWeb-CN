@@ -9,7 +9,6 @@ import Image from "next/image"
 
 interface NoticeProps {
   type?: "info" | "success" | "warning" | "error"
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   duration?: number // 自动关闭的时间（毫秒），如不设置则不自动关闭
 }
 
@@ -17,13 +16,9 @@ const Notice: React.FC<NoticeProps> = ({ type = "info" }) => {
   const [token, setToken] = useState<string>("")
   const [isVisible, setIsVisible] = useState(false)
   const [string, setString] = useState<string>("")
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [accounts, setAccounts] = useState<ThirdAccount[]>([])
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [notice, setNotice] = useState<string[]>([])
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showModal, setShowModal] = useState(false)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const notice_index = 0
 
   // 不同类型通知的样式
@@ -55,10 +50,10 @@ const Notice: React.FC<NoticeProps> = ({ type = "info" }) => {
   */
 
   useEffect(() => {
-    setIsVisible(true)
+    setTimeout(() => setIsVisible(true), 0)
     const temp = localStorage.getItem("token")
     if (temp) {
-      setToken(temp)
+      setTimeout(() => setToken(temp), 0)
     }
   }, [])
 
@@ -67,9 +62,7 @@ const Notice: React.FC<NoticeProps> = ({ type = "info" }) => {
       if (token !== "") {
         try {
           // 并行请求用户信息和账号绑定信息，提高效率
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const [userResult, accountsData] = await Promise.all([
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             getUserProfile(),
             getBindAccounts(),
           ])
@@ -81,7 +74,6 @@ const Notice: React.FC<NoticeProps> = ({ type = "info" }) => {
           setIsVisible(true)
 
           // 处理账号绑定信息
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           if (Array.isArray(accountsData) && accountsData.length > 0 && accountsData[0].server) {
             const updatedAccounts: ThirdAccount[] = accountsData.map(account => {
               let from = ""
@@ -116,7 +108,7 @@ const Notice: React.FC<NoticeProps> = ({ type = "info" }) => {
 
   useEffect(() => {
     if (string == "暂无通知" || string == "") {
-      setIsVisible(false)
+      setTimeout(() => setIsVisible(false), 0)
     }
   }, [string])
 

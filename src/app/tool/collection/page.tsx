@@ -113,7 +113,6 @@ export default function CollectionPage() {
   }
 
   // 打开图片预览
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openImagePreview = (item: any, type: string) => {
     let imageUrl = ""
     switch (type) {

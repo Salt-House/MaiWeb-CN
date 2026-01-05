@@ -28,9 +28,8 @@ interface NewsItem {
 export default function NewDetailPage() {
   const [news, setNews] = useState<NewsItem[]>([])
   const param = useParams()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [timeStamp, setTimeStamp] = useState(
-    decodeURIComponent(Array.isArray(param.id) ? param.id[0] : param.id)
+    decodeURIComponent(Array.isArray(param.id) ? param.id[0] : param.id || "")
   )
   const [targetNews, setTargetNews] = useState<NewsItem | null>(null)
 
@@ -48,7 +47,7 @@ export default function NewDetailPage() {
     temp = localStorage.getItem("mainews") || ""
     console.log(temp)
     if (temp) {
-      setNews(JSON.parse(temp))
+      setTimeout(() => setNews(JSON.parse(temp)), 0)
     } else {
       alert("No news found")
     }
@@ -59,7 +58,7 @@ export default function NewDetailPage() {
     if (news.length === 0) return
     console.log(news)
     const foundNews = news.find(item => item.source_created_at === timeStamp)
-    setTargetNews(foundNews || null)
+    setTimeout(() => setTargetNews(foundNews || null), 0)
 
     // MARK: - 预留多图片处理
     // 处理图片数组
@@ -75,7 +74,7 @@ export default function NewDetailPage() {
       // 过滤掉与主图片相同的URL
       const uniqueContentImages = contentImages.filter((img: string) => img !== foundNews.image_url)
 
-      setImages([...imageArray, ...uniqueContentImages])
+      setTimeout(() => setImages([...imageArray, ...uniqueContentImages]), 0)
     }
   }, [news, timeStamp])
 

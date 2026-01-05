@@ -36,7 +36,7 @@ export default function Navigation({ textstroke }: NavigationProps) {
   useEffect(() => {
     const storedToken = localStorage.getItem("token")
     if (storedToken) {
-      setToken(storedToken)
+      setTimeout(() => setToken(storedToken), 0)
 
       // 获取用户信息
       const myHeaders = new Headers()

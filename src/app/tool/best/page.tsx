@@ -48,306 +48,308 @@ export default function BestPage() {
     textShadow:
       "-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)",
   }
-  const GetBindAccount = useCallback(() => {
-    // TODO 类型：避免使用 any；将返回数据映射至强类型结构
-    setIsLoading(true)
-    const myHeaders = new Headers()
-    myHeaders.append("accept", "application/json")
-    myHeaders.append("Authorization", `Bearer ${token}`)
+  const GetBest50 = useCallback(
+    (fromOverride?: string, accountsOverride?: ThirdAccount[]) => {
+      // TODO 性能：对长列表的渲染进行虚拟化；对数据处理使用 `useMemo` 缓存
+      setIsLoading(true)
+      const targetFrom = fromOverride ?? nowFrom
+      const targetAccounts = accountsOverride ?? accounts
 
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-    }
-    // TODO 日志：移除
-    console.log("start fetch bind account")
-    fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts`, requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        // TODO 日志：移除
-        console.log("get data")
-        const data = JSON.parse(result)
-        if (data.length > 0 && data[0].server) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const updatedAccounts = data.map((account: any) => {
-            let from = ""
-            if (!isNaN(Number(account.identifier))) {
-              from = "lxns"
-            } else {
-              if (account.identifier.length > 40) {
-                from = "maiweb"
-              } else {
-                from = "divingfish"
-              }
+      let nickname = ""
+      if (targetFrom === "divingfish") {
+        for (let i = 0; i < targetAccounts.length; i++) {
+          if (targetAccounts[i].from === "divingfish") {
+            nickname = targetAccounts[i].identifier
+          }
+        }
+        const myHeaders = new Headers()
+        myHeaders.append("accept", "application/json")
+
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+        }
+        let firstWord = ""
+        const tmp = nickname.split(" ")
+
+        if (tmp.length > 2) {
+          firstWord = tmp.slice(0, tmp.length - 1).join(" ")
+        } else {
+          firstWord = tmp[0]
+        }
+        fetch(
+          `${CONFIG.API.ENDPOINTS.API}/maimai/divingfish/bests?username=${firstWord}`,
+          requestOptions
+        )
+          .then(response => response.text())
+          .then(result => {
+            localStorage.setItem("best", result)
+            const data = JSON.parse(result)
+            const b15: MusicGradeProps[] = []
+            const b35: MusicGradeProps[] = []
+
+            if (Array.isArray(data.scores_b15)) {
+              data.scores_b15.forEach((song: any) => {
+                b15.push({
+                  id: Number(song.id),
+                  title: song.title,
+                  level: song.level,
+                  level_index: song.level_index,
+                  level_value: song.level_value,
+                  achievements: song.achievements,
+                  fc: song.fc,
+                  fs: song.fs,
+                  dx_score: song.dx_score,
+                  dx_rating: song.dx_rating,
+                  rate: song.rate,
+                  type: song.type,
+                })
+              })
             }
-            return {
-              server: account.server,
-              nickname: account.nickname,
-              identifier: account.identifier,
-              from: from,
+            if (Array.isArray(data.scores_b35)) {
+              data.scores_b35.forEach((song: any) => {
+                b35.push({
+                  id: Number(song.id),
+                  title: song.title,
+                  level: song.level,
+                  level_index: song.level_index,
+                  level_value: song.level_value,
+                  achievements: song.achievements,
+                  fc: song.fc,
+                  fs: song.fs,
+                  dx_score: song.dx_score,
+                  dx_rating: song.dx_rating,
+                  rate: song.rate,
+                  type: song.type,
+                })
+              })
             }
+            // TODO 日志：移除
+            console.log(data)
+            setBest35(b35)
+            setBest15(b15)
+            setRating15(Math.ceil(data.rating_b15))
+            setRating35(Math.ceil(data.rating_b35))
+            setIsLoading(false)
           })
-          setAccounts(updatedAccounts)
+          .catch(error => {
+            console.error(error)
+            setIsLoading(false)
+          })
+      } else if (targetFrom === "lxns") {
+        for (let i = 0; i < targetAccounts.length; i++) {
+          if (targetAccounts[i].from === "lxns") {
+            nickname = targetAccounts[i].identifier
+          }
         }
-        console.log(data)
-        setIsLoading(false)
-      })
-      .catch(error => {
-        console.error(error)
-        setIsLoading(false)
-      })
-  }, [token])
-  const GetBest50 = useCallback(() => {
-    // TODO 性能：对长列表的渲染进行虚拟化；对数据处理使用 `useMemo` 缓存
-    setIsLoading(true)
-    let nickname = ""
-    if (nowFrom === "divingfish") {
-      for (let i = 0; i < accounts.length; i++) {
-        if (accounts[i].from === "divingfish") {
-          nickname = accounts[i].identifier
+        const myHeaders = new Headers()
+        myHeaders.append("accept", "application/json")
+
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
         }
+
+        fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/lxns/bests?friend_code=${nickname}`, requestOptions)
+          .then(response => response.text())
+          .then(result => {
+            localStorage.setItem("best", result)
+            const data = JSON.parse(result)
+            const b15: MusicGradeProps[] = []
+            const b35: MusicGradeProps[] = []
+
+            if (Array.isArray(data.scores_b15)) {
+              data.scores_b15.forEach((song: any) => {
+                b15.push({
+                  id: Number(song.id),
+                  title: song.title,
+                  level: song.level,
+                  level_index: song.level_index,
+                  level_value: song.level_value,
+                  achievements: song.achievements,
+                  fc: song.fc,
+                  fs: song.fs,
+                  dx_score: song.dx_score,
+                  dx_rating: song.dx_rating,
+                  rate: song.rate,
+                  type: song.type,
+                })
+              })
+            }
+            if (Array.isArray(data.scores_b35)) {
+              data.scores_b35.forEach((song: any) => {
+                b35.push({
+                  id: Number(song.id),
+                  title: song.title,
+                  level: song.level,
+                  level_index: song.level_index,
+                  level_value: song.level_value,
+                  achievements: song.achievements.split(".")[1],
+                  fc: song.fc,
+                  fs: song.fs,
+                  dx_score: song.dx_score,
+                  dx_rating: song.dx_rating,
+                  rate: song.rate,
+                  type: song.type,
+                })
+              })
+            }
+            // TODO 日志：移除
+            console.log(data)
+            setBest35(b35)
+            setBest15(b15)
+            setRating15(Math.ceil(data.rating_b15))
+            setRating35(Math.ceil(data.rating_b35))
+            setIsLoading(false)
+          })
+          .catch(error => {
+            console.error(error)
+            setIsLoading(false)
+          })
+      } else if (targetFrom === "maiweb") {
+        // TODO 日志：移除
+        console.log("开始从maiweb获取数据")
+        const myHeaders = new Headers()
+        myHeaders.append("Accept", "application/json")
+        if (token) {
+          myHeaders.append("Authorization", `Bearer ${token}`)
+        }
+
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+        }
+        // TODO 日志：移除
+        console.log("发起请求")
+        fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/bests`, requestOptions)
+          .then(response => response.text())
+          .then(result => {
+            localStorage.setItem("best", result)
+            const data = JSON.parse(result)
+            const b15: MusicGradeProps[] = []
+            const b35: MusicGradeProps[] = []
+
+            // 检查data是否为数组并且有数据
+            if (Array.isArray(data.scores_b15)) {
+              data.scores_b15.forEach((song: any) => {
+                b15.push({
+                  id: Number(song.id),
+                  title: song.title,
+                  level: song.level,
+                  level_index: song.level_index,
+                  level_value: song.level_value,
+                  achievements: song.achievements,
+                  fc: song.fc,
+                  fs: song.fs,
+                  dx_score: song.dx_score,
+                  dx_rating: song.dx_rating,
+                  rate: song.rate,
+                  type: song.type,
+                })
+              })
+            }
+            if (Array.isArray(data.scores_b35)) {
+              data.scores_b35.forEach((song: any) => {
+                b35.push({
+                  id: Number(song.id),
+                  title: song.title,
+                  level: song.level,
+                  level_index: song.level_index,
+                  level_value: song.level_value,
+                  achievements: song.achievements,
+                  fc: song.fc,
+                  fs: song.fs,
+                  dx_score: song.dx_score,
+                  dx_rating: song.dx_rating,
+                  rate: song.rate,
+                  type: song.type,
+                })
+              })
+            }
+            // TODO 日志：移除
+            console.log(data)
+            setBest35(b35)
+            setBest15(b15)
+            setRating15(Math.ceil(data.rating_b15))
+            setRating35(Math.ceil(data.rating_b35))
+            setIsLoading(false)
+          })
+          .catch(error => {
+            console.error(error)
+            setIsLoading(false)
+          })
       }
+    },
+    [nowFrom, accounts, token]
+  )
+
+  const GetBindAccount = useCallback(
+    (tokenOverride?: string) => {
+      // TODO 类型：避免使用 any；将返回数据映射至强类型结构
+      setIsLoading(true)
       const myHeaders = new Headers()
       myHeaders.append("accept", "application/json")
-
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      }
-      let firstWord = ""
-      const tmp = nickname.split(" ")
-
-      if (tmp.length > 2) {
-        firstWord = tmp.slice(0, tmp.length - 1).join(" ")
-      } else {
-        firstWord = tmp[0]
-      }
-      fetch(
-        `${CONFIG.API.ENDPOINTS.API}/maimai/divingfish/bests?username=${firstWord}`,
-        requestOptions
-      )
-        .then(response => response.text())
-        .then(result => {
-          localStorage.setItem("best", result)
-          const data = JSON.parse(result)
-          const b15: MusicGradeProps[] = []
-          const b35: MusicGradeProps[] = []
-
-          if (Array.isArray(data.scores_b15)) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            data.scores_b15.forEach((song: any) => {
-              b15.push({
-                id: Number(song.id),
-                title: song.title,
-                level: song.level,
-                level_index: song.level_index,
-                level_value: song.level_value,
-                achievements: song.achievements,
-                fc: song.fc,
-                fs: song.fs,
-                dx_score: song.dx_score,
-                dx_rating: song.dx_rating,
-                rate: song.rate,
-                type: song.type,
-              })
-            })
-          }
-          if (Array.isArray(data.scores_b35)) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            data.scores_b35.forEach((song: any) => {
-              b35.push({
-                id: Number(song.id),
-                title: song.title,
-                level: song.level,
-                level_index: song.level_index,
-                level_value: song.level_value,
-                achievements: song.achievements,
-                fc: song.fc,
-                fs: song.fs,
-                dx_score: song.dx_score,
-                dx_rating: song.dx_rating,
-                rate: song.rate,
-                type: song.type,
-              })
-            })
-          }
-          // TODO 日志：移除
-          console.log(data)
-          setBest35(b35)
-          setBest15(b15)
-          setRating15(Math.ceil(data.rating_b15))
-          setRating35(Math.ceil(data.rating_b35))
-          setIsLoading(false)
-        })
-        .catch(error => {
-          console.error(error)
-          setIsLoading(false)
-        })
-    } else if (nowFrom === "lxns") {
-      for (let i = 0; i < accounts.length; i++) {
-        if (accounts[i].from === "lxns") {
-          nickname = accounts[i].identifier
-        }
-      }
-      const myHeaders = new Headers()
-      myHeaders.append("accept", "application/json")
-
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      }
-
-      fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/lxns/bests?friend_code=${nickname}`, requestOptions)
-        .then(response => response.text())
-        .then(result => {
-          localStorage.setItem("best", result)
-          const data = JSON.parse(result)
-          const b15: MusicGradeProps[] = []
-          const b35: MusicGradeProps[] = []
-
-          if (Array.isArray(data.scores_b15)) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            data.scores_b15.forEach((song: any) => {
-              b15.push({
-                id: Number(song.id),
-                title: song.title,
-                level: song.level,
-                level_index: song.level_index,
-                level_value: song.level_value,
-                achievements: song.achievements,
-                fc: song.fc,
-                fs: song.fs,
-                dx_score: song.dx_score,
-                dx_rating: song.dx_rating,
-                rate: song.rate,
-                type: song.type,
-              })
-            })
-          }
-          if (Array.isArray(data.scores_b35)) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            data.scores_b35.forEach((song: any) => {
-              b35.push({
-                id: Number(song.id),
-                title: song.title,
-                level: song.level,
-                level_index: song.level_index,
-                level_value: song.level_value,
-                achievements: song.achievements.split(".")[1],
-                fc: song.fc,
-                fs: song.fs,
-                dx_score: song.dx_score,
-                dx_rating: song.dx_rating,
-                rate: song.rate,
-                type: song.type,
-              })
-            })
-          }
-          // TODO 日志：移除
-          console.log(data)
-          setBest35(b35)
-          setBest15(b15)
-          setRating15(Math.ceil(data.rating_b15))
-          setRating35(Math.ceil(data.rating_b35))
-          setIsLoading(false)
-        })
-        .catch(error => {
-          console.error(error)
-          setIsLoading(false)
-        })
-    } else if (nowFrom === "maiweb") {
-      // TODO 日志：移除
-      console.log("开始从maiweb获取数据")
-      const myHeaders = new Headers()
-      myHeaders.append("Accept", "application/json")
-      if (token) {
-        myHeaders.append("Authorization", `Bearer ${token}`)
-      }
+      const targetToken = tokenOverride ?? token
+      myHeaders.append("Authorization", `Bearer ${targetToken}`)
 
       const requestOptions = {
         method: "GET",
         headers: myHeaders,
       }
       // TODO 日志：移除
-      console.log("发起请求")
-      fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/bests`, requestOptions)
+      console.log("start fetch bind account")
+      fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/accounts`, requestOptions)
         .then(response => response.text())
         .then(result => {
-          localStorage.setItem("best", result)
-          const data = JSON.parse(result)
-          const b15: MusicGradeProps[] = []
-          const b35: MusicGradeProps[] = []
-
-          // 检查data是否为数组并且有数据
-          if (Array.isArray(data.scores_b15)) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            data.scores_b15.forEach((song: any) => {
-              b15.push({
-                id: Number(song.id),
-                title: song.title,
-                level: song.level,
-                level_index: song.level_index,
-                level_value: song.level_value,
-                achievements: song.achievements,
-                fc: song.fc,
-                fs: song.fs,
-                dx_score: song.dx_score,
-                dx_rating: song.dx_rating,
-                rate: song.rate,
-                type: song.type,
-              })
-            })
-          }
-          if (Array.isArray(data.scores_b35)) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            data.scores_b35.forEach((song: any) => {
-              b35.push({
-                id: Number(song.id),
-                title: song.title,
-                level: song.level,
-                level_index: song.level_index,
-                level_value: song.level_value,
-                achievements: song.achievements,
-                fc: song.fc,
-                fs: song.fs,
-                dx_score: song.dx_score,
-                dx_rating: song.dx_rating,
-                rate: song.rate,
-                type: song.type,
-              })
-            })
-          }
           // TODO 日志：移除
+          console.log("get data")
+          const data = JSON.parse(result)
+          let updatedAccounts: ThirdAccount[] = []
+          if (data.length > 0 && data[0].server) {
+            updatedAccounts = data.map((account: any) => {
+              let from = ""
+              if (!isNaN(Number(account.identifier))) {
+                from = "lxns"
+              } else {
+                if (account.identifier.length > 40) {
+                  from = "maiweb"
+                } else {
+                  from = "divingfish"
+                }
+              }
+              return {
+                server: account.server,
+                nickname: account.nickname,
+                identifier: account.identifier,
+                from: from,
+              }
+            })
+            setAccounts(updatedAccounts)
+            if (updatedAccounts.length > 0) {
+              setNowFrom(updatedAccounts[0].from)
+              GetBest50(updatedAccounts[0].from, updatedAccounts)
+            }
+          }
           console.log(data)
-          setBest35(b35)
-          setBest15(b15)
-          setRating15(Math.ceil(data.rating_b15))
-          setRating35(Math.ceil(data.rating_b35))
           setIsLoading(false)
         })
         .catch(error => {
           console.error(error)
           setIsLoading(false)
         })
-    }
-  }, [nowFrom, accounts, token])
+    },
+    [token, GetBest50]
+  )
   useEffect(() => {
-    // const data = { "rating": 15468, "rating_b35": 10833, "rating_b15": 4635, "scores_b35": [{ "id": 1343, "title": "マツヨイナイトバグ", "level": "13+", "level_index": 3, "achievements": 100.5263, "fc": 3, "fs": 0, "dx_score": 2747, "dx_rating": 312.0, "rate": 0, "type": "dx" }, { "id": 400, "title": "デッドレッドガールズ", "level": "13+", "level_index": 3, "achievements": 100.6019, "fc": null, "fs": 0, "dx_score": 2494, "dx_rating": 312.0, "rate": 0, "type": "standard" }, { "id": 1096, "title": "モ°ルモ°ル", "level": "13+", "level_index": 3, "achievements": 100.6086, "fc": 3, "fs": 0, "dx_score": 2487, "dx_rating": 312.0, "rate": 0, "type": "dx" }, { "id": 1236, "title": "Last Samurai", "level": "13+", "level_index": 3, "achievements": 100.5609, "fc": 3, "fs": 2, "dx_score": 1200, "dx_rating": 312.0, "rate": 0, "type": "dx" }, { "id": 1466, "title": "群青シグナル", "level": "13+", "level_index": 3, "achievements": 100.5721, "fc": null, "fs": 0, "dx_score": 2661, "dx_rating": 312.0, "rate": 0, "type": "dx" }, { "id": 1310, "title": "Trick tear", "level": "14", "level_index": 3, "achievements": 100.2449, "fc": null, "fs": 0, "dx_score": 2246, "dx_rating": 311.0, "rate": 1, "type": "dx" }, { "id": 1461, "title": "#狂った民族２ PRAVARGYAZOOQA", "level": "14", "level_index": 3, "achievements": 100.1856, "fc": null, "fs": 0, "dx_score": 2513, "dx_rating": 311.0, "rate": 1, "type": "dx" }, { "id": 1573, "title": "Final Step!", "level": "13+", "level_index": 3, "achievements": 100.7084, "fc": null, "fs": 0, "dx_score": 2347, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 1566, "title": "Knight Rider", "level": "13+", "level_index": 3, "achievements": 100.772, "fc": null, "fs": 0, "dx_score": 2414, "dx_rating": 310.0, "rate": 0, "type": "dx" }, { "id": 701, "title": "Doll Judgment", "level": "13+", "level_index": 3, "achievements": 100.5674, "fc": null, "fs": 0, "dx_score": 2389, "dx_rating": 310.0, "rate": 0, "type": "standard" }, { "id": 1288, "title": "Big Daddy", "level": "13+", "level_index":[... 7377 chars omitted ...]
-    // setBest35(data.scores_b35)
-    // setBest15(data.scores_b15)
-    // setRating15(data.rating_b15)
-    // setRating35(data.rating_b35)
-    if (localStorage.getItem("token")) {
-      setToken(localStorage.getItem("token"))
-    }
-    // alert('Arcade数据源暂不可用')
-  }, [])
-  useEffect(() => {
-    if (token) {
+    const storedToken = localStorage.getItem("token")
+    if (storedToken) {
+      setToken(storedToken)
       // TODO 网络：统一封装请求；移除多处 console.log；添加错误重试
-      GetBindAccount()
+      setTimeout(() => {
+        GetBindAccount(storedToken)
+      }, 0)
       const myHeaders = new Headers()
-      myHeaders.append("Authorization", `Bearer ${token}`)
+      myHeaders.append("Authorization", `Bearer ${storedToken}`)
 
       const requestOptions = {
         method: "GET",
@@ -364,15 +366,8 @@ export default function BestPage() {
         })
         .catch(error => console.log("error", error))
     }
-  }, [token, GetBindAccount])
-  useEffect(() => {
-    if (accounts.length > 0) {
-      setNowFrom(accounts[0].from)
-    }
-  }, [accounts])
-  useEffect(() => {
-    GetBest50()
-  }, [nowFrom, GetBest50])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const steps: Step[] = [
     {
@@ -449,7 +444,7 @@ export default function BestPage() {
             {/* 数据源选择区域 */}
             <div className="flex flex-col lg:flex-row gap-4 mb-4">
               <button
-                onClick={GetBindAccount}
+                onClick={() => GetBindAccount()}
                 className="flex-shrink-0 px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
               >
                 刷新数据源
@@ -460,7 +455,10 @@ export default function BestPage() {
                   {accounts.map((account, index) => (
                     <button
                       key={index}
-                      onClick={() => setNowFrom(account.from)}
+                      onClick={() => {
+                        setNowFrom(account.from)
+                        GetBest50(account.from)
+                      }}
                       className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 shadow-lg 
                                                     ${
                                                       account.from === nowFrom
@@ -486,7 +484,7 @@ export default function BestPage() {
 
               <div className="flex items-center gap-3">
                 <button
-                  onClick={GetBest50}
+                  onClick={() => GetBest50()}
                   className="px-6 py-2 rounded-xl bg-gradient-to-r from-green-500/80 to-teal-500/80 text-white text-sm font-medium hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
                 >
                   手动更新数据
