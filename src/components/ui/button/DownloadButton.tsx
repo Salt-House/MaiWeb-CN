@@ -1,3 +1,4 @@
+import { title } from "process"
 import React, { useState } from "react"
 import { FaDownload } from "react-icons/fa"
 
@@ -6,6 +7,7 @@ interface DownloadButtonProps {
   filename?: string
   className?: string
   disabled?: boolean
+  children?: React.ReactNode
   onDownloadStart?: () => void
   onDownloadEnd?: () => void
   onError?: (error: Error) => void
@@ -16,6 +18,7 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
   filename,
   className = "",
   disabled = false,
+  children,
   onDownloadStart,
   onDownloadEnd,
   onError,
@@ -67,19 +70,52 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
     }
   }
 
+  // 检测是否提供了自定义样式
+  const hasCustomBg = className.includes("bg-")
+  const bgColorClass = hasCustomBg
+    ? ""
+    : isDownloading
+    ? "bg-[rgb(107,16,186)]"
+    : "bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]"
+
+  const hasCustomText = className.includes("text-")
+  const textColorClass = hasCustomText ? "" : "text-white"
+
+  const hasCustomSize =
+    className.includes("w-") ||
+    className.includes("h-") ||
+    className.includes("p-") ||
+    className.includes("px-") ||
+    className.includes("py-")
+  const sizeClass = hasCustomSize ? "" : "w-10 h-10"
+
+  const hasCustomRounded = className.includes("rounded")
+  const roundedClass = hasCustomRounded ? "" : "rounded-full"
+
   return (
-    <div className="relative">
+    <div className="relative inline-block">
       <button
         type="button"
         onClick={handleDownload}
         disabled={disabled || isDownloading}
-        className={`w-10 h-10 flex items-center justify-center text-white rounded-full transition-colors ${isDownloading ? "bg-[rgb(107,16,186)]" : "bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]"} ${className}`}
-        title="下载音频"
+        className={`flex items-center justify-center transition-colors ${sizeClass} ${roundedClass} ${textColorClass} ${bgColorClass} ${className}`}
+        title={children ? undefined : isDownloading ? "下载中" : "下载"}
       >
-        {isDownloading ? "..." : <FaDownload />}
+        {isDownloading ? (
+          children ? (
+            <>
+              <span className="mr-2 animate-spin">⟳</span>
+              {children}
+            </>
+          ) : (
+            "..."
+          )
+        ) : (
+          children || <FaDownload />
+        )}
       </button>
 
-      {isDownloading && (
+      {!children && isDownloading && (
         <div className="absolute left-1/2 transform -translate-x-1/2 mt-1 px-2 py-1 bg-[rgba(107,16,186,0.8)] text-white text-xs rounded-md whitespace-nowrap z-10">
           正在下载...
         </div>

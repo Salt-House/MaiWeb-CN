@@ -86,25 +86,9 @@ export default function Home() {
 
   const steps: Step[] = [
     {
-      target: "#music",
-      content: "点击这里可以查看乐曲信息（包括成绩），铺面确认，乐曲播放等功能",
-      disableBeacon: true,
-    },
-    {
-      target: "#region",
-      content: "点击这里可以查看舞萌区域信息，区域伙伴，区域跑图等功能",
-    },
-    {
-      target: "#tool",
-      content: "点击这里可以查看舞萌工具，卷王工具，成绩工具等功能",
-    },
-    {
-      target: "#funDetail",
-      content: "这里可以查看我们已完成的功能和正在开发中的功能",
-    },
-    {
       target: "#news",
       content: "在这里可以查看最新的舞萌资讯",
+      disableBeacon: true,
     },
     {
       target: "#searchGameCenter",

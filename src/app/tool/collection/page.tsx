@@ -129,19 +129,19 @@ export default function CollectionPage() {
       case "trophy":
         switch (item.color) {
           case "Normal":
-            imageUrl = "bg-[url('/img/trophy/UI_CMN_Shougou_Normal.png')]"
+            imageUrl = "/img/trophy/UI_CMN_Shougou_Normal.png"
             break
           case "Bronze":
-            imageUrl = "bg-[url('/img/trophy/UI_CMN_Shougou_Bronze.png')]"
+            imageUrl = "/img/trophy/UI_CMN_Shougou_Bronze.png"
             break
           case "Silver":
-            imageUrl = "bg-[url('/img/trophy/UI_CMN_Shougou_Silver.png')]"
+            imageUrl = "/img/trophy/UI_CMN_Shougou_Silver.png"
             break
           case "Gold":
-            imageUrl = "bg-[url('/img/trophy/UI_CMN_Shougou_Gold.png')]"
+            imageUrl = "/img/trophy/UI_CMN_Shougou_Gold.png"
             break
           case "Rainbow":
-            imageUrl = "bg-[url('/img/trophy/UI_CMN_Shougou_Rainbow.png')]"
+            imageUrl = "/img/trophy/UI_CMN_Shougou_Rainbow.png"
             break
         }
         break

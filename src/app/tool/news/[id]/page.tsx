@@ -14,6 +14,7 @@ import {
   FaChevronRight,
 } from "react-icons/fa"
 import LoadingSpinner from "@/components/ui/LoadingSpinner"
+import { formatDate } from "@/utils/date"
 
 interface NewsItem {
   title: string
@@ -64,15 +65,19 @@ export default function NewDetailPage() {
     // 处理图片数组
     if (foundNews) {
       // 假设图片URL可能在content中以某种格式存在，这里我们先添加主图片
-      const imageArray = [foundNews.image_url]
+      // 将 http 替换为 https 以避免 Mixed Content 错误
+      const mainImage = foundNews.image_url.replace(/^http:\/\//i, "https://")
+      const imageArray = [mainImage]
 
       // 这里可以添加从content中提取其他图片的逻辑
       // 例如，如果content中包含图片链接，可以通过正则表达式提取
       const imgRegex = /https?:\/\/\S+\.(jpg|jpeg|png|gif|webp)/gi
       const contentImages = foundNews.content.match(imgRegex) || []
 
-      // 过滤掉与主图片相同的URL
-      const uniqueContentImages = contentImages.filter((img: string) => img !== foundNews.image_url)
+      // 过滤掉与主图片相同的URL，并确保使用 https
+      const uniqueContentImages = contentImages
+        .map((img: string) => img.replace(/^http:\/\//i, "https://"))
+        .filter((img: string) => img !== mainImage)
 
       setTimeout(() => setImages([...imageArray, ...uniqueContentImages]), 0)
     }
@@ -169,7 +174,7 @@ export default function NewDetailPage() {
                   <div className="flex items-center text-gray-600 space-x-6 mb-6 border-b border-gray-200 pb-4">
                     <div className="flex items-center">
                       <FaCalendarAlt className="mr-2 text-blue-500" />
-                      <span>{new Date(targetNews.source_created_at).toLocaleDateString()}</span>
+                      <span>{formatDate(targetNews.source_created_at)}</span>
                     </div>
 
                     <div className="flex items-center">
