@@ -16,7 +16,6 @@ import { motion, Variants } from "framer-motion"
 import Image from "next/image"
 import { CONFIG } from "@/config/api"
 import { getSongDetail } from "@/services/music"
-import NotesCanvas from "./notesCanvas"
 
 export default function SongDetail() {
   const params = useParams()
@@ -118,7 +117,6 @@ export default function SongDetail() {
                 <ChartTypeSwitcher song={song} chartType={chartType} setChartType={setChartType} />
                 <NoteTable song={song} chartType={chartType} />
                 <MaiNotesTools song={song} chartType={chartType} />
-                <NotesCanvas />
               </div>
             )}
             {scores && scores.length > 0 && <ScoreDetail song={song} scores={scores} />}
