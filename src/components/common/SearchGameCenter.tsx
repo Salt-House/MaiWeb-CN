@@ -109,7 +109,7 @@ const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
       onClick: () => {
         const androidScheme = `bdapp://map/direction?destination=latlng:${lat},${lng}|name:${encodeURIComponent(name)}&coord_type=gcj02&mode=driving`
         const iosScheme = `baidumap://map/direction?destination=latlng:${lat},${lng}|name:${encodeURIComponent(name)}&coord_type=gcj02&mode=driving`
-        const webUrl = `http://api.map.baidu.com/direction?destination=latlng:${lat},${lng}|name:${encodeURIComponent(name)}&coord_type=gcj02&mode=driving&output=html`
+        const webUrl = `https://api.map.baidu.com/direction?destination=latlng:${lat},${lng}|name:${encodeURIComponent(name)}&coord_type=gcj02&mode=driving&output=html`
 
         if (isIOS) openApp(iosScheme, webUrl)
         else if (isAndroid) openApp(androidScheme, webUrl)
@@ -122,7 +122,7 @@ const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
       description: "iOS 系统自带",
       show: isIOS,
       onClick: () => {
-        window.location.href = `http://maps.apple.com/?daddr=${lat},${lng}&dirflg=d&q=${encodeURIComponent(name)}`
+        window.location.href = `https://maps.apple.com/?daddr=${lat},${lng}&dirflg=d&q=${encodeURIComponent(name)}`
       },
     },
     {
