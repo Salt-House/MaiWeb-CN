@@ -38,7 +38,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         <link
           rel="stylesheet"
           href="https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css"
