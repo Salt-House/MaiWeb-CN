@@ -11,6 +11,7 @@ import ScoreDetail from "./scoreDetail"
 import MaiNotesTools from "./maiNotesTools"
 import Link from "next/link"
 import { FaArrowLeft } from "react-icons/fa"
+import { FaDownload } from "react-icons/fa"
 import { FaBilibili } from "react-icons/fa6"
 import { motion, Variants } from "framer-motion"
 import Image from "next/image"
@@ -329,6 +330,43 @@ function RecordPlayer({ song }: { song: Song }) {
  * 歌曲基本信息组件
  */
 function SongInfo({ song }: { song: Song }) {
+  const [isDownloadingCover, setIsDownloadingCover] = useState(false)
+
+  const handleDownloadCover = async () => {
+    if (isDownloadingCover) return
+    setIsDownloadingCover(true)
+    const jacketUrl = `${CONFIG.ASSETS.MAIMAI.JACKET}/${song.id}.png`
+
+    try {
+      const response = await fetch(jacketUrl, { cache: "no-store" })
+      if (!response.ok) {
+        throw new Error(`Failed to download cover: ${response.status}`)
+      }
+
+      const blob = await response.blob()
+      const objectUrl = URL.createObjectURL(blob)
+
+      const safeTitle = (song.title || "cover")
+        .replaceAll(/[\\/:*?"<>|]/g, "_")
+        .replaceAll(/\s+/g, " ")
+        .trim()
+
+      const fileName = `${safeTitle}_${song.id}.png`
+
+      const link = document.createElement("a")
+      link.href = objectUrl
+      link.download = fileName
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      URL.revokeObjectURL(objectUrl)
+    } catch {
+      window.open(jacketUrl, "_blank", "noopener,noreferrer")
+    } finally {
+      setIsDownloadingCover(false)
+    }
+  }
+
   return (
     <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm">
       <h1 className="text-3xl font-bold text-gray-800 mb-2">{song.title}</h1>
@@ -365,7 +403,7 @@ function SongInfo({ song }: { song: Song }) {
         </div>
       )}
 
-      <div className="flex items-center space-x-4 mt-4">
+      <div className="flex flex-wrap items-center gap-3 mt-4">
         <a
           href={`https://search.bilibili.com/all?keyword=${encodeURIComponent(song.title)}`}
           target="_blank"
@@ -375,6 +413,25 @@ function SongInfo({ song }: { song: Song }) {
           <FaBilibili className="mr-2" />
           <span>在B站搜索</span>
         </a>
+
+        <motion.button
+          type="button"
+          onClick={handleDownloadCover}
+          disabled={isDownloadingCover}
+          className="flex items-center px-4 py-2 rounded-xl text-pink-600 bg-white/80 border border-slate-300/50 shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+          whileHover={{ y: -2 }}
+          whileTap={{ scale: 0.98, y: 0 }}
+          transition={{ type: "spring", stiffness: 350, damping: 22 }}
+        >
+          {isDownloadingCover ? (
+            <span className="mr-2 inline-flex h-4 w-4 items-center justify-center">
+              <span className="h-4 w-4 rounded-full border-2 border-pink-600/60 border-t-transparent animate-spin" />
+            </span>
+          ) : (
+            <FaDownload className="mr-2" />
+          )}
+          <span>下载封面</span>
+        </motion.button>
       </div>
     </div>
   )

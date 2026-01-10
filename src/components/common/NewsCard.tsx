@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { FaCalendarAlt, FaUser, FaLink } from "react-icons/fa"
+import { formatDate } from "@/utils/date"
 
 interface NewsCardProps {
   title: string
@@ -55,7 +56,7 @@ export default function NewsCard({
         <div className="flex max-sm:flex-col sm:items-center text-sm text-gray-500 max-sm:space-y-2 sm:space-x-4 mb-3">
           <div className="flex items-center">
             <FaCalendarAlt className="mr-1" />
-            <span>{new Date(source_created_at).toLocaleDateString()}</span>
+            <span>{formatDate(source_created_at)}</span>
           </div>
           <div className="flex items-center">
             <FaUser className="mr-1" />

@@ -1,6 +1,8 @@
 "use client"
 
 import Image from "next/image"
+import DownloadButton from "@/components/ui/button/DownloadButton"
+import { FaDownload } from "react-icons/fa"
 import { motion, AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
@@ -95,24 +97,34 @@ export default function PreviewModal({
                  </h2>
               </div>
               
-              <button
-                onClick={handleClose}
-                className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 p-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-200"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+              <div className="flex items-center gap-2">
+                <DownloadButton
+                  url={getImageUrl() || ""}
+                  filename={`${previewImage.name}.png`}
+                  className="flex items-center px-3 py-1.5 rounded-full text-sm font-medium text-white bg-pink-500 hover:bg-pink-600 shadow-sm hover:shadow-md transition-all duration-300"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
+                  <FaDownload className="mr-1.5 w-3 h-3" />
+                  <span>下载原图</span>
+                </DownloadButton>
+                <button
+                  onClick={handleClose}
+                  className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 p-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             {/* 模态框内容 */}
@@ -122,8 +134,12 @@ export default function PreviewModal({
                 <div className="flex-1 flex justify-center items-center bg-gray-50/50 rounded-2xl p-6 min-h-[300px] border border-gray-100/50">
                   {previewImage.type === "trophy" ? (
                     <div
-                      className={`${previewImage.url} bg-no-repeat bg-contain bg-center w-full max-w-xs sm:max-w-md flex items-center justify-center filter drop-shadow-xl`}
-                      style={{ aspectRatio: "272/29", minHeight: "80px" }}
+                      className="bg-no-repeat bg-contain bg-center w-full max-w-xs sm:max-w-md flex items-center justify-center filter drop-shadow-xl"
+                      style={{ 
+                        aspectRatio: "272/29", 
+                        minHeight: "80px",
+                        backgroundImage: `url('${previewImage.url}')`
+                      }}
                     >
                       <div
                         className="text-white text-sm sm:text-lg font-bold text-center px-4"

@@ -496,6 +496,7 @@ const SearchGameCenter = () => {
             width={192}
             height={192}
             priority
+            style={{ height: "auto" }}
           />
         </motion.div>
 
@@ -606,7 +607,7 @@ const SearchGameCenter = () => {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M15 11a3 3 0 11-6 0 3 3 0z"
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                   </svg>
                   <span className="text-sm font-medium text-pink-700 whitespace-nowrap max-sm:hidden">
@@ -765,7 +766,7 @@ const SearchGameCenter = () => {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth={2}
-                          d="M15 11a3 3 0 11-6 0 3 3 0z"
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                         />
                       </svg>
                       地址查询

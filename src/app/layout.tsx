@@ -36,7 +36,7 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link
           rel="stylesheet"
@@ -71,6 +71,7 @@ export default function RootLayout({
                   width={300}
                   height={300}
                   className="absolute bottom-0 z-[50] left-0 object-contain"
+                  style={{ width: "auto", height: "auto" }}
                 />
                 <Image
                   src="/img/circle/bottom_right_PhotoGrid.png"
@@ -78,6 +79,7 @@ export default function RootLayout({
                   width={900}
                   height={900}
                   className="absolute bottom-0 z-[50] right-0 object-contain"
+                  style={{ width: "auto", height: "auto" }}
                 />
                 <Image
                   src="/img/circle/top_left_PhotoGrid.png"
@@ -85,6 +87,8 @@ export default function RootLayout({
                   width={900}
                   height={900}
                   className="absolute top-0 z-[50] left-0 object-contain"
+                  style={{ height: "auto" }}
+                  priority
                 />
                 <Image
                   src="/img/circle/top_right.png"
@@ -92,6 +96,7 @@ export default function RootLayout({
                   width={300}
                   height={300}
                   className="absolute top-0 z-[50] right-0 object-contain"
+                  style={{ height: "auto" }}
                 />
                 <RoatatingCircle />
 
@@ -189,6 +194,7 @@ export default function RootLayout({
                   width={160}
                   height={160}
                   priority
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
             </Link>
