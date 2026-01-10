@@ -28,6 +28,7 @@ export default function RoatChiho() {
           duration: 2,
           ease: "easeInOut",
           repeat: Infinity,
+          repeatType: "reverse",
         }}
         onClick={() => alert("不要点你爹")}
       />

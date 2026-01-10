@@ -10,11 +10,12 @@ export default function ToolPage() {
       "-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)",
   }
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setToken(localStorage.getItem("token"))
+    const storedToken = localStorage.getItem("token")
+    if (storedToken) {
+      setTimeout(() => setToken(storedToken), 0)
     }
   }, [])
-  useEffect(() => {}, [token])
+  // useEffect(() => {}, [token])
 
   return (
     <>

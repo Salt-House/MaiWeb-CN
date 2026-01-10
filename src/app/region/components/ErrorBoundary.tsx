@@ -1,6 +1,7 @@
 "use client"
 
 import React, { Component, ErrorInfo, ReactNode } from "react"
+import { FaExclamationTriangle, FaRedo, FaHome } from "react-icons/fa"
 
 interface Props {
   children: ReactNode
@@ -40,34 +41,49 @@ class ErrorBoundary extends Component<Props, State> {
 
       // 默认错误UI
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-8">
-          <div className="bg-white/80 backdrop-blur-md rounded-xl shadow-lg p-8 text-center max-w-md">
-            <div className="text-6xl mb-4">😵</div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">页面出现错误</h2>
-            <p className="text-gray-600 mb-6">
-              抱歉，页面遇到了一些问题。请刷新页面重试，或返回首页。
+        <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-br from-pink-50 via-white to-purple-50">
+          <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-pink-100 p-8 md:p-12 text-center max-w-lg w-full">
+            <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+              <FaExclamationTriangle className="text-4xl text-red-400" />
+            </div>
+            
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
+              哎呀，出错了
+            </h2>
+            
+            <p className="text-gray-500 mb-8 leading-relaxed">
+              我们遇到了一些意料之外的问题。请尝试刷新页面，或者稍后再试。
             </p>
-            <div className="flex gap-4 justify-center">
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => window.location.reload()}
-                className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-pink-500 text-white rounded-xl hover:bg-pink-600 transition-all shadow-lg shadow-pink-200 font-medium active:scale-95"
               >
+                <FaRedo className="text-sm" />
                 刷新页面
               </button>
+              
               <button
                 onClick={() => (window.location.href = "/")}
-                className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-white text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-50 transition-all font-medium active:scale-95"
               >
+                <FaHome className="text-sm" />
                 返回首页
               </button>
             </div>
+
             {process.env.NODE_ENV === "development" && this.state.error && (
-              <details className="mt-4 text-left">
-                <summary className="cursor-pointer text-sm text-gray-500">错误详情</summary>
-                <pre className="mt-2 text-xs text-red-600 overflow-auto">
-                  {this.state.error.toString()}
-                </pre>
-              </details>
+              <div className="mt-8 text-left bg-gray-50 rounded-xl p-4 border border-gray-100 overflow-hidden">
+                <details className="group">
+                  <summary className="cursor-pointer text-xs font-mono text-gray-400 select-none group-open:mb-2">
+                    开发模式错误详情
+                  </summary>
+                  <pre className="text-xs text-red-500 overflow-auto whitespace-pre-wrap font-mono">
+                    {this.state.error.toString()}
+                  </pre>
+                </details>
+              </div>
             )}
           </div>
         </div>

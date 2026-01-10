@@ -1,4 +1,5 @@
-import { Song, getGenreColor, transferText } from "@/app/music/songModel"
+import { Song } from "@/types/music"
+import { getGenreColor, transferText } from "@/utils/music"
 import { FaPlus, FaCheck } from "react-icons/fa"
 import { usePlayer } from "@/app/context/PlayerContext"
 import { useState } from "react"

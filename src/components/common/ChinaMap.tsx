@@ -1,7 +1,8 @@
+"use client"
 import React, { useEffect, useRef, useState, useMemo } from "react"
 import * as echarts from "echarts"
-import chinaGeoJson from "./china.json" // 导入中国 GeoJSON 数据文件
-import http from "@/utils/request"
+import chinaGeoJson from "@/data/china.json" // Updated import path
+import http from "@/services/request" // Updated import path
 
 interface UserRegionData {
   region_id: string
@@ -12,7 +13,6 @@ interface UserRegionData {
 
 interface GeoJSON {
   type: "FeatureCollection"
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   features: any[]
 }
 
@@ -111,7 +111,6 @@ const ChinaMap = () => {
       },
       tooltip: {
         trigger: "item",
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         formatter: function (params: any) {
           // ECharts 类型复杂，params 类型暂用 any，可进一步细化为 echarts.CallbackDataParams
           const { name, data } = params

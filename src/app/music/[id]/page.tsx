@@ -1,25 +1,21 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import {
-  Song,
-  transferText,
-  transferVersion,
-  getGenreColor,
-  ChartType,
-  SongScoreProps,
-} from "@/app/music/songModel"
+import { Song, ChartType, SongScoreProps } from "@/types/music"
+import { transferText, transferVersion, getGenreColor } from "@/utils/music"
 import { useState, useEffect } from "react"
 import NoteTable from "./noteTable"
-import LoadingSpinner from "@/app/components/LoadingSpinner"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import MusicPlayer from "./musicPlayer"
 import ScoreDetail from "./scoreDetail"
+import MaiNotesTools from "./maiNotesTools"
 import Link from "next/link"
 import { FaArrowLeft } from "react-icons/fa"
 import { FaBilibili } from "react-icons/fa6"
 import { motion, Variants } from "framer-motion"
 import Image from "next/image"
 import { CONFIG } from "@/config/api"
+import { getSongDetail } from "@/services/music"
 
 export default function SongDetail() {
   const params = useParams()
@@ -34,21 +30,9 @@ export default function SongDetail() {
       setLoading(true)
       try {
         const storedToken = localStorage.getItem("token")
-        let url = `${CONFIG.API.ENDPOINTS.API}/maimai/songs?id=${params.id}&page=1&page_size=1`
-        const headers: HeadersInit = { Accept: "application/json" }
+        
+        const data = await getSongDetail(params.id as string, !!storedToken)
 
-        if (storedToken) {
-          url = `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/minfo?id=${params.id}`
-          headers["Authorization"] = `Bearer ${storedToken}`
-        }
-
-        const response = await fetch(url, { method: "GET", headers })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
-        const data = await response.json()
         const newSong = storedToken ? data.song : data[0]
 
         if (newSong) {
@@ -132,11 +116,13 @@ export default function SongDetail() {
               <div>
                 <ChartTypeSwitcher song={song} chartType={chartType} setChartType={setChartType} />
                 <NoteTable song={song} chartType={chartType} />
+                <MaiNotesTools song={song} chartType={chartType} />
               </div>
             )}
             {scores && scores.length > 0 && <ScoreDetail song={song} scores={scores} />}
           </div>
         </div>
+       
       </motion.div>
     </div>
   )

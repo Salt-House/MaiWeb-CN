@@ -8,9 +8,10 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_API_BASE: "https://maimaimoe.cn",
     NEXT_PUBLIC_ASSETS_BASE: "https://assets2.lxns.net",
-    NEXT_PUBLIC_STATIC_BASE: "http://img.maimaimoe.cn/Texture2D",
+    NEXT_PUBLIC_STATIC_BASE: "https://img.maimaimoe.cn/Texture2D",
   },
   reactStrictMode: false,
+  turbopack: {},
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -25,10 +26,6 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
-  },
-  eslint: {
-    // 警告：这就允许生产构建成功完成，即使你的项目存在 ESLint 错误。
-    ignoreDuringBuilds: true,
   },
 }
 

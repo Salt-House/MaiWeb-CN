@@ -1,10 +1,10 @@
 "use client"
 
 import CollectionItemSkeleton from "./components/CollectionItemSkeleton"
-import SvgStrokedText from "@/app/components/SvgStrokedText"
+import SvgStrokedText from "@/components/ui/SvgStrokedText"
 import { motion, AnimatePresence } from "framer-motion"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { NamePlate, MaiBackGround, Icon, Trophie, Condition } from "./model"
+import { NamePlate, MaiBackGround, Icon, Trophie, Condition } from "@/types/collection"
 import TabNavigation from "./components/TabNavigation"
 import SearchForm from "./components/SearchForm"
 import RenderItem from "./components/RenderItem"
@@ -32,6 +32,10 @@ const fetchData = async (url: string) => {
   }
 }
 
+/**
+ * 收藏品展示页面
+ * 包含头像、背景、名牌、奖杯的展示、搜索和预览功能
+ */
 export default function CollectionPage() {
   const [namePlates, setNamePlates] = useState<NamePlate[]>([])
   const [MaiBackGround, setMaiBackGround] = useState<MaiBackGround[]>([])
@@ -109,7 +113,6 @@ export default function CollectionPage() {
   }
 
   // 打开图片预览
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openImagePreview = (item: any, type: string) => {
     let imageUrl = ""
     switch (type) {
@@ -177,23 +180,15 @@ export default function CollectionPage() {
       // 根据类型确定端点和设置器
       switch (type) {
         case "icon":
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          // endpoint = "icons"
           setter = setIcons
           break
         case "frame":
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          // endpoint = "frames"
           setter = setMaiBackGround
           break
         case "nameplate":
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          // endpoint = "nameplates"
           setter = setNamePlates
           break
         case "trophy":
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          // endpoint = "trophies"
           setter = setTrophies
           break
       }
@@ -339,9 +334,12 @@ export default function CollectionPage() {
   }
 
   return (
-    <>
-      <div className="container mx-auto py-8 px-4">
-        <SvgStrokedText text="收藏品展示" height={100} strokeColor={"#ec4899"} strokeWidth={10} />
+    <div className="min-h-screen">
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 text-center">
+            <SvgStrokedText text="收藏品展示" height={100} strokeColor={"#ec4899"} strokeWidth={10} />
+            <p className="mt-2 text-gray-500 font-medium">探索与收集你的 Maimai 游戏藏品</p>
+        </div>
 
         {/* Tab导航 */}
         <TabNavigation
@@ -383,31 +381,34 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-800">玩家头像</h2>
-                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                <div className="flex items-center justify-between mb-8 px-2">
+                  <div className="flex items-center gap-3">
+                      <div className="w-1.5 h-6 bg-pink-500 rounded-full"></div>
+                      <h2 className="text-2xl font-bold text-gray-800">玩家头像</h2>
+                  </div>
+                  <span className="text-sm font-medium text-pink-600 bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100">
                     Total: {Icons.length}
                   </span>
                 </div>
 
                 {Icons.length === 0 ? (
                   <motion.div
-                    className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3"
+                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    {Array.from({ length: 30 }).map((_, i) => (
+                    {Array.from({ length: 18 }).map((_, i) => (
                       <CollectionItemSkeleton key={i} type="icon" />
                     ))}
                   </motion.div>
                 ) : (
                   <>
                     <motion.div
-                      className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3"
+                      className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 0.2, staggerChildren: 0.05 }}
+                      transition={{ delay: 0.2, staggerChildren: 0.03 }}
                     >
                       {Icons.map((item, index) => (
                         <motion.div
@@ -442,30 +443,33 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-800">游戏背景</h2>
-                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                <div className="flex items-center justify-between mb-8 px-2">
+                   <div className="flex items-center gap-3">
+                      <div className="w-1.5 h-6 bg-blue-500 rounded-full"></div>
+                      <h2 className="text-2xl font-bold text-gray-800">游戏背景</h2>
+                  </div>
+                  <span className="text-sm font-medium text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full border border-blue-100">
                     Total: {MaiBackGround.length}
                   </span>
                 </div>
                 {MaiBackGround.length === 0 ? (
                   <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    {Array.from({ length: 12 }).map((_, i) => (
+                    {Array.from({ length: 8 }).map((_, i) => (
                       <CollectionItemSkeleton key={i} type="frame" />
                     ))}
                   </motion.div>
                 ) : (
                   <>
                     <motion.div
-                      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 0.2, staggerChildren: 0.05 }}
+                      transition={{ delay: 0.2, staggerChildren: 0.03 }}
                     >
                       {MaiBackGround.map((item, index) => (
                         <motion.div
@@ -503,15 +507,18 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-800">玩家名牌</h2>
-                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                <div className="flex items-center justify-between mb-8 px-2">
+                   <div className="flex items-center gap-3">
+                      <div className="w-1.5 h-6 bg-green-500 rounded-full"></div>
+                      <h2 className="text-2xl font-bold text-gray-800">玩家名牌</h2>
+                  </div>
+                  <span className="text-sm font-medium text-green-600 bg-green-50 px-4 py-1.5 rounded-full border border-green-100">
                     Total: {namePlates.length}
                   </span>
                 </div>
                 {namePlates.length === 0 ? (
                   <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
@@ -523,10 +530,10 @@ export default function CollectionPage() {
                 ) : (
                   <>
                     <motion.div
-                      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 0.2, staggerChildren: 0.05 }}
+                      transition={{ delay: 0.2, staggerChildren: 0.03 }}
                     >
                       {namePlates.map((item, index) => (
                         <motion.div
@@ -565,30 +572,33 @@ export default function CollectionPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-800">游戏奖杯</h2>
-                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                <div className="flex items-center justify-between mb-8 px-2">
+                   <div className="flex items-center gap-3">
+                      <div className="w-1.5 h-6 bg-yellow-500 rounded-full"></div>
+                      <h2 className="text-2xl font-bold text-gray-800">游戏奖杯</h2>
+                  </div>
+                  <span className="text-sm font-medium text-yellow-600 bg-yellow-50 px-4 py-1.5 rounded-full border border-yellow-100">
                     Total: {Trophies.length}
                   </span>
                 </div>
                 {Trophies.length === 0 ? (
                   <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    {Array.from({ length: 15 }).map((_, i) => (
+                    {Array.from({ length: 9 }).map((_, i) => (
                       <CollectionItemSkeleton key={i} type="trophy" />
                     ))}
                   </motion.div>
                 ) : (
                   <>
                     <motion.div
-                      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+                      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 0.2, staggerChildren: 0.05 }}
+                      transition={{ delay: 0.2, staggerChildren: 0.03 }}
                     >
                       {Trophies.map((item, index) => (
                         <motion.div
@@ -627,6 +637,6 @@ export default function CollectionPage() {
         conditionLoading={conditionLoading}
         onClose={closeImagePreview}
       />
-    </>
+    </div>
   )
 }

@@ -2,24 +2,14 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { CONFIG } from "@/config/api"
-import ChinaMap from "./components/ChinaMap"
-import NewsCard from "./components/NewsCard"
-import SearchGameCenter from "./components/SearchGameCenter"
-import Guide from "./components/Guide"
+import ChinaMap from "@/components/common/ChinaMap"
+import NewsCard from "@/components/common/NewsCard"
+import SearchGameCenter from "@/components/common/SearchGameCenter"
+import Guide from "@/components/common/Guide"
 import { Step } from "react-joyride"
-import TokenChecker from "./hooks/TokenChecker"
-import RoatChiho from "./components/circle/RoatChiho"
-
-interface NewsProps {
-  title: string
-  content: string
-  image_url: string
-  source: string
-  source_url: string
-  source_author: string
-  source_created_at: string
-}
+import TokenChecker from "@/hooks/TokenChecker"
+import RoatChiho from "@/components/common/circle/RoatChiho"
+import { getNews as fetchNews, NewsProps } from "@/services/news"
 
 export default function Home() {
   const [news1, setNews1] = useState<NewsProps[]>([
@@ -28,7 +18,7 @@ export default function Home() {
         "【2/27(木)「大都会区域9」登场！】在遥远过去的记忆中、黒姫在思考着什么呢――新人曲师也参战的KOP6th International ver. 決…",
       content:
         "【2/27(木)「大都会区域9」登场！】\n在遥远过去的记忆中、黒姫在思考着什么呢――\n新人曲师也参战的\nKOP6th International ver. 決勝楽曲「雨露霜雪」登场！\n\n🎧参加曲师\nRiraN / Reku Mochizuki / かねこちはる vs t+pazolite",
-      image_url: "http://i0.hdslb.com/bfs/archive/4237cbd92befef9ba793ec76effeef25277c26f0.jpg",
+      image_url: "https://i0.hdslb.com/bfs/archive/4237cbd92befef9ba793ec76effeef25277c26f0.jpg",
       source: "bilibili",
       source_url: "https://t.bilibili.com/1037499077487493121",
       source_author: "舞萌でらっくす公式",
@@ -38,7 +28,7 @@ export default function Home() {
       title: "t+pazolite vs かねこちはる - 宙天 [maimai でらっくす]",
       content:
         "maimai official\nTitle：宙天\nArtist：t+pazolite vs かねこちはる\nMovie：川崎ヒロミツ (SIKAKU Inc.)\nIllust：Metropolis Stories\n\n「雨露霜雪」がかなり王道の合作だったため、かなり邪道の合作になりました。\nt+pazolite\n\n音楽ゲーム『maimai でらっくす』　全国のゲームセンターで絶賛稼働中！",
-      image_url: "http://i2.hdslb.com/bfs/archive/1a9c2a00470b19160a490f4b156535854c3190be.jpg",
+      image_url: "https://i2.hdslb.com/bfs/archive/1a9c2a00470b19160a490f4b156535854c3190be.jpg",
       source: "bilibili",
       source_url: "https://t.bilibili.com/1037498549231681538",
       source_author: "舞萌でらっくす公式",
@@ -46,10 +36,10 @@ export default function Home() {
     },
     {
       title:
-        "【2/27(木)～「KALEIDXSCOPE -終末エリア-」登场！】KING of Performai The 6th FINAL ROUND　宙天 /…",
+        "【2/27(木)～「KALEIDXSCOPE -终末エリア-」登场！】KING of Performai The 6th FINAL ROUND　宙天 /…",
       content:
-        "【2/27(木)～「KALEIDXSCOPE -終末エリア-」登场！】\nKING of Performai The 6th FINAL ROUND\n　宙天 / t+pazolite vs かねこちはる\n\n找到「黒の扉」「黒の鍵」、\n就可以在カレイドスコープ中的「黒の扉」完成乐曲并解禁！",
-      image_url: "http://i2.hdslb.com/bfs/archive/ee90348591b72ff267b7c0254ba6963f1e868542.jpg",
+        "【2/27(木)～「KALEIDXSCOPE -终末エリア-」登场！】\nKING of Performai The 6th FINAL ROUND\n　宙天 / t+pazolite vs かねこちはる\n\n找到「黒の扉」「黒の鍵」、\n就可以在カレイドスコープ中的「黒の扉」完成乐曲并解禁！",
+      image_url: "https://i2.hdslb.com/bfs/archive/ee90348591b72ff267b7c0254ba6963f1e868542.jpg",
       source: "bilibili",
       source_url: "https://t.bilibili.com/1037498420355399697",
       source_author: "舞萌でらっくす公式",
@@ -60,7 +50,7 @@ export default function Home() {
     {
       title: "【KoP 6th 切片】闭幕 & Burning Hearts ～炎のANGEL～ / 汤毛&光吉猛修",
       content: "KoP official",
-      image_url: "http://i0.hdslb.com/bfs/archive/3d4e3d408fbe5e7771e3a0c39489d34c13ffab00.jpg",
+      image_url: "https://i0.hdslb.com/bfs/archive/3d4e3d408fbe5e7771e3a0c39489d34c13ffab00.jpg",
       source: "bilibili",
       source_url: "https://t.bilibili.com/1037496500522844227",
       source_author: "舞萌でらっくす公式",
@@ -70,7 +60,7 @@ export default function Home() {
       title: "【maimai でらっくす】雨露霜雪 - かねこちはる vs t+pazolite【official】",
       content:
         "maimai official\nTitle：雨露霜雪\nArtist：かねこちはる vs t+pazolite\nMovie：Kazuma Enta、cell、SEGA\nIllust：えすてぃお\n\n\n音楽ゲーム『maimai でらっくす』　全国のゲームセンターで絶賛稼働中！",
-      image_url: "http://i0.hdslb.com/bfs/archive/c12c9f5a3da4d65d6bb049f4690479412f608334.jpg",
+      image_url: "https://i0.hdslb.com/bfs/archive/c12c9f5a3da4d65d6bb049f4690479412f608334.jpg",
       source: "bilibili",
       source_url: "https://t.bilibili.com/1037496229950390293",
       source_author: "舞萌でらっくす公式",
@@ -80,7 +70,7 @@ export default function Home() {
       title: "【maimai でらっくす】Colorfull:Encounter / Reku Mochizuki【Official MV】",
       content:
         "maimai official\nTitle：Colorfull:Encounter\nArtist：Reku Mochizuki\nMovie：cell、Kazuma Enta、SEGA\nIllust：尾崎ドミノ\n\n愛してやまないmaimaiシリーズへの想いを込めた、とても大切な楽曲です。\nカラフルな思い出たちとの出会いが、これからもずっと続いていきますように。\n\n(略称は「フルエン」でお願いします！)",
-      image_url: "http://i1.hdslb.com/bfs/archive/da4ad9a8ec7c73d299a640e08c1b088e355570f7.jpg",
+      image_url: "https://i1.hdslb.com/bfs/archive/da4ad9a8ec7c73d299a640e08c1b088e355570f7.jpg",
       source: "bilibili",
       source_url: "https://t.bilibili.com/1037494486165356565",
       source_author: "舞萌でらっくす公式",
@@ -137,17 +127,8 @@ export default function Home() {
   ]
 
   const getNews = async (limit: number, offset: number): Promise<NewsProps[]> => {
-    const requestOptions = {
-      method: "GET",
-    }
-
     try {
-      const response = await fetch(
-        `${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/news?limit=${limit}&offset=${offset}`,
-        requestOptions
-      )
-      const result = await response.text()
-      const data = JSON.parse(result)
+      const data = await fetchNews(limit, offset)
       return data
     } catch (error) {
       console.error(error)
@@ -164,7 +145,8 @@ export default function Home() {
     getNews(3, 0).then(data => setNews1(data))
     getNews(3, 3).then(data => setNews2(data))
     getNews(6, 0).then(data => setNews3(data))
-    setToken(localStorage.getItem("token") || "")
+    const storedToken = localStorage.getItem("token") || ""
+    setTimeout(() => setToken(storedToken), 0)
     if (localStorage.getItem("token") == "0") {
       localStorage.removeItem("token")
     }

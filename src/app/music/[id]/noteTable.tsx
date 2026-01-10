@@ -1,55 +1,9 @@
 "use client"
 
-import { ChartType, DifficultyInfo, getDifficultyColor, Song } from "../songModel"
+import { ChartType, DifficultyInfo, Song } from "@/types/music"
+import { getDifficultyColor, getNotesWeight, getTotalNotes } from "@/utils/music"
 import { motion } from "framer-motion"
 import { FaMusic } from "react-icons/fa" // Example icon
-
-// Helper to get total notes
-const getTotalNotes = (diff: DifficultyInfo) => {
-  const noteTypes: (keyof DifficultyInfo)[] = [
-    "tap_num",
-    "hold_num",
-    "slide_num",
-    "touch_num",
-    "break_num",
-  ]
-  return noteTypes.reduce((sum, type) => sum + (Number(diff[type]) || 0), 0)
-}
-
-const getNotesWeight = (diff: DifficultyInfo) => {
-  const piece =
-    101 /
-    (diff.tap_num +
-      diff.touch_num +
-      diff.hold_num * 2 +
-      diff.slide_num * 3 +
-      diff.break_num * 5)
-
-  // 保留小数点后四位
-  const toFixed4 = (n: number) => Number(n.toFixed(4))
-  return {
-    tap: {
-      num: diff.tap_num,
-      weight: toFixed4(piece),
-    },
-    hold: {
-      num: diff.hold_num,
-      weight: toFixed4(piece * 2),
-    },
-    slide: {
-      num: diff.slide_num,
-      weight: toFixed4(piece * 3),
-    },
-    touch: {
-      num: diff.touch_num,
-      weight: toFixed4(piece),
-    },
-    break: {
-      num: diff.break_num,
-      weight: toFixed4(piece * 5),
-    },
-  }
-}
 
 // Note type component
 const NoteDetailItem = ({
