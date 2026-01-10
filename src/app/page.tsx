@@ -86,9 +86,25 @@ export default function Home() {
 
   const steps: Step[] = [
     {
+      target: "#music",
+      content: "点击这里可以查看乐曲信息（包括成绩），铺面确认，乐曲播放等功能",
+      disableBeacon: true,
+    },
+    {
+      target: "#region",
+      content: "点击这里可以查看舞萌区域信息，区域伙伴，区域跑图等功能",
+    },
+    {
+      target: "#tool",
+      content: "点击这里可以查看舞萌工具，卷王工具，成绩工具等功能",
+    },
+    {
+      target: "#funDetail",
+      content: "这里可以查看我们已完成的功能和正在开发中的功能",
+    },
+    {
       target: "#news",
       content: "在这里可以查看最新的舞萌资讯",
-      disableBeacon: true,
     },
     {
       target: "#searchGameCenter",
@@ -160,75 +176,6 @@ export default function Home() {
           {/* 使用独立的SearchGameCenter组件 */}
           <SearchGameCenter />
 
-          {/* News */}
-          <div
-            id="news"
-            className="w-full max-sm:w-[90%] sm:max-w-[1200px] mx-auto px-4 sm:px-5 text-white mb-8"
-          >
-            <div
-              className="flex justify-center items-center text-center text-white font-bold text-3xl mb-10"
-              style={textstroke}
-            >
-              — 舞萌相关资讯 —
-            </div>
-            <div className="flex flex-col space-y-6">
-              {/* First row */}
-              <div className="flex flex-col sm:flex-row justify-center items-center max-sm:space-y-4 sm:space-x-4">
-                {news1.length === 0 ? (
-                  <></>
-                ) : (
-                  <>
-                    {news1.map((news, index) => (
-                      <NewsCard
-                        key={index}
-                        title={news.title}
-                        content={news.content}
-                        image_url={news.image_url}
-                        source={news.source}
-                        source_url={news.source_url}
-                        source_author={news.source_author}
-                        source_created_at={news.source_created_at}
-                        size="sm"
-                      />
-                    ))}
-                  </>
-                )}
-              </div>
-
-              {/* Second row */}
-              <div className="flex flex-col max-sm:hidden sm:flex-row justify-center items-center max-sm:space-y-4 sm:space-x-4">
-                {news2.length === 0 ? (
-                  <></>
-                ) : (
-                  <>
-                    {news2.map((news, index) => (
-                      <NewsCard
-                        key={index}
-                        title={news.title}
-                        content={news.content}
-                        image_url={news.image_url}
-                        source={news.source}
-                        source_url={news.source_url}
-                        source_author={news.source_author}
-                        source_created_at={news.source_created_at}
-                        size="sm"
-                      />
-                    ))}
-                  </>
-                )}
-              </div>
-            </div>
-            <div className="w-full flex justify-end mt-2">
-              <Link
-                href={"/tool/news"}
-                className="text-xl text-white font-bold hover:border-b-4 border-purple-500 hover:scale-105 transition-all duration-300 ease-in-out"
-                style={textstroke}
-              >
-                查看更多{">"}
-                {">"}
-              </Link>
-            </div>
-          </div>
 
           {/* Map Play display */}
           <div
