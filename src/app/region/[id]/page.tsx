@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, useCallback } from "react"
+import { useParams } from "next/navigation"
 import { CONFIG } from "@/config/api"
 import type { AreaCharacters, AreaSong } from "../page"
 import Link from "next/link"
@@ -20,12 +21,6 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner"
 // -----------------------------------------------------------------------------
 // 类型定义
 // -----------------------------------------------------------------------------
-
-interface PageProps {
-  params: {
-    id: string
-  }
-}
 
 /**
  * 解析后的区域数据接口
@@ -49,8 +44,9 @@ interface ParsedArea {
  * 区域详情页面组件
  * 展示特定区域的详细信息，包括角色和歌曲列表
  */
-export default function AreaDetailPage({ params }: PageProps) {
-  const id = params.id
+export default function AreaDetailPage() {
+  const params = useParams()
+  const id = params.id as string
   const [area, setArea] = useState<ParsedArea>()
   const [loading, setLoading] = useState(true)
   const [language, setLanguage] = useState("zh")
@@ -63,7 +59,7 @@ export default function AreaDetailPage({ params }: PageProps) {
    */
   const GetAreaDetail = useCallback(() => {
     setLoading(true)
-    fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/getOneArea?language=${language}&area_id=${params.id}`, {
+    fetch(`${CONFIG.API.ENDPOINTS.EMAIL}/getOneArea?language=${language}&area_id=${id}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -95,7 +91,7 @@ export default function AreaDetailPage({ params }: PageProps) {
         console.error(error)
         setLoading(false)
       })
-  }, [language, params.id])
+  }, [language, id])
 
   useEffect(() => {
     setTimeout(() => GetAreaDetail(), 0)
