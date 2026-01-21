@@ -321,10 +321,28 @@ export default function AreaDetailPage() {
                               </div>
                             </div>
                             
-                            {(character.description1 || character.description2) && (
-                              <p className="text-sm text-gray-500 line-clamp-2 mb-3">
-                                {character.description1 || character.description2}
+                            {character.description1 && (
+                              <p className="text-sm text-pink-600 italic mb-2">
+                                “{character.description1}”
                               </p>
+                            )}
+                            
+                            {character.description2 && (
+                              <p className="text-sm text-gray-500 mb-3 whitespace-pre-wrap">
+                                {character.description2}
+                              </p>
+                            )}
+
+                            {/* 角色属性展示 */}
+                            {character.props && Object.keys(character.props).length > 0 && (
+                              <div className="flex flex-wrap gap-y-1 gap-x-3 mb-3 bg-gray-50 p-2 rounded-lg">
+                                {Object.entries(character.props).map(([key, value]) => (
+                                  <div key={key} className="text-xs text-gray-600">
+                                    <span className="font-medium text-pink-500 mr-1">{key}:</span>
+                                    <span className="text-gray-500">{String(value)}</span>
+                                  </div>
+                                ))}
+                              </div>
                             )}
 
                             {character.illustrator && (
@@ -377,6 +395,19 @@ export default function AreaDetailPage() {
                                 {song.title}
                               </h3>
                               <p className="text-sm text-gray-500 truncate">{song.artist}</p>
+                              <div className="flex flex-wrap gap-x-3 gap-y-1 mt-1">
+                                {song.illustrator && (
+                                  <span className="text-xs text-gray-400">画师: {song.illustrator}</span>
+                                )}
+                                {song.movie && (
+                                  <span className="text-xs text-gray-400">影像: {song.movie}</span>
+                                )}
+                              </div>
+                              {song.description && (
+                                <p className="text-xs text-gray-500 mt-2 line-clamp-2">
+                                  {song.description}
+                                </p>
+                              )}
                             </div>
 
                             {song.song_id && (
