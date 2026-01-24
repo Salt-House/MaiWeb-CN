@@ -14,7 +14,7 @@ import { AnimatePresence, motion } from "framer-motion"
 // import PageTransitionWrapper from "../components/PageTransitionWrapper"
 import { getSongs as fetchSongs } from "@/services/music"
 
-const currentVersion = "25005"
+const currentVersion = "25006"
 
 const version: (keyof typeof versionIds)[] = [
   "maimai",
