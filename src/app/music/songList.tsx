@@ -85,8 +85,8 @@ function SongListLegacy({ songs, currentCategory = "最近添加", loading = fal
   }
 
   return (
-    <div className="border-1 border-white bg-white rounded-2xl p-2 m-2">
-      <div className="border-4 border-pink-300 bg-white rounded-2xl flex-col w-full max-w-6xl mx-auto max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
+    <div className="border-1 border-white bg-white rounded-2xl p-2 m-2 w-[900px] max-sm:w-full mx-auto">
+      <div className="border-4 border-pink-300 bg-white rounded-2xl flex-col w-full mx-auto max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
         <div className="w-full flex max-sm:flex-col max-sm:items-start justify-between items-center mb-6 px-4 max-sm:px-1">
           <div className="text-lg font-medium max-sm:mb-3 text-black">
             当前分类：{currentCategory}
@@ -117,7 +117,7 @@ function SongListLegacy({ songs, currentCategory = "最近添加", loading = fal
               <>
                 <div
                   id="clickDetail"
-                  className="relative mb-10 max-sm:mb-1 w-full max-w-6xl"
+                  className="relative mb-10 max-sm:mb-1 w-full"
                   key={`${song.id}-${index}`}
                 >
                   <a
@@ -291,7 +291,7 @@ export default function SongListContainer({
   isLegacyMode = false,
 }: SongListContainerProps) {
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col items-center">
       {/* 根据模式渲染不同的组件 */}
       {isLegacyMode ? (
         <SongListLegacy
