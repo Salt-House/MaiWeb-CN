@@ -17,3 +17,7 @@ export const getSongDetail = (id: string, hasToken: boolean) => {
     return http.get<Song[]>(`/api/maimai/songs?id=${id}&page=1&page_size=1`)
   }
 }
+
+export const getSongRecentUpdated = (page: number = 1, pageSize: number = 100) => {
+  return http.get<Song[]>(`/email/recent`)
+}

@@ -12,7 +12,7 @@ import Guide from "@/components/common/Guide"
 import { AnimatePresence, motion } from "framer-motion"
 // import Notice from "../components/Notice"
 // import PageTransitionWrapper from "../components/PageTransitionWrapper"
-import { getSongs as fetchSongs } from "@/services/music"
+import { getSongs as fetchSongs, getSongRecentUpdated as fetchRecentUpdated } from "@/services/music"
 
 const currentVersion = "25005"
 
@@ -182,8 +182,24 @@ export default function MusicPage() {
     }
   }, [])
 
+  const getSongRecentUpdated = useCallback(async () => {
+    try {
+      const data = await fetchRecentUpdated()
+      setSongs(data)
+      setHasMore(data.length === 100)
+      setCurrentPage(1)
+      setLoading(false)
+      setLoadingMore(false)
+    } catch (err) {
+      console.error("获取数据错误:", err)
+      setError(err instanceof Error ? err.message : "获取数据失败")
+      setLoading(false)
+      setLoadingMore(false)
+    }
+  }, [])
+
   useEffect(() => {
-    setTimeout(() => getSongs(defaultUrl), 0)
+    setTimeout(() => getSongRecentUpdated(), 0)
   }, [defaultUrl, getSongs])
 
   // MARK: - 主视图
@@ -265,7 +281,9 @@ export default function MusicPage() {
               </div>
               <div className="h-[172px]">
                 {/* 根据选择的选项显示不同分类选项 */}
-                {selectedOption === "category" && <CategoryBar getSongs={getSongs} />}
+                {selectedOption === "category" && <CategoryBar getSongs={getSongs} getSongRecentUpdated={function (): Promise<void> {
+                  throw new Error("Function not implemented.")
+                } } />}
                 {/* {selectedOption === 'aeuio' && <AeuioBar getSongs={getSongs} />} */}
                 {selectedOption === "level" && <LevelBar getSongs={getSongs} />}
                 {selectedOption === "version" && <VersionBar getSongs={getSongs} />}
@@ -404,14 +422,14 @@ export default function MusicPage() {
 }
 
 // MARK: - 分类栏
-function CategoryBar({ getSongs }: { getSongs: (filteredUrl: string) => Promise<void> }) {
+function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUrl: string) => Promise<void>, getSongRecentUpdated: () => Promise<void> }) {
   return (
     <>
       <div className="flex sm:hidden flex-row max-sm:text-sm justify-center items-center max-sm:space-x-0 space-x-4 mb-4">
         <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)] cursor-pointer"
-            onClick={() => getSongs(`version=${currentVersion}`)}
+            onClick={() => getSongRecentUpdated()}
           >
             最近更新
           </div>
