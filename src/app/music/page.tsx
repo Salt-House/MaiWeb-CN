@@ -368,7 +368,7 @@ export default function MusicPage() {
       <div className="max-sm:mx-auto max-sm:w-full mb-32">
         {/*Music Cards*/}
         <div className="relative max-sm:w-[90%] max-sm:mx-auto flex flex-col justify-center items-center">
-          <div className="max-sm:w-full rounded-2xl">
+          <div className="w-full max-sm:w-full rounded-2xl">
             <div className="max-sm:w-full max-sm:pt-4 w-[80%] mx-auto min-h-60 rounded-2xl flex flex-col justify-center items-center text-center">
               {loading ? (
                 <SongList

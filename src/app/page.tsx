@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import ChinaMap from "@/components/common/ChinaMap"
 import NewsCard from "@/components/common/NewsCard"
 import SearchGameCenter from "@/components/common/SearchGameCenter"
+import KaleidoscopeCard from "@/components/common/KaleidoscopeCard"
 import Guide from "@/components/common/Guide"
 import { Step } from "react-joyride"
 import TokenChecker from "@/hooks/TokenChecker"
@@ -87,6 +88,9 @@ export default function Home() {
           </div>
 
           <RoatChiho />
+
+          {/* Kaleidoscope Card */}
+          <KaleidoscopeCard />
 
           {/* 使用独立的SearchGameCenter组件 */}
           <SearchGameCenter />

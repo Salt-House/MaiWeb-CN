@@ -479,7 +479,7 @@ const SearchGameCenter = () => {
         </motion.div>
 
         {/* Logo元素 (使用 next/image 以获得自动优化、懒加载与格式转换) */}
-        <motion.div
+        {/* <motion.div
           className="absolute -top-16"
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
@@ -498,7 +498,7 @@ const SearchGameCenter = () => {
             priority
             style={{ height: "auto" }}
           />
-        </motion.div>
+        </motion.div> */}
 
         {/* 搜索表单 */}
         <motion.div
