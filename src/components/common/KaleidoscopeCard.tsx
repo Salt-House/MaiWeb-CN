@@ -68,7 +68,7 @@ const KaleidoscopeCard = () => {
           </div>
 
           {/* Right: Text */}
-          <div className="w-2/3 max-sm:w-full flex flex-col justify-center max-sm:pl-0 text-left">
+          <div className="w-2/3 max-sm:w-full flex flex-col justify-center max-sm:px-6 text-left max-sm:text-center">
             <h2 className="text-2xl max-sm:text-xl font-bold text-pink-500 mb-4 drop-shadow-sm">
               maimai DX KALEIDXSCOPE:
               <br />
