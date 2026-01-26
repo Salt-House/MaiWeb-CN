@@ -2,14 +2,17 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import CONFIG from "@/config/api"
 
 const KaleidoscopeCard = () => {
+  const router = useRouter()
+
   return (
     <div className="w-full flex justify-center mt-30">
-      <Link
-        href="/kaleidoscope"
+      <div
+        onClick={() => router.push("/kaleidoscope")}
         className="block w-[800px] max-sm:w-[90%] cursor-pointer"
       >
         <motion.div
@@ -82,13 +85,14 @@ const KaleidoscopeCard = () => {
                     href={`${CONFIG.API.WEB.MUSIC}/1740`}
                     target="_blank"
                     className="text-sky-400 hover:underline"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     果ての空、僕らが見た光。
                   </Link>
                 </span>
               </p>
               <p className="text-pink-400 font-bold mt-2 text-base">
-                点亮方法、钥匙获取及挑战详情 &gt;&gt;
+                解锁方法、钥匙获取及挑战详情 &gt;&gt;
               </p>
             </div>
           </div>
@@ -115,7 +119,7 @@ const KaleidoscopeCard = () => {
           />
         </motion.div>
       </motion.div>
-    </Link>
+      </div>
     </div>
   )
 }
