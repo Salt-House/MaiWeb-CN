@@ -266,10 +266,13 @@ export default function CollectionPage() {
   }
 
   const loadOptions = async () => {
-    const trophyData = await fetchData(`${CONFIG.API.ENDPOINTS.EMAIL}/options?type=trophies`)
-    const nameplateData = await fetchData(`${CONFIG.API.ENDPOINTS.EMAIL}/options?type=plate`)
-    const frameData = await fetchData(`${CONFIG.API.ENDPOINTS.EMAIL}/options?type=frames`)
-    const iconData = await fetchData(`${CONFIG.API.ENDPOINTS.EMAIL}/options?type=icon`)
+    const [trophyData, nameplateData, frameData, iconData] = await Promise.all([
+      fetchData(`${CONFIG.API.ENDPOINTS.EMAIL}/options?type=trophies`),
+      fetchData(`${CONFIG.API.ENDPOINTS.EMAIL}/options?type=plate`),
+      fetchData(`${CONFIG.API.ENDPOINTS.EMAIL}/options?type=frames`),
+      fetchData(`${CONFIG.API.ENDPOINTS.EMAIL}/options?type=icon`),
+    ])
+
     setTtrophyGenreOptions(trophyData.options)
     setNameplateGenreOptions(nameplateData.options)
     setFrameGenreOptions(frameData.options)

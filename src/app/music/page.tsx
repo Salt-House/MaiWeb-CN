@@ -199,7 +199,7 @@ export default function MusicPage() {
   }, [])
 
   useEffect(() => {
-    setTimeout(() => getSongRecentUpdated(), 0)
+    getSongRecentUpdated()
   }, [defaultUrl, getSongs])
 
   // MARK: - 主视图

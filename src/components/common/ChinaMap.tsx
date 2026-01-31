@@ -169,14 +169,20 @@ const ChinaMap = () => {
 
     chartInstance.setOption(options)
 
+    let resizeTimeout: NodeJS.Timeout
+
     const handleResize = () => {
-      chartInstance.resize()
+      clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(() => {
+        chartInstance.resize()
+      }, 200)
     }
     window.addEventListener("resize", handleResize)
 
     // 组件卸载时销毁实例
     return () => {
       window.removeEventListener("resize", handleResize)
+      clearTimeout(resizeTimeout)
       chartInstance.dispose()
       chartInstanceRef.current = null
     }
