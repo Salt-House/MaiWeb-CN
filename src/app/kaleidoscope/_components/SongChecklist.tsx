@@ -8,59 +8,63 @@ import { getSongDetail } from "@/services/music"
 import { CONFIG } from "@/config/api"
 import { Song } from "@/types/music"
 
-const songIds = [
-  1009, 1008, 1100, 1097, 1098, 1099, 1164, 1163, 1162, 1161, 1228, 1229, 1230, 1231, 1463, 1464,
-  1465, 1466, 1538, 1539, 1540, 1541, 1620, 1622, 1623, 1621, 1737, 1738, 1739,
-]
+interface SongChecklistProps {
+  songIds: number[]
+  storageKey: string
+  showCheckmark?: boolean
+}
 
-let cachedSongs: Song[] | null = null
-let fetchPromise: Promise<Song[]> | null = null
+// Per-key cache to support multiple door checklists
+const cachedSongsMap = new Map<string, Song[]>()
+const fetchPromiseMap = new Map<string, Promise<Song[]>>()
 
-export const preloadSongs = () => {
-  if (cachedSongs) return Promise.resolve(cachedSongs)
-  if (fetchPromise) return fetchPromise
+export const preloadSongs = (songIds: number[], storageKey: string) => {
+  const cached = cachedSongsMap.get(storageKey)
+  if (cached) return Promise.resolve(cached)
+  const existing = fetchPromiseMap.get(storageKey)
+  if (existing) return existing
 
-  fetchPromise = (async () => {
+  const promise = (async () => {
     try {
       const promises = songIds.map(id => getSongDetail(id.toString(), false))
       const results = await Promise.all(promises)
-      // Extract song data from results. Assuming getSongDetail returns an array with one item when searching by ID
       const fetchedSongs = results
         .map(res => (Array.isArray(res) && res.length > 0 ? res[0] : null))
         .filter(Boolean) as Song[]
-      cachedSongs = fetchedSongs
+      cachedSongsMap.set(storageKey, fetchedSongs)
       return fetchedSongs
     } catch (error) {
       console.error("Failed to fetch songs", error)
       return []
     }
   })()
-  return fetchPromise
+  fetchPromiseMap.set(storageKey, promise)
+  return promise
 }
 
-export default function SongChecklist() {
-  const [songs, setSongs] = useState<Song[]>(cachedSongs || [])
+export default function SongChecklist({ songIds, storageKey, showCheckmark = true }: SongChecklistProps) {
+  const [songs, setSongs] = useState<Song[]>(cachedSongsMap.get(storageKey) || [])
   const [checkedSongs, setCheckedSongs] = useState<Set<number>>(new Set())
-  const [loading, setLoading] = useState(!cachedSongs)
+  const [loading, setLoading] = useState(!cachedSongsMap.has(storageKey))
 
   useEffect(() => {
-    // Load checked state from localStorage
-    const savedChecked = localStorage.getItem("kaleidoscope_blue_gate_checked")
+    const savedChecked = localStorage.getItem(storageKey)
     if (savedChecked) {
       setCheckedSongs(new Set(JSON.parse(savedChecked)))
     }
 
-    if (cachedSongs) {
-      setSongs(cachedSongs)
+    const cachedData = cachedSongsMap.get(storageKey)
+    if (cachedData) {
+      setSongs(cachedData)
       setLoading(false)
       return
     }
 
-    preloadSongs().then(data => {
+    preloadSongs(songIds, storageKey).then(data => {
       setSongs(data)
       setLoading(false)
     })
-  }, [])
+  }, [songIds, storageKey])
 
   const toggleCheck = (id: number) => {
     const newChecked = new Set(checkedSongs)
@@ -70,7 +74,7 @@ export default function SongChecklist() {
       newChecked.add(id)
     }
     setCheckedSongs(newChecked)
-    localStorage.setItem("kaleidoscope_blue_gate_checked", JSON.stringify(Array.from(newChecked)))
+    localStorage.setItem(storageKey, JSON.stringify(Array.from(newChecked)))
   }
 
   if (loading) {
@@ -85,19 +89,21 @@ export default function SongChecklist() {
           <div
             key={song.id}
             className={`flex items-center p-3 rounded-xl border transition-all duration-200 ${
-              isChecked ? "bg-green-50 border-green-200" : "bg-white border-gray-200"
+              showCheckmark && isChecked ? "bg-green-50 border-green-200" : "bg-white border-gray-200"
             }`}
           >
-            <button
-              onClick={() => toggleCheck(Number(song.id))}
-              className="mr-3 text-2xl focus:outline-none transition-transform active:scale-90"
-            >
-              {isChecked ? (
-                <FaCheckCircle className="text-green-500" />
-              ) : (
-                <FaRegCircle className="text-gray-300 hover:text-gray-400" />
-              )}
-            </button>
+            {showCheckmark && (
+              <button
+                onClick={() => toggleCheck(Number(song.id))}
+                className="mr-3 text-2xl focus:outline-none transition-transform active:scale-90"
+              >
+                {isChecked ? (
+                  <FaCheckCircle className="text-green-500" />
+                ) : (
+                  <FaRegCircle className="text-gray-300 hover:text-gray-400" />
+                )}
+              </button>
+            )}
 
             <Link
               href={`${CONFIG.API.WEB.MUSIC}/${song.id}`}
@@ -116,7 +122,7 @@ export default function SongChecklist() {
               <div className="flex-1 min-w-0">
                 <h4
                   className={`font-bold text-sm truncate ${
-                    isChecked ? "text-green-800" : "text-gray-800 group-hover:text-pink-500"
+                    showCheckmark && isChecked ? "text-green-800" : "text-gray-800 group-hover:text-pink-500"
                   }`}
                 >
                   {song.title}

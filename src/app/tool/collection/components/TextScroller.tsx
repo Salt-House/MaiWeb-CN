@@ -29,15 +29,22 @@ const TextScroller: React.FC<TextScrollerProps> = ({ text, speed = 10, delay = 2
     }
 
     // 当窗口大小变化时重新检查
+    let resizeTimeout: NodeJS.Timeout
     const handleResize = () => {
-      if (!el || !textEl) return
-      setScrollNeeded(textEl.scrollWidth > el.clientWidth)
-      setContainerWidth(el.clientWidth)
-      setTextWidth(textEl.scrollWidth)
+      clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(() => {
+        if (!el || !textEl) return
+        setScrollNeeded(textEl.scrollWidth > el.clientWidth)
+        setContainerWidth(el.clientWidth)
+        setTextWidth(textEl.scrollWidth)
+      }, 200)
     }
 
     window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
+    return () => {
+      window.removeEventListener("resize", handleResize)
+      clearTimeout(resizeTimeout)
+    }
   }, [text])
 
   return (

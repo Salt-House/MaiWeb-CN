@@ -154,9 +154,6 @@ export default function UserProfilePage() {
     setIsLoading(true)
 
     try {
-      // 添加延迟避免频繁请求
-      await new Promise(resolve => setTimeout(resolve, 1000))
-
       await refreshData()
 
       alert("刷新成功")
