@@ -281,9 +281,7 @@ export default function MusicPage() {
               </div>
               <div className="h-[172px]">
                 {/* 根据选择的选项显示不同分类选项 */}
-                {selectedOption === "category" && <CategoryBar getSongs={getSongs} getSongRecentUpdated={function (): Promise<void> {
-                  throw new Error("Function not implemented.")
-                } } />}
+                {selectedOption === "category" && <CategoryBar getSongs={getSongs} getSongRecentUpdated={getSongRecentUpdated} />}
                 {/* {selectedOption === 'aeuio' && <AeuioBar getSongs={getSongs} />} */}
                 {selectedOption === "level" && <LevelBar getSongs={getSongs} />}
                 {selectedOption === "version" && <VersionBar getSongs={getSongs} />}
