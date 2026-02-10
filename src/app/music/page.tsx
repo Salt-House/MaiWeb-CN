@@ -13,6 +13,9 @@ import { AnimatePresence, motion } from "framer-motion"
 // import Notice from "../components/Notice"
 // import PageTransitionWrapper from "../components/PageTransitionWrapper"
 import { getSongs as fetchSongs, getSongRecentUpdated as fetchRecentUpdated } from "@/services/music"
+
+const currentVersion = "25008"
+
 const version: (keyof typeof versionIds)[] = [
   "maimai",
   "GreeN",
@@ -102,6 +105,7 @@ export default function MusicPage() {
       "-2px -2px 4px rgba(236, 72, 153, 1), 2px -2px 4px rgba(236, 72, 153, 1), -2px 2px 2px rgba(236, 72, 153, 1), 2px 2px 2px rgba(236, 72, 153, 1)",
   }
 
+  const defaultUrl = `version=${currentVersion}`
 
   // 初始化时从localStorage读取UI模式设置
   useEffect(() => {
@@ -196,7 +200,7 @@ export default function MusicPage() {
 
   useEffect(() => {
     getSongRecentUpdated()
-  }, [getSongs])
+  }, [defaultUrl, getSongs])
 
   // MARK: - 主视图
   return (
