@@ -12,6 +12,7 @@ const nextConfig = {
   },
   reactStrictMode: false,
   turbopack: {},
+  generateEtags: false,
   images: {
     unoptimized: true,
     remotePatterns: [
