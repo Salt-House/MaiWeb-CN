@@ -2,25 +2,70 @@
   "name": "maiwiki",
   "version": "0.1.0",
   "private": true,
-  "type": "commonjs",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
-    "next": "14.2.18",
-    "react": "^18",
-    "react-dom": "^18",
-    "tailwind-scrollbar-hide": "^1.1.7"
+    "@heroicons/react": "^2.2.0",
+    "@pixi/react": "^7.1.2",
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "@types/react-window": "^1.8.5",
+    "axios": "^1.10.0",
+    "clsx": "^2.1.1",
+    "dom-to-image": "^2.6.0",
+    "echarts": "^5.6.0",
+    "framer-motion": "^12.23.6",
+    "jotai": "^2.14.0",
+    "next": "^16.1.1",
+    "pixi.js": "^7.4.3",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-icons": "^5.5.0",
+    "react-joyride": "^3.0.0-7",
+    "react-virtualized-auto-sizer": "^1.0.26",
+    "react-window": "^1.8.10",
+    "react-zoom-pan-pinch": "^3.7.0",
+    "tailwind-merge": "^3.3.1",
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "tailwindcss-text-stroke": "^0.0.5"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
+    "@next/bundle-analyzer": "^14.2.0",
+    "@types/dom-to-image": "^2.6.7",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@types/react-virtualized-auto-sizer": "^1.0.4",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.1.1",
     "postcss": "^8",
+    "prettier": "3.6.2",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "description": "乌蒙大象中文玩家站",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Salt-House/MaiWeb-CN.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Salt-House/MaiWeb-CN/issues"
+  },
+  "homepage": "https://github.com/Salt-House/MaiWeb-CN#readme",
+  "overrides": {
+    "quill": "2.0.3",
+    "@next/eslint-plugin-next": {
+      "glob": "^10.4.5"
+    }
   }
 }

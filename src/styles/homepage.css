@@ -1,0 +1,159 @@
+@keyframes test {
+  0% {
+    background-color: #ff0000;
+  }
+
+  50% {
+    background-color: #00ff00;
+  }
+
+  100% {
+    background-color: #0000ff;
+  }
+}
+
+@keyframes moveStar {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-30vw, 30vh);
+    opacity: 0;
+  }
+}
+
+@keyframes moveDot {
+  0% {
+    background-position: 100% 0%;
+  }
+
+  100% {
+    background-position: 0% 100%;
+  }
+}
+
+@keyframes volume {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(1.8);
+  }
+}
+
+@keyframes leftToRight {
+  0% {
+    transform: translateX(0px);
+  }
+
+  50% {
+    transform: translateX(calc(40% - 5px));
+  }
+
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes textScroll {
+  0% {
+    transform: translateX(-20%);
+  }
+
+  50% {
+    transform: translateX(20%);
+  }
+  100% {
+    transform: translateX(-20%);
+  }
+}
+
+@keyframes textScrollRegionName {
+  0% {
+    transform: translateX(-30%);
+  }
+
+  50% {
+    transform: translateX(20%);
+  }
+  100% {
+    transform: translateX(-30%);
+  }
+}
+@keyframes floatUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-15px);
+  }
+  75% {
+    transform: translateY(15px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* ---------------------------------------------
+   SongItem Premium Border Styles (no gradients)
+   - 多层边框与阴影，适配当前网站粉色系
+   - 含 hover 与 focus-within 交互效果
+   - 不使用渐变，保证视觉一致性与性能
+---------------------------------------------- */
+.songitem-premium {
+  position: relative;
+  /* 使用伪元素绘制双层边框与阴影增强层次 */
+}
+.songitem-premium::before {
+  /* 第一层高亮边框（近侧） */
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px; /* 与 rounded-full 保持一致 */
+  border: 3px solid #fbcfe8; /* Tailwind pink-200 */
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.25); /* 粉色系柔和阴影 */
+  pointer-events: none;
+}
+.songitem-premium::after {
+  /* 第二层淡色外框（远侧） */
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 9999px;
+  border: 1px solid #f9a8d4; /* Tailwind pink-300 */
+  opacity: 0.75;
+  pointer-events: none;
+}
+.songitem-premium:hover::before {
+  /* 轻微强化阴影，体现悬浮感 */
+  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.35);
+}
+.songitem-premium:focus-within::before {
+  /* 键盘可达性，聚焦时提升可视反馈 */
+  box-shadow:
+    0 0 0 3px rgba(59, 130, 246, 0.25),
+    0 4px 16px rgba(236, 72, 153, 0.35);
+}
+
+/* 头像容器额外描边：与现有圆形封面搭配 */
+.songitem-avatar {
+  position: relative;
+}
+.songitem-avatar::before {
+  /* 贴近封面的一圈细描边，增强精致感 */
+  content: "";
+  position: absolute;
+  inset: 4px; /* 稍向内收缩，避免与现有 border-4 重叠 */
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  pointer-events: none;
+}
