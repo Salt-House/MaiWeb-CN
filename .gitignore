@@ -37,10 +37,10 @@ next-env.d.ts
 
 .idea/
 
-/package-lock.json
+
 
 
 # vibe
 docs/
 log/
-.trae
+.trae.idea/  
