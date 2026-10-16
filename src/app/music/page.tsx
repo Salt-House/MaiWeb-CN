@@ -199,7 +199,11 @@ export default function MusicPage() {
   }, [])
 
   useEffect(() => {
+    // TODO(v2): migrate to a unified data-fetching layer to avoid cascading renders
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     getSongRecentUpdated()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [defaultUrl, getSongs])
 
   // MARK: - 主视图

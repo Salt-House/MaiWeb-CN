@@ -52,6 +52,10 @@ class Http {
           if (status === 401 && !isServer) {
             localStorage.removeItem("token")
             sessionStorage.removeItem("token")
+            // 401 hard-redirect: resets app state; useRouter is unavailable in service modules
+
+            // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+
             window.location.href = "/user"
           }
         }
@@ -67,7 +71,7 @@ class Http {
     params?: unknown,
     config?: AxiosRequestConfig
   ): Promise<T> {
-    return this.instance.get(url, { params, ...config })
+    return this.instance.get(url, { params, ...config }) as unknown as Promise<T>
   }
 
   // TODO 优化：为 `data` 指定明确的类型；建议统一返回类型结构并在此处做最小封装，避免过度耦合响应拦截器
@@ -76,7 +80,7 @@ class Http {
     data?: unknown,
     config?: AxiosRequestConfig
   ): Promise<T> {
-    return this.instance.post(url, data, config)
+    return this.instance.post(url, data, config) as unknown as Promise<T>
   }
 
   // TODO 优化：避免 `any`；考虑将 `AxiosRequestConfig` 透传并在调用侧定义数据模型
@@ -85,14 +89,14 @@ class Http {
     data?: unknown,
     config?: AxiosRequestConfig
   ): Promise<T> {
-    return this.instance.put(url, data, config)
+    return this.instance.put(url, data, config) as unknown as Promise<T>
   }
 
   delete<T>(
     url: string,
     config?: AxiosRequestConfig
   ): Promise<T> {
-    return this.instance.delete(url, config)
+    return this.instance.delete(url, config) as unknown as Promise<T>
   }
 }
 

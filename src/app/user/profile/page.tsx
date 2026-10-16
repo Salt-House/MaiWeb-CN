@@ -3,6 +3,7 @@
 import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import Image from "next/image"
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { FaArrowLeft } from "react-icons/fa"
 import { FaGear, FaRightFromBracket, FaArrowRight } from "react-icons/fa6"
 import { IoMdPeople } from "react-icons/io"
@@ -40,6 +41,7 @@ const defaultUserProfile: UserProfile = {
 const baseUrl = CONFIG.ASSETS.MAIMAI.BASE
 
 export default function UserProfilePage() {
+  const router = useRouter()
   const [showGuide, setShowGuide] = useState(false)
   const [activeSection, setActiveSection] = useState("基本信息")
   const [token, setToken] = useState<string | null>("")
@@ -51,8 +53,8 @@ export default function UserProfilePage() {
   const [divingfishusername, setDivingFishUsername] = useState<string>("")
   const [divingfishpassword, setDivingFishPassword] = useState<string>("")
   const [qr_code, setQrCode] = useState<string>("")
-  // TODO 优化：`bindaccount` 未重新赋值可使用 const；避免未使用的 setter 减少不必要状态
-  const [bindaccount] = useState<BindAccount>({
+  // TODO 优化：`bindaccount` 的绑定标记可由 accounts 派生，后续应考虑移除该独立状态
+  const [bindaccount, setBindaccount] = useState<BindAccount>({
     islxns: false,
     isdivingfish: false,
     isarcaed: false,
@@ -145,6 +147,8 @@ export default function UserProfilePage() {
     if (confirmLogout) {
       setToken(null)
       localStorage.removeItem("token")
+      // 退出登录需要硬重置：整页跳转登录页，同时清空内存中的页面状态
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
       window.location.href = "/user"
     }
   }
@@ -157,6 +161,8 @@ export default function UserProfilePage() {
       await refreshData()
 
       alert("刷新成功")
+      // 刷新数据后需要整页重载以重新拉取并展示最新数据（软导航不会触发页面重载）
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
       window.location.href = "/user/profile"
     } catch (error: unknown) {
       console.error("刷新数据失败:", error)
@@ -787,10 +793,15 @@ export default function UserProfilePage() {
   useEffect(() => {
     const storedToken = localStorage.getItem("token")
     if (storedToken != "") {
+      // TODO(v2): 迁移到 useSyncExternalStore，消除级联渲染
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setToken(storedToken)
     } else {
-      window.location.href = "/user"
+      // 无 token 时软导航至登录页
+      router.push("/user")
     }
+    // TODO(v2): 此 effect 仅需挂载时执行一次；next/navigation 的 router 实例稳定，无需列入依赖
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useEffect(() => {
     if (token != "") {
@@ -803,24 +814,46 @@ export default function UserProfilePage() {
           }
         })
         .catch(error => console.error(error))
+      // TODO(v2): 迁移到 useSyncExternalStore，消除级联渲染
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       GetBindAccount()
     }
   }, [token])
+  // 依据 identifier 特征为每个账号标记来源（纯数字=lxns、长度>40=arcaed、其余=divingfish），
+  // 以不可变方式更新 accounts 与 bindaccount，保持原有业务语义
   useEffect(() => {
-    for (let i = 0; i < accounts.length; i++) {
-      if (!isNaN(Number(accounts[i].identifier))) {
-        accounts[i].from = "lxns"
-        bindaccount.islxns = true
-      } else {
-        if (accounts[i].identifier.length > 40) {
-          accounts[i].from = "arcaed"
-          bindaccount.isarcaed = true
-        } else {
-          accounts[i].from = "divingfish"
-          bindaccount.isdivingfish = true
-        }
+    if (accounts.length === 0) return
+
+    // 在局部变量中累积绑定标记，避免直接修改 useState 返回的对象
+    let islxns = bindaccount.islxns
+    let isdivingfish = bindaccount.isdivingfish
+    let isarcaed = bindaccount.isarcaed
+
+    const nextAccounts = accounts.map(account => {
+      if (!isNaN(Number(account.identifier))) {
+        // 纯数字 identifier 归 lxns
+        islxns = true
+        return { ...account, from: "lxns" }
       }
-      // console.log(accounts);
+      if (account.identifier.length > 40) {
+        // 长度超过 40 的 identifier 归 arcaed
+        isarcaed = true
+        return { ...account, from: "arcaed" }
+      }
+      // 其余 identifier 归 divingfish
+      isdivingfish = true
+      return { ...account, from: "divingfish" }
+    })
+
+    // 仅在计算结果与当前状态不一致时提交，避免依赖 [accounts, bindaccount] 引发循环渲染
+    const fromChanged = nextAccounts.some((account, index) => account.from !== accounts[index].from)
+    const bindChanged =
+      islxns !== bindaccount.islxns || isdivingfish !== bindaccount.isdivingfish || isarcaed !== bindaccount.isarcaed
+    if (fromChanged || bindChanged) {
+      // TODO(v2): 迁移到 useSyncExternalStore，消除级联渲染
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setAccounts(nextAccounts)
+      setBindaccount({ ...bindaccount, islxns, isdivingfish, isarcaed })
     }
   }, [accounts, bindaccount])
 

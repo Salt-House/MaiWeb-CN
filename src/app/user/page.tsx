@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import { FaArrowLeft } from "react-icons/fa"
 import {
@@ -12,6 +13,7 @@ import {
 } from "@/services/auth"
 
 export default function UserPage() {
+  const router = useRouter()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [email, setEmail] = useState("")
@@ -36,6 +38,8 @@ export default function UserPage() {
     try {
       await registerUser(raw)
       alert("Register Success")
+      // 注册成功后需整页硬刷新以重置表单与 isLoading 状态（成功路径未执行 setIsLoading(false)），故保留 location.href
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
       window.location.href = "/user"
     } catch (error: any) {
       const msg =
@@ -65,6 +69,8 @@ export default function UserPage() {
           localStorage.setItem("token", data.access_token)
           // 添加：同时在 sessionStorage 中也存储一份
           sessionStorage.setItem("token", data.access_token)
+          // 登录成功后需硬刷新，使全局状态（如导航栏）基于新写入的 token 重新初始化，故保留 location.href
+          // eslint-disable-next-line @next/next/no-location-assign-relative-destination
           window.location.href = "/user/profile"
         } catch (error) {
           console.error("存储 token 失败:", error)
@@ -120,6 +126,8 @@ export default function UserPage() {
     if (!storedToken) {
       const newToken = ""
       localStorage.setItem("token", newToken)
+      // TODO(v2): 迁移到 useSyncExternalStore 或 lazy 初始化,消除级联渲染
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setToken(newToken)
     } else {
       setToken(storedToken)
@@ -128,12 +136,12 @@ export default function UserPage() {
 
   useEffect(() => {
     if (token && token.startsWith("ey")) {
-      window.location.href = "/user/profile"
+      router.push("/user/profile")
     } else {
       console.log(token)
       console.log("Token invalid")
     }
-  }, [token])
+  }, [token, router])
 
   return (
     <>

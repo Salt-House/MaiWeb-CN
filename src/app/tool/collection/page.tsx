@@ -295,10 +295,14 @@ export default function CollectionPage() {
 
   // 初始加载
   useEffect(() => {
+    // TODO(v2): 迁移到 useSyncExternalStore 或 lazy 初始化,消除级联渲染
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadOptions()
   }, [])
 
   useEffect(() => {
+    // TODO(v2): 迁移到 useSyncExternalStore 或 lazy 初始化,消除级联渲染
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     refreshData(activeTab)
     switch (activeTab) {
       case "icon":

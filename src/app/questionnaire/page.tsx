@@ -1,8 +1,10 @@
 "use client"
 import { useEffect, useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 
 export default function QuestionnairePage() {
+  const router = useRouter()
   const [dataDict, setDataDict] = useState<{ [key: string]: string }>({})
   const [isModalOpen, setIsModalOpen] = useState(false) // 控制弹窗状态
   const [display, setDisplay] = useState("正在提交中，请稍等")
@@ -88,7 +90,7 @@ export default function QuestionnairePage() {
               alt=""
               width={400}
               height={200}
-              onClick={() => (window.location.href = "/")}
+              onClick={() => router.push("/")}
               style={{ cursor: "pointer", width: "auto", height: "auto" }}
             />
           </div>

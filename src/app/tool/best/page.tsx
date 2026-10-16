@@ -343,6 +343,8 @@ export default function BestPage() {
   useEffect(() => {
     const storedToken = localStorage.getItem("token")
     if (storedToken) {
+      // TODO(v2): move token reads to useSyncExternalStore or a Token context provider
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setToken(storedToken)
       // TODO 网络：统一封装请求；移除多处 console.log；添加错误重试
       setTimeout(() => {

@@ -16,6 +16,17 @@ import {
   FaMapMarkedAlt,
 } from "react-icons/fa"
 
+// 动态引入结果组件（含 framer-motion），仅在需要显示结果时加载
+// 必须在模块顶层创建 dynamic 组件，避免每次渲染重新创建导致子组件状态丢失
+const SearchGameCenterResults = dynamic(() => import("./SearchGameCenterResults"), {
+  ssr: false,
+  loading: () => (
+    <div className="max-sm:w-[90%] w-[800px] mx-auto mb-10 text-center text-gray-500">
+      加载结果组件...
+    </div>
+  ),
+})
+
 // 接口定义
 export interface ArcadeSearchRequest {
   lat?: number
@@ -318,6 +329,8 @@ const SearchGameCenter = () => {
   }
 
   useEffect(() => {
+    // TODO(v2): 迁移到 useSyncExternalStore，消除级联渲染
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     getLocation()
   }, []) // 仅在组件挂载时执行一次
 
@@ -409,16 +422,6 @@ const SearchGameCenter = () => {
 
   // 移除自动触发搜索的useEffect，避免无限循环
   // 现在只有用户主动点击搜索按钮或地址解析成功后才会搜索
-
-  // 动态引入结果组件（含 framer-motion），仅在需要显示结果时加载
-  const SearchGameCenterResults = dynamic(() => import("./SearchGameCenterResults"), {
-    ssr: false,
-    loading: () => (
-      <div className="max-sm:w-[90%] w-[800px] mx-auto mb-10 text-center text-gray-500">
-        加载结果组件...
-      </div>
-    ),
-  })
 
   return (
     <>

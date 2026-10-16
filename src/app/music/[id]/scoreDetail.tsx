@@ -15,6 +15,8 @@ export default function ScoreDetail({ song, scores }: { song: Song; scores?: Son
   const [hasAttemptedLoad, setHasAttemptedLoad] = useState(false)
 
   useEffect(() => {
+    // TODO(v2): 迁移到 useSyncExternalStore 或 lazy 初始化,消除级联渲染
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true)
     setHasAttemptedLoad(false)
 

@@ -206,12 +206,16 @@ export default function RegionPage() {
       Object.keys(groups).forEach(groupKey => {
         initialExpandedState[groupKey] = true
       })
+      // TODO(v2): 迁移到 useSyncExternalStore 或 lazy 初始化,消除级联渲染
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setExpandedGroups(initialExpandedState)
     }
   }, [areas, groupAreasByPrefix])
 
   // 处理搜索
   useEffect(() => {
+    // TODO(v2): 迁移到 useSyncExternalStore 或 lazy 初始化,消除级联渲染
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     filterAreas(searchTerm)
   }, [searchTerm, filterAreas])
 

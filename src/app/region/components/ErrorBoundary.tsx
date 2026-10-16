@@ -65,6 +65,8 @@ class ErrorBoundary extends Component<Props, State> {
               </button>
               
               <button
+                // 类组件无法使用 useRouter 钩子，且出错后需整页导航以重置全局状态，故保留 location.href
+                // eslint-disable-next-line @next/next/no-location-assign-relative-destination
                 onClick={() => (window.location.href = "/")}
                 className="flex items-center justify-center gap-2 px-6 py-3 bg-white text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-50 transition-all font-medium active:scale-95"
               >

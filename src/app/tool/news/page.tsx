@@ -28,6 +28,8 @@ export default function NewsPage() {
   }
 
   useEffect(() => {
+    // TODO(v2): 迁移到 useSyncExternalStore 或 lazy 初始化,消除级联渲染
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoading(true)
     getNews(10, 0).then(data => {
       setNews(data)
