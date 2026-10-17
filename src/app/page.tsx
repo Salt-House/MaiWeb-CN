@@ -8,6 +8,7 @@ import SearchGameCenter from "@/components/common/SearchGameCenter"
 import KaleidoscopeCard from "@/app/kaleidoscope/_components/KaleidoscopeCard"
 import TokenChecker from "@/hooks/TokenChecker"
 import RoatChiho from "@/components/common/circle/RoatChiho"
+import { MaiTitle } from "@/components/common/MaiUI"
 import { getNews as fetchNews, NewsProps } from "@/services/news"
 
 export default function Home() {
@@ -54,6 +55,8 @@ export default function Home() {
           <SearchGameCenter />
 
 
+          {/* 官方标题横幅 */}
+          <MaiTitle type="ranking" />
           {/* Map Play display */}
           <div
             id="playmap"

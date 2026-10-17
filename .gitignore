@@ -44,3 +44,5 @@ next-env.d.ts
 docs/
 log/
 .trae.idea/  
+scrap/
+migrate_pink_tokens.ps1

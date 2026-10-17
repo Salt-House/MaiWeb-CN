@@ -10,6 +10,7 @@ import MobileNavigation from "@/components/layout/Navigation"
 import Notice from "@/components/common/Notice"
 import Image from "next/image"
 import DecorationBg from "@/components/common/DecorationBg"
+import { MaiPageUp } from "@/components/common/MaiUI"
 
 export const metadata: Metadata = {
   title: "maimai中国玩家站",
@@ -71,6 +72,7 @@ export default function RootLayout({
 
             {/* v2 背景装饰层: 复刻官网 maiDecorationBg (云/浮岛/五线谱/音符/海面) */}
             <DecorationBg />
+            <MaiPageUp />
 
             {/* 使用新的客户端导航组件 */}
             <MobileNavigation textstroke={textstroke} />
