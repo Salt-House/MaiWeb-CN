@@ -5,13 +5,13 @@ export default function RoatChiho() {
   return (
     <>
       <motion.img
-        src="/img/circle/torikoro.png"
+        src="assets/magical/app/img.png"
         animate={{
           y: [0, -20, 0],
         }}
-        className="w-[400px] max-sm:hidden mx-auto mb-20"
+        className="relative z-10 w-[500px] max-w-[90%] max-sm:hidden mx-auto mb-4"
         transition={{
-          duration: 2,
+          duration: 6,
           ease: "easeInOut",
           repeat: Infinity,
           repeatType: "reverse",
@@ -19,13 +19,13 @@ export default function RoatChiho() {
         onClick={() => alert("不要点你爹")}
       />
       <motion.img
-        src="/img/circle/chara.png"
-        animate={{
+          src="assets/magical/app/img.png"
+          animate={{
           y: [0, -20, 0],
         }}
-        className="w-[380px] sm:hidden mx-auto mb-20"
+        className="relative z-10 w-[75%] sm:hidden mx-auto mb-4"
         transition={{
-          duration: 2,
+          duration: 6,
           ease: "easeInOut",
           repeat: Infinity,
           repeatType: "reverse",

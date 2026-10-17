@@ -42,19 +42,20 @@ export default function Home() {
           {/* Control */}
 
           <div className="max-sm:h-[40px] w-[200px] h-[100px]"></div>
-          <div className="mx-auto w-44 h-12 font-bold text-xl text-center rounded-full bg-white/90 shadow-md">
-            {token == "" ? <div className="text-mai-red"> 🔴 无登录状态</div> : <TokenChecker />}
+          <div className="mx-auto w-44 h-12 font-bold text-xl flex justify-center items-center rounded-full bg-white/90 shadow-md">
+            {token == "" ? <div className="text-mai-red"> 🔴 未登录</div> : <TokenChecker />}
           </div>
-
-          <RoatChiho />
-
-          {/* Kaleidoscope Card */}
-          <KaleidoscopeCard />
-
-          {/* 使用独立的SearchGameCenter组件 */}
-          <SearchGameCenter />
-
-
+          <div className="flex w-full flex-col justify-center items-center lg:flex-row lg:items-start">
+            <div className="w-full lg:w-1/4 flex justify-center">
+              <KaleidoscopeCard />
+            </div>
+            <div className="w-full lg:w-1/3 flex justify-center">
+              <RoatChiho />
+            </div>
+            <div className="w-full lg:w-1/4 flex justify-center">
+              <SearchGameCenter />
+            </div>
+          </div>
           {/* 官方标题横幅 */}
           <MaiTitle type="ranking" />
           {/* Map Play display */}

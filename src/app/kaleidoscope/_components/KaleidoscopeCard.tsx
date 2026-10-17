@@ -14,7 +14,7 @@ function DoorItem({ door }: { door: KaleidoscopeDoorData }) {
   return (
     <div
       onClick={() => router.push(`/kaleidoscope/${door.slug}`)}
-      className="flex flex-row max-sm:flex-col w-full py-6 px-4 items-center justify-center cursor-pointer hover:bg-mai-pink-soft/50 transition-colors"
+      className="group flex flex-row max-sm:flex-col w-full py-6 px-4 items-center justify-center cursor-pointer hover:bg-mai-sky/15 transition-colors"
     >
       {/* Left: Door Image */}
       <div className="w-1/3 max-sm:w-full flex justify-center items-center max-sm:mb-4">
@@ -23,19 +23,19 @@ function DoorItem({ door }: { door: KaleidoscopeDoorData }) {
             src={door.doorImage}
             alt={door.nameCn}
             fill
-            className="object-contain drop-shadow-lg"
+            className="object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
           />
         </div>
       </div>
 
       {/* Right: Text */}
       <div className="w-2/3 max-sm:w-full flex flex-col justify-center max-sm:px-6 text-left max-sm:text-center">
-        <h2 className="text-2xl max-sm:text-xl font-bold text-mai-rose mb-3 drop-shadow-sm">
+        <h2 className="text-2xl max-sm:text-xl font-bold text-mai-blue-deep mb-3 drop-shadow-sm">
           maimai DX KALEIDXSCOPE:
           <br />
           <span className={door.doorColorClass}>{door.nameCn}</span> 解禁！
         </h2>
-        <div className="text-gray-600 text-base leading-relaxed space-y-2">
+        <div className="text-mai-ink text-base leading-relaxed space-y-2">
           <p>
             完成特定条件即可开启{door.nameCn}，挑战新曲：
             {door.bossSong.id > 0 ? (
@@ -53,7 +53,7 @@ function DoorItem({ door }: { door: KaleidoscopeDoorData }) {
               <span className="font-bold">{door.bossSong.name}</span>
             )}
           </p>
-          <p className="text-mai-rose font-bold mt-2 text-base">
+          <p className="text-mai-purple font-bold mt-2 text-base">
             解锁方法、钥匙获取及挑战详情 &gt;&gt;
           </p>
         </div>
@@ -64,8 +64,8 @@ function DoorItem({ door }: { door: KaleidoscopeDoorData }) {
 
 const KaleidoscopeCard = () => {
   return (
-    <div className="w-full flex justify-center mt-30">
-      <div className="w-[800px] max-sm:w-[90%]">
+    <div className="w-full flex justify-center">
+      <div className="w-full max-w-[900px] max-sm:w-[90%]">
         <motion.div
           className="relative my-10 w-full flex flex-col justify-center items-center rounded-2xl overflow-visible"
           initial={{ opacity: 0, y: 50 }}
@@ -73,32 +73,41 @@ const KaleidoscopeCard = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
   
         >
-          {/* Logo */}
+          {/* MAGiCAL 黄色标头横幅: logo + KALEIDXSCOPE */}
           <motion.div
-            className="absolute -top-16"
-            initial={{ scale: 0, rotate: -180 }}
+            className="relative z-10 w-full border-b-4 border-mai-blue-deep bg-mai-yellow py-2 px-4 rounded-t-3xl flex items-center justify-center gap-3"
+            initial={{ scale: 0, rotate: -3 }}
             animate={{ scale: 1, rotate: 0 }}
-            transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+            transition={{ type: "spring", bounce: 0.45, duration: 0.8, delay: 0.2 }}
           >
             <Image
-              className="w-48 drop-shadow-lg"
-              src="/img/circle/logo.png"
-              alt="网站 Logo"
-              width={192}
-              height={192}
+              src="assets/magical/app/logo.png"
+              alt="maimai DX Logo"
+              width={48}
+              height={48}
               priority
-              style={{ height: "auto" }}
+              className="w-10 h-10 sm:w-12 sm:h-12 object-contain drop-shadow"
+            />
+            <span className="text-lg sm:text-2xl font-bold tracking-widest text-mai-blue-deep">
+              KALEIDXSCOPE
+            </span>
+            <Image
+              src="/assets/maiDecorationBg/note_02.png"
+              alt=""
+              width={28}
+              height={28}
+              className="w-6 h-6 max-sm:hidden"
             />
           </motion.div>
 
           {/* Background */}
           <motion.div
-            className="absolute rounded-2xl inset-x-0 inset-y-0 z-[-1] bg-mai-pink-soft/15 border-4 border-mai-pink-soft shadow-2xl"
+            className="absolute rounded-3xl inset-x-0 inset-y-0 z-[-1] bg-white/95 border-4 border-mai-blue-deep shadow-2xl"
             animate={{
               boxShadow: [
-                "0 25px 50px -12px rgba(255, 95, 165, 0.25)",
-                "0 25px 50px -12px rgba(255, 183, 206, 0.35)",
-                "0 25px 50px -12px rgba(255, 95, 165, 0.25)",
+                "0 25px 50px -12px rgba(1, 45, 123, 0.35)",
+                "0 25px 50px -12px rgba(111, 52, 176, 0.30)",
+                "0 25px 50px -12px rgba(1, 45, 123, 0.35)",
               ],
             }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -108,7 +117,7 @@ const KaleidoscopeCard = () => {
           <div className="relative z-10 w-full">
             {allDoors.map((door, index) => (
               <div key={door.slug}>
-                {index > 0 && <hr className="border-mai-pink-soft mx-6" />}
+                {index > 0 && <hr className="border-t-2 border-dashed border-mai-blue-deep/20 mx-6" />}
                 <DoorItem door={door} />
               </div>
             ))}

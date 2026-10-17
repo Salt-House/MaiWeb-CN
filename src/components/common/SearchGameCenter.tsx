@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import { CONFIG } from "@/config/api"
-import { FcClock } from "react-icons/fc"
 // 移除直接引入 framer-motion，结果列表改为动态组件以减小首屏 bundle
 import dynamic from "next/dynamic"
 import { motion, AnimatePresence } from "framer-motion"
@@ -156,20 +155,20 @@ const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
       onClick={onClose}
     >
       <motion.div
-        className="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl border-2 border-mai-pink-soft"
+        className="bg-white rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl border-4 border-mai-blue-deep"
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-mai-pink-soft/15">
-          <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-            <FaLocationArrow className="text-mai-rose" />
+        <div className="p-4 border-b-4 border-mai-blue-deep/20 flex justify-between items-center bg-mai-yellow/40">
+          <h3 className="text-lg font-bold text-mai-blue-deep flex items-center gap-2">
+            <FaLocationArrow className="text-mai-blue-deep" />
             选择导航方式
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors"
+            className="text-gray-400 hover:text-mai-blue-deep p-1 rounded-full hover:bg-gray-100 transition-colors"
           >
             <FaTimes />
           </button>
@@ -181,7 +180,7 @@ const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
             .map((app, index) => (
               <motion.button
                 key={index}
-                className="w-full p-4 flex items-center gap-4 hover:bg-mai-pink-soft/15 rounded-xl transition-colors text-left group border border-transparent hover:border-mai-pink-soft mb-2 last:mb-0"
+                className="w-full p-4 flex items-center gap-4 hover:bg-mai-sky/15 rounded-xl transition-colors text-left group border border-transparent hover:border-mai-sky mb-2 last:mb-0"
                 onClick={app.onClick}
                 whileTap={{ scale: 0.98 }}
               >
@@ -189,10 +188,10 @@ const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
                   {app.icon}
                 </div>
                 <div className="flex-1">
-                  <div className="font-bold text-gray-800">{app.name}</div>
+                  <div className="font-bold text-mai-blue-deep">{app.name}</div>
                   <div className="text-xs text-gray-500">{app.description}</div>
                 </div>
-                <div className="text-gray-300 group-hover:text-mai-rose">
+                <div className="text-gray-300 group-hover:text-mai-blue-deep">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -206,7 +205,7 @@ const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
             ))}
         </div>
 
-        <div className="p-3 bg-gray-50 text-center text-xs text-gray-400">前往: {name}</div>
+        <div className="p-3 bg-mai-blue-deep/5 text-center text-xs text-mai-blue-deep/50">前往: {name}</div>
       </motion.div>
     </motion.div>
   )
@@ -428,19 +427,19 @@ const SearchGameCenter = () => {
       {/* Search Game Center - 机厅搜索区域 */}
       <motion.div
         id="searchGameCenter"
-        className="relative my-10 max-sm:w-[90%] w-[800px] mx-auto flex flex-col justify-center items-center rounded-2xl overflow-visible"
+        className="relative my-10 max-sm:w-[90%] w-full max-w-[900px] mx-auto flex flex-col justify-center items-center rounded-2xl overflow-visible"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         {/* 多层边框背景 - 移除渐变，使用纯色与阴影 */}
         <motion.div
-          className="absolute rounded-2xl inset-x-0 inset-y-0 z-[-1] bg-mai-pink-soft/15 border-4 border-mai-pink-soft shadow-2xl"
+          className="absolute rounded-3xl inset-x-0 inset-y-0 z-[-1] bg-white/95 border-4 border-mai-blue-deep shadow-2xl"
           animate={{
             boxShadow: [
-              "0 25px 50px -12px rgba(255, 95, 165, 0.25)",
-              "0 25px 50px -12px rgba(255, 183, 206, 0.35)",
-              "0 25px 50px -12px rgba(255, 95, 165, 0.25)",
+              "0 25px 50px -12px rgba(1, 45, 123, 0.35)",
+              "0 25px 50px -12px rgba(111, 52, 176, 0.30)",
+              "0 25px 50px -12px rgba(1, 45, 123, 0.35)",
             ],
           }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -448,13 +447,16 @@ const SearchGameCenter = () => {
 
         {/* 装饰性动画元素 - 使用circle目录中的资源 */}
         <motion.div
-          className="absolute -top-8 -left-8 w-16 h-16 opacity-30"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-8 -left-8 w-16 h-16 opacity-70 drop-shadow-md"
+          animate={{ rotate: 360, y: [0, -8, 0] }}
+          transition={{
+            rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+            y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+          }}
         >
           <Image
-            src="/img/circle/star_pink.png"
-            alt="装饰星星"
+            src="/assets/maiDecorationBg/note_01.png"
+            alt="装饰音符"
             width={64}
             height={64}
             className="w-full h-full"
@@ -503,6 +505,32 @@ const SearchGameCenter = () => {
           />
         </motion.div> */}
 
+        {/* MAGiCAL 黄色挂牌标题 */}
+        <motion.div
+          className="absolute -top-6 z-10 flex items-center gap-2 rounded-full border-4 border-mai-blue-deep bg-mai-yellow px-6 py-1 shadow-lg"
+          initial={{ scale: 0, rotate: -12 }}
+          animate={{ scale: 1, rotate: -2 }}
+          transition={{ type: "spring", bounce: 0.5, duration: 0.7, delay: 0.35 }}
+        >
+          <Image
+            src="/assets/maiDecorationBg/note_02.png"
+            alt=""
+            width={22}
+            height={22}
+            className="w-5 h-5 max-sm:hidden"
+          />
+          <span className="text-lg sm:text-xl font-bold tracking-widest text-mai-blue-deep">
+            寻找机厅
+          </span>
+          <Image
+            src="/assets/maiDecorationBg/note_01.png"
+            alt=""
+            width={22}
+            height={22}
+            className="w-5 h-5 max-sm:hidden"
+          />
+        </motion.div>
+
         {/* 搜索表单 */}
         <motion.div
           className="w-full px-8 mt-8 mb-6"
@@ -516,12 +544,12 @@ const SearchGameCenter = () => {
               <div className="flex flex-wrap justify-center gap-6 w-full">
                 {/* 搜索范围选择器 */}
                 <motion.div
-                  className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-mai-pink-soft bg-white shadow-lg"
-                  whileHover={{ boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.3)" }}
+                  className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-mai-blue-deep/40 bg-white shadow-lg"
+                  whileHover={{ boxShadow: "0 10px 25px -5px rgba(1, 45, 123, 0.35)" }}
                   transition={{ duration: 0.2 }}
                 >
                   <select
-                    className="w-full h-9 py-1.5 px-4 appearance-none bg-transparent text-gray-800 focus:outline-none focus:ring-2 focus:ring-mai-rose"
+                    className="w-full h-9 py-1.5 px-4 appearance-none bg-transparent text-mai-blue-deep focus:outline-none focus:ring-2 focus:ring-mai-sky"
                     value={searchGameCenter.range}
                     onChange={e =>
                       setSearchGameCenter(prev => ({ ...prev, range: parseInt(e.target.value) }))
@@ -534,9 +562,9 @@ const SearchGameCenter = () => {
                     <option value={10000}>10公里范围</option>
                     <option value={20000}>20公里范围</option>
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-mai-pink-soft">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-mai-yellow">
                     <svg
-                      className="h-4 w-4 text-mai-rose-deep"
+                      className="h-4 w-4 text-mai-blue-deep"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -553,21 +581,21 @@ const SearchGameCenter = () => {
 
                 {/* 排序方式选择器 */}
                 <motion.div
-                  className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-mai-pink-soft bg-white shadow-lg"
-                  whileHover={{ boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.3)" }}
+                  className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-mai-blue-deep/40 bg-white shadow-lg"
+                  whileHover={{ boxShadow: "0 10px 25px -5px rgba(1, 45, 123, 0.35)" }}
                   transition={{ duration: 0.2 }}
                 >
                   <select
-                    className="w-full h-9 py-1.5 px-4 appearance-none bg-transparent text-gray-800 focus:outline-none focus:ring-2 focus:ring-mai-rose"
+                    className="w-full h-9 py-1.5 px-4 appearance-none bg-transparent text-mai-blue-deep focus:outline-none focus:ring-2 focus:ring-mai-sky"
                     value={searchGameCenter.sort}
                     onChange={e => setSearchGameCenter(prev => ({ ...prev, sort: e.target.value }))}
                     aria-label="选择排序方式"
                   >
                     <option value="distance">按距离排序</option>
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-mai-pink-soft">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-mai-yellow">
                     <svg
-                      className="h-4 w-4 text-mai-rose-deep"
+                      className="h-4 w-4 text-mai-blue-deep"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -585,17 +613,17 @@ const SearchGameCenter = () => {
                 {/* 获取定位按钮 */}
                 <motion.button
                   onClick={getLocation}
-                  className="flex items-center justify-center h-10 px-4 rounded-full bg-mai-pink-soft hover:bg-mai-pink-soft border-2 border-mai-rose shadow-lg gap-2 max-sm:w-10 max-sm:h-10 max-sm:px-0 max-sm:gap-0 transition-colors"
+                  className="flex items-center justify-center h-10 px-4 rounded-full bg-mai-yellow hover:bg-mai-yellow/80 border-2 border-mai-blue-deep shadow-lg gap-2 max-sm:w-10 max-sm:h-10 max-sm:px-0 max-sm:gap-0 transition-colors"
                   title="获取我的位置"
                   whileHover={{
-                    boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.4)",
+                    boxShadow: "0 10px 25px -5px rgba(1, 45, 123, 0.45)",
                   }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ duration: 0.3 }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-mai-rose-deep"
+                    className="h-4 w-4 text-mai-blue-deep"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -613,7 +641,7 @@ const SearchGameCenter = () => {
                       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                   </svg>
-                  <span className="text-sm font-medium text-mai-rose-deep whitespace-nowrap max-sm:hidden">
+                  <span className="text-sm font-medium text-mai-blue-deep whitespace-nowrap max-sm:hidden">
                     获取当前定位
                   </span>
                 </motion.button>
@@ -627,13 +655,13 @@ const SearchGameCenter = () => {
                 transition={{ duration: 0.5, delay: 0.9 }}
               >
                 {searchGameCenter.lat && searchGameCenter.lng ? (
-                  <div className="flex items-center gap-1 text-sm text-mai-rose px-3">
-                    <FcClock />
+                  <div className="flex items-center gap-1 text-sm text-mai-blue-deep px-3">
+                    <FaMapMarkerAlt className="text-mai-sky" />
                     <span>已获取您的位置信息，可直接搜索附近机厅</span>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-1 text-sm text-mai-rose px-3">
-                    <FcClock />
+                  <div className="flex items-center gap-1 text-sm text-mai-blue-deep px-3">
+                    <FaMapMarkerAlt className="text-mai-sky" />
                     <span>未获取到您的位置信息</span>
                   </div>
                 )}
@@ -650,7 +678,7 @@ const SearchGameCenter = () => {
                 <input
                   type="text"
                   placeholder="请输入机厅名称（可选）"
-                  className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-mai-pink-soft bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-mai-rose focus:border-mai-rose text-gray-800 placeholder-mai-pink-soft"
+                  className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-mai-blue-deep/40 bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-mai-sky focus:border-mai-sky text-mai-blue-deep placeholder-mai-blue-deep/35"
                   value={searchGameCenter.name || ""}
                   onChange={e => setSearchGameCenter(prev => ({ ...prev, name: e.target.value }))}
                 />
@@ -663,11 +691,11 @@ const SearchGameCenter = () => {
                 transition={{ duration: 0.2 }}
               >
                 <motion.button
-                  className="px-8 py-2.5 h-11 rounded-full bg-mai-rose hover:bg-mai-rose text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-mai-rose max-sm:px-6 max-sm:text-base transition-colors"
+                  className="px-8 py-2.5 h-11 rounded-full bg-mai-blue-deep hover:bg-mai-blue-dark text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-mai-blue-deep max-sm:px-6 max-sm:text-base transition-colors"
                   onClick={GetGameCenter}
                   disabled={isLoading}
                   whileHover={{
-                    boxShadow: "0 15px 35px -5px rgba(255, 95, 165, 0.4)",
+                    boxShadow: "0 15px 35px -5px rgba(1, 45, 123, 0.5)",
                   }}
                 >
                   {isLoading ? (
@@ -704,11 +732,11 @@ const SearchGameCenter = () => {
 
             {/* 分隔栏 */}
             <div className="flex items-center w-full max-w-lg mx-auto max-sm:max-w-full max-sm:px-4">
-              <div className="flex-1 h-px bg-mai-pink-soft"></div>
-              <span className="px-4 text-sm text-mai-rose whitespace-nowrap max-sm:text-xs max-sm:px-2">
+              <div className="flex-1 h-px bg-mai-blue-deep/25"></div>
+              <span className="px-4 text-sm font-bold text-mai-purple whitespace-nowrap max-sm:text-xs max-sm:px-2">
                 或使用地址查询
               </span>
-              <div className="flex-1 h-px bg-mai-pink-soft"></div>
+              <div className="flex-1 h-px bg-mai-blue-deep/25"></div>
             </div>
 
             {/* 第三行：地址搜索 + 地址查询按钮 */}
@@ -721,7 +749,7 @@ const SearchGameCenter = () => {
                 <input
                   type="text"
                   placeholder="请输入地址"
-                  className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-mai-pink-soft bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-mai-rose focus:border-mai-rose text-gray-800 placeholder-mai-pink-soft"
+                  className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-mai-blue-deep/40 bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-mai-sky focus:border-mai-sky text-mai-blue-deep placeholder-mai-blue-deep/35"
                   value={address}
                   onChange={e => setAddress(e.target.value)}
                 />
@@ -734,11 +762,11 @@ const SearchGameCenter = () => {
                 transition={{ duration: 0.2 }}
               >
                 <motion.button
-                  className="px-8 py-2.5 h-11 rounded-full bg-mai-rose hover:bg-mai-rose-deep text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-mai-rose-deep max-sm:px-6 max-sm:text-base transition-colors"
+                  className="px-8 py-2.5 h-11 rounded-full bg-mai-yellow hover:bg-mai-yellow/80 text-lg font-bold text-mai-blue-deep shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-mai-blue-deep max-sm:px-6 max-sm:text-base transition-colors"
                   onClick={getLocationFromAdress}
                   disabled={isLoading || !address.trim()}
                   whileHover={{
-                    boxShadow: "0 15px 35px -5px rgba(255, 95, 165, 0.4)",
+                    boxShadow: "0 15px 35px -5px rgba(1, 45, 123, 0.45)",
                   }}
                 >
                   {isLoading ? (
@@ -818,7 +846,7 @@ const SearchGameCenter = () => {
           }}
         >
           <Image
-            src="/img/circle/3d_glove_pink.png"
+            src="/img/circle/3d_glove_blue.png"
             alt="装饰手套"
             width={64}
             height={64}
@@ -838,8 +866,8 @@ const SearchGameCenter = () => {
           }}
         >
           <Image
-            src="/img/circle/3d_stars.png"
-            alt="装饰星星"
+            src="/assets/maiDecorationBg/note_02.png"
+            alt="装饰音符"
             width={56}
             height={56}
             className="w-full h-full"
@@ -884,17 +912,17 @@ const SearchGameCenter = () => {
         }
 
         .arcade-results::-webkit-scrollbar-track {
-          background: #fce7f3;
+          background: #d9edfc;
           border-radius: 10px;
         }
 
         .arcade-results::-webkit-scrollbar-thumb {
-          background: #FD4A81;
+          background: #012d7b;
           border-radius: 10px;
         }
 
         .arcade-results::-webkit-scrollbar-thumb:hover {
-          background: #FD4A81;
+          background: #6f34b0;
         }
       `}</style>
     </>

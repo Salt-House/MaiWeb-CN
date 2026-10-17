@@ -137,7 +137,7 @@ export default function RootLayout({
             <Link href={"/"} className="top-4 left-4 size-40 max-sm:hidden">
               <div className="fixed top-2 left-14 size-40 flex justify-center items-center hover:scale-105 transition-all duration-300 ease-in-out">
                 <Image
-                  src="/img/circle/logo.png"
+                  src="assets/magical/app/logo.png"
                   className="scale-125 object-contain"
                   alt="网站 Logo"
                   width={160}
