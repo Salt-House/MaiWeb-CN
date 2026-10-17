@@ -2,50 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 239, 246, 255;
-  /* --background-start-rgb:133, 144, 250; */
-  --background-start-rgb: 239, 246, 255;
-  --background-end-rgb: 255, 255, 255;
-}
+/* 
+  Font imported in layout.tsx to avoid duplication and improve loading performance.
+  @import url("https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css");
+*/
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 239, 246, 255;
-    /* --background-start-rgb: 133, 144, 250; */
-    --background-start-rgb: 239, 246, 255;
-    --background-end-rgb: 255, 255, 255;
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
-}
-@font-face {
-  font-family: 'MapleMono';
-  src: url('/font/MapleMono-CN-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  font-family: 'MapleMono', monospace;
-  font-weight: 400;
-  /* background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb)); */
-  background: linear-gradient(to bottom,
-      rgba(133, 144, 250, 1) 0%,
-      /* 第一段：从顶部开始，rgba 定义颜色 */
-      rgb(201, 248, 229) 50%,
-      /* 第二段：渐变到指定的 RGB 颜色 */
-      rgb(var(--background-start-rgb)) 70%
-      /* 第三段：从中间颜色渐变到变量指定的 RGB 颜色 */
-    );
+  body {
+    @apply bg-gradient-to-r from-maimai-pink via-maimai-pink-light to-maimai-pink;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  .animation-delay-500 {
+    animation-delay: 0.5s;
+  }
+
+  .text-stroke-white {
+    text-shadow: 
+      -2px -2px 2px rgba(255, 255, 255, 1), 
+      2px -2px 2px rgba(255, 255, 255, 1), 
+      -2px 2px 2px rgba(255, 255, 255, 1), 
+      2px 2px 2px rgba(255, 255, 255, 1);
+  }
+
+  .text-stroke-purple {
+    text-shadow:
+      -2px -2px 4px rgba(128, 90, 213, 1),
+      2px -2px 4px rgba(128, 90, 213, 1),
+      -2px 2px 2px rgba(128, 90, 213, 1),
+      2px 2px 2px rgba(128, 90, 213, 1);
+  }
+}
+
+/* Quill Editor Video Styles */
+.ql-container .ql-video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9; /* 保持16:9宽高比 */
+  object-fit: cover; /* 确保内容完全覆盖 */
+  max-width: 100%; /* 最大宽度不超过容器 */
+  margin-left: auto;
+  margin-right: auto; /* 水平居中 */
+  display: block; /* 块级元素 */
+  border-radius: 0.5rem; /* 可选的圆角 */
 }
