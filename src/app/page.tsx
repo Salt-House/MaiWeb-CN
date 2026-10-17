@@ -6,8 +6,6 @@ import ChinaMap from "@/components/common/ChinaMap"
 import NewsCard from "@/components/common/NewsCard"
 import SearchGameCenter from "@/components/common/SearchGameCenter"
 import KaleidoscopeCard from "@/app/kaleidoscope/_components/KaleidoscopeCard"
-import Guide from "@/components/common/Guide"
-import { Step } from "react-joyride"
 import TokenChecker from "@/hooks/TokenChecker"
 import RoatChiho from "@/components/common/circle/RoatChiho"
 import { getNews as fetchNews, NewsProps } from "@/services/news"
@@ -19,44 +17,6 @@ export default function Home() {
     textShadow:
       "-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)",
   }
-
-  const steps: Step[] = [
-    {
-      target: "#music",
-      content: "点击这里可以查看乐曲信息（包括成绩），铺面确认，乐曲播放等功能",
-      disableBeacon: true,
-    },
-    {
-      target: "#region",
-      content: "点击这里可以查看舞萌区域信息，区域伙伴，区域跑图等功能",
-    },
-    {
-      target: "#tool",
-      content: "点击这里可以查看舞萌工具，卷王工具，成绩工具等功能",
-    },
-    {
-      target: "#funDetail",
-      content: "这里可以查看我们已完成的功能和正在开发中的功能",
-    },
-    {
-      target: "#searchGameCenter",
-      content: "在这里可以搜索机厅信息",
-    },
-    {
-      target: "#playmap",
-      content: "在这里可以查看全国行脚图，点亮你的行脚地图！",
-    },
-    {
-      target: "#user",
-      content: "点击这里可以登录或注册账号，进入用户页面（不要问为什么是牛奶）",
-      disableScrolling: false,
-    },
-    {
-      target: "#musicPlayer",
-      content: "全局舞萌音乐播放器,点击乐曲封面可以最小化播放器",
-      disableScrolling: false,
-    },
-  ]
 
 
   useEffect(() => {
@@ -78,8 +38,6 @@ export default function Home() {
       <div className="w-full overflow-hidden">
         {/* Main Layer */}
         <div className="relative w-full">
-          {/* 使用抽离的 Guide 组件 */}
-          <Guide steps={steps} mark={"hometour"} />
           {/* Control */}
 
           <div className="max-sm:h-[40px] w-[200px] h-[100px]"></div>

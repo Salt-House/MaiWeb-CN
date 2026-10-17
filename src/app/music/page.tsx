@@ -6,8 +6,6 @@ import { transferVersion } from "@/utils/music"
 import SongList from "./songList"
 // import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import ActionButton from "@/components/ui/ActionButton"
-import type { Step } from "react-joyride"
-import Guide from "@/components/common/Guide"
 // import { FaFilter, FaTimes } from "react-icons/fa"
 import { AnimatePresence, motion } from "framer-motion"
 // import Notice from "../components/Notice"
@@ -84,21 +82,6 @@ export default function MusicPage() {
   const [filteredUrl, setFilteredUrl] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const [hasMore, setHasMore] = useState(false)
-  const steps: Step[] = [
-    {
-      target: "#filter-select",
-      content: "选择乐曲分类",
-      disableBeacon: true,
-    },
-    {
-      target: "#clickDetail",
-      content: "点击乐曲查看详情",
-    },
-    {
-      target: "#addMusicPlay",
-      content: "点击添加到播放列表",
-    },
-  ]
 
   const textstroke = {
     textShadow:
@@ -235,7 +218,6 @@ export default function MusicPage() {
         id="filter-select"
         className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-24 text-black "
       >
-        <Guide steps={steps} mark={"musictour"} />
         <div className="border-4 relative border-white max-sm:w-[90%] bg-white rounded-2xl">
           <div className="w-[900px] max-sm:w-full max-sm:h-96 mx-auto h-80 bg-white rounded-2xl flex flex-col justify-center text-center border-4 border-pink-300">
             <div className="items-center">

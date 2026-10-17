@@ -1,12 +1,10 @@
 "use client"
 
 import Button from "@/components/ui/button/Button"
-import Guide from "@/components/common/Guide"
 import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import { ShareableImageSub } from "@/components/common/ShareableImage"
 import { UserProfile } from "@/types/user"
 import { useCallback, useEffect, useState } from "react"
-import { Step } from "react-joyride"
 import { CONFIG } from "@/config/api"
 
 // 定义MusicGradeProps接口
@@ -371,18 +369,6 @@ export default function BestPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const steps: Step[] = [
-    {
-      target: "#b50control",
-      content: "这里是B50查询控制面板",
-      disableBeacon: true,
-    },
-    {
-      target: "#b50",
-      content: "这里会显示b50信息",
-    },
-  ]
-
   const ShareBest = useCallback(() => {
     setButtonStatus(true)
     const myHeaders = new Headers()
@@ -431,7 +417,6 @@ export default function BestPage() {
   return (
     <>
       <div className="relative w-full max-w-[1600px] p-5 flex flex-col justify-center items-center mx-auto">
-        <Guide steps={steps} mark={"b50tour"} />
 
         <div className="mb-8 max-sm:w-full w-full max-w-[900px] space-y-4">
           {/* 标题区域 */}
