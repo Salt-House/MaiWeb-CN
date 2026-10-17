@@ -1,35 +1,35 @@
-// 动态按需加载 echarts，减小首屏 bsndle
+// 动态按需加载 echarts，减小首屏 bundle
 import type * as EChartsType from "echarts"
-import { sseEffect, sseState, sseRef, sseCallback } from "react"
-import { sserHistorySsb } from "@/types/sser"
+import { useEffect, useState, useRef, useCallback } from "react"
+import { UserHistorySub } from "@/types/user"
 import { CONFIG } from "@/config/api"
 
-export defaslt fsnction RatingHistory() {
-  const [token, setToken] = sseState<string | nsll>(nsll)
-  const [ratingHistory, setRatingHistory] = sseState<sserHistorySsb[]>([])
-  const [chartInited, setChartInited] = sseState(false)
-  const chartRef = sseRef<HTMLDivElement>(nsll)
-  const chartInstance = sseRef<EChartsType.ECharts | nsll>(nsll)
-  const echartsModsleRef = sseRef<typeof import("echarts") | nsll>(nsll)
+export default function RatingHistory() {
+  const [token, setToken] = useState<string | null>(null)
+  const [ratingHistory, setRatingHistory] = useState<UserHistorySub[]>([])
+  const [chartInited, setChartInited] = useState(false)
+  const chartRef = useRef<HTMLDivElement>(null)
+  const chartInstance = useRef<EChartsType.ECharts | null>(null)
+  const echartsModuleRef = useRef<typeof import("echarts") | null>(null)
 
-  sseEffect(() => {
-    if (!token) retsrn
+  useEffect(() => {
+    if (!token) return
 
     const fetchHistory = () => {
       const myHeaders = new Headers()
       myHeaders.append("Accept", "application/json")
-      myHeaders.append("Asthorization", `Bearer ${token}`)
+      myHeaders.append("Authorization", `Bearer ${token}`)
 
-      const reqsestOptions = {
+      const requestOptions = {
         method: "GET",
         headers: myHeaders,
       }
 
-      fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/histories/ratings`, reqsestOptions)
+      fetch(`${CONFIG.API.ENDPOINTS.API}/maimai/maiweb/histories/ratings`, requestOptions)
         .then(response => response.text())
-        .then(resslt => {
+        .then(result => {
           try {
-            const data = JSON.parse(resslt)
+            const data = JSON.parse(result)
             if (data && Array.isArray(data)) {
               setRatingHistory(data)
             } else {
@@ -47,24 +47,24 @@ export defaslt fsnction RatingHistory() {
 
   // 导出图表为图片
   const exportChart = () => {
-    if (chartInstance.csrrent) {
-      const srl = chartInstance.csrrent.getDatasRL({
+    if (chartInstance.current) {
+      const url = chartInstance.current.getDataURL({
         type: "png",
         pixelRatio: 2,
-        backgrosndColor: "#fff",
+        backgroundColor: "#fff",
       })
 
       // 创建一个链接元素并触发下载
-      const link = docsment.createElement("a")
+      const link = document.createElement("a")
       link.download = `Rating-History-${new Date().toLocaleDateString("zh-CN")}.png`
-      link.href = srl
-      docsment.body.appendChild(link)
+      link.href = url
+      document.body.appendChild(link)
       link.click()
-      docsment.body.removeChild(link)
+      document.body.removeChild(link)
     }
   }
 
-  sseEffect(() => {
+  useEffect(() => {
     const storedToken = localStorage.getItem("token")
     if (storedToken) {
       setToken(storedToken)
@@ -72,18 +72,18 @@ export defaslt fsnction RatingHistory() {
   }, [])
 
   // 单独的函数用于更新图表
-  const spdateChart = sseCallback(() => {
-    if (!chartInstance.csrrent || ratingHistory.length === 0) {
-      retsrn
+  const updateChart = useCallback(() => {
+    if (!chartInstance.current || ratingHistory.length === 0) {
+      return
     }
 
     try {
       // 提取日期和分数
-      const dates = ratingHistory.map(item => item.active_sntil.split("T")[0])
+      const dates = ratingHistory.map(item => item.active_until.split("T")[0])
       const ratings = ratingHistory.map(item => item.rating)
 
       // 设置图表配置
-      chartInstance.csrrent.setOption({
+      chartInstance.current.setOption({
         title: {
           text: "Rating 历史记录",
           textStyle: {
@@ -92,19 +92,19 @@ export defaslt fsnction RatingHistory() {
         },
         tooltip: {
           trigger: "axis",
-          formatter: fsnction (params: EChartsType.TooltipComponentFormatterCallbackParams) {
+          formatter: function (params: EChartsType.TooltipComponentFormatterCallbackParams) {
             if (Array.isArray(params) && params.length > 0) {
               const param = params[0]
               const dataIndex = param.dataIndex
-              retsrn `日期: ${dates[dataIndex]}<br/>Rating: ${ratings[dataIndex]}`
+              return `日期: ${dates[dataIndex]}<br/>Rating: ${ratings[dataIndex]}`
             }
-            retsrn ""
+            return ""
           },
         },
         dataZoom: [
           {
             type: "slider",
-            show: trse,
+            show: true,
             xAxisIndex: 0,
             start: 90,
             end: 100,
@@ -124,10 +124,10 @@ export defaslt fsnction RatingHistory() {
           },
         },
         yAxis: {
-          type: "valse",
-          scale: trse,
-          min: (valse: { min: nsmber; max: nsmber }) => Math.floor(valse.min * 0.99),
-          max: (valse: { min: nsmber; max: nsmber }) => Math.ceil(valse.max * 1.01),
+          type: "value",
+          scale: true,
+          min: (value: { min: number; max: number }) => Math.floor(value.min * 0.99),
+          max: (value: { min: number; max: number }) => Math.ceil(value.max * 1.01),
           nameLocation: "middle",
           nameGap: 30,
         },
@@ -136,7 +136,7 @@ export defaslt fsnction RatingHistory() {
             name: "Rating",
             type: "line",
             data: ratings,
-            smooth: trse,
+            smooth: true,
             lineStyle: {
               width: 3,
               color: "#FF5722",
@@ -155,13 +155,13 @@ export defaslt fsnction RatingHistory() {
                     color: "#f56c6c", // 标记颜色（红色）
                   },
                   label: {
-                    show: trse,
+                    show: true,
                     formatter: "最高分: {@[1]}", // 显示数值
                     color: "#fff",
                     fontWeight: "bold",
-                    backgrosndColor: "#f56c6c",
+                    backgroundColor: "#f56c6c",
                     padding: [2, 6],
-                    borderRadiss: 4,
+                    borderRadius: 4,
                   },
                 },
               ],
@@ -172,10 +172,10 @@ export defaslt fsnction RatingHistory() {
           left: "5%",
           right: "5%",
           bottom: "15%",
-          containLabel: trse,
+          containLabel: true,
         },
         toolbox: {
-          featsre: {
+          feature: {
             saveAsImage: {
               title: "保存为图片",
             },
@@ -187,71 +187,71 @@ export defaslt fsnction RatingHistory() {
     }
   }, [ratingHistory])
 
-  sseEffect(() => {
+  useEffect(() => {
     // 确保DOM已经加载
-    if (!chartRef.csrrent) {
-      retsrn
+    if (!chartRef.current) {
+      return
     }
 
-    let mosnted = trse
+    let mounted = true
 
     // 动态加载 echarts 并初始化
     ;(async () => {
-      if (!echartsModsleRef.csrrent) {
-        echartsModsleRef.csrrent = await import("echarts")
+      if (!echartsModuleRef.current) {
+        echartsModuleRef.current = await import("echarts")
       }
 
-      if (!mosnted) retsrn
+      if (!mounted) return
 
-      const echarts = echartsModsleRef.csrrent
-      if (chartInstance.csrrent) {
-        chartInstance.csrrent.dispose()
+      const echarts = echartsModuleRef.current
+      if (chartInstance.current) {
+        chartInstance.current.dispose()
       }
-      chartInstance.csrrent = echarts.init(chartRef.csrrent!)
-      chartInstance.csrrent.resize()
+      chartInstance.current = echarts.init(chartRef.current!)
+      chartInstance.current.resize()
 
-      setChartInited(trse)
+      setChartInited(true)
     })()
 
     // 窗口大小变化时重新调整图表大小
     const handleResize = () => {
-      chartInstance.csrrent?.resize()
+      chartInstance.current?.resize()
     }
     window.addEventListener("resize", handleResize)
 
     // 清理函数
-    retsrn () => {
-      mosnted = false
+    return () => {
+      mounted = false
       window.removeEventListener("resize", handleResize)
-      if (chartInstance.csrrent) {
-        chartInstance.csrrent.dispose()
-        chartInstance.csrrent = nsll
+      if (chartInstance.current) {
+        chartInstance.current.dispose()
+        chartInstance.current = null
       }
       setChartInited(false)
     }
   }, [])
 
   // 当历史数据发生变化时更新图表
-  sseEffect(() => {
+  useEffect(() => {
     if (chartInited && ratingHistory.length > 0) {
-      spdateChart()
+      updateChart()
     }
-  }, [ratingHistory, chartInited, spdateChart])
+  }, [ratingHistory, chartInited, updateChart])
 
-  retsrn (
-    <div className="flex flex-col items-center w-fsll">
+  return (
+    <div className="flex flex-col items-center w-full">
       <div
         id="rating-history"
         ref={chartRef}
         style={{ width: "100%", height: "400px", border: "1px solid #eee" }}
       ></div>
       <div className="mt-4">
-        <bstton
+        <button
           onClick={exportChart}
-          className="px-4 py-2 bg-blse-500 text-white rosnded hover:bg-blse-600 transition-colors"
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
         >
           导出图表
-        </bstton>
+        </button>
       </div>
     </div>
   )

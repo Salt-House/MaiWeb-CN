@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState, useMemo } from "react"
-import * as echarts from "echarts"
-import chinaGeoJson from "@/data/china.json" // Updated import path
+import type * as EChartsType from "echarts"
 import http from "@/services/request" // Updated import path
 
 interface UserRegionData {
@@ -55,8 +54,9 @@ const INITIAL_GLOBAL_DATA = [
 
 const ChinaMap = () => {
   const chartRef = useRef<HTMLDivElement>(null)
-  const chartInstanceRef = useRef<echarts.ECharts | null>(null)
+  const chartInstanceRef = useRef<EChartsType.ECharts | null>(null)
   const [userRegionData, setUserRegionData] = useState<UserRegionData[]>([])
+  const [chartReady, setChartReady] = useState(false)
 
   // 使用 useMemo 计算最终的图表数据
   const chartData = useMemo(() => {
@@ -96,15 +96,34 @@ const ChinaMap = () => {
   useEffect(() => {
     if (!chartRef.current) return
 
-    // 初始化 ECharts 实例
-    const chartInstance = echarts.init(chartRef.current)
-    chartInstanceRef.current = chartInstance
+    let disposed = false
+    let chartInstance: EChartsType.ECharts | null = null
+    let resizeTimeout: NodeJS.Timeout
 
-    // 注册中国地图 GeoJSON 数据
-    echarts.registerMap("china", chinaGeoJson as GeoJSON)
+    const handleResize = () => {
+      clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(() => {
+        chartInstance?.resize()
+      }, 200)
+    }
 
-    // 配置图表选项
-    const options: echarts.EChartsOption = {
+    const initChart = async () => {
+      // 按需加载 echarts 与地图数据，避免打进首屏 bundle
+      const [echarts, { default: chinaGeoJson }] = await Promise.all([
+        import("echarts"),
+        import("@/data/china.json"),
+      ])
+      if (disposed || !chartRef.current) return
+
+      // 初始化 ECharts 实例
+      chartInstance = echarts.init(chartRef.current)
+      chartInstanceRef.current = chartInstance
+
+      // 注册中国地图 GeoJSON 数据
+      echarts.registerMap("china", chinaGeoJson as GeoJSON)
+
+      // 配置图表选项
+      const options: EChartsType.EChartsOption = {
       title: {
         text: "",
         left: "top",
@@ -167,23 +186,18 @@ const ChinaMap = () => {
       ],
     }
 
-    chartInstance.setOption(options)
-
-    let resizeTimeout: NodeJS.Timeout
-
-    const handleResize = () => {
-      clearTimeout(resizeTimeout)
-      resizeTimeout = setTimeout(() => {
-        chartInstance.resize()
-      }, 200)
+      chartInstance.setOption(options)
+      window.addEventListener("resize", handleResize)
+      setChartReady(true)
     }
-    window.addEventListener("resize", handleResize)
+    initChart()
 
     // 组件卸载时销毁实例
     return () => {
+      disposed = true
       window.removeEventListener("resize", handleResize)
       clearTimeout(resizeTimeout)
-      chartInstance.dispose()
+      chartInstance?.dispose()
       chartInstanceRef.current = null
     }
   }, [])
@@ -205,7 +219,7 @@ const ChinaMap = () => {
         ],
       })
     }
-  }, [chartData])
+  }, [chartData, chartReady])
 
   return (
     <div
