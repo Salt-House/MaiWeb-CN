@@ -8,6 +8,9 @@
 */
 
 @layer base {
+  :root { /* v2 maimai MAGiCAL 官网设计令牌 */
+    --mai-green: #41b48f; --mai-blue-deep: #012d7b; --mai-purple: #6f34b0; --mai-yellow: #fbe426; --mai-ink: #17466d; }
+
   html {
     scroll-behavior: smooth;
   }
