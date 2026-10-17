@@ -15,7 +15,7 @@ export default function Home() {
   const [token, setToken] = useState<string>("")
   const textstroke = {
     textShadow:
-      "-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)",
+      "-2px -2px 4px rgba(65, 180, 143, 1), 2px -2px 4px rgba(65, 180, 143, 1), -2px 2px 2px rgba(65, 180, 143, 1), 2px 2px 2px rgba(65, 180, 143, 1)",
   }
 
 
@@ -41,8 +41,8 @@ export default function Home() {
           {/* Control */}
 
           <div className="max-sm:h-[40px] w-[200px] h-[100px]"></div>
-          <div className="mx-auto w-44 h-12 font-bold text-xl text-center">
-            {token == "" ? <div> 🔴 无登录状态</div> : <TokenChecker />}
+          <div className="mx-auto w-44 h-12 font-bold text-xl text-center rounded-full bg-white/90 shadow-md">
+            {token == "" ? <div className="text-mai-red"> 🔴 无登录状态</div> : <TokenChecker />}
           </div>
 
           <RoatChiho />
@@ -57,7 +57,7 @@ export default function Home() {
           {/* Map Play display */}
           <div
             id="playmap"
-            className="relative w-full max-sm:w-[90%] sm:w-[900px] h-[400px] sm:h-[480px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-[#41e7d7] shadow-xl"
+            className="relative w-full max-sm:w-[90%] sm:w-[900px] h-[400px] sm:h-[480px] bg-white mx-auto flex flex-col justify-center items-center rounded-2xl border-4 border-mai-green shadow-xl"
           >
             <div
               className="absolute -top-5 flex justify-center items-center text-white font-bold text-xl sm:text-2xl"

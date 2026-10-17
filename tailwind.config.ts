@@ -24,6 +24,7 @@ const config: Config = {
         "mai-pink-soft": "#FF90C8",
         "mai-rose": "#FD4A81",
         "mai-sky": "#319DF8",
+        "mai-sky-bg": "#3AADEE", // 官网 maiDecorationBg 天空蓝底色
         "mai-yellow": "#FBE426",
         "mai-red": "#FF4646",
       },
@@ -51,7 +52,12 @@ const config: Config = {
       },
       fontFamily: {
         douyin: ["DouyinSansBold", "sans-serif"], // 自定义字体
-        mai: ["M PLUS Rounded 1c", "Montserrat", "DouyinSansBold", "sans-serif"], // v2 官网圆体风格
+        mai: [
+          "M PLUS Rounded 1c",
+          "Montserrat",
+          "DouyinSansBold",
+          "sans-serif",
+        ], // v2 官网圆体风格 (Google Fonts link 加载, 中文回退 DouyinSansBold)
       },
       boxShadow: {
         text: "2px 2px 5px rgba(255, 255, 255, 0.8)", // 自定义文字阴影

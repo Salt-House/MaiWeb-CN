@@ -9,7 +9,7 @@ import GlobalPlayer from "@/components/common/GlobalPlayer"
 import MobileNavigation from "@/components/layout/Navigation"
 import Notice from "@/components/common/Notice"
 import Image from "next/image"
-import RoatatingCircle from "@/components/common/circle/RoatatingCircle"
+import DecorationBg from "@/components/common/DecorationBg"
 
 export const metadata: Metadata = {
   title: "maimai中国玩家站",
@@ -36,14 +36,21 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="zh-CN" suppressHydrationWarning>
       <head>
+        {/* v2 官网字体: maimai MAGiCAL 同款 M PLUS Rounded 1c (500) + Montserrat (700) */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&family=Montserrat:wght@700&display=swap"
+        />
         <link
           rel="stylesheet"
           href="https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css"
         />
       </head>
-      <body className="font-douyin">
+      <body className="font-mai">
         <PlayerProvider>
           <ClientLayout textstroke={textstroke} textDonate={textDonate}>
             <Link
@@ -62,68 +69,8 @@ export default function RootLayout({
               </h1>
             </Link>
 
-            {/* BackGround Layer */}
-            <div className="fixed top-0 left-0 w-full max-sm:w-full h-full z-[-1] bg-cover">
-              <div className="fixed w-full h-full z-[-2]">
-                <Image
-                  src="/img/circle/bottom_left.png"
-                  alt=""
-                  width={300}
-                  height={300}
-                  className="absolute bottom-0 z-[50] left-0 object-contain"
-                  style={{ width: "auto", height: "auto" }}
-                />
-                <Image
-                  src="/img/circle/bottom_right_PhotoGrid.png"
-                  alt=""
-                  width={900}
-                  height={900}
-                  className="absolute bottom-0 z-[50] right-0 object-contain"
-                  style={{ width: "auto", height: "auto" }}
-                />
-                <Image
-                  src="/img/circle/top_left_PhotoGrid.png"
-                  alt=""
-                  width={900}
-                  height={900}
-                  className="absolute top-0 z-[50] left-0 object-contain"
-                  style={{ height: "auto" }}
-                  priority
-                />
-                <Image
-                  src="/img/circle/top_right.png"
-                  alt=""
-                  width={300}
-                  height={300}
-                  className="absolute top-0 z-[50] right-0 object-contain"
-                  style={{ height: "auto" }}
-                />
-                <RoatatingCircle />
-
-                <Image
-                  src="/img/bg_pattern.png"
-                  alt=""
-                  className="absolute top-0 left-0 w-full h-full object-cover z-[-3]"
-                  width={1920}
-                  height={1080}
-                />
-
-                <Image
-                  src="/img/circle/chara-left.png"
-                  alt=""
-                  width={350}
-                  height={350}
-                  className="absolute max-sm:hidden top-1/2 left-56 transform -translate-x-1/2 -translate-y-1/2 z-[50]"
-                />
-                <Image
-                  src="/img/circle/chara-right.png"
-                  alt=""
-                  width={350}
-                  height={350}
-                  className="absolute max-sm:hidden top-1/2 right-0 transform -translate-y-1/2 z-[50]"
-                />
-              </div>
-            </div>
+            {/* v2 背景装饰层: 复刻官网 maiDecorationBg (云/浮岛/五线谱/音符/海面) */}
+            <DecorationBg />
 
             {/* 使用新的客户端导航组件 */}
             <MobileNavigation textstroke={textstroke} />
@@ -143,7 +90,7 @@ export default function RootLayout({
                     <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/UsaginoNiku.png')] bg-no-repeat bg-contain bg-center"></div>
                   </a>
                   <a href="https://www.diving-fish.com/maimaidx/prober/">
-                    <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/Divingfish.png')] bg-no-repeat bg-contain bg-center"></div>
+                    <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/Divingfish.png')] bg-no-repeat bg-contain bg-center"></div>
                   </a>
                 </div>
                 {/* Second row */}
@@ -152,7 +99,7 @@ export default function RootLayout({
                     <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/Lxns.png')] bg-no-repeat bg-contain bg-center"></div>
                   </a>
                   <a href="https://github.com/120MF/MaiMap">
-                    <div className="w-48 h-16  bg-white text-2xl bg-[url('/img/thanks/Maimap.png')] bg-no-repeat bg-contain bg-center"></div>
+                    <div className="w-48 h-16 bg-white text-2xl bg-[url('/img/thanks/Maimap.png')] bg-no-repeat bg-contain bg-center"></div>
                   </a>
                   <a href="https://github.com/Salt-House/MaiWeb-CN" className="group">
                     <div className="w-48 h-16 bg-black flex items-center justify-center rounded-lg shadow-md border-2 border-white/20 transition-transform group-hover:scale-105">

@@ -16,7 +16,8 @@
   }
 
   body {
-    @apply bg-gradient-to-r from-maimai-pink via-maimai-pink-light to-maimai-pink;
+    /* v2: 官网 MAGiCAL 风格 - 天空蓝底,DecorationBg 装饰层覆盖其上 */
+    @apply bg-mai-sky-bg;
   }
 }
 
