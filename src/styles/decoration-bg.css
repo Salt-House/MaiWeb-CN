@@ -1,0 +1,327 @@
+/* =============================================================
+   DecorationBg - 复刻 maimai でらっくす MAGiCAL 官网 maiDecorationBg 样式
+   来源: 官方 lib/site.css (components/maiDecorationBg/style.scss 编译产物)
+   素材: public/assets/maiDecorationBg/ (pc/ 子目录 = PC 端, 根目录 = SP 端)
+   断点: 600px (与官方一致)
+============================================================= */
+
+.maiDecorationBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -100;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  aspect-ratio: 1/1;
+}
+
+.maiDecorationBg .background-layer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: -99;
+  /* 官方天空蓝底色 */
+  background-color: #3aadee;
+}
+
+/* 前景草丛(下缘) */
+.maiDecorationBg .background-layer .front {
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  z-index: -50;
+  bottom: 0;
+  background: url("/assets/maiDecorationBg/pc/front.png") no-repeat bottom/contain;
+}
+@media screen and (max-width: 600px) {
+  .maiDecorationBg .background-layer .front {
+    background: url("/assets/maiDecorationBg/front.png") no-repeat top/cover;
+  }
+}
+
+/* 五线谱 ×3 (staff_01 元素复用 staff_03.png, 官方如此) */
+.maiDecorationBg .background-layer .staff_01 {
+  position: absolute;
+  bottom: -5%;
+  left: -4%;
+  width: 30%;
+  height: 67%;
+  z-index: -60;
+  mix-blend-mode: hard-light;
+  background: url("/assets/maiDecorationBg/staff_03.png") no-repeat top/contain;
+}
+@media screen and (max-width: 600px) {
+  .maiDecorationBg .background-layer .staff_01 {
+    bottom: 5%;
+    left: -4%;
+    width: 54%;
+    height: 46%;
+  }
+}
+.maiDecorationBg .background-layer .staff_01:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ffffff9c;
+  -webkit-mask: url("/assets/maiDecorationBg/staff_03.png") no-repeat top center/contain;
+  mask: url("/assets/maiDecorationBg/staff_03.png") no-repeat top center/contain;
+}
+
+.maiDecorationBg .background-layer .staff_02 {
+  position: absolute;
+  top: -2%;
+  left: 3%;
+  width: 14%;
+  height: 41%;
+  z-index: -71;
+  mix-blend-mode: hard-light;
+  background: url("/assets/maiDecorationBg/staff_01.png") no-repeat top/contain;
+}
+@media screen and (max-width: 600px) {
+  .maiDecorationBg .background-layer .staff_02 {
+    top: 29%;
+    left: -1%;
+    width: 25%;
+    height: 19%;
+  }
+}
+.maiDecorationBg .background-layer .staff_02:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ffffff9c;
+  -webkit-mask: url("/assets/maiDecorationBg/staff_01.png") no-repeat top center/contain;
+  mask: url("/assets/maiDecorationBg/staff_01.png") no-repeat top center/contain;
+}
+
+.maiDecorationBg .background-layer .staff_03 {
+  position: absolute;
+  bottom: -17%;
+  right: -6%;
+  width: 26%;
+  height: 62%;
+  z-index: -60;
+  mix-blend-mode: hard-light;
+  background: url("/assets/maiDecorationBg/staff_02.png") no-repeat top/contain;
+}
+@media screen and (max-width: 600px) {
+  .maiDecorationBg .background-layer .staff_03 {
+    bottom: 0;
+    right: -27%;
+    width: 45%;
+    height: 45%;
+  }
+}
+.maiDecorationBg .background-layer .staff_03:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ffffff9c;
+  -webkit-mask: url("/assets/maiDecorationBg/staff_02.png") no-repeat top center/contain;
+  mask: url("/assets/maiDecorationBg/staff_02.png") no-repeat top center/contain;
+}
+
+/* 音符 ×2 */
+.maiDecorationBg .background-layer .note_01 {
+  position: absolute;
+  bottom: 24%;
+  left: 2%;
+  width: 11%;
+  height: 29%;
+  z-index: -60;
+  background: url("/assets/maiDecorationBg/note_01.png") no-repeat top/contain;
+}
+@media screen and (max-width: 600px) {
+  .maiDecorationBg .background-layer .note_01 {
+    bottom: 42%;
+    left: -4%;
+    width: 22%;
+    height: 6%;
+  }
+}
+
+.maiDecorationBg .background-layer .note_02 {
+  position: absolute;
+  bottom: 18%;
+  right: 7%;
+  width: 8%;
+  height: 17%;
+  z-index: -60;
+  background: url("/assets/maiDecorationBg/note_02.png") no-repeat top/contain;
+}
+@media screen and (max-width: 600px) {
+  .maiDecorationBg .background-layer .note_02 {
+    bottom: 34%;
+    right: -4%;
+    width: 13%;
+    height: 7%;
+  }
+}
+
+/* 浮岛 ×2 */
+.maiDecorationBg .background-layer .island_01 {
+  position: absolute;
+  left: 0;
+  width: 32%;
+  height: 45%;
+  bottom: 20%;
+  z-index: -70;
+  background: url("/assets/maiDecorationBg/pc/island_01.png") no-repeat 0 0/contain;
+}
+@media screen and (max-width: 600px) {
+  .maiDecorationBg .background-layer .island_01 {
+    width: 50%;
+    height: 30%;
+    bottom: 26%;
+    background: url("/assets/maiDecorationBg/island_01.png") no-repeat 0 0/contain;
+  }
+}
+
+.maiDecorationBg .background-layer .island_02 {
+  position: absolute;
+  right: 0;
+  width: 33%;
+  height: 48%;
+  bottom: 10%;
+  z-index: -70;
+  background: url("/assets/maiDecorationBg/pc/island_02.png") no-repeat 100% 0/contain;
+}
+@media screen and (max-width: 600px) {
+  .maiDecorationBg .background-layer .island_02 {
+    bottom: 19%;
+    width: 46%;
+    height: 20%;
+    background: url("/assets/maiDecorationBg/island_02.png") no-repeat 100% 0/contain;
+  }
+}
+
+/* 城堡全景背景 */
+.maiDecorationBg .background-layer .castle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  z-index: -80;
+  background: url("/assets/maiDecorationBg/pc/sp_bg_02.png") no-repeat top/cover;
+}
+@media screen and (max-width: 600px) {
+  .maiDecorationBg .background-layer .castle {
+    background: url("/assets/maiDecorationBg/sp_bg_02.png") no-repeat top/cover;
+  }
+}
+
+/* 海面波光 (screen 混合 + 上下浮动) */
+.maiDecorationBg .background-layer .sea {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 438px;
+  left: 0;
+  z-index: -75;
+  aspect-ratio: 1;
+  background: url("/assets/maiDecorationBg/sea.png") repeat 0 100%/600px;
+  mix-blend-mode: screen;
+  opacity: 0.7;
+  animation: cloudFadeSp 60s linear infinite, updown 3s ease-in-out infinite alternate;
+}
+
+/* 云 ×3 (横向循环平移) */
+.maiDecorationBg .background-layer .croud_01 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 400px;
+  z-index: -90;
+  background: url("/assets/maiDecorationBg/croud_01.png") top/800px;
+  animation: cloudFade 20s linear infinite;
+}
+@media screen and (max-width: 600px) {
+  .maiDecorationBg .background-layer .croud_01 {
+    animation: cloudFadeSp 50s linear infinite;
+    background: url("/assets/maiDecorationBg/croud_01.png") top/600px;
+  }
+}
+
+.maiDecorationBg .background-layer .croud_02 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 400px;
+  z-index: -90;
+  background: url("/assets/maiDecorationBg/croud_02.png") top/800px;
+  animation: cloudFade 35s linear infinite;
+}
+@media screen and (max-width: 600px) {
+  .maiDecorationBg .background-layer .croud_02 {
+    animation: cloudFadeSp 50s linear infinite;
+    background: url("/assets/maiDecorationBg/croud_02.png") top/600px;
+  }
+}
+
+.maiDecorationBg .background-layer .croud_03 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 400px;
+  z-index: -90;
+  background: url("/assets/maiDecorationBg/croud_03.png") top/800px;
+  animation: cloudFade 50s linear infinite;
+}
+@media screen and (max-width: 600px) {
+  .maiDecorationBg .background-layer .croud_03 {
+    animation: cloudFadeSp 50s linear infinite;
+    background: url("/assets/maiDecorationBg/croud_03.png") top/600px;
+  }
+}
+
+/* 官方动画 */
+@keyframes updown {
+  0% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  to {
+    transform: translateY(5px);
+    opacity: 0;
+  }
+}
+
+@keyframes cloudFade {
+  0% {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: -800px;
+  }
+}
+
+@keyframes cloudFadeSp {
+  0% {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: -600px;
+  }
+}
+
+/* 无障碍: 减少动态时停用装饰动画 */
+@media (prefers-reduced-motion: reduce) {
+  .maiDecorationBg .background-layer .sea,
+  .maiDecorationBg .background-layer .croud_01,
+  .maiDecorationBg .background-layer .croud_02,
+  .maiDecorationBg .background-layer .croud_03 {
+    animation: none;
+  }
+}
