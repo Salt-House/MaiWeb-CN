@@ -225,7 +225,7 @@ export default function RegionPage() {
         {/* 背景装饰 */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
           <motion.div
-            className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-pink-300/10 rounded-full blur-[100px]"
+            className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-mai-pink-soft/10 rounded-full blur-[100px]"
             animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           />
@@ -244,7 +244,7 @@ export default function RegionPage() {
             transition={{ duration: 0.6 }}
             className="flex flex-col items-center mb-12 text-center"
           >
-            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-600 mb-4 tracking-tight">
+            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-mai-rose to-purple-600 mb-4 tracking-tight">
               探索区域
             </h1>
             <p className="text-gray-500 max-w-lg mx-auto mb-8 text-lg">
@@ -253,8 +253,8 @@ export default function RegionPage() {
 
             {/* 搜索栏 */}
             <div className="w-full max-w-2xl relative group z-20">
-              <div className="absolute inset-0 bg-gradient-to-r from-pink-200 to-purple-200 rounded-2xl blur opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
-              <div className="relative bg-white rounded-2xl shadow-sm border border-pink-100 flex items-center p-2 transition-all duration-300 focus-within:shadow-md focus-within:border-pink-300">
+              <div className="absolute inset-0 bg-gradient-to-r from-mai-pink-soft to-purple-200 rounded-2xl blur opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
+              <div className="relative bg-white rounded-2xl shadow-sm border border-mai-pink-soft flex items-center p-2 transition-all duration-300 focus-within:shadow-md focus-within:border-mai-pink-soft">
                 <FaSearch className="text-gray-400 ml-4 text-xl" />
                 <input
                   type="text"
@@ -281,8 +281,8 @@ export default function RegionPage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
-              <div className="flex items-center gap-2 px-4 py-2 bg-white/60 rounded-full border border-pink-100 shadow-sm">
-                <FaMapMarkerAlt className="text-pink-400" />
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/60 rounded-full border border-mai-pink-soft shadow-sm">
+                <FaMapMarkerAlt className="text-mai-rose" />
                 <span>{areas.length} 个区域</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-white/60 rounded-full border border-purple-100 shadow-sm">
@@ -295,7 +295,7 @@ export default function RegionPage() {
           {/* 内容区域 */}
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-20">
-              <div className="w-16 h-16 border-4 border-pink-100 border-t-pink-500 rounded-full animate-spin mb-4" />
+              <div className="w-16 h-16 border-4 border-mai-pink-soft border-t-mai-rose rounded-full animate-spin mb-4" />
               <p className="text-gray-500 animate-pulse">正在加载数据...</p>
             </div>
           ) : filteredAreas.length === 0 ? (
@@ -334,7 +334,7 @@ export default function RegionPage() {
                     className="flex items-center justify-between p-6 cursor-pointer hover:bg-white/40 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-400 to-purple-500 flex items-center justify-center text-white font-bold shadow-md">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-mai-rose to-purple-500 flex items-center justify-center text-white font-bold shadow-md">
                         {groupKey.charAt(0).toUpperCase()}
                       </div>
                       <div>
@@ -392,7 +392,7 @@ export default function RegionPage() {
 
                                 {/* 内容容器 */}
                                 <div className="p-5 flex-1 flex flex-col">
-                                  <h3 className="font-bold text-gray-800 text-lg mb-2 line-clamp-1 group-hover:text-pink-600 transition-colors">
+                                  <h3 className="font-bold text-gray-800 text-lg mb-2 line-clamp-1 group-hover:text-mai-rose-deep transition-colors">
                                     {area.name}
                                   </h3>
                                   <p className="text-sm text-gray-500 line-clamp-2 mb-4 flex-1">
@@ -402,7 +402,7 @@ export default function RegionPage() {
                                   {/* 底部标签 */}
                                   <div className="flex items-center gap-2 mt-auto pt-4 border-t border-gray-50">
                                     <div className="flex items-center gap-1 text-xs text-gray-400">
-                                      <FaMusic className="text-pink-300" />
+                                      <FaMusic className="text-mai-pink-soft" />
                                       <span>详情</span>
                                     </div>
                                   </div>

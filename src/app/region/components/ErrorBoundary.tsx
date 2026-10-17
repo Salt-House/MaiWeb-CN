@@ -41,8 +41,8 @@ class ErrorBoundary extends Component<Props, State> {
 
       // 默认错误UI
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-br from-pink-50 via-white to-purple-50">
-          <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-pink-100 p-8 md:p-12 text-center max-w-lg w-full">
+        <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-br from-mai-pink-soft/15 via-white to-purple-50">
+          <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-mai-pink-soft p-8 md:p-12 text-center max-w-lg w-full">
             <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
               <FaExclamationTriangle className="text-4xl text-red-400" />
             </div>
@@ -58,7 +58,7 @@ class ErrorBoundary extends Component<Props, State> {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => window.location.reload()}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-pink-500 text-white rounded-xl hover:bg-pink-600 transition-all shadow-lg shadow-pink-200 font-medium active:scale-95"
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-mai-rose text-white rounded-xl hover:bg-mai-rose-deep transition-all shadow-lg shadow-mai-pink-soft font-medium active:scale-95"
               >
                 <FaRedo className="text-sm" />
                 刷新页面

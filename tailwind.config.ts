@@ -23,6 +23,7 @@ const config: Config = {
         "mai-indigo": "#2B2EA3",
         "mai-pink-soft": "#FF90C8",
         "mai-rose": "#FD4A81",
+        "mai-rose-deep": "#D6306B", // 官方粉系深档(hover/强调)
         "mai-sky": "#319DF8",
         "mai-sky-bg": "#3AADEE", // 官网 maiDecorationBg 天空蓝底色
         "mai-yellow": "#FBE426",

@@ -72,7 +72,7 @@ export default function UserProfilePage() {
   const [link, setLink] = useState<string>("")
   const textShadow = {
     textShadow:
-      "-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)",
+      "-2px -2px 4px rgba(111, 52, 176, 1), 2px -2px 4px rgba(111, 52, 176, 1), -2px 2px 2px rgba(111, 52, 176, 1), 2px 2px 2px rgba(111, 52, 176, 1)",
   }
 
   const GetBindAccount = async () => {
@@ -392,7 +392,7 @@ export default function UserProfilePage() {
                         {/* Rating值 */}
                         <div className="flex items-center">
                           {/* TODO 优化：遵循 UI 规范，移除渐变色（bg-gradient-to-*） */}
-                          <span className="relative max-sm:hidden bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-clip">
+                          <span className="relative max-sm:hidden bg-gradient-to-r from-yellow-300 via-mai-rose to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-clip">
                             <SvgStrokedText
                               text={`Rating: ${userdata.mai_rating}`}
                               strokeColor="#9334e9"
@@ -406,7 +406,7 @@ export default function UserProfilePage() {
                             <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent z-0"></div>
                           </span>
                           {/* TODO 优化：遵循 UI 规范，移除渐变色（bg-gradient-to-*） */}
-                          <span className="relative sm:hidden bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-clip">
+                          <span className="relative sm:hidden bg-gradient-to-r from-yellow-300 via-mai-rose to-blue-500 pl-2 pr-3 py-0.5 rounded-lg border-2 border-yellow-200 shadow-md text-left text-white overflow-clip">
                             <SvgStrokedText
                               text={`Rating: ${userdata.mai_rating}`}
                               strokeColor="#9334e9"
@@ -863,7 +863,7 @@ export default function UserProfilePage() {
         <>
           <div className="flex flex-col text-center text-xl text-white">
             {/* TODO 优化：遵循 UI 规范，移除渐变色（bg-gradient-to-*） */}
-            <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 py-2 px-4 rounded-xl shadow-lg mb-4">
+            <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 via-mai-rose to-red-500 py-2 px-4 rounded-xl shadow-lg mb-4">
               <span className="text-3xl">🤯</span>
               <h1 className="text-2xl font-bold text-white tracking-wide">
                 5s内无跳转表明登录状态已过期
@@ -872,7 +872,7 @@ export default function UserProfilePage() {
             {/* TODO 优化：遵循 UI 规范，移除渐变色（bg-gradient-to-*） */}
             <button
               onClick={LogOut}
-              className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-red-500 to-pink-600 p-2 px-5 text-white font-bold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 border-white/30"
+              className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-red-500 to-mai-rose-deep p-2 px-5 text-white font-bold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 border-white/30"
             >
               <FaRightFromBracket className="mr-2" />
               返回重新登录

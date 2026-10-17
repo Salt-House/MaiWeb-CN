@@ -156,15 +156,15 @@ const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
       onClick={onClose}
     >
       <motion.div
-        className="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl border-2 border-pink-200"
+        className="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl border-2 border-mai-pink-soft"
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-pink-50">
+        <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-mai-pink-soft/15">
           <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-            <FaLocationArrow className="text-pink-500" />
+            <FaLocationArrow className="text-mai-rose" />
             选择导航方式
           </h3>
           <button
@@ -181,7 +181,7 @@ const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
             .map((app, index) => (
               <motion.button
                 key={index}
-                className="w-full p-4 flex items-center gap-4 hover:bg-pink-50 rounded-xl transition-colors text-left group border border-transparent hover:border-pink-100 mb-2 last:mb-0"
+                className="w-full p-4 flex items-center gap-4 hover:bg-mai-pink-soft/15 rounded-xl transition-colors text-left group border border-transparent hover:border-mai-pink-soft mb-2 last:mb-0"
                 onClick={app.onClick}
                 whileTap={{ scale: 0.98 }}
               >
@@ -192,7 +192,7 @@ const MapSelectionModal = ({ arcade, onClose }: MapSelectionModalProps) => {
                   <div className="font-bold text-gray-800">{app.name}</div>
                   <div className="text-xs text-gray-500">{app.description}</div>
                 </div>
-                <div className="text-gray-300 group-hover:text-pink-400">
+                <div className="text-gray-300 group-hover:text-mai-rose">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -435,7 +435,7 @@ const SearchGameCenter = () => {
       >
         {/* 多层边框背景 - 移除渐变，使用纯色与阴影 */}
         <motion.div
-          className="absolute rounded-2xl inset-x-0 inset-y-0 z-[-1] bg-pink-50 border-4 border-pink-300 shadow-2xl"
+          className="absolute rounded-2xl inset-x-0 inset-y-0 z-[-1] bg-mai-pink-soft/15 border-4 border-mai-pink-soft shadow-2xl"
           animate={{
             boxShadow: [
               "0 25px 50px -12px rgba(255, 95, 165, 0.25)",
@@ -516,12 +516,12 @@ const SearchGameCenter = () => {
               <div className="flex flex-wrap justify-center gap-6 w-full">
                 {/* 搜索范围选择器 */}
                 <motion.div
-                  className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-pink-300 bg-white shadow-lg"
+                  className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-mai-pink-soft bg-white shadow-lg"
                   whileHover={{ boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.3)" }}
                   transition={{ duration: 0.2 }}
                 >
                   <select
-                    className="w-full h-9 py-1.5 px-4 appearance-none bg-transparent text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                    className="w-full h-9 py-1.5 px-4 appearance-none bg-transparent text-gray-800 focus:outline-none focus:ring-2 focus:ring-mai-rose"
                     value={searchGameCenter.range}
                     onChange={e =>
                       setSearchGameCenter(prev => ({ ...prev, range: parseInt(e.target.value) }))
@@ -534,9 +534,9 @@ const SearchGameCenter = () => {
                     <option value={10000}>10公里范围</option>
                     <option value={20000}>20公里范围</option>
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-pink-100">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-mai-pink-soft">
                     <svg
-                      className="h-4 w-4 text-pink-600"
+                      className="h-4 w-4 text-mai-rose-deep"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -553,21 +553,21 @@ const SearchGameCenter = () => {
 
                 {/* 排序方式选择器 */}
                 <motion.div
-                  className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-pink-300 bg-white shadow-lg"
+                  className="relative min-w-[140px] max-sm:flex-1 h-10 rounded-full overflow-hidden border-2 border-mai-pink-soft bg-white shadow-lg"
                   whileHover={{ boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.3)" }}
                   transition={{ duration: 0.2 }}
                 >
                   <select
-                    className="w-full h-9 py-1.5 px-4 appearance-none bg-transparent text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                    className="w-full h-9 py-1.5 px-4 appearance-none bg-transparent text-gray-800 focus:outline-none focus:ring-2 focus:ring-mai-rose"
                     value={searchGameCenter.sort}
                     onChange={e => setSearchGameCenter(prev => ({ ...prev, sort: e.target.value }))}
                     aria-label="选择排序方式"
                   >
                     <option value="distance">按距离排序</option>
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-pink-100">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-mai-pink-soft">
                     <svg
-                      className="h-4 w-4 text-pink-600"
+                      className="h-4 w-4 text-mai-rose-deep"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -585,7 +585,7 @@ const SearchGameCenter = () => {
                 {/* 获取定位按钮 */}
                 <motion.button
                   onClick={getLocation}
-                  className="flex items-center justify-center h-10 px-4 rounded-full bg-pink-200 hover:bg-pink-300 border-2 border-pink-400 shadow-lg gap-2 max-sm:w-10 max-sm:h-10 max-sm:px-0 max-sm:gap-0 transition-colors"
+                  className="flex items-center justify-center h-10 px-4 rounded-full bg-mai-pink-soft hover:bg-mai-pink-soft border-2 border-mai-rose shadow-lg gap-2 max-sm:w-10 max-sm:h-10 max-sm:px-0 max-sm:gap-0 transition-colors"
                   title="获取我的位置"
                   whileHover={{
                     boxShadow: "0 10px 25px -5px rgba(255, 95, 165, 0.4)",
@@ -595,7 +595,7 @@ const SearchGameCenter = () => {
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-pink-700"
+                    className="h-4 w-4 text-mai-rose-deep"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -613,7 +613,7 @@ const SearchGameCenter = () => {
                       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                   </svg>
-                  <span className="text-sm font-medium text-pink-700 whitespace-nowrap max-sm:hidden">
+                  <span className="text-sm font-medium text-mai-rose-deep whitespace-nowrap max-sm:hidden">
                     获取当前定位
                   </span>
                 </motion.button>
@@ -627,12 +627,12 @@ const SearchGameCenter = () => {
                 transition={{ duration: 0.5, delay: 0.9 }}
               >
                 {searchGameCenter.lat && searchGameCenter.lng ? (
-                  <div className="flex items-center gap-1 text-sm text-pink-500 px-3">
+                  <div className="flex items-center gap-1 text-sm text-mai-rose px-3">
                     <FcClock />
                     <span>已获取您的位置信息，可直接搜索附近机厅</span>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-1 text-sm text-pink-500 px-3">
+                  <div className="flex items-center gap-1 text-sm text-mai-rose px-3">
                     <FcClock />
                     <span>未获取到您的位置信息</span>
                   </div>
@@ -650,7 +650,7 @@ const SearchGameCenter = () => {
                 <input
                   type="text"
                   placeholder="请输入机厅名称（可选）"
-                  className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-pink-300 bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 text-gray-800 placeholder-pink-300"
+                  className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-mai-pink-soft bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-mai-rose focus:border-mai-rose text-gray-800 placeholder-mai-pink-soft"
                   value={searchGameCenter.name || ""}
                   onChange={e => setSearchGameCenter(prev => ({ ...prev, name: e.target.value }))}
                 />
@@ -663,7 +663,7 @@ const SearchGameCenter = () => {
                 transition={{ duration: 0.2 }}
               >
                 <motion.button
-                  className="px-8 py-2.5 h-11 rounded-full bg-pink-400 hover:bg-pink-500 text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-pink-500 max-sm:px-6 max-sm:text-base transition-colors"
+                  className="px-8 py-2.5 h-11 rounded-full bg-mai-rose hover:bg-mai-rose text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-mai-rose max-sm:px-6 max-sm:text-base transition-colors"
                   onClick={GetGameCenter}
                   disabled={isLoading}
                   whileHover={{
@@ -704,11 +704,11 @@ const SearchGameCenter = () => {
 
             {/* 分隔栏 */}
             <div className="flex items-center w-full max-w-lg mx-auto max-sm:max-w-full max-sm:px-4">
-              <div className="flex-1 h-px bg-pink-300"></div>
-              <span className="px-4 text-sm text-pink-500 whitespace-nowrap max-sm:text-xs max-sm:px-2">
+              <div className="flex-1 h-px bg-mai-pink-soft"></div>
+              <span className="px-4 text-sm text-mai-rose whitespace-nowrap max-sm:text-xs max-sm:px-2">
                 或使用地址查询
               </span>
-              <div className="flex-1 h-px bg-pink-300"></div>
+              <div className="flex-1 h-px bg-mai-pink-soft"></div>
             </div>
 
             {/* 第三行：地址搜索 + 地址查询按钮 */}
@@ -721,7 +721,7 @@ const SearchGameCenter = () => {
                 <input
                   type="text"
                   placeholder="请输入地址"
-                  className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-pink-300 bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 text-gray-800 placeholder-pink-300"
+                  className="w-full h-11 py-2.5 px-4 rounded-full border-2 border-mai-pink-soft bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-mai-rose focus:border-mai-rose text-gray-800 placeholder-mai-pink-soft"
                   value={address}
                   onChange={e => setAddress(e.target.value)}
                 />
@@ -734,7 +734,7 @@ const SearchGameCenter = () => {
                 transition={{ duration: 0.2 }}
               >
                 <motion.button
-                  className="px-8 py-2.5 h-11 rounded-full bg-pink-500 hover:bg-pink-600 text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-pink-600 max-sm:px-6 max-sm:text-base transition-colors"
+                  className="px-8 py-2.5 h-11 rounded-full bg-mai-rose hover:bg-mai-rose-deep text-lg font-bold text-white shadow-lg flex items-center gap-2 disabled:opacity-70 border-2 border-mai-rose-deep max-sm:px-6 max-sm:text-base transition-colors"
                   onClick={getLocationFromAdress}
                   disabled={isLoading || !address.trim()}
                   whileHover={{
@@ -889,12 +889,12 @@ const SearchGameCenter = () => {
         }
 
         .arcade-results::-webkit-scrollbar-thumb {
-          background: #f472b6;
+          background: #FD4A81;
           border-radius: 10px;
         }
 
         .arcade-results::-webkit-scrollbar-thumb:hover {
-          background: #ec4899;
+          background: #FD4A81;
         }
       `}</style>
     </>

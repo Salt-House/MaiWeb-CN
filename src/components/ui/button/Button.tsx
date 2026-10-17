@@ -72,9 +72,9 @@ const Button: React.FC<ButtonProps> = ({
       variantClasses += "active:bg-blue-700 focus:ring-blue-300"
       break
     case "accent":
-      variantClasses = "bg-pink-500 text-white shadow-md "
-      variantClasses += "hover:bg-pink-600 hover:shadow-lg "
-      variantClasses += "active:bg-pink-700 focus:ring-pink-300"
+      variantClasses = "bg-mai-rose text-white shadow-md "
+      variantClasses += "hover:bg-mai-rose-deep hover:shadow-lg "
+      variantClasses += "active:bg-mai-rose-deep focus:ring-mai-pink-soft"
       break
     case "gradient":
       variantClasses = "bg-purple-500 text-white shadow-md "

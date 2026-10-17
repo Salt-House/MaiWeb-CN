@@ -14,7 +14,7 @@ function DoorItem({ door }: { door: KaleidoscopeDoorData }) {
   return (
     <div
       onClick={() => router.push(`/kaleidoscope/${door.slug}`)}
-      className="flex flex-row max-sm:flex-col w-full py-6 px-4 items-center justify-center cursor-pointer hover:bg-pink-100/50 transition-colors"
+      className="flex flex-row max-sm:flex-col w-full py-6 px-4 items-center justify-center cursor-pointer hover:bg-mai-pink-soft/50 transition-colors"
     >
       {/* Left: Door Image */}
       <div className="w-1/3 max-sm:w-full flex justify-center items-center max-sm:mb-4">
@@ -30,7 +30,7 @@ function DoorItem({ door }: { door: KaleidoscopeDoorData }) {
 
       {/* Right: Text */}
       <div className="w-2/3 max-sm:w-full flex flex-col justify-center max-sm:px-6 text-left max-sm:text-center">
-        <h2 className="text-2xl max-sm:text-xl font-bold text-pink-500 mb-3 drop-shadow-sm">
+        <h2 className="text-2xl max-sm:text-xl font-bold text-mai-rose mb-3 drop-shadow-sm">
           maimai DX KALEIDXSCOPE:
           <br />
           <span className={door.doorColorClass}>{door.nameCn}</span> 解禁！
@@ -53,7 +53,7 @@ function DoorItem({ door }: { door: KaleidoscopeDoorData }) {
               <span className="font-bold">{door.bossSong.name}</span>
             )}
           </p>
-          <p className="text-pink-400 font-bold mt-2 text-base">
+          <p className="text-mai-rose font-bold mt-2 text-base">
             解锁方法、钥匙获取及挑战详情 &gt;&gt;
           </p>
         </div>
@@ -93,7 +93,7 @@ const KaleidoscopeCard = () => {
 
           {/* Background */}
           <motion.div
-            className="absolute rounded-2xl inset-x-0 inset-y-0 z-[-1] bg-pink-50 border-4 border-pink-300 shadow-2xl"
+            className="absolute rounded-2xl inset-x-0 inset-y-0 z-[-1] bg-mai-pink-soft/15 border-4 border-mai-pink-soft shadow-2xl"
             animate={{
               boxShadow: [
                 "0 25px 50px -12px rgba(255, 95, 165, 0.25)",
@@ -108,7 +108,7 @@ const KaleidoscopeCard = () => {
           <div className="relative z-10 w-full">
             {allDoors.map((door, index) => (
               <div key={door.slug}>
-                {index > 0 && <hr className="border-pink-200 mx-6" />}
+                {index > 0 && <hr className="border-mai-pink-soft mx-6" />}
                 <DoorItem door={door} />
               </div>
             ))}

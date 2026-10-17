@@ -92,7 +92,7 @@ export default function SongDetail() {
         <div className="mb-6">
           <Link
             href="/music"
-            className="inline-flex items-center text-gray-600 hover:text-pink-500 transition-colors group"
+            className="inline-flex items-center text-gray-600 hover:text-mai-rose transition-colors group"
           >
             <FaArrowLeft className="mr-2 transition-transform group-hover:-translate-x-1" />
             <span className="font-bold">返回音乐列表</span>
@@ -155,7 +155,7 @@ function ChartTypeSwitcher({
             key={tab.type}
             onClick={() => setChartType(tab.type)}
             className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${
-              chartType === tab.type ? "bg-white text-pink-500 shadow-sm" : "text-gray-500"
+              chartType === tab.type ? "bg-white text-mai-rose shadow-sm" : "text-gray-500"
             }`}
           >
             {tab.label}
@@ -394,7 +394,7 @@ function SongInfo({ song }: { song: Song }) {
             {song.aliases.map((alias, index) => (
               <span
                 key={index}
-                className="bg-pink-100/80 text-pink-700 px-3 py-1 rounded-full text-xs font-medium border border-pink-200/50 shadow-sm"
+                className="bg-mai-pink-soft/80 text-mai-rose-deep px-3 py-1 rounded-full text-xs font-medium border border-mai-pink-soft/50 shadow-sm"
               >
                 {alias}
               </span>
@@ -418,14 +418,14 @@ function SongInfo({ song }: { song: Song }) {
           type="button"
           onClick={handleDownloadCover}
           disabled={isDownloadingCover}
-          className="flex items-center px-4 py-2 rounded-xl text-pink-600 bg-white/80 border border-slate-300/50 shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="flex items-center px-4 py-2 rounded-xl text-mai-rose-deep bg-white/80 border border-slate-300/50 shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
           whileHover={{ y: -2 }}
           whileTap={{ scale: 0.98, y: 0 }}
           transition={{ type: "spring", stiffness: 350, damping: 22 }}
         >
           {isDownloadingCover ? (
             <span className="mr-2 inline-flex h-4 w-4 items-center justify-center">
-              <span className="h-4 w-4 rounded-full border-2 border-pink-600/60 border-t-transparent animate-spin" />
+              <span className="h-4 w-4 rounded-full border-2 border-mai-rose-deep/60 border-t-transparent animate-spin" />
             </span>
           ) : (
             <FaDownload className="mr-2" />

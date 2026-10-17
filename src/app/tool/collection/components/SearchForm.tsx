@@ -68,10 +68,10 @@ export default function SearchForm({
                 value={searchTerm}
                 onChange={e => onSearchTermChange(e.target.value)}
                 placeholder="输入收藏品名称..."
-                className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 transition-all duration-300 bg-gray-50/50 hover:bg-white outline-none text-sm font-medium"
+                className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-mai-rose/10 focus:border-mai-rose transition-all duration-300 bg-gray-50/50 hover:bg-white outline-none text-sm font-medium"
               />
               <svg
-                className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2 group-hover:text-pink-500 transition-colors duration-300"
+                className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2 group-hover:text-mai-rose transition-colors duration-300"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -96,7 +96,7 @@ export default function SearchForm({
                 <select
                   value={searchColor}
                   onChange={e => onSearchColorChange(e.target.value)}
-                  className="w-full pl-4 pr-10 py-3.5 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 transition-all duration-300 bg-gray-50/50 hover:bg-white outline-none appearance-none cursor-pointer text-sm font-medium"
+                  className="w-full pl-4 pr-10 py-3.5 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-mai-rose/10 focus:border-mai-rose transition-all duration-300 bg-gray-50/50 hover:bg-white outline-none appearance-none cursor-pointer text-sm font-medium"
                 >
                   {colorOptions.map(color => (
                     <option key={color} value={color}>
@@ -126,7 +126,7 @@ export default function SearchForm({
               <select
                 value={searchGenre}
                 onChange={e => onSearchGenreChange(e.target.value)}
-                className="w-full pl-4 pr-10 py-3.5 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 transition-all duration-300 bg-gray-50/50 hover:bg-white outline-none appearance-none cursor-pointer text-sm font-medium"
+                className="w-full pl-4 pr-10 py-3.5 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-mai-rose/10 focus:border-mai-rose transition-all duration-300 bg-gray-50/50 hover:bg-white outline-none appearance-none cursor-pointer text-sm font-medium"
               >
                 <option value="">全部类型</option>
                 {activeGenreOptions.map(genre => (
@@ -152,7 +152,7 @@ export default function SearchForm({
             <motion.button
               type="submit"
               disabled={isSearching}
-              className="w-full py-3.5 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-2xl font-bold shadow-lg hover:shadow-pink-500/30 disabled:bg-gray-300 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center space-x-2"
+              className="w-full py-3.5 bg-gradient-to-r from-mai-rose to-mai-rose-deep text-white rounded-2xl font-bold shadow-lg hover:shadow-mai-rose/30 disabled:bg-gray-300 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center space-x-2"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >

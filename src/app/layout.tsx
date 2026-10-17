@@ -32,7 +32,7 @@ export default function RootLayout({
   }
   const textDonate = {
     textShadow:
-      "-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)",
+      "-2px -2px 4px rgba(111, 52, 176, 1), 2px -2px 4px rgba(111, 52, 176, 1), -2px 2px 2px rgba(111, 52, 176, 1), 2px 2px 2px rgba(111, 52, 176, 1)",
   }
 
   return (
@@ -125,7 +125,7 @@ export default function RootLayout({
                     href="https://beian.miit.gov.cn/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-pink-500 transition-colors"
+                    className="hover:text-mai-rose transition-colors"
                   >
                     豫ICP备2025156150号
                   </a>

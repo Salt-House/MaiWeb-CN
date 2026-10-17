@@ -22,20 +22,20 @@ function SongList({ songs, currentCategory = "最近添加", loading = false }: 
   return (
     <div className="flex-col w-full max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
       <div className="w-full flex max-sm:flex-col max-sm:items-center justify-around items-center max-sm:mx-auto sm:space-x-10 mb-6">
-        <div className="flex bg-pink-300 p-1 rounded-full overflow-hidden max-sm:mb-5 max-sm:h-9 items-center justify-center">
+        <div className="flex bg-mai-pink-soft p-1 rounded-full overflow-hidden max-sm:mb-5 max-sm:h-9 items-center justify-center">
           <div className="flex-1 text-center py-2 max-sm:py-0 px-4 text-base font-medium text-white">
             当前分类：{currentCategory}
           </div>
         </div>
-        <div className="flex bg-pink-300 p-1 rounded-full overflow-hidden w-64 max-sm:w-56 max-sm:mb-5 max-sm:h-9">
+        <div className="flex bg-mai-pink-soft p-1 rounded-full overflow-hidden w-64 max-sm:w-56 max-sm:mb-5 max-sm:h-9">
           <button
-            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === "level" ? "bg-white shadow-md text-pink-500 font-medium" : "text-white"}`}
+            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === "level" ? "bg-white shadow-md text-mai-rose font-medium" : "text-white"}`}
             onClick={() => setDisplayMode("level")}
           >
             等级
           </button>
           <button
-            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === "level_value" ? "bg-white shadow-md text-pink-500 font-medium" : "text-white"}`}
+            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === "level_value" ? "bg-white shadow-md text-mai-rose font-medium" : "text-white"}`}
             onClick={() => setDisplayMode("level_value")}
           >
             定数
@@ -86,7 +86,7 @@ function SongListLegacy({ songs, currentCategory = "最近添加", loading = fal
 
   return (
     <div className="border-1 border-white bg-white rounded-2xl p-2 m-2 w-[900px] max-sm:w-full mx-auto">
-      <div className="border-4 border-pink-300 bg-white rounded-2xl flex-col w-full mx-auto max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
+      <div className="border-4 border-mai-pink-soft bg-white rounded-2xl flex-col w-full mx-auto max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
         <div className="w-full flex max-sm:flex-col max-sm:items-start justify-between items-center mb-6 px-4 max-sm:px-1">
           <div className="text-lg font-medium max-sm:mb-3 text-black">
             当前分类：{currentCategory}

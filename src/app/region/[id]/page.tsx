@@ -115,9 +115,9 @@ export default function AreaDetailPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link
             href="/region"
-            className="flex items-center text-gray-600 hover:text-pink-600 transition-colors group"
+            className="flex items-center text-gray-600 hover:text-mai-rose-deep transition-colors group"
           >
-            <div className="p-2 rounded-full group-hover:bg-pink-50 transition-colors">
+            <div className="p-2 rounded-full group-hover:bg-mai-pink-soft/15 transition-colors">
               <FaArrowLeft />
             </div>
             <span className="font-medium ml-2">返回列表</span>
@@ -127,7 +127,7 @@ export default function AreaDetailPage() {
             <button
               onClick={() => setLanguage("zh")}
               className={`px-3 py-1 text-sm rounded-md transition-all ${
-                language === "zh" ? "bg-white text-pink-600 shadow-sm font-medium" : "text-gray-500 hover:text-gray-700"
+                language === "zh" ? "bg-white text-mai-rose-deep shadow-sm font-medium" : "text-gray-500 hover:text-gray-700"
               }`}
             >
               中文
@@ -135,7 +135,7 @@ export default function AreaDetailPage() {
             <button
               onClick={() => setLanguage("jp")}
               className={`px-3 py-1 text-sm rounded-md transition-all ${
-                language === "jp" ? "bg-white text-pink-600 shadow-sm font-medium" : "text-gray-500 hover:text-gray-700"
+                language === "jp" ? "bg-white text-mai-rose-deep shadow-sm font-medium" : "text-gray-500 hover:text-gray-700"
               }`}
             >
               日本語
@@ -174,7 +174,7 @@ export default function AreaDetailPage() {
                     />
                   </div>
                   
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-pink-50 text-pink-600 rounded-full text-xs font-medium mb-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-mai-pink-soft/15 text-mai-rose-deep rounded-full text-xs font-medium mb-3">
                     <FaLocationDot />
                     ID: {area.area_id}
                   </div>
@@ -209,7 +209,7 @@ export default function AreaDetailPage() {
                       onClick={() => setActiveTab(tab.id as any)}
                       className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
                         isActive
-                          ? "bg-pink-600 text-white shadow-md shadow-pink-200"
+                          ? "bg-mai-rose-deep text-white shadow-md shadow-mai-pink-soft"
                           : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-100"
                       }`}
                     >
@@ -233,7 +233,7 @@ export default function AreaDetailPage() {
                     <div className="space-y-6">
                       <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
                         <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                          <FaCircleInfo className="text-pink-500" />
+                          <FaCircleInfo className="text-mai-rose" />
                           关于此区域
                         </h3>
                         <div className="prose prose-pink max-w-none text-gray-600">
@@ -247,12 +247,12 @@ export default function AreaDetailPage() {
 
                       {/* 快速预览：角色 */}
                       {area.characters?.length > 0 && (
-                        <div className="bg-gradient-to-br from-pink-50 to-white rounded-3xl p-8 border border-pink-100">
+                        <div className="bg-gradient-to-br from-mai-pink-soft/15 to-white rounded-3xl p-8 border border-mai-pink-soft">
                           <div className="flex items-center justify-between mb-6">
                             <h3 className="text-lg font-bold text-gray-900">登场角色</h3>
                             <button 
                               onClick={() => setActiveTab("characters")}
-                              className="text-sm text-pink-600 hover:text-pink-700 font-medium"
+                              className="text-sm text-mai-rose-deep hover:text-mai-rose-deep font-medium"
                             >
                               查看全部 &rarr;
                             </button>
@@ -322,7 +322,7 @@ export default function AreaDetailPage() {
                             </div>
                             
                             {character.description1 && (
-                              <p className="text-sm text-pink-600 italic mb-2">
+                              <p className="text-sm text-mai-rose-deep italic mb-2">
                                 “{character.description1}”
                               </p>
                             )}
@@ -338,7 +338,7 @@ export default function AreaDetailPage() {
                               <div className="flex flex-wrap gap-y-1 gap-x-3 mb-3 bg-gray-50 p-2 rounded-lg">
                                 {Object.entries(character.props).map(([key, value]) => (
                                   <div key={key} className="text-xs text-gray-600">
-                                    <span className="font-medium text-pink-500 mr-1">{key}:</span>
+                                    <span className="font-medium text-mai-rose mr-1">{key}:</span>
                                     <span className="text-gray-500">{String(value)}</span>
                                   </div>
                                 ))}
@@ -369,7 +369,7 @@ export default function AreaDetailPage() {
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.05 }}
-                          className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:border-pink-200 transition-colors group"
+                          className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:border-mai-pink-soft transition-colors group"
                         >
                           <div className="flex items-center gap-4">
                             <div className="w-16 h-16 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0 relative group-hover:shadow-md transition-all">
@@ -391,7 +391,7 @@ export default function AreaDetailPage() {
                             </div>
                             
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-base font-bold text-gray-900 truncate group-hover:text-pink-600 transition-colors">
+                              <h3 className="text-base font-bold text-gray-900 truncate group-hover:text-mai-rose-deep transition-colors">
                                 {song.title}
                               </h3>
                               <p className="text-sm text-gray-500 truncate">{song.artist}</p>
@@ -413,7 +413,7 @@ export default function AreaDetailPage() {
                             {song.song_id && (
                               <Link
                                 href={`/music/${song.song_id}`}
-                                className="px-4 py-2 bg-gray-50 text-gray-600 text-sm font-medium rounded-lg hover:bg-pink-50 hover:text-pink-600 transition-colors whitespace-nowrap"
+                                className="px-4 py-2 bg-gray-50 text-gray-600 text-sm font-medium rounded-lg hover:bg-mai-pink-soft/15 hover:text-mai-rose-deep transition-colors whitespace-nowrap"
                               >
                                 查看详情
                               </Link>
@@ -441,7 +441,7 @@ export default function AreaDetailPage() {
             <p className="text-gray-500 mb-6">该区域不存在或已被移除</p>
             <Link
               href="/region"
-              className="px-6 py-2 bg-pink-600 text-white rounded-full font-medium hover:bg-pink-700 transition-colors"
+              className="px-6 py-2 bg-mai-rose-deep text-white rounded-full font-medium hover:bg-mai-rose-deep transition-colors"
             >
               返回列表
             </Link>

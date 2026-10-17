@@ -155,7 +155,7 @@ const ChinaMap = () => {
         text: ["高", "低"],
         calculable: true,
         inRange: {
-          color: ["#fce7f3", "#ec4899"], // 粉色主题
+          color: ["#fce7f3", "#FD4A81"], // 粉色主题
         },
       },
       series: [

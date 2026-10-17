@@ -38,12 +38,12 @@ export default function TabNavigation({ activeTab, onTabChange }: TabNavigationP
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
               className={`relative px-6 py-2.5 rounded-full text-sm font-bold transition-colors duration-300 z-10 ${
-                isActive ? "text-pink-600" : "text-gray-500 hover:text-gray-700"
+                isActive ? "text-mai-rose-deep" : "text-gray-500 hover:text-gray-700"
               }`}
             >
               {isActive && (
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-tr from-pink-50 to-white rounded-full shadow-sm border border-pink-100/50"
+                  className="absolute inset-0 bg-gradient-to-tr from-mai-pink-soft/15 to-white rounded-full shadow-sm border border-mai-pink-soft/50"
                   layoutId="activeTab"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   style={{ zIndex: -1 }}

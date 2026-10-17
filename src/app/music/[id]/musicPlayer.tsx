@@ -108,7 +108,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
             onClick={handleProgressChange}
           >
             <motion.div
-              className="h-full bg-pink-400 rounded-full"
+              className="h-full bg-mai-rose rounded-full"
               style={{ width: `${progressPercentage}%` }}
               animate={{ width: `${progressPercentage}%` }}
               transition={{ duration: 0.1, ease: "linear" }}
@@ -137,7 +137,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleTogglePlay}
-            className="w-16 h-16 flex items-center justify-center rounded-full bg-pink-400 text-white shadow-lg shadow-pink-400/30 transition-colors"
+            className="w-16 h-16 flex items-center justify-center rounded-full bg-mai-rose text-white shadow-lg shadow-mai-rose/30 transition-colors"
           >
             {displayIsPlaying ? <FaPause size={20} /> : <FaPlay size={20} className="ml-1" />}
           </motion.button>
@@ -155,7 +155,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
           <div className="relative w-32 h-2 flex items-center">
             <div className="w-full h-1.5 bg-slate-200 rounded-full border border-slate-300/70" />
             <div
-              className="absolute h-1.5 bg-pink-400 rounded-full"
+              className="absolute h-1.5 bg-mai-rose rounded-full"
               style={{ width: `${globalVolume * 100}%` }}
             />
             <input

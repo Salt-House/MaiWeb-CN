@@ -56,11 +56,11 @@ export default function RenderItem({
 
   // 通用卡片样式类
   const cardBaseClass =
-    "relative cursor-pointer bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-xl hover:border-pink-200 transition-all duration-300"
+    "relative cursor-pointer bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-xl hover:border-mai-pink-soft transition-all duration-300"
   
   // 图片容器通用样式
   const imageContainerClass = 
-    "relative w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 group-hover:from-pink-50/50 group-hover:to-pink-100/50 transition-colors duration-300"
+    "relative w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 group-hover:from-mai-pink-soft/15/50 group-hover:to-mai-pink-soft/50 transition-colors duration-300"
 
   switch (type) {
     case "icon":
@@ -92,14 +92,14 @@ export default function RenderItem({
             </div>
           </div>
           <div className="px-4 pb-4 pt-0">
-            <h3 className="text-sm font-bold text-gray-800 truncate group-hover:text-pink-600 transition-colors">
+            <h3 className="text-sm font-bold text-gray-800 truncate group-hover:text-mai-rose-deep transition-colors">
               {item.name}
             </h3>
             <p className="text-xs text-gray-500 mt-1 line-clamp-2 h-8 leading-4 opacity-80 group-hover:opacity-100 transition-opacity">
               {item.description}
             </p>
             <div className="mt-3 flex items-center justify-between">
-              <span className="text-[10px] font-medium px-2.5 py-1 bg-gray-100 text-gray-600 rounded-full border border-gray-200 group-hover:bg-pink-50 group-hover:text-pink-600 group-hover:border-pink-100 transition-colors">
+              <span className="text-[10px] font-medium px-2.5 py-1 bg-gray-100 text-gray-600 rounded-full border border-gray-200 group-hover:bg-mai-pink-soft/15 group-hover:text-mai-rose-deep group-hover:border-mai-pink-soft transition-colors">
                 {(item as Icon).genre}
               </span>
             </div>
@@ -116,7 +116,7 @@ export default function RenderItem({
           whileHover={{ y: -4, scale: 1.01 }}
           whileTap={{ scale: 0.98 }}
           transition={{ duration: 0.2 }}
-          className={cardBaseClass.replace("hover:border-pink-200", "hover:border-blue-200")}
+          className={cardBaseClass.replace("hover:border-mai-pink-soft", "hover:border-blue-200")}
           onClick={() => {
             openImagePreview(item, "frame")
             GetCondition("frame", item.collection_id)
@@ -185,7 +185,7 @@ export default function RenderItem({
           whileHover={{ y: -4, scale: 1.01 }}
           whileTap={{ scale: 0.98 }}
           transition={{ duration: 0.2 }}
-          className={cardBaseClass.replace("hover:border-pink-200", "hover:border-green-200")}
+          className={cardBaseClass.replace("hover:border-mai-pink-soft", "hover:border-green-200")}
           onClick={() => {
             openImagePreview(item, "nameplate")
             GetCondition("plate", item.collection_id)

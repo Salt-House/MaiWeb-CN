@@ -96,18 +96,18 @@ export default function Navigation({ textstroke }: NavigationProps) {
               
               return (
                 <div key={item.id} className="flex items-center">
-                  {index > 0 && <div className="text-pink-300 mx-3 select-none">|</div>}
+                  {index > 0 && <div className="text-mai-pink-soft mx-3 select-none">|</div>}
                   <Link href={item.href} className="relative group px-4 py-2">
                     {isActive && (
                       <motion.div
                         layoutId="activeNav"
-                        className="absolute inset-0 bg-pink-100/50 rounded-full -z-10"
+                        className="absolute inset-0 bg-mai-pink-soft/50 rounded-full -z-10"
                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                       />
                     )}
                     <motion.span
                       className={`block transition-colors duration-300 ${
-                        isActive ? "text-pink-600" : "text-pink-500 group-hover:text-pink-600"
+                        isActive ? "text-mai-rose-deep" : "text-mai-rose group-hover:text-mai-rose-deep"
                       }`}
                       style={textstroke}
                       whileHover={{ scale: 1.1 }}
@@ -125,7 +125,7 @@ export default function Navigation({ textstroke }: NavigationProps) {
           <div className="sm:hidden flex items-center">
             <motion.button
               onClick={() => setShowMobileMenu(!showMobileMenu)}
-              className="text-pink-500 text-2xl p-2 rounded-full hover:bg-pink-50 transition-colors"
+              className="text-mai-rose text-2xl p-2 rounded-full hover:bg-mai-pink-soft/15 transition-colors"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               aria-label="Toggle Menu"
@@ -143,7 +143,7 @@ export default function Navigation({ textstroke }: NavigationProps) {
           <div className="sm:hidden">
             <Link href="/user/profile">
               <motion.div
-                className="w-10 h-10 rounded-full overflow-hidden border-2 border-pink-300 shadow-md hover:border-pink-400 transition-colors relative bg-white"
+                className="w-10 h-10 rounded-full overflow-hidden border-2 border-mai-pink-soft shadow-md hover:border-mai-rose transition-colors relative bg-white"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -173,7 +173,7 @@ export default function Navigation({ textstroke }: NavigationProps) {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-pink-100 p-2">
+            <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-mai-pink-soft p-2">
               <div className="flex flex-col space-y-1">
                 {/* Home Link for Mobile */}
                 <MobileNavLink 
@@ -213,18 +213,18 @@ function MobileNavLink({ href, label, onClick, isActive }: MobileNavLinkProps) {
     <Link href={href} onClick={onClick}>
       <motion.div 
         className={`p-4 rounded-2xl flex items-center justify-between transition-colors ${
-          isActive ? "bg-pink-50 text-pink-600" : "text-gray-600 hover:bg-gray-50"
+          isActive ? "bg-mai-pink-soft/15 text-mai-rose-deep" : "text-gray-600 hover:bg-gray-50"
         }`}
         whileHover={{ x: 5, backgroundColor: "rgba(255, 241, 242, 0.5)" }}
         whileTap={{ scale: 0.98 }}
       >
-        <span className={`font-bold ${isActive ? "text-pink-600" : "text-gray-600"}`}>
+        <span className={`font-bold ${isActive ? "text-mai-rose-deep" : "text-gray-600"}`}>
           {label}
         </span>
         {isActive && (
           <motion.div 
             layoutId="mobileActiveIndicator"
-            className="w-2 h-2 rounded-full bg-pink-500"
+            className="w-2 h-2 rounded-full bg-mai-rose"
           />
         )}
       </motion.div>

@@ -31,9 +31,9 @@ const Row = ({ index, style, data }: ListChildComponentProps<RowData>) => {
   return (
     <div style={style}>
       <div className="py-1.5 h-full">
-        <div className="bg-white/95 backdrop-blur-md rounded-xl p-3 hover:shadow-lg transition-all duration-300 border border-pink-200 hover:border-pink-400 h-full flex items-center gap-3 relative overflow-hidden group">
+        <div className="bg-white/95 backdrop-blur-md rounded-xl p-3 hover:shadow-lg transition-all duration-300 border border-mai-pink-soft hover:border-mai-rose h-full flex items-center gap-3 relative overflow-hidden group">
           {/* 装饰背景 */}
-          <div className="absolute -right-6 -top-6 w-24 h-24 bg-pink-100/50 rounded-full blur-2xl group-hover:bg-pink-200/50 transition-colors" />
+          <div className="absolute -right-6 -top-6 w-24 h-24 bg-mai-pink-soft/50 rounded-full blur-2xl group-hover:bg-mai-pink-soft/50 transition-colors" />
 
           <div className="flex-1 min-w-0 z-10">
             <div className="flex items-center gap-2 mb-1">
@@ -42,13 +42,13 @@ const Row = ({ index, style, data }: ListChildComponentProps<RowData>) => {
             </div>
 
             <div className="flex items-start text-gray-500 mb-2">
-              <FaMapMarkerAlt className="mr-1.5 text-pink-400 mt-1 shrink-0 text-sm" />
+              <FaMapMarkerAlt className="mr-1.5 text-mai-rose mt-1 shrink-0 text-sm" />
               <p className="text-sm line-clamp-2 leading-relaxed">{arcade.arcade_address}</p>
             </div>
 
             <div className="flex flex-wrap gap-2 items-center">
               {arcade.arcade_count && (
-                <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-pink-50 text-pink-600 border border-pink-100">
+                <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-mai-pink-soft/15 text-mai-rose-deep border border-mai-pink-soft">
                   {arcade.arcade_count} 台
                 </span>
               )}
@@ -73,14 +73,14 @@ const Row = ({ index, style, data }: ListChildComponentProps<RowData>) => {
 
           <div className="flex flex-col items-end justify-center gap-1 shrink-0 z-10 pl-2 border-l border-gray-100 min-w-[80px]">
             {arcade.distance && (
-              <span className="text-pink-500 font-bold text-lg leading-none">
+              <span className="text-mai-rose font-bold text-lg leading-none">
                 {(arcade.distance / 1000).toFixed(1)}
                 <span className="text-xs font-normal ml-0.5">km</span>
               </span>
             )}
 
             <motion.button
-              className="mt-1 flex items-center justify-center px-3 py-1.5 rounded-full bg-pink-500 text-white text-xs font-medium shadow-sm hover:bg-pink-600 transition-colors gap-1"
+              className="mt-1 flex items-center justify-center px-3 py-1.5 rounded-full bg-mai-rose text-white text-xs font-medium shadow-sm hover:bg-mai-rose-deep transition-colors gap-1"
               onClick={() => handleNavigation(arcade)}
               whileTap={{ scale: 0.95 }}
             >
@@ -134,12 +134,12 @@ export default function SearchGameCenterResults(props: SearchGameCenterResultsPr
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="w-[90%] max-w-[800px] mx-auto mb-20"
         >
-          <motion.div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border-2 border-pink-300 hover:border-pink-400 transition-all duration-300">
+          <motion.div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border-2 border-mai-pink-soft hover:border-mai-rose transition-all duration-300">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-pink-600">机厅查询结果</h3>
+              <h3 className="text-xl font-bold text-mai-rose-deep">机厅查询结果</h3>
               <motion.button
                 onClick={onClose}
-                className="text-pink-400 hover:text-pink-600 transition-colors p-2 rounded-full hover:bg-pink-50"
+                className="text-mai-rose hover:text-mai-rose-deep transition-colors p-2 rounded-full hover:bg-mai-pink-soft/15"
                 whileTap={{ scale: 0.9 }}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -156,7 +156,7 @@ export default function SearchGameCenterResults(props: SearchGameCenterResultsPr
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-12">
                 <div className="relative">
-                  <div className="w-16 h-16 rounded-full border-t-4 border-r-4 border-b-4 border-pink-400 animate-spin"></div>
+                  <div className="w-16 h-16 rounded-full border-t-4 border-r-4 border-b-4 border-mai-rose animate-spin"></div>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Image
                       src="/img/handpink.png"
@@ -171,9 +171,9 @@ export default function SearchGameCenterResults(props: SearchGameCenterResultsPr
               </div>
             ) : resultError ? (
               <div className="flex flex-col items-center justify-center py-8 text-center">
-                <div className="w-16 h-16 rounded-full bg-pink-100 flex items-center justify-center mb-4">
+                <div className="w-16 h-16 rounded-full bg-mai-pink-soft flex items-center justify-center mb-4">
                   <svg
-                    className="w-8 h-8 text-pink-500"
+                    className="w-8 h-8 text-mai-rose"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -220,11 +220,11 @@ export default function SearchGameCenterResults(props: SearchGameCenterResultsPr
                 border-radius: 4px;
               }
               .arcade-results::-webkit-scrollbar-thumb {
-                background: #f472b6;
+                background: #FD4A81;
                 border-radius: 4px;
               }
               .arcade-results::-webkit-scrollbar-thumb:hover {
-                background: #ec4899;
+                background: #FD4A81;
               }
             `}</style>
 

@@ -63,7 +63,7 @@ export default function BlogPage() {
           <p className="text-lg font-medium">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors"
+            className="mt-4 px-4 py-2 bg-mai-rose text-white rounded-lg hover:bg-mai-rose-deep transition-colors"
           >
             重试
           </button>
@@ -127,7 +127,7 @@ function BlogCard({ blog, index }: { blog: BlogEntry; index: number }) {
           if (!cleanLine) return null
           return (
             <li key={i} className="flex items-start">
-              <span className="mr-2 text-pink-400 mt-1.5">•</span>
+              <span className="mr-2 text-mai-rose mt-1.5">•</span>
               <span>{cleanLine}</span>
             </li>
           )
@@ -186,7 +186,7 @@ function BlogCard({ blog, index }: { blog: BlogEntry; index: number }) {
           </div>
         </div>
 
-        <div className="mt-6 pl-1 border-l-4 border-pink-100">
+        <div className="mt-6 pl-1 border-l-4 border-mai-pink-soft">
           <div className="pl-4 max-w-none">
             {renderContent(blog.content)}
           </div>

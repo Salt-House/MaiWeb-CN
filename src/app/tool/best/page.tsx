@@ -44,7 +44,7 @@ export default function BestPage() {
 
   const textstroke = {
     textShadow:
-      "-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)",
+      "-2px -2px 4px rgba(111, 52, 176, 1), 2px -2px 4px rgba(111, 52, 176, 1), -2px 2px 2px rgba(111, 52, 176, 1), 2px 2px 2px rgba(111, 52, 176, 1)",
   }
   const GetBest50 = useCallback(
     (fromOverride?: string, accountsOverride?: ThirdAccount[]) => {
@@ -479,9 +479,9 @@ export default function BestPage() {
                 <Button onClick={ShareBest} variant="accent" loading={buttonStatus}>
                   下载B50
                 </Button>
-                <div className="px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm">
+                <div className="px-4 py-2 rounded-xl bg-gradient-to-r from-mai-rose/20 to-purple-500/20 backdrop-blur-sm">
                   <span className="text-white/90 text-sm">Rating:</span>
-                  <span className="ml-2 font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">
+                  <span className="ml-2 font-bold text-transparent bg-clip-text bg-gradient-to-r from-mai-rose to-purple-500">
                     {rating35 + rating15 || "0"}
                   </span>
                 </div>

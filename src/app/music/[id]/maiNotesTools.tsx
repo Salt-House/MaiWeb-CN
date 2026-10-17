@@ -46,7 +46,7 @@ export default function MaiNotesTools({ song, chartType }: MaiNotesToolsProps) {
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-pink-100 text-pink-500 rounded-lg">
+          <div className="p-2 bg-mai-pink-soft text-mai-rose rounded-lg">
             <FaCalculator />
           </div>
           <h2 className="text-xl font-bold text-gray-800">谱面分析工具箱</h2>
@@ -95,7 +95,7 @@ export default function MaiNotesTools({ song, chartType }: MaiNotesToolsProps) {
                 onClick={() => setActiveTab("boundary")}
                 className={`flex-1 py-3 text-sm font-bold flex items-center justify-center space-x-2 transition-colors ${
                   activeTab === "boundary"
-                    ? "text-pink-500 border-b-2 border-pink-500 bg-pink-50/30"
+                    ? "text-mai-rose border-b-2 border-mai-rose bg-mai-pink-soft/45"
                     : "text-gray-500 hover:text-gray-700"
                 }`}
               >
@@ -106,7 +106,7 @@ export default function MaiNotesTools({ song, chartType }: MaiNotesToolsProps) {
                 onClick={() => setActiveTab("calculator")}
                 className={`flex-1 py-3 text-sm font-bold flex items-center justify-center space-x-2 transition-colors ${
                   activeTab === "calculator"
-                    ? "text-pink-500 border-b-2 border-pink-500 bg-pink-50/30"
+                    ? "text-mai-rose border-b-2 border-mai-rose bg-mai-pink-soft/45"
                     : "text-gray-500 hover:text-gray-700"
                 }`}
               >
@@ -270,7 +270,7 @@ function ScoreCalculator({ diff }: { diff: DifficultyInfo }) {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <InputGroup label="Tap/Touch" type="tap" counts={counts} onChange={handleChange} color="text-pink-500" />
+        <InputGroup label="Tap/Touch" type="tap" counts={counts} onChange={handleChange} color="text-mai-rose" />
         <InputGroup label="Hold" type="hold" counts={counts} onChange={handleChange} color="text-yellow-500" />
         <InputGroup label="Slide" type="slide" counts={counts} onChange={handleChange} color="text-blue-500" />
         <InputGroup label="Break" type="break" counts={counts} onChange={handleChange} color="text-red-500" />
@@ -279,7 +279,7 @@ function ScoreCalculator({ diff }: { diff: DifficultyInfo }) {
       <div className="flex justify-end">
         <button 
           onClick={handleReset}
-          className="flex items-center text-sm text-gray-500 hover:text-pink-500 transition-colors"
+          className="flex items-center text-sm text-gray-500 hover:text-mai-rose transition-colors"
         >
           <FaUndo className="mr-1" /> 重置
         </button>
@@ -287,14 +287,14 @@ function ScoreCalculator({ diff }: { diff: DifficultyInfo }) {
 
       {/* Result Card */}
       <div className="bg-slate-800 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-32 bg-pink-500 rounded-full blur-3xl opacity-20 -mr-16 -mt-16"></div>
+        <div className="absolute top-0 right-0 p-32 bg-mai-rose rounded-full blur-3xl opacity-20 -mr-16 -mt-16"></div>
         <div className="relative z-10 flex justify-between items-end">
           <div>
             <div className="text-slate-400 text-sm mb-1">预测达成率</div>
             <div className="text-4xl font-bold font-mono tracking-tighter">
               {totalScore.toFixed(4)}%
             </div>
-            <div className="text-2xl font-bold text-pink-400 mt-1">{rateString}</div>
+            <div className="text-2xl font-bold text-mai-rose mt-1">{rateString}</div>
           </div>
           <div className="text-right">
             <div className="text-slate-400 text-sm mb-1">预测 DX Rating</div>

@@ -7,7 +7,7 @@ export default function ToolPage() {
   const [token, setToken] = useState<string | null>()
   const textstroke = {
     textShadow:
-      "-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)",
+      "-2px -2px 4px rgba(111, 52, 176, 1), 2px -2px 4px rgba(111, 52, 176, 1), -2px 2px 2px rgba(111, 52, 176, 1), 2px 2px 2px rgba(111, 52, 176, 1)",
   }
   useEffect(() => {
     const storedToken = localStorage.getItem("token")

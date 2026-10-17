@@ -85,7 +85,7 @@ export default function MusicPage() {
 
   const textstroke = {
     textShadow:
-      "-2px -2px 4px rgba(236, 72, 153, 1), 2px -2px 4px rgba(236, 72, 153, 1), -2px 2px 2px rgba(236, 72, 153, 1), 2px 2px 2px rgba(236, 72, 153, 1)",
+      "-2px -2px 4px rgba(253, 74, 129, 1), 2px -2px 4px rgba(253, 74, 129, 1), -2px 2px 2px rgba(253, 74, 129, 1), 2px 2px 2px rgba(253, 74, 129, 1)",
   }
 
   const defaultUrl = `version=${currentVersion}`
@@ -219,7 +219,7 @@ export default function MusicPage() {
         className="relative max-sm:w-full flex flex-col justify-center items-center mt-10 mb-24 text-black "
       >
         <div className="border-4 relative border-white max-sm:w-[90%] bg-white rounded-2xl">
-          <div className="w-[900px] max-sm:w-full max-sm:h-96 mx-auto h-80 bg-white rounded-2xl flex flex-col justify-center text-center border-4 border-pink-300">
+          <div className="w-[900px] max-sm:w-full max-sm:h-96 mx-auto h-80 bg-white rounded-2xl flex flex-col justify-center text-center border-4 border-mai-pink-soft">
             <div className="items-center">
               <div
                 className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-48 max-sm:h-10 h-20 text-3xl font-bold text-white"
@@ -228,10 +228,10 @@ export default function MusicPage() {
                 音乐
               </div>
               <div className="flex flex-row max-sm:w-[90%] max-sm:flex-col max-sm:justify-center max-sm:items-center max-sm:space-x-0 max-sm:mt-0 max-sm:mb-0 justify-center items-center space-x-16 mt-8 mb-2">
-                <div className="w-80 h-12 max-sm:w-full max-sm:my-0 max-sm:mt-4 bg-pink-500 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-3">
+                <div className="w-80 h-12 max-sm:w-full max-sm:my-0 max-sm:mt-4 bg-mai-rose rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5 space-x-3">
                   <div className="text-white max-sm:ml-0 ml-2">按照</div>
                   <select
-                    className="w-40 h-9 rounded-full px-4 bg-transparent focus:outline-none focus:ring-2 focus:ring-pink-400 transition-all duration-300 border"
+                    className="w-40 h-9 rounded-full px-4 bg-transparent focus:outline-none focus:ring-2 focus:ring-mai-rose transition-all duration-300 border"
                     value={selectedOption}
                     onChange={e => setSelectedOption(e.target.value)}
                   >
@@ -242,10 +242,10 @@ export default function MusicPage() {
                   </select>
                   <div className="text-white max-sm:ml-0 ml-2">分类</div>
                 </div>
-                <div className="w-80 max-sm:w-full h-12 bg-white border-4 border-pink-500 rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5">
+                <div className="w-80 max-sm:w-full h-12 bg-white border-4 border-mai-rose rounded-full flex flex-row justify-center items-center text-center shadow-md shadow-gray-500 my-5">
                   <div className="flex w-full h-full overflow-hidden">
                     <div
-                      className="w-1/3 bg-pink-500 flex items-center justify-center border-r-4 border-pink-500"
+                      className="w-1/3 bg-mai-rose flex items-center justify-center border-r-4 border-mai-rose"
                       style={{ borderTopLeftRadius: "1rem", borderBottomLeftRadius: "1rem" }}
                     >
                       <div className="text-white">搜索</div>
@@ -281,7 +281,7 @@ export default function MusicPage() {
                   id="legacy-mode-toggle"
                   checked={isLegacyMode}
                   onChange={e => setIsLegacyMode(e.target.checked)}
-                  className="w-4 h-4 text-pink-500 bg-white border-2 border-pink-300 rounded focus:ring-pink-500 focus:ring-2"
+                  className="w-4 h-4 text-mai-rose bg-white border-2 border-mai-pink-soft rounded focus:ring-mai-rose focus:ring-2"
                 />
                 <label
                   htmlFor="legacy-mode-toggle"
@@ -294,15 +294,15 @@ export default function MusicPage() {
 
             {/* AnimateVolume */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 max-sm:hidden flex space-x-2">
-              <div className="w-2 h-8 bg-pink-400 animate-volume"></div>
-              <div className="w-2 h-10 bg-pink-300 animate-volume [animation-delay:0.1s]"></div>
-              <div className="w-2 h-6 bg-pink-500 animate-volume [animation-delay:0.2s]"></div>
-              <div className="w-2 h-12 bg-pink-400 animate-volume [animation-delay:0.3s]"></div>
-              <div className="w-2 h-10 bg-pink-300 animate-volume [animation-delay:0.4s]"></div>
-              <div className="w-2 h-6 bg-pink-500 animate-volume [animation-delay:0.5s]"></div>
-              <div className="w-2 h-12 bg-pink-400 animate-volume [animation-delay:0.6s]"></div>
-              <div className="w-2 h-6 bg-pink-300 animate-volume [animation-delay:0.7s]"></div>
-              <div className="w-2 h-8 bg-pink-500 animate-volume [animation-delay:0.8s]"></div>
+              <div className="w-2 h-8 bg-mai-rose animate-volume"></div>
+              <div className="w-2 h-10 bg-mai-pink-soft animate-volume [animation-delay:0.1s]"></div>
+              <div className="w-2 h-6 bg-mai-rose animate-volume [animation-delay:0.2s]"></div>
+              <div className="w-2 h-12 bg-mai-rose animate-volume [animation-delay:0.3s]"></div>
+              <div className="w-2 h-10 bg-mai-pink-soft animate-volume [animation-delay:0.4s]"></div>
+              <div className="w-2 h-6 bg-mai-rose animate-volume [animation-delay:0.5s]"></div>
+              <div className="w-2 h-12 bg-mai-rose animate-volume [animation-delay:0.6s]"></div>
+              <div className="w-2 h-6 bg-mai-pink-soft animate-volume [animation-delay:0.7s]"></div>
+              <div className="w-2 h-8 bg-mai-rose animate-volume [animation-delay:0.8s]"></div>
             </div>
             <AnimatePresence mode="wait">
               {!advancedSearchDisplay && (
@@ -410,7 +410,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
   return (
     <>
       <div className="flex sm:hidden flex-row max-sm:text-sm justify-center items-center max-sm:space-x-0 space-x-4 mb-4">
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)] cursor-pointer"
             onClick={() => getSongRecentUpdated()}
@@ -418,7 +418,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
             最近更新
           </div>
         </div>
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=POPSアニメ")}
@@ -427,7 +427,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
             流行&动漫
           </div>
         </div>
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=niconicoボーカロイド")}
@@ -439,7 +439,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
         </div>
       </div>
       <div className="flex sm:hidden flex-row justify-center items-center max-sm:space-x-0 space-x-4 mb-7">
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[#62b942] rounded-full bg-[rgb(122,231,83)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=ゲームバラエティ")}
@@ -448,7 +448,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
             其他游戏
           </div>
         </div>
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=maimai")}
@@ -457,7 +457,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
             舞萌
           </div>
         </div>
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(48,157,248)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=オンゲキCHUNITHM")}
@@ -467,7 +467,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
         </div>
       </div>
       <div className="flex sm:hidden flex-row justify-center items-center max-sm:space-x-0 space-x-4 mb-7">
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[120px] max-sm:h-10 w-44 h-16 border-4 border-[#7f2bb6] rounded-full bg-[rgb(159,54,227)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=東方Project")}
@@ -477,7 +477,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
           </div>
         </div>
 
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(179,46,121)] rounded-full bg-[rgb(220,56,184)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("type=utage")}
@@ -487,7 +487,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
         </div>
       </div>
       <div className="flex max-sm:hidden flex-row max-sm:text-sm justify-center items-center max-sm:space-x-0 space-x-4 mb-4">
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(247,126,161)] rounded-full bg-white flex justify-center items-center font-bold text-[rgb(255,199,219)] cursor-pointer"
             onClick={() => getSongRecentUpdated()}
@@ -495,7 +495,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
             最近更新
           </div>
         </div>
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[#b38c00] rounded-full bg-[rgb(255,200,0)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=POPSアニメ")}
@@ -504,7 +504,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
             流行&动漫
           </div>
         </div>
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(69,197,255)] flex flex-col justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=niconicoボーカロイド")}
@@ -514,7 +514,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
             <span>VOCALOID</span>
           </div>
         </div>
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[120px] max-sm:h-10 w-44 h-16 border-4 border-[#7f2bb6] rounded-full bg-[rgb(159,54,227)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=東方Project")}
@@ -525,7 +525,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
         </div>
       </div>
       <div className="flex max-sm:hidden flex-row justify-center items-center max-sm:space-x-0 space-x-4 mb-7">
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[#62b942] rounded-full bg-[rgb(122,231,83)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=ゲームバラエティ")}
@@ -534,7 +534,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
             其他游戏
           </div>
         </div>
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[#802323] rounded-full bg-[rgb(255,70,70)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=maimai")}
@@ -543,7 +543,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
             舞萌
           </div>
         </div>
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(0,108,196)] rounded-full bg-[rgb(48,157,248)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("genre=オンゲキCHUNITHM")}
@@ -551,7 +551,7 @@ function CategoryBar({ getSongs, getSongRecentUpdated }: { getSongs: (filteredUr
             音击&中二
           </div>
         </div>
-        <div className=" border-4 border-white bg-pink-400 rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
+        <div className=" border-4 border-white bg-mai-rose rounded-full  shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out text-stroke text-stroke-2 text-white">
           <div
             className="max-sm:w-[90px] max-sm:h-10 w-44 h-16 border-4 border-[rgb(179,46,121)] rounded-full bg-[rgb(220,56,184)] flex justify-center items-center font-bold cursor-pointer"
             onClick={() => getSongs("type=utage")}
@@ -828,10 +828,10 @@ function AdvancedSearchBar({
       {/* 主搜索行 */}
       <div className="flex flex-row justify-center items-center max-sm:flex-col max-sm:space-y-3 space-x-4 max-sm:space-x-0 mb-4">
         {/* 关键词搜索 */}
-        <div className="flex-1 h-12 bg-white border-4 border-pink-500 rounded-full flex flex-row justify-center items-center shadow-md shadow-gray-500">
+        <div className="flex-1 h-12 bg-white border-4 border-mai-rose rounded-full flex flex-row justify-center items-center shadow-md shadow-gray-500">
           <div className="flex w-full h-full overflow-hidden">
             <div
-              className="w-1/4 bg-pink-500 flex items-center justify-center border-r-4 border-pink-500"
+              className="w-1/4 bg-mai-rose flex items-center justify-center border-r-4 border-mai-rose"
               style={{ borderTopLeftRadius: "1rem", borderBottomLeftRadius: "1rem" }}
             >
               <div className="text-white text-sm">关键词</div>
@@ -867,13 +867,13 @@ function AdvancedSearchBar({
       <div
         className={`overflow-hidden transition-all duration-500 ease-in-out max-h-96 opacity-100`}
       >
-        <div className="bg-white border-4 border-pink-300 rounded-2xl p-4">
+        <div className="bg-white border-4 border-mai-pink-soft rounded-2xl p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* 乐曲类型 */}
             <div className="flex flex-col">
               <label className="text-sm font-bold text-gray-700 mb-2">乐曲类型</label>
               <select
-                className="w-full h-10 px-3 bg-white border-2 border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-300 text-black"
+                className="w-full h-10 px-3 bg-white border-2 border-mai-pink-soft rounded-lg focus:outline-none focus:ring-2 focus:ring-mai-rose focus:border-transparent transition-all duration-300 text-black"
                 value={selectedGenre}
                 onChange={e => {
                   setSelectedGenre(e.target.value)
@@ -891,7 +891,7 @@ function AdvancedSearchBar({
             <div className="flex flex-col">
               <label className="text-sm font-bold text-gray-700 mb-2">等级</label>
               <select
-                className="w-full h-10 px-3 bg-white border-2 border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-300 text-black"
+                className="w-full h-10 px-3 bg-white border-2 border-mai-pink-soft rounded-lg focus:outline-none focus:ring-2 focus:ring-mai-rose focus:border-transparent transition-all duration-300 text-black"
                 value={selectedLevel}
                 onChange={e => {
                   setSelectedLevel(e.target.value)
@@ -909,7 +909,7 @@ function AdvancedSearchBar({
             <div className="flex flex-col">
               <label className="text-sm font-bold text-gray-700 mb-2">版本</label>
               <select
-                className="w-full h-10 px-3 bg-white border-2 border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-300 text-black"
+                className="w-full h-10 px-3 bg-white border-2 border-mai-pink-soft rounded-lg focus:outline-none focus:ring-2 focus:ring-mai-rose focus:border-transparent transition-all duration-300 text-black"
                 value={selectedVersion}
                 onChange={e => {
                   setSelectedVersion(e.target.value)

@@ -91,7 +91,7 @@ export default function PreviewModal({
             {/* 模态框头部 */}
             <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-white sticky top-0 z-10">
               <div className="flex items-center gap-3">
-                 <div className="w-1 h-6 bg-pink-500 rounded-full"></div>
+                 <div className="w-1 h-6 bg-mai-rose rounded-full"></div>
                  <h2 className="text-xl sm:text-2xl font-bold text-gray-800 truncate pr-4">
                     {previewImage.name}
                  </h2>
@@ -101,14 +101,14 @@ export default function PreviewModal({
                 <DownloadButton
                   url={getImageUrl() || ""}
                   filename={`${previewImage.name}.png`}
-                  className="flex items-center px-3 py-1.5 rounded-full text-sm font-medium text-white bg-pink-500 hover:bg-pink-600 shadow-sm hover:shadow-md transition-all duration-300"
+                  className="flex items-center px-3 py-1.5 rounded-full text-sm font-medium text-white bg-mai-rose hover:bg-mai-rose-deep shadow-sm hover:shadow-md transition-all duration-300"
                 >
                   <FaDownload className="mr-1.5 w-3 h-3" />
                   <span>下载原图</span>
                 </DownloadButton>
                 <button
                   onClick={handleClose}
-                  className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 p-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                  className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 p-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-mai-pink-soft"
                 >
                   <svg
                     className="w-6 h-6"
@@ -166,7 +166,7 @@ export default function PreviewModal({
                 {/* 条件信息区域 */}
                 <div className="w-full lg:w-96 flex flex-col">
                   <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                    <svg className="w-5 h-5 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-5 h-5 text-mai-rose" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     获取条件
@@ -174,7 +174,7 @@ export default function PreviewModal({
 
                   {conditionLoading ? (
                     <div className="flex-1 flex flex-col items-center justify-center py-12 bg-gray-50 rounded-2xl border border-gray-100">
-                      <div className="w-10 h-10 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin mb-4"></div>
+                      <div className="w-10 h-10 border-4 border-mai-pink-soft border-t-mai-rose rounded-full animate-spin mb-4"></div>
                       <span className="text-sm text-gray-500 font-medium">
                         正在查询获取条件...
                       </span>
@@ -186,7 +186,7 @@ export default function PreviewModal({
                           类别
                         </label>
                         <div className="flex items-center">
-                            <span className="inline-block px-3 py-1 bg-pink-50 text-pink-600 rounded-full text-sm font-medium">
+                            <span className="inline-block px-3 py-1 bg-mai-pink-soft/15 text-mai-rose-deep rounded-full text-sm font-medium">
                                 {condition.category}
                             </span>
                         </div>

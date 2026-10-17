@@ -13,7 +13,7 @@ export default function NewsPage() {
   const [isLoading, setIsLoading] = useState(false)
   const textShadow = {
     textShadow:
-      "-2px -2px 4px rgba(128, 90, 213, 1), 2px -2px 4px rgba(128, 90, 213, 1), -2px 2px 2px rgba(128, 90, 213, 1), 2px 2px 2px rgba(128, 90, 213, 1)",
+      "-2px -2px 4px rgba(111, 52, 176, 1), 2px -2px 4px rgba(111, 52, 176, 1), -2px 2px 2px rgba(111, 52, 176, 1), 2px 2px 2px rgba(111, 52, 176, 1)",
   }
 
   const getNews = async (limit: number, offset: number): Promise<NewsProps[]> => {

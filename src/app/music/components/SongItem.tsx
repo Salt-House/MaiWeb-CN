@@ -48,7 +48,7 @@ export default function SongItem({ song, displayMode }: SongItemProps) {
 
   return (
     <motion.div
-      className="relative songitem-premium mr-10 flex items-center w-fit min-w-[450px] max-lg:min-w-[400px] max-w-[480px] max-lg:max-w-[420px] max-h-[160px] max-lg:max-h-[140px] bg-pink-500 rounded-full mb-10 max-sm:mb-4 pr-4 max-sm:w-full max-sm:min-w-0 max-sm:max-w-full max-sm:mr-0 max-sm:pr-2"
+      className="relative songitem-premium mr-10 flex items-center w-fit min-w-[450px] max-lg:min-w-[400px] max-w-[480px] max-lg:max-w-[420px] max-h-[160px] max-lg:max-h-[140px] bg-mai-rose rounded-full mb-10 max-sm:mb-4 pr-4 max-sm:w-full max-sm:min-w-0 max-sm:max-w-full max-sm:mr-0 max-sm:pr-2"
       whileHover={{ y: -4, scale: 1.02 }}
       onHoverStart={() => setRoate(true)}
       onHoverEnd={() => setRoate(false)}
@@ -69,13 +69,13 @@ export default function SongItem({ song, displayMode }: SongItemProps) {
             e.stopPropagation()
             handleAddToPlaylist(song)
           }}
-          className={`absolute z-10 max-sm:-left-1 max-sm:-top-1 left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full text-white hover:bg-pink-600 transition-colors ${isAdded ? "bg-green-400 hover:bg-green-500" : "bg-pink-500 hover:bg-pink-600"}`}
+          className={`absolute z-10 max-sm:-left-1 max-sm:-top-1 left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full text-white hover:bg-mai-rose-deep transition-colors ${isAdded ? "bg-green-400 hover:bg-green-500" : "bg-mai-rose hover:bg-mai-rose-deep"}`}
           title="添加到播放列表"
         >
           {isAdded ? <FaCheck /> : <FaPlus />}
         </button>
         <motion.div
-          className="songitem-avatar group flex-shrink-0 size-40 max-lg:size-36 max-sm:size-32 border-4 border-pink-300 rounded-full relative hover:border-pink-400 transition-colors duration-300"
+          className="songitem-avatar group flex-shrink-0 size-40 max-lg:size-36 max-sm:size-32 border-4 border-mai-pink-soft rounded-full relative hover:border-mai-rose transition-colors duration-300"
           style={{
             // 外轮廓拟态阴影（无渐变）：双向阴影营造浮起感
             boxShadow: "8px 8px 16px rgba(190,24,93,0.35), -8px -8px 16px rgba(249,168,212,0.6)",

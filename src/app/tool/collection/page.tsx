@@ -344,7 +344,7 @@ export default function CollectionPage() {
     <div className="min-h-screen">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-center">
-            <SvgStrokedText text="收藏品展示" height={100} strokeColor={"#ec4899"} strokeWidth={10} />
+            <SvgStrokedText text="收藏品展示" height={100} strokeColor={"#FD4A81"} strokeWidth={10} />
             <p className="mt-2 text-gray-500 font-medium">探索与收集你的 Maimai 游戏藏品</p>
         </div>
 
@@ -390,10 +390,10 @@ export default function CollectionPage() {
               >
                 <div className="flex items-center justify-between mb-8 px-2">
                   <div className="flex items-center gap-3">
-                      <div className="w-1.5 h-6 bg-pink-500 rounded-full"></div>
+                      <div className="w-1.5 h-6 bg-mai-rose rounded-full"></div>
                       <h2 className="text-2xl font-bold text-gray-800">玩家头像</h2>
                   </div>
-                  <span className="text-sm font-medium text-pink-600 bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100">
+                  <span className="text-sm font-medium text-mai-rose-deep bg-mai-pink-soft/15 px-4 py-1.5 rounded-full border border-mai-pink-soft">
                     Total: {Icons.length}
                   </span>
                 </div>

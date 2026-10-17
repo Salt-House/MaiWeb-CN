@@ -124,14 +124,14 @@ export default function SongChecklist({ songIds, storageKey, showCheckmark = tru
               <div className="flex-1 min-w-0">
                 <h4
                   className={`font-bold text-sm truncate ${
-                    showCheckmark && isChecked ? "text-green-800" : "text-gray-800 group-hover:text-pink-500"
+                    showCheckmark && isChecked ? "text-green-800" : "text-gray-800 group-hover:text-mai-rose"
                   }`}
                 >
                   {song.title}
                 </h4>
                 <p className="text-xs text-gray-500 truncate">{song.artist}</p>
               </div>
-              <FaChevronRight className="ml-3 text-gray-300 group-hover:text-pink-500 transition-colors text-sm" />
+              <FaChevronRight className="ml-3 text-gray-300 group-hover:text-mai-rose transition-colors text-sm" />
             </Link>
           </div>
         )

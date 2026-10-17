@@ -15,8 +15,8 @@ const themeClasses: Record<ThemeColor, {
   toggleBg: string; toggleBorder: string; toggleHover: string; toggleText: string
 }> = {
   pink: {
-    border: "border-pink-300", heading: "text-pink-500", subheading: "text-pink-400",
-    infoBg: "bg-pink-50", infoBorder: "border-pink-200", tableHeader: "bg-pink-100",
+    border: "border-mai-pink-soft", heading: "text-mai-rose", subheading: "text-mai-rose",
+    infoBg: "bg-mai-pink-soft/15", infoBorder: "border-mai-pink-soft", tableHeader: "bg-mai-pink-soft",
     toggleBg: "bg-blue-50", toggleBorder: "border-blue-200", toggleHover: "hover:bg-blue-100", toggleText: "text-blue-500",
   },
   purple: {
@@ -43,7 +43,7 @@ export default function KaleidoscopeDoorPage({ door }: Props) {
 
   const textShadow = {
     textShadow:
-      "-2px -2px 4px rgba(236, 72, 153, 1), 2px -2px 4px rgba(236, 72, 153, 1), -2px 2px 2px rgba(236, 72, 153, 1), 2px 2px 2px rgba(236, 72, 153, 1)",
+      "-2px -2px 4px rgba(253, 74, 129, 1), 2px -2px 4px rgba(253, 74, 129, 1), -2px 2px 2px rgba(253, 74, 129, 1), 2px 2px 2px rgba(253, 74, 129, 1)",
   }
 
   return (
@@ -159,7 +159,7 @@ export default function KaleidoscopeDoorPage({ door }: Props) {
                           <Link
                             href={`${CONFIG.API.WEB.MUSIC}/${door.bossSong.id}`}
                             target="_blank"
-                            className="text-pink-500 hover:underline"
+                            className="text-mai-rose hover:underline"
                           >
                             {door.bossSong.name}
                           </Link>
@@ -239,7 +239,7 @@ export default function KaleidoscopeDoorPage({ door }: Props) {
                                 <Link
                                   href={`${CONFIG.API.WEB.MUSIC}/${track.songLink.id}`}
                                   target="_blank"
-                                  className="text-pink-500 hover:underline"
+                                  className="text-mai-rose hover:underline"
                                 >
                                   {track.songLink.name}
                                 </Link>
