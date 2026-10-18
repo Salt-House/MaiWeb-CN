@@ -22,20 +22,20 @@ function SongList({ songs, currentCategory = "最近添加", loading = false }: 
   return (
     <div className="flex-col w-full max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
       <div className="w-full flex max-sm:flex-col max-sm:items-center justify-around items-center max-sm:mx-auto sm:space-x-10 mb-6">
-        <div className="flex bg-mai-pink-soft p-1 rounded-full overflow-hidden max-sm:mb-5 max-sm:h-9 items-center justify-center">
-          <div className="flex-1 text-center py-2 max-sm:py-0 px-4 text-base font-medium text-white">
+        <div className="flex items-center gap-1 p-1 rounded-full overflow-hidden max-sm:mb-5 max-sm:h-9 justify-center border-2 border-mai-yellow bg-mai-purple shadow-[0_6px_14px_rgba(1,45,123,0.3)]">
+          <div className="flex-1 text-center py-2 max-sm:py-0 pr-3 pl-1 text-base font-bold text-white">
             当前分类：{currentCategory}
           </div>
         </div>
-        <div className="flex bg-mai-pink-soft p-1 rounded-full overflow-hidden w-64 max-sm:w-56 max-sm:mb-5 max-sm:h-9">
+        <div className="flex bg-mai-blue-deep p-1 rounded-full overflow-hidden w-64 max-sm:w-56 max-sm:mb-5 max-sm:h-9 border-2 border-mai-yellow">
           <button
-            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === "level" ? "bg-white shadow-md text-mai-rose font-medium" : "text-white"}`}
+            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === "level" ? "bg-mai-yellow shadow-md text-mai-blue-deep font-bold" : "text-white"}`}
             onClick={() => setDisplayMode("level")}
           >
             等级
           </button>
           <button
-            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === "level_value" ? "bg-white shadow-md text-mai-rose font-medium" : "text-white"}`}
+            className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === "level_value" ? "bg-mai-yellow shadow-md text-mai-blue-deep font-bold" : "text-white"}`}
             onClick={() => setDisplayMode("level_value")}
           >
             定数
@@ -85,21 +85,21 @@ function SongListLegacy({ songs, currentCategory = "最近添加", loading = fal
   }
 
   return (
-    <div className="border-1 border-white bg-white rounded-2xl p-2 m-2 w-[900px] max-sm:w-full mx-auto">
-      <div className="border-4 border-mai-pink-soft bg-white rounded-2xl flex-col w-full mx-auto max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
+    <div className="border-4 border-mai-blue-deep bg-white rounded-3xl p-2 m-2 w-[900px] max-sm:w-full mx-auto shadow-2xl">
+      <div className="border-2 border-mai-blue-deep/20 bg-white rounded-2xl flex-col w-full mx-auto max-sm:px-2 justify-center items-center p-4 max-sm:p-0">
         <div className="w-full flex max-sm:flex-col max-sm:items-start justify-between items-center mb-6 px-4 max-sm:px-1">
-          <div className="text-lg font-medium max-sm:mb-3 text-black">
+          <div className="text-lg font-bold max-sm:mb-3 text-mai-blue-deep">
             当前分类：{currentCategory}
           </div>
-          <div className="flex bg-[rgb(158,175,238)] p-1 rounded-full overflow-hidden w-64 max-sm:w-40 max-sm:mb-5 max-sm:h-9">
+          <div className="flex bg-mai-purple p-1 rounded-full overflow-hidden w-64 max-sm:w-40 max-sm:mb-5 max-sm:h-9">
             <button
-              className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === "level" ? "bg-white shadow-md text-[rgb(158,175,238)] font-medium" : "text-white"}`}
+              className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === "level" ? "bg-white shadow-md text-mai-purple font-bold" : "text-white"}`}
               onClick={() => setDisplayMode("level")}
             >
               等级
             </button>
             <button
-              className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === "level_value" ? "bg-white shadow-md text-[rgb(158,175,238)] font-medium" : "text-white"}`}
+              className={`flex-1 py-2 max-sm:py-0 max-sm:flex max-sm:items-center max-sm:justify-center text-center text-sm rounded-full transition-all duration-200 ${displayMode === "level_value" ? "bg-white shadow-md text-mai-purple font-bold" : "text-white"}`}
               onClick={() => setDisplayMode("level_value")}
             >
               定数
@@ -174,7 +174,7 @@ function SongListLegacy({ songs, currentCategory = "最近添加", loading = fal
                                       <div key={idx} className="flex flex-col">
                                         <div
                                           key={idx}
-                                          className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                                          className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-mai-blue-deep/25"
                                           style={{
                                             backgroundColor: getDifficultyColor(
                                               diff.level_index as 0 | 1 | 2 | 3 | 4
@@ -205,7 +205,7 @@ function SongListLegacy({ songs, currentCategory = "最近添加", loading = fal
                                     <>
                                       <div key={idx} className="flex flex-col">
                                         <div
-                                          className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                                          className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-mai-blue-deep/25"
                                           style={{
                                             backgroundColor: getDifficultyColor(
                                               diff.level_index as 0 | 1 | 2 | 3 | 4
@@ -240,7 +240,7 @@ function SongListLegacy({ songs, currentCategory = "最近添加", loading = fal
                                   {song.difficulties.utage.map((diff, idx) => (
                                     <div
                                       key={idx}
-                                      className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-[rgb(155,244,236)]"
+                                      className="w-12 h-12 max-sm:w-8 max-sm:h-8 rounded-xl flex items-center justify-center text-xl max-sm:text-sm text-white border-4 max-sm:border-2 border-mai-blue-deep/25"
                                       style={{
                                         backgroundColor: "rgb(220, 56, 184)",
                                       }}
@@ -255,7 +255,7 @@ function SongListLegacy({ songs, currentCategory = "最近添加", loading = fal
                         </div>
                         {index < songs.length - 1 && (
                           <div className="flex justify-center mx-1 max-sm:mt-2">
-                            <div className="w-full h-0.5 rounded-full bg-gray-300" />
+                            <div className="w-full h-0.5 rounded-full bg-mai-blue-deep/10" />
                           </div>
                         )}
                       </div>
@@ -264,7 +264,7 @@ function SongListLegacy({ songs, currentCategory = "最近添加", loading = fal
                   <button
                     id="addMusicPlay"
                     onClick={() => handleAddToPlaylist(song)}
-                    className={`absolute max-sm:-left-1 max-sm:-top-1 left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full text-white hover:bg-[rgb(135,70,193)] transition-colors ${addedSongs[song.id] ? "bg-green-400 hover:bg-green-500" : "bg-[rgb(155,90,213)] hover:bg-[rgb(135,70,193)]"}`}
+                    className={`absolute max-sm:-left-1 max-sm:-top-1 left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full text-white hover:bg-[rgb(135,70,193)] transition-colors ${addedSongs[song.id] ? "bg-emerald-500 hover:bg-emerald-600" : "bg-mai-purple hover:bg-mai-blue-deep border border-mai-yellow"}`}
                     title="添加到播放列表"
                   >
                     {addedSongs[song.id] ? <FaCheck /> : <FaPlus />}

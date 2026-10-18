@@ -59,7 +59,7 @@ export default function ScoreDetail({ song, scores }: { song: Song; scores?: Son
   }, [song.id, scores])
 
   if (!localStorage.getItem("token")) {
-    return <div className="text-center py-8 text-gray-500">登录以查看个人乐曲成绩</div>
+    return <div className="text-center py-8 text-mai-ink/70 font-medium">登录以查看个人乐曲成绩</div>
   }
 
   if (loading && !hasAttemptedLoad) {
@@ -72,7 +72,7 @@ export default function ScoreDetail({ song, scores }: { song: Song; scores?: Son
 
   if ((!scoreData || scoreData.length === 0) && hasAttemptedLoad) {
     return (
-      <div className="text-center py-12 text-gray-500">暂无该歌曲的分数数据，快去打一把吧！</div>
+      <div className="text-center py-12 text-mai-ink/70 font-medium">暂无该歌曲的分数数据，快去打一把吧！</div>
     )
   }
 
@@ -118,15 +118,15 @@ function ScoreSection({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="p-6 rounded-2xl bg-[#F0F2F5] border border-slate-300/50 shadow-sm"
+      className="p-6 rounded-3xl bg-white border-4 border-mai-blue-deep shadow-lg"
     >
       <div
         className="flex items-center justify-between cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <h3 className="text-xl font-bold text-gray-700">{title}</h3>
+        <h3 className="text-xl font-mai font-bold text-mai-blue-deep">{title}</h3>
         <motion.div animate={{ rotate: isExpanded ? 0 : -180 }} transition={{ duration: 0.3 }}>
-          <FaChevronDown className="text-gray-500" />
+          <FaChevronDown className="text-mai-blue-deep/70" />
         </motion.div>
       </div>
 
@@ -163,7 +163,7 @@ function ScoreCard({
   const difficulty = song.difficulties[chartType]?.find(d => d.level_index === score.level_index)
 
   return (
-    <div className="p-5 rounded-xl bg-[#e6e9ee] border border-slate-300/40 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]">
+    <div className="p-5 rounded-2xl bg-amber-50/70 border-2 border-mai-yellow">
       <div className="flex items-center space-x-4">
         <div
           className="w-16 h-16 rounded-lg flex items-center justify-center shadow-md"
@@ -172,7 +172,7 @@ function ScoreCard({
           {difficulty?.level_value || score.level_index}
         </div>
         <div className="flex-1 grid grid-cols-2 gap-4">
-          <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-[#F0F2F5] border border-white/60 shadow-sm">
+          <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-white border-2 border-mai-blue-deep/25 shadow-sm">
             {/* TODO 优化：改用 `next/image`；将评级图标静态导入，避免运行时路径拼接 */}
             {getRateImage(score.achievements) && (
               <Image
@@ -184,7 +184,7 @@ function ScoreCard({
                 className="h-8 mb-1 w-auto"
               />
             )}
-            <p className="text-lg font-bold text-gray-800">{score.achievements.toFixed(4)}%</p>
+            <p className="text-lg font-bold text-mai-blue-deep">{score.achievements.toFixed(4)}%</p>
           </div>
           <div className="flex items-center justify-center space-x-4">
             {getFCImage(score.fc) && (
@@ -213,13 +213,13 @@ function ScoreCard({
         </div>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-4 text-center">
-        <div className="p-2 rounded-lg bg-[#F0F2F5] border border-white/60 shadow-sm">
-          <p className="text-sm text-gray-500">DX Score</p>
-          <p className="text-lg font-semibold text-gray-800">{score.dx_score}</p>
+        <div className="p-2 rounded-xl bg-white border-2 border-mai-blue-deep/25 shadow-sm">
+          <p className="text-sm text-mai-ink/60">DX Score</p>
+          <p className="text-lg font-semibold text-mai-blue-deep">{score.dx_score}</p>
         </div>
-        <div className="p-2 rounded-lg bg-[#F0F2F5] border border-white/60 shadow-sm">
-          <p className="text-sm text-gray-500">DX Rating</p>
-          <p className="text-lg font-semibold text-gray-800">{score.dx_rating}</p>
+        <div className="p-2 rounded-xl bg-white border-2 border-mai-blue-deep/25 shadow-sm">
+          <p className="text-sm text-mai-ink/60">DX Rating</p>
+          <p className="text-lg font-semibold text-mai-blue-deep">{score.dx_rating}</p>
         </div>
       </div>
     </div>

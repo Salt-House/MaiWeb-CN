@@ -48,13 +48,13 @@ export default function SongItem({ song, displayMode }: SongItemProps) {
 
     return (
         <motion.div
-            className="relative songitem-magical mr-10 flex items-center w-fit min-w-[450px] max-lg:min-w-[400px] max-w-[480px] max-lg:max-w-[420px] max-h-[160px] max-lg:max-h-[140px] rounded-full mb-10 max-sm:mb-4 pr-4 max-sm:w-full max-sm:min-w-0 max-sm:max-w-full max-sm:mr-0 max-sm:pr-2 border-2 border-amber-200/70"
+            className="relative songitem-magical mr-10 flex items-center w-fit min-w-[450px] max-lg:min-w-[400px] max-w-[480px] max-lg:max-w-[420px] max-h-[160px] max-lg:max-h-[140px] rounded-full mb-10 max-sm:mb-4 pr-4 max-sm:w-full max-sm:min-w-0 max-sm:max-w-full max-sm:mr-0 max-sm:pr-2 border-2 border-mai-yellow"
             style={{
                 // MAGiCAL 主题配色：魔法王国幻紫渐变 + 柔和星光内高光
                 background:
-                    "linear-gradient(135deg, #5b21b6 0%, #7e22ce 52%, #a855f7 100%)",
+                    "#6F34B0",
                 boxShadow:
-                    "0 10px 24px rgba(88, 28, 135, 0.38), inset 0 2px 6px rgba(254, 243, 199, 0.35)",
+                    "0 10px 24px rgba(1, 45, 123, 0.3)",
             }}
             whileHover={{
                 y: -4,
@@ -70,7 +70,7 @@ export default function SongItem({ song, displayMode }: SongItemProps) {
             {/* 卡片背景星光点缀（MAGiCAL 魔法星尘装饰） */}
             <span
                 aria-hidden
-                className="pointer-events-none select-none absolute right-6 bottom-2 text-amber-200/40 text-xs"
+                className="pointer-events-none select-none absolute right-6 bottom-2 text-mai-yellow/40 text-xs"
             >
         ✦ ✧ ✦
       </span>
@@ -91,7 +91,7 @@ export default function SongItem({ song, displayMode }: SongItemProps) {
                         e.stopPropagation()
                         handleAddToPlaylist(song)
                     }}
-                    className={`absolute z-30 max-sm:-left-1 max-sm:-top-1 left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full text-white border border-amber-200/80 shadow-md transition-all duration-300 ${
+                    className={`absolute z-30 max-sm:-left-1 max-sm:-top-1 left-0 top-0 w-8 h-8 flex items-center justify-center rounded-full text-white border border-mai-yellow shadow-md transition-all duration-300 ${
                         isAdded
                             ? "bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/40"
                             : "bg-rose-600 hover:bg-rose-500 shadow-rose-900/40"
@@ -103,10 +103,10 @@ export default function SongItem({ song, displayMode }: SongItemProps) {
 
                 {/* 曲绘圆盘：『時渡りの時計』× 魔法阵（替代原版 CD 盘面） */}
                 <motion.div
-                    className="songitem-avatar group flex-shrink-0 size-40 max-lg:size-36 max-sm:size-32 border-4 border-amber-300/90 rounded-full relative hover:border-amber-200 transition-colors duration-300"
+                    className="songitem-avatar group flex-shrink-0 size-40 max-lg:size-36 max-sm:size-32 border-4 border-mai-yellow rounded-full relative hover:border-mai-yellow transition-colors duration-300"
                     style={{
                         background:
-                            "radial-gradient(circle, #3b0764 0%, #581c87 65%, #7e22ce 100%)",
+                            "#6F34B0",
                         boxShadow:
                             "8px 8px 18px rgba(59, 7, 100, 0.45), -6px -6px 16px rgba(233, 213, 255, 0.55), 0 0 12px rgba(251, 191, 36, 0.35)",
                     }}
@@ -134,7 +134,7 @@ export default function SongItem({ song, displayMode }: SongItemProps) {
                         />
 
                         {/* 专辑曲绘区域（内缩露出外围魔法阵环） */}
-                        <div className="absolute inset-2.5 rounded-full overflow-hidden border border-amber-200/50">
+                        <div className="absolute inset-2.5 rounded-full overflow-hidden border border-mai-yellow/60">
                             <Image
                                 src={`${CONFIG.ASSETS.MAIMAI.JACKET}/${song.id}.png`}
                                 alt={song.title}
@@ -188,9 +188,9 @@ export default function SongItem({ song, displayMode }: SongItemProps) {
                         <div
                             className="w-4 h-4 rounded-full flex items-center justify-center"
                             style={{
-                                background: "linear-gradient(135deg, #fef08a 0%, #f59e0b 100%)",
+                                background: "#FBE426",
                                 boxShadow:
-                                    "0 2px 6px rgba(0, 0, 0, 0.28), 0 0 8px rgba(251, 191, 36, 0.6)",
+                                    "0 2px 6px rgba(0, 0, 0, 0.25)",
                                 border: "1px solid rgba(255, 255, 255, 0.8)",
                             }}
                         >
@@ -202,7 +202,7 @@ export default function SongItem({ song, displayMode }: SongItemProps) {
                             className="mt-0.5 w-24 h-1.5 rounded-full"
                             style={{
                                 background:
-                                    "linear-gradient(90deg, #fde68a 0%, #f59e0b 60%, #fef08a 100%)",
+                                    "#FBE426",
                                 boxShadow: "0 2px 6px rgba(88, 28, 135, 0.35)",
                                 border: "1px solid rgba(255, 255, 255, 0.65)",
                             }}
@@ -212,7 +212,7 @@ export default function SongItem({ song, displayMode }: SongItemProps) {
                         <div
                             className="ml-[84px] mt-[-5px] w-7 h-7 rounded-full flex items-center justify-center relative"
                             style={{
-                                background: "linear-gradient(135deg, #fef3c7 0%, #f59e0b 100%)",
+                                background: "#FBE426",
                                 boxShadow:
                                     "0 3px 8px rgba(88, 28, 135, 0.4), 0 0 10px rgba(251, 191, 36, 0.5)",
                                 border: "1.5px solid rgba(255, 255, 255, 0.85)",
@@ -397,7 +397,7 @@ function SongCategory({ genre }: { genre: string }) {
                 boxShadow: "0 4px 10px rgba(59, 7, 100, 0.3)",
             }}
         >
-      <span aria-hidden className="text-amber-200 text-xs">
+      <span aria-hidden className="text-mai-yellow text-xs">
         ✦
       </span>
             {transferText(genre)}

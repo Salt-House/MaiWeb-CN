@@ -46,3 +46,8 @@ log/
 .trae.idea/  
 scrap/
 migrate_pink_tokens.ps1
+
+dev-server.log
+tsc_out.txt
+.qa-*.png
+optimization-report.html

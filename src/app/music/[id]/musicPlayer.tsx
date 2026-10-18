@@ -93,7 +93,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
 
   return (
     <motion.div
-      className="w-full p-6 rounded-3xl bg-[#F0F2F5] border border-slate-300/50 shadow-sm"
+      className="w-full p-6 rounded-3xl bg-white border-4 border-mai-blue-deep shadow-xl"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -101,20 +101,20 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
       <div className="flex flex-col items-center space-y-4">
         {/* Progress Bar */}
         <div className="w-full flex items-center space-x-3">
-          <span className="text-xs text-gray-500 w-10 text-center">{formatTime(currentTime)}</span>
+          <span className="text-xs text-mai-ink/70 w-10 text-center">{formatTime(currentTime)}</span>
           <div
             ref={progressBarRef}
-            className="flex-1 h-2 rounded-full cursor-pointer bg-slate-200 border border-slate-300/70"
+            className="flex-1 h-2 rounded-full cursor-pointer bg-mai-blue-deep/10 border border-mai-blue-deep/30"
             onClick={handleProgressChange}
           >
             <motion.div
-              className="h-full bg-mai-rose rounded-full"
+              className="h-full rounded-full bg-mai-purple"
               style={{ width: `${progressPercentage}%` }}
               animate={{ width: `${progressPercentage}%` }}
               transition={{ duration: 0.1, ease: "linear" }}
             />
           </div>
-          <span className="text-xs text-gray-500 w-10 text-center">{formatTime(duration)}</span>
+          <span className="text-xs text-mai-ink/70 w-10 text-center">{formatTime(duration)}</span>
         </div>
 
         {/* Controls */}
@@ -123,7 +123,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={handleAddToPlaylist}
-            className="w-12 h-12 flex items-center justify-center rounded-full bg-[#F0F2F5] text-gray-600 border border-white/60 shadow-sm transition-colors"
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-white text-mai-blue-deep border-2 border-mai-blue-deep/50 shadow-sm hover:bg-mai-yellow/40 hover:border-mai-blue-deep transition-colors"
             title="添加到播放列表"
           >
             {isAddedToPlaylist ? (
@@ -137,7 +137,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleTogglePlay}
-            className="w-16 h-16 flex items-center justify-center rounded-full bg-mai-rose text-white shadow-lg shadow-mai-rose/30 transition-colors"
+            className="w-16 h-16 flex items-center justify-center rounded-full text-white shadow-lg shadow-mai-blue-deep/30 transition-all border-2 border-mai-yellow bg-mai-purple"
           >
             {displayIsPlaying ? <FaPause size={20} /> : <FaPlay size={20} className="ml-1" />}
           </motion.button>
@@ -145,17 +145,18 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
           <DownloadButton
             url={audioUrl}
             filename={`${title || "music"}.mp3`}
-            className="w-12 h-12 ml-2 flex items-center justify-center rounded-full bg-[#F0F2F5] text-gray-600 border border-white/60 shadow-sm transition-colors"
+            variant="outline"
+            shape="circle"
           />
         </div>
 
         {/* Volume Control */}
         <div className="w-full flex items-center justify-center space-x-2 pt-2">
-          <FaVolumeMute className="text-gray-500" />
+          <FaVolumeMute className="text-mai-ink/70" />
           <div className="relative w-32 h-2 flex items-center">
-            <div className="w-full h-1.5 bg-slate-200 rounded-full border border-slate-300/70" />
+            <div className="w-full h-1.5 bg-mai-blue-deep/10 rounded-full border border-mai-blue-deep/30" />
             <div
-              className="absolute h-1.5 bg-mai-rose rounded-full"
+              className="absolute h-1.5 bg-mai-purple rounded-full"
               style={{ width: `${globalVolume * 100}%` }}
             />
             <input
@@ -169,7 +170,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl, title, artist, song
               ref={volumeBarRef}
             />
           </div>
-          <FaVolumeUp className="text-gray-500" />
+          <FaVolumeUp className="text-mai-ink/70" />
         </div>
       </div>
     </motion.div>

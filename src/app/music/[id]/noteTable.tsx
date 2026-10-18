@@ -24,10 +24,10 @@ const NoteDetailItem = ({
       <div style={{ color }} className="w-4 h-4 flex items-center justify-center">
         {icon}
       </div>
-      <span className="text-gray-600 font-medium">{label}</span>
+      <span className="text-mai-ink font-medium">{label}</span>
     </div>
-    <span className="font-bold text-gray-800">总数：{value}</span>
-    <span className="text-xs text-gray-500">{weight}%/每个</span>
+    <span className="font-bold text-mai-blue-deep">总数：{value}</span>
+    <span className="text-xs text-mai-ink/60">{weight}%/每个</span>
   </div>
 )
 
@@ -75,7 +75,7 @@ export default function NoteTable({ song, chartType }: { song: Song; chartType: 
         return (
           <motion.div
             key={idx}
-            className="p-5 rounded-2xl bg-[#F0F2F5] border border-slate-300/50 shadow-sm"
+            className="p-5 rounded-2xl bg-white border-2 border-mai-blue-deep/50 shadow-lg"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: idx * 0.1 }}
@@ -93,8 +93,8 @@ export default function NoteTable({ song, chartType }: { song: Song; chartType: 
                
               </div>
                 <div className="text-right">
-                  <div className="text-xs text-gray-500">Total Notes</div>
-                  <div className="text-xl font-bold text-gray-800">{totalNotes}</div>
+                  <div className="text-xs text-mai-ink/60">Total Notes</div>
+                  <div className="text-xl font-bold text-mai-blue-deep">{totalNotes}</div>
                 </div>
               </div>
             <div className="w-full">

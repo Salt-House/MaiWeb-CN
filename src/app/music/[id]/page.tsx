@@ -92,7 +92,7 @@ export default function SongDetail() {
         <div className="mb-6">
           <Link
             href="/music"
-            className="inline-flex items-center text-gray-600 hover:text-mai-rose transition-colors group"
+            className="inline-flex items-center text-mai-ink hover:text-mai-blue-deep transition-colors group bg-white/80 border-2 border-mai-blue-deep/30 rounded-full px-4 py-1.5 shadow-sm hover:border-mai-blue-deep"
           >
             <FaArrowLeft className="mr-2 transition-transform group-hover:-translate-x-1" />
             <span className="font-bold">返回音乐列表</span>
@@ -149,13 +149,13 @@ function ChartTypeSwitcher({
 
   return (
     <div className="flex justify-center mb-4">
-      <div className="flex space-x-1 p-1 rounded-xl bg-gray-200/80">
+      <div className="flex space-x-1 p-1 rounded-full bg-white border-2 border-mai-blue-deep/50 shadow-md">
         {availableCharts.map(tab => (
           <button
             key={tab.type}
             onClick={() => setChartType(tab.type)}
-            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${
-              chartType === tab.type ? "bg-white text-mai-rose shadow-sm" : "text-gray-500"
+            className={`px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 border-2 ${
+              chartType === tab.type ? "bg-mai-yellow text-mai-blue-deep border-mai-blue-deep shadow-md" : "text-mai-ink/60 hover:text-mai-blue-deep border-transparent"
             }`}
           >
             {tab.label}
@@ -196,15 +196,16 @@ function RecordPlayer({ song }: { song: Song }) {
         onHoverStart={() => setIsPlaying(true)}
         onHoverEnd={() => setIsPlaying(false)}
         style={{
-          boxShadow: "12px 12px 24px rgba(0,0,0,0.1), -12px -12px 24px rgba(255,255,255,0.9)",
+          background: "#6F34B0",
+          boxShadow: "12px 12px 24px rgba(59,7,100,0.45), -10px -10px 22px rgba(233,213,255,0.55), 0 0 18px rgba(251,191,36,0.3)",
         }}
         whileHover={{
           scale: 1.03,
-          boxShadow: "16px 16px 32px rgba(0,0,0,0.15), -16px -16px 32px rgba(255,255,255,1)",
+          boxShadow: "16px 16px 32px rgba(59,7,100,0.55), -14px -14px 28px rgba(245,208,254,0.75), 0 0 24px rgba(251,191,36,0.5)",
         }}
         whileTap={{
           scale: 0.99,
-          boxShadow: "6px 6px 12px rgba(0,0,0,0.05), -6px -6px 12px rgba(255,255,255,0.7)",
+          boxShadow: "6px 6px 12px rgba(59,7,100,0.35), -6px -6px 12px rgba(233,213,255,0.45)",
         }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
@@ -213,9 +214,8 @@ function RecordPlayer({ song }: { song: Song }) {
           <div
             className="absolute inset-0 rounded-full pointer-events-none"
             style={{
-              border: "4px solid rgba(255,255,255,0.25)",
-              boxShadow:
-                "inset 8px 8px 16px rgba(0,0,0,0.05), inset -8px -8px 16px rgba(255,255,255,0.3)",
+              border: "4px solid rgba(253,230,138,0.9)",
+              boxShadow: "inset 8px 8px 16px rgba(59,7,100,0.45), inset -8px -8px 16px rgba(245,208,254,0.3)",
             }}
           />
 
@@ -229,7 +229,7 @@ function RecordPlayer({ song }: { song: Song }) {
           />
 
           {/* Album art */}
-          <div className="absolute inset-8 rounded-full overflow-hidden">
+          <div className="absolute inset-8 rounded-full overflow-hidden border border-mai-yellow/60">
             <motion.div
               className="w-full h-full relative"
               variants={discVariants}
@@ -249,7 +249,7 @@ function RecordPlayer({ song }: { song: Song }) {
           <div
             className="absolute inset-10 rounded-full pointer-events-none"
             style={{
-              border: "2px dashed rgba(0,0,0,0.2)",
+              border: "2px dashed rgba(253,230,138,0.65)",
             }}
           />
 
@@ -257,7 +257,7 @@ function RecordPlayer({ song }: { song: Song }) {
           <div
             className="absolute inset-16 rounded-full pointer-events-none"
             style={{
-              border: "2px dashed rgba(0,0,0,0.15)",
+              border: "2px dotted rgba(245,208,254,0.7)",
             }}
           />
 
@@ -265,9 +265,9 @@ function RecordPlayer({ song }: { song: Song }) {
           <div
             className="absolute inset-20 rounded-full pointer-events-none"
             style={{
-              border: "2px solid rgba(0,0,0,0.05)",
+              border: "2px solid rgba(253,224,71,0.4)",
               boxShadow:
-                "inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.2)",
+                "inset 0 0 8px rgba(251,191,36,0.35), 0 0 8px rgba(168,85,247,0.35)",
             }}
           />
         </div>
@@ -281,20 +281,20 @@ function RecordPlayer({ song }: { song: Song }) {
         >
           {/* Pivot */}
           <div
-            className="w-6 h-6 rounded-full"
+            className="w-6 h-6 rounded-full relative"
             style={{
-              backgroundColor: "rgba(220,220,220,0.95)",
-              boxShadow: "3px 3px 6px rgba(0,0,0,0.15), -3px -3px 6px rgba(255,255,255,0.5)",
-              border: "1px solid rgba(0,0,0,0.06)",
+              background: "#FBE426",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.28), 0 0 8px rgba(251,191,36,0.6)",
+              border: "1px solid rgba(255,255,255,0.8)",
             }}
           />
           {/* Arm */}
           <div
             className="mt-1.5 w-36 h-2 rounded-full"
             style={{
-              backgroundColor: "rgba(230,230,230,0.9)",
-              boxShadow: "4px 4px 8px rgba(0,0,0,0.12), -4px -4px 8px rgba(255,255,255,0.5)",
-              border: "1px solid rgba(0,0,0,0.05)",
+              background: "#FBE426",
+              boxShadow: "0 2px 6px rgba(88,28,135,0.35), 0 0 8px rgba(251,191,36,0.4)",
+              border: "1px solid rgba(255,255,255,0.65)",
             }}
           />
           {/* Head */}
@@ -305,9 +305,9 @@ function RecordPlayer({ song }: { song: Song }) {
               height: "2.5rem",
               marginLeft: "128px",
               marginTop: "-4px",
-              backgroundColor: "rgba(235,235,235,0.96)",
-              boxShadow: "4px 4px 8px rgba(0,0,0,0.15), -4px -4px 8px rgba(255,255,255,0.55)",
-              border: "1px solid rgba(0,0,0,0.08)",
+              background: "#FBE426",
+              boxShadow: "0 3px 8px rgba(88,28,135,0.4), 0 0 10px rgba(251,191,36,0.5)",
+              border: "1.5px solid rgba(255,255,255,0.85)",
             }}
           >
             <span
@@ -315,7 +315,7 @@ function RecordPlayer({ song }: { song: Song }) {
               style={{
                 width: "8px",
                 height: "8px",
-                backgroundColor: "rgba(0,0,0,0.6)",
+                backgroundColor: "#9f1239",
                 boxShadow: "inset 1px 1px 2px rgba(255,255,255,0.25)",
               }}
             />
@@ -368,9 +368,14 @@ function SongInfo({ song }: { song: Song }) {
   }
 
   return (
-    <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm">
-      <h1 className="text-3xl font-bold text-gray-800 mb-2">{song.title}</h1>
-      <p className="text-lg text-gray-600 mb-4">{song.artist}</p>
+    <div className="rounded-3xl bg-white border-4 border-mai-blue-deep shadow-2xl overflow-hidden">
+      <div className="border-b-4 border-mai-blue-deep bg-mai-yellow px-5 py-2 flex items-center gap-3">
+        <Image src="/assets/maiDecorationBg/note_02.png" alt="" width={26} height={26} className="w-6 h-6" />
+        <span className="text-lg font-mai font-bold tracking-widest text-mai-blue-deep">乐曲情报</span>
+      </div>
+      <div className="p-6">
+      <h1 className="text-3xl font-mai font-bold text-mai-blue-deep mb-2">{song.title}</h1>
+      <p className="text-lg font-medium text-mai-purple mb-4">{song.artist}</p>
 
       <div className="flex flex-wrap gap-3 items-center mb-4">
         <span
@@ -382,19 +387,19 @@ function SongInfo({ song }: { song: Song }) {
         >
           {transferText(song.genre)}
         </span>
-        <span className="text-sm text-gray-500">ID: {song.id}</span>
-        <span className="text-sm text-gray-500">BPM: {song.bpm}</span>
-        <span className="text-sm text-gray-500">版本: {transferVersion(song.version)}</span>
+        <span className="text-sm text-mai-ink/70">ID: {song.id}</span>
+        <span className="text-sm text-mai-ink/70">BPM: {song.bpm}</span>
+        <span className="text-sm text-mai-ink/70">版本: {transferVersion(song.version)}</span>
       </div>
 
       {song.aliases && song.aliases.length > 0 && (
         <div className="mb-4">
-          <div className="font-medium text-gray-700 mb-2">别名:</div>
+          <div className="font-bold text-mai-ink mb-2">别名:</div>
           <div className="flex flex-wrap gap-2">
             {song.aliases.map((alias, index) => (
               <span
                 key={index}
-                className="bg-mai-pink-soft/80 text-mai-rose-deep px-3 py-1 rounded-full text-xs font-medium border border-mai-pink-soft/50 shadow-sm"
+                className="px-3 py-1 rounded-full text-xs font-medium text-white border border-mai-yellow shadow-sm bg-mai-purple"
               >
                 {alias}
               </span>
@@ -408,7 +413,7 @@ function SongInfo({ song }: { song: Song }) {
           href={`https://search.bilibili.com/all?keyword=${encodeURIComponent(song.title)}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center px-4 py-2 rounded-xl text-[#00a1d6] bg-white/80 border border-slate-300/50 shadow-md hover:shadow-lg transition-all duration-300"
+          className="flex items-center px-4 py-2 rounded-full text-mai-blue-deep bg-white border-2 border-mai-blue-deep/60 shadow-md hover:shadow-lg hover:bg-mai-yellow/30 transition-all duration-300"
         >
           <FaBilibili className="mr-2" />
           <span>在B站搜索</span>
@@ -418,20 +423,21 @@ function SongInfo({ song }: { song: Song }) {
           type="button"
           onClick={handleDownloadCover}
           disabled={isDownloadingCover}
-          className="flex items-center px-4 py-2 rounded-xl text-mai-rose-deep bg-white/80 border border-slate-300/50 shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="flex items-center px-4 py-2 rounded-full text-mai-blue-deep bg-mai-yellow border-2 border-mai-blue-deep shadow-md hover:shadow-lg hover:brightness-105 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
           whileHover={{ y: -2 }}
           whileTap={{ scale: 0.98, y: 0 }}
           transition={{ type: "spring", stiffness: 350, damping: 22 }}
         >
           {isDownloadingCover ? (
             <span className="mr-2 inline-flex h-4 w-4 items-center justify-center">
-              <span className="h-4 w-4 rounded-full border-2 border-mai-rose-deep/60 border-t-transparent animate-spin" />
+              <span className="h-4 w-4 rounded-full border-2 border-mai-blue-deep/60 border-t-transparent animate-spin" />
             </span>
           ) : (
             <FaDownload className="mr-2" />
           )}
           <span>下载封面</span>
         </motion.button>
+      </div>
       </div>
     </div>
   )

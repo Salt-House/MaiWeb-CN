@@ -26,7 +26,7 @@ const navItems: NavItem[] = [
   { id: "blog", href: "/blog", label: "更新日志" },
 ]
 
-export default function Navigation({ textstroke }: NavigationProps) {
+export default function Navigation({}: NavigationProps) {
   const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [token, setToken] = useState<string | null>(null)
   const [userIconId, setUserIconId] = useState<string>("1") // 默认头像ID
@@ -87,7 +87,7 @@ export default function Navigation({ textstroke }: NavigationProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
       >
-        <div className="bg-white/70 backdrop-blur-xl shadow-lg hover:shadow-xl rounded-full px-6 py-4 flex items-center justify-between sm:justify-center border border-white/50 transition-all duration-300">
+        <div className="bg-mai-yellow shadow-lg hover:shadow-xl rounded-full px-6 py-4 flex items-center justify-between sm:justify-center border-4 border-mai-blue-deep transition-all duration-300">
           
           {/* Desktop Navigation Links */}
           <div className="hidden sm:flex items-center space-x-1 justify-center text-xl font-bold">
@@ -96,20 +96,19 @@ export default function Navigation({ textstroke }: NavigationProps) {
               
               return (
                 <div key={item.id} className="flex items-center">
-                  {index > 0 && <div className="text-mai-pink-soft mx-3 select-none">|</div>}
+                  {index > 0 && <div className="text-mai-blue-deep/40 mx-3 select-none">|</div>}
                   <Link href={item.href} className="relative group px-4 py-2">
                     {isActive && (
                       <motion.div
                         layoutId="activeNav"
-                        className="absolute inset-0 bg-mai-pink-soft/50 rounded-full -z-10"
+                        className="absolute inset-0 bg-mai-blue-deep rounded-full -z-10"
                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                       />
                     )}
                     <motion.span
                       className={`block transition-colors duration-300 ${
-                        isActive ? "text-mai-rose-deep" : "text-mai-rose group-hover:text-mai-rose-deep"
+                        isActive ? "text-white" : "text-mai-blue-deep group-hover:text-mai-purple"
                       }`}
-                      style={textstroke}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -125,7 +124,7 @@ export default function Navigation({ textstroke }: NavigationProps) {
           <div className="sm:hidden flex items-center">
             <motion.button
               onClick={() => setShowMobileMenu(!showMobileMenu)}
-              className="text-mai-rose text-2xl p-2 rounded-full hover:bg-mai-pink-soft/15 transition-colors"
+              className="text-mai-blue-deep text-2xl p-2 rounded-full hover:bg-mai-blue-deep/10 transition-colors"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               aria-label="Toggle Menu"
@@ -143,7 +142,7 @@ export default function Navigation({ textstroke }: NavigationProps) {
           <div className="sm:hidden">
             <Link href="/user/profile">
               <motion.div
-                className="w-10 h-10 rounded-full overflow-hidden border-2 border-mai-pink-soft shadow-md hover:border-mai-rose transition-colors relative bg-white"
+                className="w-10 h-10 rounded-full overflow-hidden border-2 border-mai-blue-deep shadow-md hover:border-mai-purple transition-colors relative bg-white"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -173,7 +172,7 @@ export default function Navigation({ textstroke }: NavigationProps) {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-mai-pink-soft p-2">
+            <div className="bg-white rounded-3xl shadow-2xl border-4 border-mai-blue-deep p-2">
               <div className="flex flex-col space-y-1">
                 {/* Home Link for Mobile */}
                 <MobileNavLink 
@@ -213,18 +212,18 @@ function MobileNavLink({ href, label, onClick, isActive }: MobileNavLinkProps) {
     <Link href={href} onClick={onClick}>
       <motion.div 
         className={`p-4 rounded-2xl flex items-center justify-between transition-colors ${
-          isActive ? "bg-mai-pink-soft/15 text-mai-rose-deep" : "text-gray-600 hover:bg-gray-50"
+          isActive ? "bg-mai-yellow/60 text-mai-blue-deep" : "text-mai-ink hover:bg-mai-blue-deep/5"
         }`}
-        whileHover={{ x: 5, backgroundColor: "rgba(255, 241, 242, 0.5)" }}
+        whileHover={{ x: 5, backgroundColor: "rgba(251, 228, 38, 0.4)" }}
         whileTap={{ scale: 0.98 }}
       >
-        <span className={`font-bold ${isActive ? "text-mai-rose-deep" : "text-gray-600"}`}>
+        <span className={`font-bold ${isActive ? "text-mai-blue-deep" : "text-mai-ink"}`}>
           {label}
         </span>
         {isActive && (
           <motion.div 
             layoutId="mobileActiveIndicator"
-            className="w-2 h-2 rounded-full bg-mai-rose"
+            className="w-2 h-2 rounded-full bg-mai-blue-deep"
           />
         )}
       </motion.div>

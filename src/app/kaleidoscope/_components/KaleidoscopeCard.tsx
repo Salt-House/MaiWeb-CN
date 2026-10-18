@@ -64,10 +64,10 @@ function DoorItem({ door }: { door: KaleidoscopeDoorData }) {
 
 const KaleidoscopeCard = () => {
   return (
-    <div className="w-full flex justify-center">
-      <div className="w-full max-w-[900px] max-sm:w-[90%]">
+    <div className="w-full lg:h-full flex justify-center">
+      <div className="w-full lg:h-full max-w-[900px] max-sm:w-[90%] lg:flex lg:flex-col">
         <motion.div
-          className="relative my-10 w-full flex flex-col justify-center items-center rounded-2xl overflow-visible"
+          className="relative my-10 w-full lg:flex-1 flex flex-col items-center rounded-2xl overflow-visible"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -114,7 +114,7 @@ const KaleidoscopeCard = () => {
           />
 
           {/* Door List */}
-          <div className="relative z-10 w-full">
+          <div className="relative z-10 w-full lg:flex-1 flex flex-col justify-center">
             {allDoors.map((door, index) => (
               <div key={door.slug}>
                 {index > 0 && <hr className="border-t-2 border-dashed border-mai-blue-deep/20 mx-6" />}

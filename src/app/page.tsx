@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import ChinaMap from "@/components/common/ChinaMap"
 import NewsCard from "@/components/common/NewsCard"
 import SearchGameCenter from "@/components/common/SearchGameCenter"
-import KaleidoscopeCard from "@/app/kaleidoscope/_components/KaleidoscopeCard"
+import RecommendMusicCard from "@/components/common/RecommendMusicCard"
 import TokenChecker from "@/hooks/TokenChecker"
 import RoatChiho from "@/components/common/circle/RoatChiho"
 import { MaiTitle } from "@/components/common/MaiUI"
@@ -45,11 +45,11 @@ export default function Home() {
           <div className="mx-auto w-44 h-12 font-bold text-xl flex justify-center items-center rounded-full bg-white/90 shadow-md">
             {token == "" ? <div className="text-mai-red"> 🔴 未登录</div> : <TokenChecker />}
           </div>
-          <div className="flex w-full flex-col justify-center items-center lg:flex-row lg:items-start">
+          <div className="flex w-full flex-col justify-center items-center lg:flex-row lg:items-stretch">
             <div className="w-full lg:w-1/4 flex justify-center">
-              <KaleidoscopeCard />
+              <RecommendMusicCard />
             </div>
-            <div className="w-full lg:w-1/3 flex justify-center">
+            <div className="w-full lg:w-1/3 flex justify-center lg:items-center">
               <RoatChiho />
             </div>
             <div className="w-full lg:w-1/4 flex justify-center">

@@ -39,23 +39,23 @@ export default function MaiNotesTools({ song, chartType }: MaiNotesToolsProps) {
   if (!selectedDiff) return null
 
   return (
-    <div className="w-full mt-8 bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+    <div className="w-full mt-8 bg-white rounded-3xl border-4 border-mai-blue-deep shadow-xl overflow-hidden">
       {/* Header / Toggle */}
       <div 
-        className="flex items-center justify-between p-6 cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors"
+        className="flex items-center justify-between p-6 cursor-pointer bg-mai-yellow hover:bg-mai-yellow/90 border-b-4 border-mai-blue-deep transition-colors"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-mai-pink-soft text-mai-rose rounded-lg">
+          <div className="p-2 bg-mai-blue-deep text-mai-yellow rounded-lg">
             <FaCalculator />
           </div>
-          <h2 className="text-xl font-bold text-gray-800">谱面分析工具箱</h2>
+          <h2 className="text-xl font-mai font-bold text-mai-blue-deep tracking-wide">谱面分析工具箱</h2>
         </div>
         <motion.div
           animate={{ rotate: isOpen ? 0 : -180 }}
           transition={{ duration: 0.3 }}
         >
-          <FaChevronDown className="text-gray-500" />
+          <FaChevronDown className="text-mai-blue-deep" />
         </motion.div>
       </div>
 
@@ -90,13 +90,13 @@ export default function MaiNotesTools({ song, chartType }: MaiNotesToolsProps) {
             </div>
 
             {/* Tabs */}
-            <div className="flex border-b border-slate-200">
+            <div className="flex border-b border-mai-blue-deep/20">
               <button
                 onClick={() => setActiveTab("boundary")}
                 className={`flex-1 py-3 text-sm font-bold flex items-center justify-center space-x-2 transition-colors ${
                   activeTab === "boundary"
-                    ? "text-mai-rose border-b-2 border-mai-rose bg-mai-pink-soft/45"
-                    : "text-gray-500 hover:text-gray-700"
+                    ? "text-mai-blue-deep border-b-2 border-mai-blue-deep bg-mai-yellow/60"
+                    : "text-mai-ink/60 hover:text-mai-blue-deep"
                 }`}
               >
                 <FaListUl />
@@ -106,8 +106,8 @@ export default function MaiNotesTools({ song, chartType }: MaiNotesToolsProps) {
                 onClick={() => setActiveTab("calculator")}
                 className={`flex-1 py-3 text-sm font-bold flex items-center justify-center space-x-2 transition-colors ${
                   activeTab === "calculator"
-                    ? "text-mai-rose border-b-2 border-mai-rose bg-mai-pink-soft/45"
-                    : "text-gray-500 hover:text-gray-700"
+                    ? "text-mai-blue-deep border-b-2 border-mai-blue-deep bg-mai-yellow/60"
+                    : "text-mai-ink/60 hover:text-mai-blue-deep"
                 }`}
               >
                 <FaCalculator />
@@ -169,7 +169,7 @@ function BoundaryTable({ diff }: { diff: DifficultyInfo }) {
     <div className="overflow-x-auto">
       <table className="w-full text-sm text-left">
         <thead>
-          <tr className="text-gray-500 border-b border-slate-200">
+          <tr className="text-mai-ink/60 border-b border-mai-blue-deep/20">
             <th className="pb-3 font-medium">目标评价</th>
             <th className="pb-3 font-medium">Tap Great</th>
             <th className="pb-3 font-medium">Tap Miss</th>
@@ -182,17 +182,17 @@ function BoundaryTable({ diff }: { diff: DifficultyInfo }) {
             if (maxLoss < 0) return null // Should not happen for these targets
 
             return (
-              <tr key={row.label} className="group hover:bg-slate-50 transition-colors">
-                <td className="py-3 font-bold text-gray-800">{row.label} <span className="text-xs font-normal text-gray-400">({row.target}%)</span></td>
-                <td className="py-3 text-gray-600">{getCount(lossTapGreat, maxLoss)}</td>
-                <td className="py-3 text-gray-600">{getCount(lossTapMiss, maxLoss)}</td>
-                <td className="py-3 text-gray-600">{getCount(lossBreakMiss, maxLoss)}</td>
+              <tr key={row.label} className="group hover:bg-mai-yellow/20 transition-colors">
+                <td className="py-3 font-bold text-mai-blue-deep">{row.label} <span className="text-xs font-normal text-mai-ink/50">({row.target}%)</span></td>
+                <td className="py-3 text-mai-ink">{getCount(lossTapGreat, maxLoss)}</td>
+                <td className="py-3 text-mai-ink">{getCount(lossTapMiss, maxLoss)}</td>
+                <td className="py-3 text-mai-ink">{getCount(lossBreakMiss, maxLoss)}</td>
               </tr>
             )
           })}
         </tbody>
       </table>
-      <p className="mt-4 text-xs text-gray-400 text-center">
+      <p className="mt-4 text-xs text-mai-ink/50 text-center">
         * 注：容错数基于理论权重估算，仅供参考。Break Miss 包含 Break 基础分与额外分。
       </p>
     </div>
@@ -279,25 +279,24 @@ function ScoreCalculator({ diff }: { diff: DifficultyInfo }) {
       <div className="flex justify-end">
         <button 
           onClick={handleReset}
-          className="flex items-center text-sm text-gray-500 hover:text-mai-rose transition-colors"
+          className="flex items-center text-sm text-mai-ink/60 hover:text-mai-purple transition-colors"
         >
           <FaUndo className="mr-1" /> 重置
         </button>
       </div>
 
       {/* Result Card */}
-      <div className="bg-slate-800 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-32 bg-mai-rose rounded-full blur-3xl opacity-20 -mr-16 -mt-16"></div>
+      <div className="text-white p-6 rounded-2xl shadow-xl relative overflow-hidden border-2 border-mai-yellow/60 bg-mai-blue-deep">
         <div className="relative z-10 flex justify-between items-end">
           <div>
-            <div className="text-slate-400 text-sm mb-1">预测达成率</div>
+            <div className="text-purple-200/70 text-sm mb-1">预测达成率</div>
             <div className="text-4xl font-bold font-mono tracking-tighter">
               {totalScore.toFixed(4)}%
             </div>
-            <div className="text-2xl font-bold text-mai-rose mt-1">{rateString}</div>
+            <div className="text-2xl font-bold text-mai-yellow mt-1">{rateString}</div>
           </div>
           <div className="text-right">
-            <div className="text-slate-400 text-sm mb-1">预测 DX Rating</div>
+            <div className="text-purple-200/70 text-sm mb-1">预测 DX Rating</div>
             <div className="text-3xl font-bold">{dxRating}</div>
           </div>
         </div>
@@ -323,7 +322,7 @@ function InputGroup({
     <div className="space-y-2">
       <div className={`font-bold text-sm ${color}`}>{label}</div>
       <div className="space-y-2">
-        <div className="flex items-center justify-between bg-slate-50 rounded-lg p-2 border border-slate-100">
+        <div className="flex items-center justify-between bg-white rounded-full p-2 border border-mai-blue-deep/25 focus-within:border-mai-blue-deep/60 transition-colors">
           <span className="text-xs text-gray-500 font-bold w-8">Great</span>
           <input 
             type="number" 
@@ -334,7 +333,7 @@ function InputGroup({
             onChange={(e) => onChange(`${type}Great`, e.target.value)}
           />
         </div>
-        <div className="flex items-center justify-between bg-slate-50 rounded-lg p-2 border border-slate-100">
+        <div className="flex items-center justify-between bg-white rounded-full p-2 border border-mai-blue-deep/25 focus-within:border-mai-blue-deep/60 transition-colors">
           <span className="text-xs text-gray-500 font-bold w-8">Good</span>
           <input 
             type="number" 
@@ -345,7 +344,7 @@ function InputGroup({
             onChange={(e) => onChange(`${type}Good`, e.target.value)}
           />
         </div>
-        <div className="flex items-center justify-between bg-slate-50 rounded-lg p-2 border border-slate-100">
+        <div className="flex items-center justify-between bg-white rounded-full p-2 border border-mai-blue-deep/25 focus-within:border-mai-blue-deep/60 transition-colors">
           <span className="text-xs text-gray-500 font-bold w-8">Miss</span>
           <input 
             type="number" 

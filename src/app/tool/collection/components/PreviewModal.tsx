@@ -101,7 +101,8 @@ export default function PreviewModal({
                 <DownloadButton
                   url={getImageUrl() || ""}
                   filename={`${previewImage.name}.png`}
-                  className="flex items-center px-3 py-1.5 rounded-full text-sm font-medium text-white bg-mai-rose hover:bg-mai-rose-deep shadow-sm hover:shadow-md transition-all duration-300"
+                  variant="accent"
+                  shape="pill"
                 >
                   <FaDownload className="mr-1.5 w-3 h-3" />
                   <span>下载原图</span>
